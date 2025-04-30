@@ -10,8 +10,8 @@
     <!-- 콘텐츠 영역 -->
     <section class="content-area">
       <NewsList v-if="selectedTab === 'news'" />
-      <ReportList v-else-if="selectedTab === 'report'" />
-      <CSQuizList v-else-if="selectedTab === 'quiz'" />
+<!--      <ReportList v-else-if="selectedTab === 'report'" />-->
+<!--      <CSQuizList v-else-if="selectedTab === 'quiz'" />-->
     </section>
 
     <!-- 하단 버튼 -->
