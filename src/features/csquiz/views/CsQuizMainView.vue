@@ -1,7 +1,13 @@
 <script setup>
+import { useRouter } from 'vue-router'
 import bookIcon from '@/assets/images/csquiz/book.svg'
 import clipboardIcon from '@/assets/images/csquiz/clipboard.svg'
 import clockIcon from '@/assets/images/csquiz/clock.svg'
+const router = useRouter()
+
+function goToQuizPage() {
+  router.push({ name : 'TakeCsQuizView' })
+}
 </script>
 
 <template>
@@ -18,24 +24,24 @@ import clockIcon from '@/assets/images/csquiz/clock.svg'
     <!-- 카드 영역 (가로 정렬) -->
     <div class="card-list">
       <div class="info-card">
-        <div class="card-label">예상 소요 시간:</div>
-        <div class="card-content">
-          <img class="icon" :src="clockIcon" alt="Countdown Clock" />
-          <div class="value">10~20분</div>
-        </div>
-      </div>
-
-      <div class="info-card">
         <div class="card-label">문제 수:</div>
         <div class="card-content">
           <img class="icon" :src="bookIcon" alt="Book Icon" />
           <div class="value">10문제</div>
         </div>
       </div>
+
+      <div class="info-card">
+        <div class="card-label">예상 소요 시간:</div>
+        <div class="card-content">
+          <img class="icon" :src="clockIcon" alt="Countdown Clock" />
+          <div class="value">10~20분</div>
+        </div>
+      </div>
     </div>
 
     <!-- 응시 버튼 -->
-    <div class="start-button">응시하기</div>
+    <div class="start-button" @click="goToQuizPage">응시하기</div>
   </div>
 </template>
 
@@ -45,101 +51,110 @@ import clockIcon from '@/assets/images/csquiz/clock.svg'
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* 수직 중앙 정렬 */
-  min-height: 100vh;        /* 전체 뷰포트 높이 확보 */
-  padding: 40px 20px;
-  gap: 32px;
+  background-color: #fff;
+  width: 516px;
+  padding: 48px 32px;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
   font-family: 'Pretendard', sans-serif;
   text-align: center;
+  gap: 48px;
+  margin: 80px auto;
 }
 
-
-/* 헤더 */
 .quiz-header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 20px;
 }
 
 .icon-title-wrapper {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
 
 .title {
-  font-size: 28px;
-  font-weight: 700;
+  font-size: 80px;
+  font-weight: 800;
 }
 
 .icon-large {
-  width: 28px;
-  height: 28px;
+  width: 89px;
+  height: 84px;
 }
 
 .subtitle {
-  font-size: 14px;
-  color: #333;
+  font-size: 25px;
+  font-weight: 800;
+  margin-top: 20px;
 }
 
-/* 카드 리스트 - 가로 배치 */
+/* 카드 리스트 */
 .card-list {
   display: flex;
   flex-direction: row;
-  gap: 16px;
   justify-content: center;
+  gap: 56px;
+  margin-bottom: 30px;
+  margin-top : 160px
 }
 
-/* 개별 카드 */
 .info-card {
   background-color: #e6f4ff;
-  border-radius: 12px;
-  padding: 12px 16px;
+  border-radius: 16px;
+  width: 230px;
+  height: 121px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  gap: 6px;
-  min-width: 140px;
+  gap: 10px;
 }
 
 .card-label {
-  font-size: 13px;
+  font-size: 18px;
   font-weight: 500;
-  color: #666;
 }
 
 .card-content {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 
 .icon {
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
 }
 
 .value {
-  font-size: 15px;
+  font-size: 25px;
   font-weight: 600;
 }
 
-/* 버튼 */
 .start-button {
   background-color: #1c1c1c;
   color: white;
-  border-radius: 12px;
-  padding: 14px 36px;
-  font-size: 16px;
+  border-radius: 24px;
+  font-size: 25px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s ease;
+  width: 516px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .start-button:hover {
   background-color: #B2B2B2;
+  color: #1c1c1c;
 }
+
+
 
 
 </style>
