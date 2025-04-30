@@ -27,7 +27,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import NewsList from '@/feature/admin/ItNews/NewsList.vue'
+import NewsList from '@/features/admin/ItNews/components/NewsList.vue'
 //import ReportList from '@/components/admin/ReportList.vue'
 //import CSQuizList from '@/components/admin/CSQuizList.vue'
 import { useRouter } from 'vue-router'

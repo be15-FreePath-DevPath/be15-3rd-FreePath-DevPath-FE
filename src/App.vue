@@ -1,18 +1,18 @@
 <template>
   <div id="app">
     <DevPathSidebar />
-    <AdminMainView/>
+    <CsQuizMainView/>
   </div>
 </template>
 
 <script>
 import DevPathSidebar from '@/components/DevPathSidebar.vue'
-import AdminMainView from "@/feature/admin/AdminMainView.vue";
+import CsQuizMainView from "@/features/csquiz/views/CsQuizMainView.vue";
 
 export default {
   name: 'App',
   components: {
-    AdminMainView,
+    CsQuizMainView,
     DevPathSidebar
   }
 }
