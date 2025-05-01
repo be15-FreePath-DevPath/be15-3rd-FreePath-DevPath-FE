@@ -1,9 +1,9 @@
 // features/main/router.js
-import TestSidebarView from './views/TestSidebarView.vue'
+import MainView from "@/features/main/views/MainView.vue";
 
 export default [
     {
         path: '/',
-        component: TestSidebarView
+        component: MainView
     }
 ]
