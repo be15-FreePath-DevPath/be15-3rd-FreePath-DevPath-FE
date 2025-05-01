@@ -6,9 +6,9 @@ import clockIcon from '@/assets/images/csquiz/clock.svg'
 
 const router = useRouter()
 
-// ✅ localStorage를 이용한 임시 저장 확인 (추후 API로 대체 가능)
+// ✅ localStorage를 이용한 임시 저장 확인 (추후 API로 대체)
 function goToQuizPage() {
-  const submitted = localStorage.getItem('csquizSubmitted') === 'false'
+  const submitted = localStorage.getItem('csquizSubmitted') === 'false' // 원래 true여야 함. api 연결 후 수정
 
   if (submitted) {
     alert('이미 답변이 저장되어있습니다.')
