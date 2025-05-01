@@ -51,7 +51,7 @@ onMounted(() => {
     </div>
 
     <div class="options">
-      <div class="form-field" v-for="(opt, index) in localQuiz.options" :key="index">
+      <div class="form-field" v-for="(_, index) in localQuiz.options" :key="index">
         <label>선택지 {{ index + 1 }}</label>
         <textarea
             v-model="localQuiz.options[index]"
