@@ -22,7 +22,7 @@ const questionRef = ref(null)
 
 function autoResize(el) {
   if (el) {
-    el.style.height = '20px' // 기본 한 줄 높이로 초기화
+    el.style.height = '20px' // 기본 한 줄 높이
     if (el.scrollHeight > el.clientHeight) {
       el.style.height = `${el.scrollHeight}px`
     }
@@ -51,7 +51,7 @@ onMounted(() => {
     </div>
 
     <div class="options">
-      <div class="form-field" v-for="(_, index) in localQuiz.options" :key="index">
+      <div class="form-field" v-for="(option, index) in localQuiz.options" :key="index">
         <label>선택지 {{ index + 1 }}</label>
         <textarea
             v-model="localQuiz.options[index]"
