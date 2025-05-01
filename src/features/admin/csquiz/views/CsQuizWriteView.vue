@@ -1,7 +1,8 @@
 <script setup>
-import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import {ref, computed} from 'vue'
+import {useRouter} from 'vue-router'
 import CsQuizForm from '@/features/admin/csquiz/components/CsQuizForm.vue'
+import LayoutDefault from '@/components/layout/LayoutDefault.vue'
 
 const router = useRouter()
 
@@ -43,14 +44,16 @@ const handleSubmit = () => {
 </script>
 
 <template>
-  <div class="create-wrapper">
-    <h1 class="page-title">CS 퀴즈 등록</h1>
-    <CsQuizForm v-model="quizForm" :isReadOnly="false" />
-    <div class="button-area">
-      <button @click="goToList">CS 퀴즈 목록</button>
-      <button :disabled="!isValid" @click="handleSubmit">퀴즈 등록</button>
+  <layout-default>
+    <div class="create-wrapper">
+      <h1 class="page-title">CS 퀴즈 등록</h1>
+      <CsQuizForm v-model="quizForm" :isReadOnly="false"/>
+      <div class="button-area">
+        <button @click="goToList">CS 퀴즈 목록</button>
+        <button :disabled="!isValid" @click="handleSubmit">퀴즈 등록</button>
+      </div>
     </div>
-  </div>
+  </layout-default>
 </template>
 
 <style scoped>
@@ -62,11 +65,13 @@ const handleSubmit = () => {
   flex-direction: column;
   gap: 32px;
 }
+
 .page-title {
   font-size: 36px;
   font-weight: 700;
   margin-bottom: 30px;
 }
+
 .button-area {
   display: flex;
   justify-content: flex-end;
