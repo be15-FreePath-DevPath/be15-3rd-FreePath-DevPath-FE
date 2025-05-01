@@ -104,24 +104,9 @@ const navToggle =  () => {
   font-size: 14px;
 }
 
-.div {
-  align-items: center;
-  display: inline-flex;
-  flex: 0 0 auto;
-  flex-wrap: wrap;
-  gap: 8px;
-  position: relative;
-}
-.header .design-component-instance-node {
-  flex: 0 0 auto !important;
-  justify-content: unset !important;
-}
-
   .gray {
     color: rgba(0,0,0,0.4) !important;
   }
-
-
 
 .slash {
   display: inline-flex !important;
