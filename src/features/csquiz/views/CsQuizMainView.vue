@@ -1,8 +1,9 @@
 <script setup>
-import { useRouter } from 'vue-router'
+import {useRouter} from 'vue-router'
 import bookIcon from '@/assets/images/csquiz/book.svg'
 import clipboardIcon from '@/assets/images/csquiz/clipboard.svg'
 import clockIcon from '@/assets/images/csquiz/clock.svg'
+import LayoutDefault from '@/components/layout/LayoutDefault.vue'
 
 const router = useRouter()
 
@@ -20,38 +21,40 @@ function goToQuizPage() {
 </script>
 
 <template>
-  <div class="cs-quiz-container">
-    <!-- 상단 타이틀 -->
-    <div class="quiz-header">
-      <div class="icon-title-wrapper">
-        <img class="icon-large" :src="clipboardIcon" alt="Clipboard Icon" />
-        <div class="title">CS QUIZ</div>
+  <layout-default>
+    <div class="cs-quiz-container">
+      <!-- 상단 타이틀 -->
+      <div class="quiz-header">
+        <div class="icon-title-wrapper">
+          <img class="icon-large" :src="clipboardIcon" alt="Clipboard Icon"/>
+          <div class="title">CS QUIZ</div>
+        </div>
+        <div class="subtitle">핵심 개념을 빠르게 점검하고 실전 감각까지!</div>
       </div>
-      <div class="subtitle">핵심 개념을 빠르게 점검하고 실전 감각까지!</div>
-    </div>
 
-    <!-- 카드 영역 -->
-    <div class="card-list">
-      <div class="info-card">
-        <div class="card-label">문제 수:</div>
-        <div class="card-content">
-          <img class="icon" :src="bookIcon" alt="Book Icon" />
-          <div class="value">10문제</div>
+      <!-- 카드 영역 -->
+      <div class="card-list">
+        <div class="info-card">
+          <div class="card-label">문제 수:</div>
+          <div class="card-content">
+            <img class="icon" :src="bookIcon" alt="Book Icon"/>
+            <div class="value">10문제</div>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="card-label">예상 소요 시간:</div>
+          <div class="card-content">
+            <img class="icon" :src="clockIcon" alt="Countdown Clock"/>
+            <div class="value">10~20분</div>
+          </div>
         </div>
       </div>
 
-      <div class="info-card">
-        <div class="card-label">예상 소요 시간:</div>
-        <div class="card-content">
-          <img class="icon" :src="clockIcon" alt="Countdown Clock" />
-          <div class="value">10~20분</div>
-        </div>
-      </div>
+      <!-- 응시 버튼 -->
+      <div class="start-button" @click="goToQuizPage">응시하기</div>
     </div>
-
-    <!-- 응시 버튼 -->
-    <div class="start-button" @click="goToQuizPage">응시하기</div>
-  </div>
+  </layout-default>
 </template>
 
 <style scoped>
@@ -63,7 +66,7 @@ function goToQuizPage() {
   width: 516px;
   padding: 48px 32px;
   border-radius: 20px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   font-family: 'Pretendard', sans-serif;
   text-align: center;
   gap: 48px;

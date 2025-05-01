@@ -1,9 +1,11 @@
 <script setup>
-import { ref } from 'vue'
+import {ref} from 'vue'
 import NewsList from '@/features/admin/ItNews/components/NewsList.vue'
 //import ReportList from '@/components/admin/ReportList.vue'
 import CsQuizList from '@/features/admin/csquiz/components/CsQuizList.vue'
-import { useRouter } from 'vue-router'
+import LayoutDefault from '@/components/layout/LayoutDefault.vue'
+
+import {useRouter} from 'vue-router'
 
 const selectedTab = ref('news')
 const router = useRouter()
@@ -18,46 +20,48 @@ const goToAddQuiz = () => {
 
 
 <template>
-  <div class="admin-main">
-    <!-- 탭 버튼 -->
-    <section class="tab-buttons">
-      <button
-          :class="{ active: selectedTab === 'news' }"
-          @click="selectedTab = 'news'"
-      >
-        IT 뉴스
-      </button>
-      <button
-          :class="{ active: selectedTab === 'report' }"
-          @click="selectedTab = 'report'"
-      >
-        신고
-      </button>
-      <button
-          :class="{ active: selectedTab === 'quiz' }"
-          @click="selectedTab = 'quiz'"
-      >
-        CS 퀴즈
-      </button>
-    </section>
+  <layout-default>
+    <div class="admin-main">
+      <!-- 탭 버튼 -->
+      <section class="tab-buttons">
+        <button
+            :class="{ active: selectedTab === 'news' }"
+            @click="selectedTab = 'news'"
+        >
+          IT 뉴스
+        </button>
+        <button
+            :class="{ active: selectedTab === 'report' }"
+            @click="selectedTab = 'report'"
+        >
+          신고
+        </button>
+        <button
+            :class="{ active: selectedTab === 'quiz' }"
+            @click="selectedTab = 'quiz'"
+        >
+          CS 퀴즈
+        </button>
+      </section>
 
 
-    <!-- 콘텐츠 영역 -->
-    <section class="content-area">
-      <NewsList v-if="selectedTab === 'news'" />
-      <!--      <ReportList v-else-if="selectedTab === 'report'" />-->
-      <CsQuizList v-else-if="selectedTab === 'quiz'" />
-    </section>
+      <!-- 콘텐츠 영역 -->
+      <section class="content-area">
+        <NewsList v-if="selectedTab === 'news'"/>
+        <!--      <ReportList v-else-if="selectedTab === 'report'" />-->
+        <CsQuizList v-else-if="selectedTab === 'quiz'"/>
+      </section>
 
-    <!-- 하단 버튼 -->
-    <div class="bottom-button" v-if="selectedTab === 'news'">
-      <button @click="goToAddNews">뉴스 추가</button>
+      <!-- 하단 버튼 -->
+      <div class="bottom-button" v-if="selectedTab === 'news'">
+        <button @click="goToAddNews">뉴스 추가</button>
+      </div>
+      <div class="bottom-button" v-else-if="selectedTab === 'quiz'">
+        <button @click="goToAddQuiz">CS 퀴즈 추가</button>
+      </div>
+      <!-- 신고에는 버튼 없음 -->
     </div>
-    <div class="bottom-button" v-else-if="selectedTab === 'quiz'">
-      <button @click="goToAddQuiz">CS 퀴즈 추가</button>
-    </div>
-    <!-- 신고에는 버튼 없음 -->
-  </div>
+  </layout-default>
 </template>
 
 <style scoped>

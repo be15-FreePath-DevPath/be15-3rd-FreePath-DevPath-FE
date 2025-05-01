@@ -1,8 +1,9 @@
 <script setup>
-import { ref, computed, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { cloneDeep, isEqual } from 'lodash'
+import {ref, computed, watch} from 'vue'
+import {useRoute, useRouter} from 'vue-router'
+import {cloneDeep, isEqual} from 'lodash'
 import CsQuizForm from '@/features/admin/csquiz/components/CsQuizForm.vue'
+import LayoutDefault from '@/components/layout/LayoutDefault.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -36,7 +37,7 @@ currentQuiz.value = cloneDeep(originalQuiz.value)
 
 watch(currentQuiz, (newVal) => {
   isModified.value = !isEqual(newVal, originalQuiz.value)
-}, { deep: true })
+}, {deep: true})
 
 const isValid = computed(() => {
   return (
@@ -71,14 +72,16 @@ const handleUpdate = () => {
 </script>
 
 <template>
-  <div class="detail-wrapper">
-    <h1 class="page-title">CS 퀴즈 상세 조회</h1>
-    <CsQuizForm v-model="currentQuiz" :isReadOnly="false" />
-    <div class="button-area">
-      <button @click="goToList">CS 퀴즈 목록</button>
-      <button :disabled="!isModified || !isValid" @click="handleUpdate">CS 퀴즈 수정</button>
+  <layout-default>
+    <div class="detail-wrapper">
+      <h1 class="page-title">CS 퀴즈 상세 조회</h1>
+      <CsQuizForm v-model="currentQuiz" :isReadOnly="false"/>
+      <div class="button-area">
+        <button @click="goToList">CS 퀴즈 목록</button>
+        <button :disabled="!isModified || !isValid" @click="handleUpdate">CS 퀴즈 수정</button>
+      </div>
     </div>
-  </div>
+  </layout-default>
 </template>
 
 <style scoped>
@@ -90,11 +93,13 @@ const handleUpdate = () => {
   flex-direction: column;
   gap: 32px;
 }
+
 .page-title {
   font-size: 36px;
   font-weight: 700;
   margin-bottom: 30px;
 }
+
 .button-area {
   display: flex;
   justify-content: flex-end;

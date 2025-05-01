@@ -1,12 +1,13 @@
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import {ref} from 'vue'
+import {useRouter} from 'vue-router'
 import CsQuizCard from '@/features/csquiz/components/CsQuizCard.vue'
+import LayoutDefault from '@/components/layout/LayoutDefault.vue'
 
 const router = useRouter()
 
 const quizList = ref(
-    Array.from({ length: 10 }, (_, i) => ({
+    Array.from({length: 10}, (_, i) => ({
       id: i + 1,
       question: `질문 ${i + 1}`,
       options: ['선택지 1', '선택지 2', '선택지 3', '선택지 4']
@@ -47,20 +48,22 @@ function submitAnswers() {
 </script>
 
 <template>
-  <div class="quiz-wrapper">
-    <CsQuizCard
-        v-for="(quiz, index) in quizList"
-        :key="quiz.id"
-        :quiz="quiz"
-        :index="index"
-        :selectedOption="selectedOptions[index]"
-        @select="selectOption(index, $event)"
-    />
+  <layout-default>
+    <div class="quiz-wrapper">
+      <CsQuizCard
+          v-for="(quiz, index) in quizList"
+          :key="quiz.id"
+          :quiz="quiz"
+          :index="index"
+          :selectedOption="selectedOptions[index]"
+          @select="selectOption(index, $event)"
+      />
 
-    <div class="submit-wrapper">
-      <div class="submit-button" @click="submitAnswers">답안 제출</div>
+      <div class="submit-wrapper">
+        <div class="submit-button" @click="submitAnswers">답안 제출</div>
+      </div>
     </div>
-  </div>
+  </layout-default>
 </template>
 
 <style scoped>

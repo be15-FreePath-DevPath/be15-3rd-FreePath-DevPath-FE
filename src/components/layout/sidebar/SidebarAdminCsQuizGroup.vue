@@ -9,8 +9,8 @@
 
     <!-- 하위 메뉴 리스트 컨테이너 -->
     <div v-if="isOpen" class="menu-list">
-      <SidebarItem text="CS 퀴즈 목록" to="/admin/csquiz/list" />
-      <SidebarItem text="CS 퀴즈 등록" to="/admin/csquiz/register" />
+      <SidebarItem text="CS 퀴즈 목록" to="/admin" />
+      <SidebarItem text="CS 퀴즈 등록" to="/admin/csquiz/write" />
     </div>
   </div>
 </template>
