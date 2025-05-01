@@ -1,6 +1,7 @@
 <script setup>
-import { useRouter } from 'vue-router'
-import { ref } from 'vue'
+import {useRouter} from 'vue-router'
+import {ref} from 'vue'
+import LayoutDefault from '@/components/layout/LayoutDefault.vue'
 
 const router = useRouter()
 
@@ -40,57 +41,59 @@ const goToMain = () => router.push('/csquiz')
 </script>
 
 <template>
-  <div class="result-page">
-    <!-- 상단 요약 -->
-    <div class="result-summary">
-      <div class="icon-title">
-        <span class="check-icon">✅</span>
-        <h2 class="summary-title">점수 및 해설</h2>
-      </div>
-      <p class="summary-score">맞은 개수 {{ score }}개 / 총 {{ total }} 문제</p>
-      <p class="summary-percent">정답률: {{ Math.round((score / total) * 100) }}%</p>
-    </div>
-
-    <!-- 문제 카드 반복 -->
-    <div
-        v-for="(result, index) in results"
-        :key="index"
-        class="quiz-result-card"
-    >
-      <div class="question-header">
-        <span class="mark">{{ result.userAnswer === result.correctAnswer ? '✔️' : '❌' }}</span>
-        <span class="question-text">{{ index + 1 }}. {{ result.question }}</span>
+  <layout-default>
+    <div class="result-page">
+      <!-- 상단 요약 -->
+      <div class="result-summary">
+        <div class="icon-title">
+          <span class="check-icon">✅</span>
+          <h2 class="summary-title">점수 및 해설</h2>
+        </div>
+        <p class="summary-score">맞은 개수 {{ score }}개 / 총 {{ total }} 문제</p>
+        <p class="summary-percent">정답률: {{ Math.round((score / total) * 100) }}%</p>
       </div>
 
-      <p class="correct-answer">정답: {{ result.correctAnswer + 1 }}</p>
+      <!-- 문제 카드 반복 -->
+      <div
+          v-for="(result, index) in results"
+          :key="index"
+          class="quiz-result-card"
+      >
+        <div class="question-header">
+          <span class="mark">{{ result.userAnswer === result.correctAnswer ? '✔️' : '❌' }}</span>
+          <span class="question-text">{{ index + 1 }}. {{ result.question }}</span>
+        </div>
 
-      <ul class="option-list">
-        <li
-            v-for="(option, optIdx) in result.options"
-            :key="optIdx"
-            :class="[
+        <p class="correct-answer">정답: {{ result.correctAnswer + 1 }}</p>
+
+        <ul class="option-list">
+          <li
+              v-for="(option, optIdx) in result.options"
+              :key="optIdx"
+              :class="[
             'option-item',
             {
               'is-selected': optIdx === result.userAnswer,
               'is-wrong': optIdx === result.userAnswer && result.userAnswer !== result.correctAnswer
             }
           ]"
-        >
-          {{ optIdx + 1 }}. {{ option }}
-        </li>
-      </ul>
+          >
+            {{ optIdx + 1 }}. {{ option }}
+          </li>
+        </ul>
 
-      <p class="explanation-box">해설: {{ result.explanation }}</p>
-    </div>
+        <p class="explanation-box">해설: {{ result.explanation }}</p>
+      </div>
 
-    <!-- 수고 및 돌아가기 -->
-    <div class="result-footer">
-      <p class="footer-text">수고하셨습니다👏</p>
-      <div class="button-wrapper">
-        <button class="go-main-button" @click="goToMain">메인으로 돌아가기</button>
+      <!-- 수고 및 돌아가기 -->
+      <div class="result-footer">
+        <p class="footer-text">수고하셨습니다👏</p>
+        <div class="button-wrapper">
+          <button class="go-main-button" @click="goToMain">메인으로 돌아가기</button>
+        </div>
       </div>
     </div>
-  </div>
+  </layout-default>
 </template>
 
 <style scoped>

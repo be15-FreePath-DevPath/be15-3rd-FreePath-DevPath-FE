@@ -9,7 +9,7 @@
 
     <!-- 하위 메뉴 리스트 컨테이너 -->
     <div v-if="isOpen" class="menu-list">
-      <SidebarItem text="CS 퀴즈 응시" to="/csquiz/solve" />
+      <SidebarItem text="CS 퀴즈 응시" to="/csquiz" />
       <SidebarItem text="CS 퀴즈 결과" to="/csquiz/result" />
     </div>
   </div>
