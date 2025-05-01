@@ -1,73 +1,85 @@
 <script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import CsQuizCard from '@/features/csquiz/components/CsQuizCard.vue'
 
+const router = useRouter()
+
+const quizList = ref(
+    Array.from({ length: 10 }, (_, i) => ({
+      id: i + 1,
+      question: `질문 ${i + 1}`,
+      options: ['선택지 1', '선택지 2', '선택지 3', '선택지 4']
+    }))
+)
+
+const selectedOptions = ref(Array(quizList.value.length).fill(null))
+
+function selectOption(quizIndex, optionIndex) {
+  selectedOptions.value[quizIndex] = optionIndex
+}
+
+function submitAnswers() {
+  // 선택되지 않은 문제 인덱스들
+  const unansweredIndices = selectedOptions.value
+      .map((v, i) => (v === null ? i + 1 : null))
+      .filter(v => v !== null)
+
+  if (unansweredIndices.length > 0) {
+    alert(`${unansweredIndices.join(', ')}번 문항이 선택되지 않았습니다.`)
+    return
+  }
+
+  const confirmed = confirm('답안이 성공적으로 제출되었습니다.\n결과 화면으로 이동하시겠습니까?')
+  if (confirmed) {
+    router.push('/csquiz/result')
+  } else {
+    router.push('/csquiz')
+  }
+}
 </script>
 
 <template>
-  <div class="card" v-if="quiz">
-    <h3>{{ quiz.csquizContents }}</h3>
-    <ul>
-      <li
-          v-for="(option, index) in quiz.options"
-          :key="option.optionId"
-          @click="selectAnswer(index + 1)"
-          :class="{ selected: selectedAnswer === index + 1 }"
-      >
-        {{ index + 1 }}. {{ option.optionContent }}
-      </li>
-    </ul>
-    <div v-if="selectedAnswer" class="answer">
-      선택한 답: {{ selectedAnswer }}
+  <div class="quiz-wrapper">
+    <CsQuizCard
+        v-for="(quiz, index) in quizList"
+        :key="quiz.id"
+        :quiz="quiz"
+        :index="index"
+        :selectedOption="selectedOptions[index]"
+        @select="selectOption(index, $event)"
+    />
+
+    <div class="submit-wrapper">
+      <div class="submit-button" @click="submitAnswers">답안 제출</div>
     </div>
   </div>
 </template>
 
-
-<script>
-export default {
-  name: "QuizCard",
-  props: {
-    quiz: {
-      type: Object,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      selectedAnswer: null,
-    };
-  },
-  methods: {
-    selectAnswer(answerNum) {
-      this.selectedAnswer = answerNum;
-    },
-  },
-};
-</script>
-
 <style scoped>
-.card {
-  border: 1px solid #ddd;
-  padding: 1rem;
-  border-radius: 10px;
-  margin-bottom: 1rem;
+.quiz-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+
+.submit-wrapper {
+  width: 1000px;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
 }
-li {
-  padding: 0.5rem;
+
+.submit-button {
+  background: #1c1c1c;
+  color: white;
+  font-weight: 600;
+  font-size: 18px;
+  padding: 16px 32px;
+  border-radius: 16px;
   cursor: pointer;
-  border-radius: 5px;
-}
-li:hover {
-  background-color: #f0f0f0;
-}
-.selected {
-  background-color: #cce5ff;
-}
-.answer {
-  margin-top: 0.5rem;
-  font-weight: bold;
 }
 </style>

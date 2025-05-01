@@ -3,10 +3,11 @@ import { useRouter } from 'vue-router'
 import bookIcon from '@/assets/images/csquiz/book.svg'
 import clipboardIcon from '@/assets/images/csquiz/clipboard.svg'
 import clockIcon from '@/assets/images/csquiz/clock.svg'
+
 const router = useRouter()
 
 function goToQuizPage() {
-  router.push({ name : 'TakeCsQuizView' })
+  router.push('/csquiz/take') // ✅ name → 경로 문자열 방식으로 통일
 }
 </script>
 
@@ -44,7 +45,6 @@ function goToQuizPage() {
     <div class="start-button" @click="goToQuizPage">응시하기</div>
   </div>
 </template>
-
 
 <style scoped>
 .cs-quiz-container {
@@ -91,14 +91,13 @@ function goToQuizPage() {
   margin-top: 20px;
 }
 
-/* 카드 리스트 */
 .card-list {
   display: flex;
   flex-direction: row;
   justify-content: center;
   gap: 56px;
   margin-bottom: 30px;
-  margin-top : 160px
+  margin-top: 160px;
 }
 
 .info-card {
@@ -153,8 +152,4 @@ function goToQuizPage() {
   background-color: #B2B2B2;
   color: #1c1c1c;
 }
-
-
-
-
 </style>
