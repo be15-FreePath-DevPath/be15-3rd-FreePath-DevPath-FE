@@ -1,5 +1,6 @@
-import CSQuizWriteView from '@/features/admin/csquiz/views/CSQuizWriteView.vue'
 import AdminMainView from "@/features/admin/AdminMainView.vue";
+import CsQuizWriteView from "@/features/admin/csquiz/views/CsQuizWriteView.vue";
+import CsQuizDetailView from "@/features/admin/csquiz/views/CsQuizDetailView.vue";
 
 
 export const adminRoutes = [
@@ -8,10 +9,14 @@ export const adminRoutes = [
         name: 'AdminMain',
         component: AdminMainView
     },
-    // CS 퀴즈 작성
     {
         path: '/admin/csquiz/write',
         name: 'AdminCsQuizWrite',
-        component: CSQuizWriteView
+        component: CsQuizWriteView
+    },
+    {
+        path: '/admin/csquiz/:csquizId',
+        name: 'AdminCsQuizDetail',
+        component: CsQuizDetailView
     }
 ]

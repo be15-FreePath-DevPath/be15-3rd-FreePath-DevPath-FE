@@ -103,6 +103,7 @@ const goToAddQuiz = () => {
   width: 100%;
   display: flex;
   justify-content: center;
+  margin-top: 30px;
 }
 
 /* 하단 버튼 */
