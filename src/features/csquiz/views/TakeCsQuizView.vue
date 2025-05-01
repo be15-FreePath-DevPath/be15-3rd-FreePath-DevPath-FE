@@ -19,8 +19,14 @@ function selectOption(quizIndex, optionIndex) {
   selectedOptions.value[quizIndex] = optionIndex
 }
 
+function buildAnswerPayload() {
+  return quizList.value.map((quiz, index) => ({
+    csquizId: quiz.id,
+    userAnswer: selectedOptions.value[index] + 1
+  }))
+}
+
 function submitAnswers() {
-  // 선택되지 않은 문제 인덱스들
   const unansweredIndices = selectedOptions.value
       .map((v, i) => (v === null ? i + 1 : null))
       .filter(v => v !== null)
@@ -30,12 +36,13 @@ function submitAnswers() {
     return
   }
 
+  const answers = buildAnswerPayload()
+  console.log('사용자 응답:', answers)
+
+  localStorage.setItem('csquizSubmitted', 'true')
+
   const confirmed = confirm('답안이 성공적으로 제출되었습니다.\n결과 화면으로 이동하시겠습니까?')
-  if (confirmed) {
-    router.push('/csquiz/result')
-  } else {
-    router.push('/csquiz')
-  }
+  router.push(confirmed ? '/csquiz/result' : '/csquiz')
 }
 </script>
 

@@ -6,8 +6,16 @@ import clockIcon from '@/assets/images/csquiz/clock.svg'
 
 const router = useRouter()
 
+// ✅ localStorage를 이용한 임시 저장 확인 (추후 API로 대체 가능)
 function goToQuizPage() {
-  router.push('/csquiz/take') // ✅ name → 경로 문자열 방식으로 통일
+  const submitted = localStorage.getItem('csquizSubmitted') === 'false'
+
+  if (submitted) {
+    alert('이미 답변이 저장되어있습니다.')
+    router.push('/csquiz/result')
+  } else {
+    router.push('/csquiz/take')
+  }
 }
 </script>
 
@@ -22,7 +30,7 @@ function goToQuizPage() {
       <div class="subtitle">핵심 개념을 빠르게 점검하고 실전 감각까지!</div>
     </div>
 
-    <!-- 카드 영역 (가로 정렬) -->
+    <!-- 카드 영역 -->
     <div class="card-list">
       <div class="info-card">
         <div class="card-label">문제 수:</div>
