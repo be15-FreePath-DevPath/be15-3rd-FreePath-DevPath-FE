@@ -9,7 +9,7 @@
 
     <!-- 하위 메뉴 리스트 컨테이너 -->
     <div v-if="isOpen" class="menu-list">
-      <SidebarItem text="회원 신고 검토 목록" to="/admin/report/list" />
+      <SidebarItem text="회원 신고 검토 목록" to="/admin?tab=report" />
     </div>
   </div>
 </template>
