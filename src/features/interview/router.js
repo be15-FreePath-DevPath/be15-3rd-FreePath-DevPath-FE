@@ -2,7 +2,7 @@ import InterviewListView from './views/InterviewListView.vue';
 
 export const interviewRoutes = [
     {
-        path: '/interviews',
+        path: '/interview/list',
         name: 'InterviewList',
         component: InterviewListView
     }

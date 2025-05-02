@@ -4,6 +4,7 @@ import SkeletonList from '@/components/common/SkeletonList.vue'
 import PagingBar from '@/components/common/PagingBar.vue'
 import InterviewList from '@/features/interview/components/InterviewList.vue'
 import { fetchInterviewRooms } from '@/features/interview/api.js'
+import LayoutDefault from "@/components/layout/LayoutDefault.vue";
 
 const interviews = ref([])
 const pagination = ref({
@@ -40,19 +41,22 @@ onMounted(() => loadInterviews())
 </script>
 
 <template>
-  <div class="interview-list-view">
-    <h2 class="title">면접방 목록</h2>
+  <layout-default>
+    <div class="interview-list-view">
+      <h2 class="title">면접방 목록</h2>
 
-    <!-- 정렬/필터 UI는 나중에 InterviewFilter.vue로 분리 예정 -->
+      <!-- 정렬/필터 UI는 나중에 InterviewFilter.vue로 분리 예정 -->
 
-    <SkeletonList v-if="isLoading" />
-    <InterviewList v-else :interviews="interviews" />
+      <SkeletonList v-if="isLoading" />
+      <InterviewList v-else :interviews="interviews" />
 
-    <PagingBar
-        v-bind="pagination"
-        @page-changed="loadInterviews"
-    />
-  </div>
+      <PagingBar
+          v-bind="pagination"
+          @page-changed="loadInterviews"
+      />
+    </div>
+  </layout-default>
+
 </template>
 
 <style scoped>

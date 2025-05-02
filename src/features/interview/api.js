@@ -1,4 +1,4 @@
-export const getInterviews = () => {
+export const fetchInterviewRooms = async () => {
     // 일단 더미데이터. 추후 api 연결
     return Promise.resolve({
         data: {
