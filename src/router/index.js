@@ -5,6 +5,7 @@ import { csquizRoutes } from "@/features/csquiz/router.js";
 import {adminRoutes} from "@/features/admin/router.js";
 import LayoutDefault from "@/components/layout/LayoutDefault.vue";
 import {itNewsRoutes} from "@/features/admin/ItNews/router.js";
+import {boardRoutes} from "@/features/board/router.js";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -17,7 +18,8 @@ const router = createRouter({
                 ...interviewRoutes,
                 ...csquizRoutes,
                 ...adminRoutes,
-                ...itNewsRoutes
+                ...itNewsRoutes,
+                ...boardRoutes
             ]
         }
     ]
