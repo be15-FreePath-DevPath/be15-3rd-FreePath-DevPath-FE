@@ -5,6 +5,7 @@ import LayoutDefault from "@/components/layout/LayoutDefault.vue";
 import {provide, ref} from 'vue'
 import ChattingRoomCard from "@/features/chatting/components/ChattingRoomCard.vue";
 import ChattingInsertFrame from "@/features/chatting/components/ChattingInsertFrame.vue";
+import ChattingCard from "@/features/chatting/components/ChattingCard.vue";
 
 const items = ref(['DevPath','채팅'])
 
@@ -21,8 +22,11 @@ provide('items', items);
         <ChattingRoomCard/>
       </div>
       <div class = "chattingFrame">
-          채팅 프레임
         <div class = "chattingList">
+        <ChattingCard/>
+          <ChattingCard/>
+          <ChattingCard/>
+      </div>
         <ChattingInsertFrame/>
       </div>
     </div>
@@ -32,9 +36,9 @@ provide('items', items);
 <style scoped>
 .content-frame {
   display: flex;
+  flex: 1;
   flex-direction: row;  /* 가로 방향*/
-  width: auto;
-  height: auto;
+
 
   gap: 10px;
 

@@ -24,7 +24,7 @@
   justify-content: flex-end;
   padding:16px;
   position:relative;
-  width:930px;
+  width:100%;
 }
 .div-wrapper{
   flex: 1;
