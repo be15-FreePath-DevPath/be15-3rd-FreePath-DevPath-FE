@@ -15,11 +15,12 @@
 
 <style scoped>
 .user-frame{
-  align-items : flex-start;
+  align-items : center;
   display: flex;
   flex-direction:column;
   height:80px;
   position:relative;
+  gap :20px;
   width:60px;
 }
 

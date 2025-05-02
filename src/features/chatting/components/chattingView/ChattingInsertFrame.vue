@@ -6,7 +6,7 @@
 <div class = "chatting-insert">
   <div class="div-wrapper">
     <div class="text-wrapper">
-      <input type="text" class="chat-input" placeholder="메시지를 입력하세요..." />
+      <textarea type="text" class="chat-input" placeholder="메시지를 입력하세요..." />
     </div>
   </div>
   <button class = "send-button">
@@ -24,8 +24,8 @@
   justify-content: flex-end;
   padding:16px;
   position:relative;
-  //flex: 1; /* 남은 공간 모두 차지 */
   min-width: 0;
+
 }
 .div-wrapper{
   flex: 1;
@@ -44,5 +44,9 @@
   background: none;
   border: none;
 }
+.text-wrapper{
+  width : 100%;
+}
+
 
 </style>
