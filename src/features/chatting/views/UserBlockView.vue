@@ -1,8 +1,9 @@
 <script setup>
 import {onMounted, ref} from "vue";
+import ChattingCard from "@/features/chatting/components/chattingView/ChattingCard.vue";
 import ChattingPendingCard from "@/features/chatting/components/ChattingPendingView/ChattingPendingCard.vue";
 
-const newBreadCrumbItems = ref(['채팅','채팅','참여 대기 중인 채팅방'])
+const newBreadCrumbItems = ref(['마이페이지','마이페이지','채팅 차단 목록 조회'])
 const emit = defineEmits(['updateBreadCrumb'])
 
 onMounted(() => {
@@ -13,22 +14,7 @@ onMounted(() => {
 
 <template>
   <div class = "content-frame">
-    <div class = "chattingRoomList">
-      <ChattingPendingCard/>
-      <ChattingPendingCard/>
-      <ChattingPendingCard/>
-      <ChattingPendingCard/>
-      <ChattingPendingCard/>
-      <ChattingPendingCard/>
-      <ChattingPendingCard/>
-      <ChattingPendingCard/>
-      <ChattingPendingCard/>
-      <ChattingPendingCard/>
-      <ChattingPendingCard/>
-
-      <ChattingPendingCard/>
-      <ChattingPendingCard/>
-
+    <div class = "userBlockList">
     </div>
   </div>
 </template>
