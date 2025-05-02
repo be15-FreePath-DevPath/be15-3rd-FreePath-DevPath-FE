@@ -4,7 +4,5 @@ import DevPathHeader from "@/components/layout/Header.vue";
 
 <template>
   <DevPathHeader/>
+  <router-view />
 </template>
-
-<style scoped>
-</style>
