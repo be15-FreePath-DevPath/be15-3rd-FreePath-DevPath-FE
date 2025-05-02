@@ -1,63 +1,58 @@
-<template>
-  <div class="layout-default">
-    <transition name="slide">
-      <Sidebar v-if="showSidebar" class="sidebar" />
-    </transition>
-    <div>
-      <Header
-          :items="breadcrumbItems"
-      @navToggle="handleSidebar"/>
-      <main class="main-content" >
-        <slot  @update-breadcrumb="updateBreadcrumb"/>
-      </main>
+  <template>
+    <div class="layout-default">
+      <transition name="slide">
+        <Sidebar v-if="showSidebar" class="sidebar" />
+      </transition>
+      <div>
+        <Header
+            :breadcrumbItems="breadcrumbItems"
+        @navToggle="handleSidebar"/>
+        <main class="main-content" >
+          <slot/>
+        </main>
+      </div>
+
     </div>
+  </template>
 
-  </div>
-</template>
+  <script setup>
+  import Sidebar from './Sidebar.vue'
+  import Header from "@/components/layout/Header.vue";
+  import {ref} from "vue";
 
-<script setup>
-import Sidebar from './Sidebar.vue'
-import Header from "@/components/layout/Header.vue";
-import {ref} from "vue";
+  const showSidebar = ref(true)
+  const  breadcrumbItems = ref([]);
 
-const showSidebar = ref(true)
-const  breadcrumbItems = ref([]);
+  const handleSidebar = () => {
+    showSidebar.value = !showSidebar.value
+  }
+  </script>
 
-const handleSidebar = () => {
-  showSidebar.value = !showSidebar.value
-}
+  <style scoped>
+  .layout-default {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    background-color: #f9f9f9;
+    overflow: hidden;
+  }
 
-// 자식(main-content 슬롯)에서 이벤트 수신
-const updateBreadcrumb = (items) => {
-  breadcrumbItems.value = items
-}
-</script>
+  .main-content {
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto;
+    background-color: white;
+  }
 
-<style scoped>
-.layout-default {
-  display: flex;
-  height: 100vh;
-  width: 100vw;
-  background-color: #f9f9f9;
-  overflow: hidden;
-}
+  /* 트랜지션 클래스 정의 */
+  .slide-enter-active,
+  .slide-leave-active {
+    transition: all 0.3s ease;
+  }
 
-.main-content {
-  flex: 1;
-  padding: 24px;
-  overflow-y: auto;
-  background-color: white;
-}
-
-/* 트랜지션 클래스 정의 */
-.slide-enter-active,
-.slide-leave-active {
-  transition: all 0.3s ease;
-}
-
-.slide-enter-from,
-.slide-leave-to {
-  transform: translateX(-100%);
-  opacity: 0;
-}
-</style>
+  .slide-enter-from,
+  .slide-leave-to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  </style>

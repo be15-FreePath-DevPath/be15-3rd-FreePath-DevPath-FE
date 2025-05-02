@@ -3,13 +3,11 @@
 import LayoutDefault from "@/components/layout/LayoutDefault.vue";
 import MainInfoPaging from "@/features/main/components/MainInfoPaging.vue";
 
-import { onMounted } from 'vue'
+import {provide, ref} from 'vue'
 
-const emit = defineEmits(['update-breadcrumb'])
+const items = ref(['메인페이지'])
 
-onMounted(() => {
-  emit('update-breadcrumb', ['메인페이지', '상세페이지'])
-})
+provide('items', items);
 </script>
 
 <template>
