@@ -7,7 +7,7 @@
 
 <script>
 import DevPathSidebar from '@/components/DevPathSidebar.vue'
-import AdminMainView from "@/feature/admin/AdminMainView.vue";
+import AdminMainView from "@/features/admin/AdminMainView.vue";
 
 export default {
   name: 'App',
