@@ -1,80 +1,84 @@
 <script setup>
-import { ref ,onMounted} from 'vue'
+import { onMounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import NewsList from '@/features/admin/ItNews/components/NewsList.vue'
-//import ReportList from '@/components/admin/ReportList.vue'
 import CsQuizList from '@/features/admin/csquiz/components/CsQuizList.vue'
+import { getNewsList } from '@/features/admin/ItNews/api.js'
 
-import { useRouter } from 'vue-router'
-import {getNewsList} from "@/features/admin/ItNews/api.js";
-
-const selectedTab = ref('news')
+const route = useRoute()
 const router = useRouter()
-const ItNews = ref([]);
-
-const goToAddNews = () => {
-  router.push('/admin/news/write') // 실제 경로에 맞게 조정
-}
-
-const goToAddQuiz = () => {
-  router.push('/admin/csquiz/write') // 실제 경로에 맞게 조정
-}
+const ItNews = ref([])
 
 const fetchNews = async () => {
   try {
     const response = await getNewsList()
-    console.log(response)
     ItNews.value = response.data.data.news
   } catch (e) {
     console.error('뉴스 불러오기 실패', e)
   }
 }
 
+// tab 변경 감지 시 뉴스 새로고침
+watch(() => route.query.tab, (newTab) => {
+  if (newTab === 'news') {
+    fetchNews()
+  }
+})
 
-onMounted(fetchNews)
+onMounted(() => {
+  if (route.query.tab === 'news') {
+    fetchNews()
+  }
+})
+
+// 탭 클릭 시 URL 쿼리 갱신
+const selectTab = (tabName) => {
+  router.push({ path: '/admin', query: { tab: tabName } })
+}
+
+const goToAddNews = () => router.push('/admin/news/write')
+const goToAddQuiz = () => router.push('/admin/csquiz/write')
 </script>
 
 <template>
+  <div class="admin-main">
+    <!-- 탭 버튼 -->
+    <section class="tab-buttons">
+      <button
+          :class="{ active: $route.query.tab === 'news' }"
+          @click="selectTab('news')"
+      >
+        IT 뉴스
+      </button>
+      <button
+          :class="{ active: $route.query.tab === 'report' }"
+          @click="selectTab('report')"
+      >
+        신고
+      </button>
+      <button
+          :class="{ active: $route.query.tab === 'quiz' }"
+          @click="selectTab('quiz')"
+      >
+        CS 퀴즈
+      </button>
+    </section>
 
-    <div class="admin-main">
-      <!-- 탭 버튼 -->
-      <section class="tab-buttons">
-        <button
-            :class="{ active: selectedTab === 'news' }"
-            @click="selectedTab = 'news'"
-        >
-          IT 뉴스
-        </button>
-        <button
-            :class="{ active: selectedTab === 'report' }"
-            @click="selectedTab = 'report'"
-        >
-          신고
-        </button>
-        <button
-            :class="{ active: selectedTab === 'quiz' }"
-            @click="selectedTab = 'quiz'"
-        >
-          CS 퀴즈
-        </button>
-      </section>
+    <!-- 콘텐츠 영역 -->
+    <section class="content-area">
+      <NewsList v-if="$route.query.tab === 'news'" :ItNews="ItNews" />
+      <!-- <ReportList v-else-if="$route.query.tab === 'report'" /> -->
+      <CsQuizList v-else-if="$route.query.tab === 'quiz'" />
+    </section>
 
-
-      <!-- 콘텐츠 영역 -->
-      <section class="content-area">
-        <NewsList v-if="selectedTab === 'news'" :ItNews="ItNews"/>
-        <!--      <ReportList v-else-if="selectedTab === 'report'" />-->
-        <CsQuizList v-else-if="selectedTab === 'quiz'"/>
-      </section>
-
-      <!-- 하단 버튼 -->
-      <div class="bottom-button" v-if="selectedTab === 'news'">
-        <button @click="goToAddNews">뉴스 추가</button>
-      </div>
-      <div class="bottom-button" v-else-if="selectedTab === 'quiz'">
-        <button @click="goToAddQuiz">CS 퀴즈 추가</button>
-      </div>
-      <!-- 신고에는 버튼 없음 -->
+    <!-- 하단 버튼 -->
+    <div class="bottom-button" v-if="$route.query.tab === 'news'">
+      <button @click="goToAddNews">뉴스 추가</button>
     </div>
+    <div class="bottom-button" v-else-if="$route.query.tab === 'quiz'">
+      <button @click="goToAddQuiz">CS 퀴즈 추가</button>
+    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -89,7 +93,6 @@ onMounted(fetchNews)
   font-family: 'Pretendard', sans-serif;
 }
 
-/* 탭 버튼 영역 */
 .tab-buttons {
   display: flex;
   justify-content: center;
@@ -110,12 +113,10 @@ onMounted(fetchNews)
   transition: background-color 0.2s ease;
 }
 
-/* 선택된 탭 스타일 */
 .tab-buttons button.active {
   background-color: #b3b3b3;
 }
 
-/* 콘텐츠 영역 */
 .content-area {
   width: 100%;
   display: flex;
@@ -123,7 +124,6 @@ onMounted(fetchNews)
   margin-top: 30px;
 }
 
-/* 하단 버튼 */
 .bottom-button {
   display: flex;
   justify-content: flex-end;
@@ -150,4 +150,3 @@ onMounted(fetchNews)
   color: white;
 }
 </style>
-
