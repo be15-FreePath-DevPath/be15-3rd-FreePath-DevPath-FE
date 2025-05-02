@@ -1,17 +1,17 @@
 <script setup>
 
-import LayoutDefault from "@/components/layout/LayoutDefault.vue";
 import MainInfoPaging from "@/features/main/components/MainInfoPaging.vue";
+import {onMounted, ref} from 'vue'
 
-import {provide, ref} from 'vue'
+const newBreadCrumbItems = ref(['메인페이지'])
+const emit = defineEmits(['updateBreadCrumb'])
 
-const items = ref(['메인페이지'])
-
-provide('items', items);
+onMounted(() => {
+  emit('updateBreadCrumb', newBreadCrumbItems.value)
+});
 </script>
 
 <template>
-  <LayoutDefault>
     <div class="content-frame">
       <div class="content">
         <div class="main-info">
@@ -28,8 +28,6 @@ provide('items', items);
 
       </div>
     </div>
-  </LayoutDefault>
-
 </template>
 
 

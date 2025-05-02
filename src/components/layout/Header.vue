@@ -6,8 +6,12 @@ const emit = defineEmits(['navToggle'])
 const navToggle =  () => {
   emit('navToggle', {navToggled:true})
 }
-
-const breadcrumbItems = inject('items');
+defineProps({
+  breadcrumbItems: {
+    type: Array,
+    default: () => []
+  }
+})
 
 </script>
 
