@@ -1,7 +1,9 @@
-export default [
+import InterviewListView from './views/InterviewListView.vue';
+
+export const interviewRoutes = [
     {
-        path: '/interview/list',
+        path: '/interviews',
         name: 'InterviewList',
-        component: () => import('@/features/interview/views/InterviewListView.vue')
+        component: InterviewListView
     }
-]
+];
