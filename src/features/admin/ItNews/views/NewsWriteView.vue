@@ -47,7 +47,6 @@ const handleSubmit = async () => {
 
 <template>
     <div class="create-wrapper">
-      <h1 class="page-title">뉴스 등록</h1>
       <NewsForm v-model="newsForm" :isReadOnly="false" />
       <div class="button-area">
         <button @click="goToList">목록</button>
