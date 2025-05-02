@@ -1,10 +1,24 @@
 <script setup>
+import { computed } from 'vue'
+
 const props = defineProps({
   interview: {
     type: Object,
     required: true
   }
-});
+})
+
+// 면접 일시 포맷팅: yyyy.MM.dd (일) hh:mm
+const formattedDate = computed(() => {
+  const date = new Date(props.interview.createdAt)
+  return date.toLocaleString('ko-KR', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit'
+  })
+})
 </script>
 
 <template>
@@ -18,7 +32,7 @@ const props = defineProps({
 
     <div class="type-column">
       <div class="topic-content">
-        <div class="text-wrapper"># {{ interview.topic }}</div>
+        <div class="text-wrapper"># {{ interview.category }}</div>
       </div>
     </div>
 
@@ -29,7 +43,7 @@ const props = defineProps({
             <img src="@/assets/images/interview/calendar-blank.png" alt="calendar" />
           </div>
           <div class="calendar-text">
-            <div class="date">{{ interview.date }}</div>
+            <div class="date">{{ formattedDate }}</div>
           </div>
         </div>
       </div>
