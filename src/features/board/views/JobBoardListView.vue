@@ -1,13 +1,7 @@
 <template>
     <div class="job-board-list">
       <PostListHeaderBar/>
-      <PostItem
-          v-for="(post, index) in posts"
-          :key="index"
-          :text="post.text"
-          :date="post.date"
-          :user="post.user"
-      />
+      <PostList :posts="posts"/>
     </div>
     <PagingBar
         v-bind="pagination"
@@ -21,6 +15,7 @@ import PostItem from "@/features/board/components/PostItem.vue";
 import PostListHeaderBar from "@/features/board/components/PostListHeaderBar.vue";
 import PagingBar from "@/components/common/PagingBar.vue";
 import SearchBar from "@/features/board/components/SearchBar.vue";
+import PostList from "@/features/board/components/PostList.vue";
 
 // 임시 게시글 데이터
 const posts = ref([
