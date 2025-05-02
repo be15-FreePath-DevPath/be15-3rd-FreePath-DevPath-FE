@@ -2,6 +2,7 @@
   <div id="app">
     <DevPathSidebar />
     <AdminMainView/>
+    <router-view />
   </div>
 </template>
 
