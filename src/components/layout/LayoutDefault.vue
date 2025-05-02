@@ -1,12 +1,15 @@
   <template>
     <div class="layout-default">
+      <!-- 좌측 사이드바 섹션 -->
       <transition name="slide">
         <Sidebar v-if="showSidebar" class="sidebar" />
       </transition>
-      <div>
+
+      <!-- 우측 헤더+콘텐츠 섹션 -->
+      <div class="content-wrapper">
         <Header
             :breadcrumbItems="breadcrumbItems"
-        @navToggle="handleSidebar"/>
+            @navToggle="handleSidebar"/>
         <main class="main-content" >
           <slot/>
         </main>
@@ -17,11 +20,11 @@
 
   <script setup>
   import Sidebar from './Sidebar.vue'
-  import Header from "@/components/layout/Header.vue";
+  import Header from './Header.vue';
   import {ref} from "vue";
 
   const showSidebar = ref(true)
-  const  breadcrumbItems = ref([]);
+  const breadcrumbItems = ref([]);
 
   const handleSidebar = () => {
     showSidebar.value = !showSidebar.value
@@ -34,6 +37,15 @@
     height: 100vh;
     width: 100vw;
     background-color: #f9f9f9;
+    overflow: hidden;
+  }
+
+  /* 오른쪽 전체 (헤더 + 메인) */
+  .content-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
     overflow: hidden;
   }
 
