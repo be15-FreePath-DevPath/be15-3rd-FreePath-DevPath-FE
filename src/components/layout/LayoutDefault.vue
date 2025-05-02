@@ -8,10 +8,9 @@
             :breadcrumbItems="breadcrumbItems"
         @navToggle="handleSidebar"/>
         <main class="main-content" >
-          <slot/>
+          <RouterView />
         </main>
       </div>
-
     </div>
   </template>
 
