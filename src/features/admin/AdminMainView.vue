@@ -3,7 +3,6 @@ import { ref ,onMounted} from 'vue'
 import NewsList from '@/features/admin/ItNews/components/NewsList.vue'
 //import ReportList from '@/components/admin/ReportList.vue'
 import CsQuizList from '@/features/admin/csquiz/components/CsQuizList.vue'
-import LayoutDefault from '@/components/layout/LayoutDefault.vue'
 
 import { useRouter } from 'vue-router'
 import {getNewsList} from "@/features/admin/ItNews/api.js";
@@ -35,7 +34,7 @@ onMounted(fetchNews)
 </script>
 
 <template>
-  <layout-default>
+
     <div class="admin-main">
       <!-- 탭 버튼 -->
       <section class="tab-buttons">
@@ -76,7 +75,6 @@ onMounted(fetchNews)
       </div>
       <!-- 신고에는 버튼 없음 -->
     </div>
-  </layout-default>
 </template>
 
 <style scoped>

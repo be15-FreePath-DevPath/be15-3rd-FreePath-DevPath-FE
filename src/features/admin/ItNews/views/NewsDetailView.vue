@@ -92,7 +92,6 @@ const handleDelete = async () => {
 </script>
 
 <template>
-  <layout-default>
     <div v-if="currentNews" class="detail-wrapper">
       <h1 class="page-title">뉴스 상세 조회</h1>
       <NewsForm v-model="currentNews" :isReadOnly="isPastDate" />
@@ -112,7 +111,6 @@ const handleDelete = async () => {
     <div v-else>
       <p>뉴스 데이터를 불러오는 중입니다...</p>
     </div>
-  </layout-default>
 </template>
 
 <style scoped>

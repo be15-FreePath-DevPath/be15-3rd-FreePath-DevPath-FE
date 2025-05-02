@@ -46,7 +46,6 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <layout-default>
     <div class="create-wrapper">
       <h1 class="page-title">뉴스 등록</h1>
       <NewsForm v-model="newsForm" :isReadOnly="false" />
@@ -55,7 +54,6 @@ const handleSubmit = async () => {
         <button :disabled="!isValid" @click="handleSubmit">등록</button> <!-- isValid가 true일 때만 활성화 -->
       </div>
     </div>
-  </layout-default>
 </template>
 
 <style scoped>
