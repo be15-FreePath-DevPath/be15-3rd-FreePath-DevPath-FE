@@ -6,7 +6,7 @@
 <div class = "chattingRoomCard">
 <div class = Profile>
 <!--  나중에 사용자 이미지로 수정-->
-  <img src="@/assets/images/common/header/navToggle.png" alt="아이콘" class="icon" />
+  <img src="../../../../assets/images/common/header/navToggle.png" alt="아이콘" class="icon" />
 </div>
   <div class ="chattingRoomName">
     채팅방 제목

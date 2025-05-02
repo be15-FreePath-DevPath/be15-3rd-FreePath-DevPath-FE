@@ -1,7 +1,7 @@
 <script setup>
 
-import OtherChatting from "@/features/chatting/components/OtherChatting.vue";
-import UserFrame from "@/features/chatting/components/UserFrame.vue";
+import OtherChatting from "@/features/chatting/components/chattingView/OtherChatting.vue";
+import UserFrame from "@/features/chatting/components/chattingView/UserFrame.vue";
 </script>
 
 <template>

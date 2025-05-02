@@ -8,7 +8,7 @@
     <div class="text-wrapper">사용자</div>
   </div>
   <div class="user-icon">
-    <img src="@/assets/images/chatting/profile.png" alt="프로필사진"/>
+    <img src="../../../../assets/images/chatting/profile.png" alt="프로필사진"/>
   </div>
 </div>
 </template>

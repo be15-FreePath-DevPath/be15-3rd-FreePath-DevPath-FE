@@ -10,7 +10,7 @@
     </div>
   </div>
   <button class = "send-button">
-    <img src="@/assets/images/chatting/chattingSend.png" alt = "전송버튼"/>
+    <img src="../../../../assets/images/chatting/chattingSend.png" alt = "전송버튼"/>
   </button>
 </div>
 </template>
