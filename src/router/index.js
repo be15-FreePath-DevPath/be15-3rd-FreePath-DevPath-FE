@@ -3,7 +3,8 @@ import mainRoutes from '@/features/main/router'
 import interviewRoutes from '@/features/interview/router.js'
 import { csquizRoutes } from "@/features/csquiz/router.js";
 import {adminRoutes} from "@/features/admin/router.js";
-import {boardRoutes} from "@/features/board/router.js";
+//import {boardRoutes} from "@/features/board/router.js";
+import {chattingRoutes} from "@/features/chatting/router.js";
 import LayoutDefault from "@/components/layout/LayoutDefault.vue";
 
 const router = createRouter({
@@ -17,7 +18,8 @@ const router = createRouter({
                 ...interviewRoutes,
                 ...csquizRoutes,
                 ...adminRoutes,
-                ...boardRoutes
+                //...boardRoutes,
+                ...chattingRoutes
             ]
         }
     ]

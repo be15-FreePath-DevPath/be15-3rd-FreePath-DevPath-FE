@@ -24,7 +24,8 @@
   justify-content: flex-end;
   padding:16px;
   position:relative;
-  width:100%;
+  //flex: 1; /* 남은 공간 모두 차지 */
+  min-width: 0;
 }
 .div-wrapper{
   flex: 1;

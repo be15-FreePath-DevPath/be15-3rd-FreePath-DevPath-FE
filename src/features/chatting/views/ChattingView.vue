@@ -13,11 +13,15 @@ provide('items', items);
 </script>
 
 <template>
-  <LayoutDefault>
     <div class = "content-frame">
       <div class = "chattingRoomList">
           <ChattingRoomCard/>
+        <ChattingRoomCard/><ChattingRoomCard/><ChattingRoomCard/><ChattingRoomCard/><ChattingRoomCard/><ChattingRoomCard/><ChattingRoomCard/><ChattingRoomCard/>
         <ChattingRoomCard/>
+        <ChattingRoomCard/>
+        <ChattingRoomCard/> <ChattingRoomCard/>
+        <ChattingRoomCard/>
+
         <ChattingRoomCard/>
         <ChattingRoomCard/>
       </div>
@@ -26,38 +30,54 @@ provide('items', items);
         <ChattingCard/>
           <ChattingCard/>
           <ChattingCard/>
+          <ChattingCard/>
+          <ChattingCard/>
+          <ChattingCard/>
+          <ChattingCard/>
+          <ChattingCard/>
+          <ChattingCard/>
+          <ChattingCard/>
+          <ChattingCard/>
+          <ChattingCard/>
+          <ChattingCard/>
       </div>
-        <ChattingInsertFrame/>
+        <ChattingInsertFrame class = "chattingInsertFrame"/>
       </div>
     </div>
-  </LayoutDefault>
 </template>
 
 <style scoped>
 .content-frame {
   display: flex;
-  flex: 1;
-  flex-direction: row;  /* 가로 방향*/
-
-
-  gap: 10px;
-
-  align-items: flex-start; /* 정렬: 왼쪽 정렬 */
-  justify-content: flex-start; /* 정렬: 위쪽 정렬 */
-
-  padding: 27px 46px 0px 27px; /* 위 오른쪽 아래 왼쪽 순서 (시계방향) */
-
-  overflow: hidden; /* Clip content 과 같음 */
+  height: 100%;         /* 💡 부모(main-content)에 꽉 차게 */
+  width: 100%;
+  flex-direction: row;
+  overflow: hidden;     /* 스크롤 제거 */
 }
 .chattingRoomList{
-  width: 240px;
-  height: 100%;
-
+  width: fit-content;
+  height: 100%;         /* 💡 세로 꽉 채움 */
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 }
 .chattingFrame{
-  width : 100%;
-  height : 100%;
+  flex: 1;
+  height: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column; /* 수직 정렬 */
+  overflow: hidden; /* 전체 프레임은 스크롤 안 생기게 */
 }
+.chattingList{
+  flex: 1;
+  overflow-y: auto; /* 여기만 스크롤 */
+  min-height: 0;
+}
+.chattingInsertFrame {
+  height : fit-content; /* 원하는 고정 높이 */
+  flex-shrink: 0;
+  border-top: 1px solid #ddd;
+}
+
 </style>
