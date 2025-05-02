@@ -3,6 +3,7 @@ import mainRoutes from '@/features/main/router'
 import interviewRoutes from '@/features/interview/router.js'
 import { csquizRoutes } from "@/features/csquiz/router.js";
 import {adminRoutes} from "@/features/admin/router.js";
+import {itNewsRoutes} from "@/features/admin/ItNews/router.js";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -10,7 +11,8 @@ const router = createRouter({
       ...mainRoutes,
       ...interviewRoutes,
       ...csquizRoutes,
-      ...adminRoutes
+      ...adminRoutes,
+      ...itNewsRoutes
   ]
 })
 

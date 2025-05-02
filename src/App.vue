@@ -1,13 +1,11 @@
 <template>
   <div id="app">
-    <DevPathSidebar />
-    <AdminMainView/>
     <router-view />
   </div>
 </template>
 
 <script>
-import DevPathSidebar from '@/components/DevPathSidebar.vue'
+import DevPathSidebar from '@/components/layout/Sidebar.vue'
 import AdminMainView from "@/features/admin/AdminMainView.vue";
 
 export default {

@@ -5,7 +5,6 @@ import NewsList from '@/features/admin/ItNews/components/NewsList.vue'
 import CsQuizList from '@/features/admin/csquiz/components/CsQuizList.vue'
 import LayoutDefault from '@/components/layout/LayoutDefault.vue'
 
-//import CSQuizList from '@/components/admin/CSQuizList.vue'
 import { useRouter } from 'vue-router'
 import {getNewsList} from "@/features/admin/ItNews/api.js";
 
