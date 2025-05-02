@@ -2,6 +2,12 @@
 
 import LayoutDefault from "@/components/layout/LayoutDefault.vue";
 import MainInfoPaging from "@/features/main/components/MainInfoPaging.vue";
+
+import {provide, ref} from 'vue'
+
+const items = ref(['메인페이지'])
+
+provide('items', items);
 </script>
 
 <template>
