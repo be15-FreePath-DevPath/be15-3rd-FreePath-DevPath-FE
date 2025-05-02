@@ -16,7 +16,7 @@ const breadcrumbItems = inject('items');
   <div class="header">
     <div class="breadcrumb">
       <button class = "nav-toggle" @click="navToggle">
-        <img src="../../assets/navToggle.png" alt="아이콘" class="icon" />
+        <img src="../../assets/images/common/header/navToggle.png" alt="아이콘" class="icon" />
       </button>
       <template v-for="(item, index) in breadcrumbItems" :key="index">
         <span v-if="index !== 0" class="slash">/</span>
