@@ -1,19 +1,14 @@
 <script setup>
-import { defineProps } from 'vue';
-const props = defineProps({
-  breadcrumbItems: {
-    type: Array,
-    required: true,
-    default : ['메인페이지']
-  }
-});
-// const items = ['메인페이지', '마이페이지','기타등등']
+import {defineProps, inject} from 'vue';
 
 const emit = defineEmits(['navToggle'])
 
 const navToggle =  () => {
   emit('navToggle', {navToggled:true})
 }
+
+const breadcrumbItems = inject('items');
+
 </script>
 
 
