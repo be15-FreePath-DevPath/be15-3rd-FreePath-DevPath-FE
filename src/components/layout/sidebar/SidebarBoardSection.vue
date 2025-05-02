@@ -14,7 +14,7 @@
     <div v-if="isOpen" class="menu-list">
       <SidebarItem text="자유 게시판" to="/board/free" />
       <SidebarItem text="직무 정보 게시판" to="/board/job" />
-      <SidebarItem text="프로젝트 매칭 게시판" to="/board/match" />
+      <SidebarItem text="프로젝트 매칭 게시판" to="/board/project" />
     </div>
   </div>
 </template>

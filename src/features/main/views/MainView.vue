@@ -11,7 +11,6 @@ provide('items', items);
 </script>
 
 <template>
-  <LayoutDefault>
     <div class="content-frame">
       <div class="content">
         <div class="main-info">
@@ -28,8 +27,6 @@ provide('items', items);
 
       </div>
     </div>
-  </LayoutDefault>
-
 </template>
 
 
