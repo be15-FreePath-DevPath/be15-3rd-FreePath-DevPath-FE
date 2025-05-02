@@ -18,19 +18,20 @@ const fetchNews = async () => {
   }
 }
 
+onMounted(() => {
+  if (!route.query.tab) {
+    // 기본값으로 news 탭 설정
+    router.replace({ path: '/admin', query: { tab: 'news' } })
+  } else if (route.query.tab === 'news') {
+    fetchNews()
+  }
+})
 // tab 변경 감지 시 뉴스 새로고침
 watch(() => route.query.tab, (newTab) => {
   if (newTab === 'news') {
     fetchNews()
   }
 })
-
-onMounted(() => {
-  if (route.query.tab === 'news') {
-    fetchNews()
-  }
-})
-
 // 탭 클릭 시 URL 쿼리 갱신
 const selectTab = (tabName) => {
   router.push({ path: '/admin', query: { tab: tabName } })
