@@ -1,10 +1,10 @@
 <script setup>
 import { defineProps } from 'vue';
 const props = defineProps({
-  items: {
+  breadcrumbItems: {
     type: Array,
     required: true,
-    default : ['메인페이지', '마이페이지','기타등등']
+    default : ['메인페이지']
   }
 });
 // const items = ['메인페이지', '마이페이지','기타등등']
@@ -23,7 +23,7 @@ const navToggle =  () => {
       <button class = "nav-toggle" @click="navToggle">
         <img src="../../assets/navToggle.png" alt="아이콘" class="icon" />
       </button>
-      <template v-for="(item, index) in items" :key="index">
+      <template v-for="(item, index) in breadcrumbItems" :key="index">
         <span v-if="index !== 0" class="slash">/</span>
         <span :class="['breadcrumb-item', { 'gray': index === 0 }]">
           {{ item }}
@@ -65,11 +65,12 @@ const navToggle =  () => {
   border-bottom-width: 1px;
   border-bottom-color: rgba(0, 0, 0, 0.1);
   display: flex;
+
   height: 68px;
   justify-content: space-between;
   padding: 20px 28px;
   position: relative;
-  width: 1170px;
+    width: auto;
 }
   .nav-toggle{
     background: none;
@@ -92,6 +93,7 @@ const navToggle =  () => {
   flex : 0 0 auto;
   gap: 20px;
   position: relative;
+  padding-right : 20px;
 }
 
 .user-button {

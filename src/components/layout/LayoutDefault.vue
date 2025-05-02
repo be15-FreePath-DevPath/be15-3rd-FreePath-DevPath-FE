@@ -1,14 +1,36 @@
 <template>
   <div class="layout-default">
-    <Sidebar />
-    <main class="main-content">
-      <slot />
-    </main>
+    <transition name="slide">
+      <Sidebar v-if="showSidebar" class="sidebar" />
+    </transition>
+    <div>
+      <Header
+          :items="breadcrumbItems"
+      @navToggle="handleSidebar"/>
+      <main class="main-content" >
+        <slot  @update-breadcrumb="updateBreadcrumb"/>
+      </main>
+    </div>
+
   </div>
 </template>
 
 <script setup>
 import Sidebar from './Sidebar.vue'
+import Header from "@/components/layout/Header.vue";
+import {ref} from "vue";
+
+const showSidebar = ref(true)
+const  breadcrumbItems = ref([]);
+
+const handleSidebar = () => {
+  showSidebar.value = !showSidebar.value
+}
+
+// 자식(main-content 슬롯)에서 이벤트 수신
+const updateBreadcrumb = (items) => {
+  breadcrumbItems.value = items
+}
 </script>
 
 <style scoped>
@@ -25,5 +47,17 @@ import Sidebar from './Sidebar.vue'
   padding: 24px;
   overflow-y: auto;
   background-color: white;
+}
+
+/* 트랜지션 클래스 정의 */
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.3s ease;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  transform: translateX(-100%);
+  opacity: 0;
 }
 </style>
