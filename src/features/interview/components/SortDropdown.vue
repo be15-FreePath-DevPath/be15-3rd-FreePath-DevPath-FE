@@ -2,7 +2,6 @@
 import { defineEmits, ref } from 'vue'
 
 const emit = defineEmits(['select'])
-
 const selected = ref(null)
 
 const selectOption = (value) => {
@@ -27,6 +26,13 @@ const selectOption = (value) => {
     >
       점수 내림차순
     </div>
+    <div class="divider"></div>
+    <div
+        class="dropdown-option reset"
+        @click="selectOption(null)"
+    >
+      정렬 해제
+    </div>
   </div>
 </template>
 
@@ -36,11 +42,11 @@ const selectOption = (value) => {
   top: 28px;
   left: 0;
   background: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0,0,0,0.1);
   border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   z-index: 100;
-  width: 160px;
+  width: 180px;
   padding: 6px 0;
 }
 
@@ -51,11 +57,23 @@ const selectOption = (value) => {
   cursor: pointer;
   transition: background 0.2s;
 }
+
 .dropdown-option:hover {
   background-color: #f3f3f3;
 }
+
 .selected {
   font-weight: bold;
   color: #7a74f7;
+}
+
+.divider {
+  height: 1px;
+  background: #eee;
+  margin: 6px 0;
+}
+
+.reset {
+  color: #888;
 }
 </style>

@@ -16,6 +16,15 @@ const selected = ref({
   category: ''
 })
 
+const resetFilters = () => {
+  selected.value = {
+    difficulty: '',
+    strictness: '',
+    category: ''
+  }
+  emit('apply', {})
+}
+
 const applyFilters = () => {
   if (props.filterType === 'title') {
     if (selected.value.difficulty && selected.value.strictness) {
@@ -85,7 +94,8 @@ const applyFilters = () => {
     </template>
 
     <div class="actions">
-      <button @click="applyFilters">적용</button>
+      <button class="reset" @click="resetFilters">초기화</button>
+      <button class="apply" @click="applyFilters">적용</button>
     </div>
   </div>
 </template>
@@ -149,15 +159,15 @@ button:hover {
 
 .actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  margin-top: 12px;
 }
-.actions button {
-  padding: 6px 12px;
-  font-size: 13px;
+.reset {
+  background-color: #e0e0e0;
+  color: #333;
+}
+.apply {
   background-color: #7a74f7;
   color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
 }
 </style>
