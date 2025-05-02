@@ -1,8 +1,5 @@
 <script setup>
-
-import LayoutDefault from "@/components/layout/LayoutDefault.vue";
-
-import {provide, ref} from 'vue'
+import {onMounted, provide, ref} from 'vue'
 import ChattingRoomCard from "@/features/chatting/components/ChattingRoomCard.vue";
 import ChattingInsertFrame from "@/features/chatting/components/ChattingInsertFrame.vue";
 import ChattingCard from "@/features/chatting/components/ChattingCard.vue";
@@ -10,6 +7,12 @@ import ChattingCard from "@/features/chatting/components/ChattingCard.vue";
 const items = ref(['DevPath','채팅'])
 
 provide('items', items);
+const newBreadCrumbItems = ref(['채팅','채팅','참여 중인 채팅방'])
+const emit = defineEmits(['updateBreadCrumb'])
+
+onMounted(() => {
+  emit('updateBreadCrumb', newBreadCrumbItems.value)
+});
 </script>
 
 <template>
