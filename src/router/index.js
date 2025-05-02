@@ -3,8 +3,8 @@ import mainRoutes from '@/features/main/router'
 import interviewRoutes from '@/features/interview/router.js'
 import { csquizRoutes } from "@/features/csquiz/router.js";
 import {adminRoutes} from "@/features/admin/router.js";
-import {boardRoutes} from "@/features/board/router.js";
 import LayoutDefault from "@/components/layout/LayoutDefault.vue";
+import {itNewsRoutes} from "@/features/admin/ItNews/router.js";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -17,7 +17,7 @@ const router = createRouter({
                 ...interviewRoutes,
                 ...csquizRoutes,
                 ...adminRoutes,
-                ...boardRoutes
+                ...itNewsRoutes
             ]
         }
     ]
