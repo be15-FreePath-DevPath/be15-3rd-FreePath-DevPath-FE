@@ -1,5 +1,12 @@
 <script setup>
+import {defineProps} from "vue";
 
+const props = defineProps({
+  room: {
+    type: Object,
+    default: () => {}
+  }
+})
 </script>
 
 <template>
@@ -9,10 +16,10 @@
   <img src="../../../../assets/images/common/header/navToggle.png" alt="아이콘" class="icon" />
 </div>
   <div class ="chattingRoomName">
-    채팅방 제목
+    {{room.chattingRoomTitle}}
   </div>
   <div class = "userCount">
-    2
+    {{ room.userCount }}
   </div>
 </div>
 </template>

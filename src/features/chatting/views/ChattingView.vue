@@ -3,28 +3,45 @@ import {onMounted, ref} from 'vue'
 import ChattingRoomCard from "@/features/chatting/components/chattingView/ChattingRoomCard.vue";
 import ChattingInsertFrame from "@/features/chatting/components/chattingView/ChattingInsertFrame.vue";
 import ChattingCard from "@/features/chatting/components/chattingView/ChattingCard.vue";
-
+import {getChattingRoomList} from "@/features/chatting/api.js";
+import ChattingRoomList from "@/features/chatting/components/chattingView/ChattingRoomList.vue"
 const newBreadCrumbItems = ref(['채팅','채팅','참여 중인 채팅방'])
 const emit = defineEmits(['updateBreadCrumb'])
+const chattingRooms = ref([]);
+
+const fetchChattingRoomList =async() => {
+  try {
+    // api 호출 (axios lib)
+    const { data : wrapper } = await getChattingRoomList();
+    const respData = wrapper.data;
+    chattingRooms.value = respData.chattingRooms || [];
+    // Object.assign(target, ...sources) : source의 속성을 모두 꺼내 target에 덮어쓰기
+    console.log('채팅방 목록 : ',chattingRooms.value);
+  } catch(e) {
+    console.log('채팅방 목록 로드 실패', e);
+  }
+}
+
+
 
 onMounted(() => {
-  emit('updateBreadCrumb', newBreadCrumbItems.value)
+  emit('updateBreadCrumb', newBreadCrumbItems.value);
+  fetchChattingRoomList();
+  chattingRooms.value = [
+    {chattingRoomId : 1,
+    chattingRoomTitle : '채팅방1',
+    userCount : 2},
+    {chattingRoomId : 1,
+      chattingRoomTitle : '채팅방1',
+      userCount : 2},
+  ]
 });
 </script>
 
 <template>
     <div class = "content-frame">
-      <div class = "chattingRoomList">
-          <ChattingRoomCard/>
-        <ChattingRoomCard/><ChattingRoomCard/><ChattingRoomCard/><ChattingRoomCard/><ChattingRoomCard/><ChattingRoomCard/><ChattingRoomCard/><ChattingRoomCard/>
-        <ChattingRoomCard/>
-        <ChattingRoomCard/>
-        <ChattingRoomCard/> <ChattingRoomCard/>
-        <ChattingRoomCard/>
+      <ChattingRoomList :rooms="chattingRooms" />
 
-        <ChattingRoomCard/>
-        <ChattingRoomCard/>
-      </div>
       <div class = "chattingFrame">
         <div class = "chattingList">
         <ChattingCard/>
@@ -53,13 +70,6 @@ onMounted(() => {
   width: 100%;
   flex-direction: row;
   overflow: hidden;     /* 스크롤 제거 */
-}
-.chattingRoomList{
-  width: max-content;
-  height: 100%;         /* 💡 세로 꽉 채움 */
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
 }
 .chattingFrame{
   flex: 1;
