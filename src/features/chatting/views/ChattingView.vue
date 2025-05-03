@@ -55,7 +55,7 @@ onMounted(() => {
   overflow: hidden;     /* 스크롤 제거 */
 }
 .chattingRoomList{
-  width: fit-content;
+  width: max-content;
   height: 100%;         /* 💡 세로 꽉 채움 */
   display: flex;
   flex-direction: column;

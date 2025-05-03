@@ -1,7 +1,6 @@
 <script setup>
 import {onMounted, ref} from "vue";
-import ChattingCard from "@/features/chatting/components/chattingView/ChattingCard.vue";
-import ChattingPendingCard from "@/features/chatting/components/ChattingPendingView/ChattingPendingCard.vue";
+import UserBlockCard from "@/features/chatting/components/userBlockView/UserBlockCard.vue";
 
 const newBreadCrumbItems = ref(['마이페이지','마이페이지','채팅 차단 목록 조회'])
 const emit = defineEmits(['updateBreadCrumb'])
@@ -15,6 +14,10 @@ onMounted(() => {
 <template>
   <div class = "content-frame">
     <div class = "userBlockList">
+      <UserBlockCard/>
+      <UserBlockCard/>
+      <UserBlockCard/>
+      <UserBlockCard/>
     </div>
   </div>
 </template>
@@ -26,7 +29,7 @@ onMounted(() => {
 
   flex-direction: column;
 }
-.chattingRoomList{
+.userBlockList{
   position : relative;
   flex: 1;
   width : 100%;
