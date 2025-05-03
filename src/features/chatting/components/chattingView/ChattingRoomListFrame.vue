@@ -1,7 +1,10 @@
-<!-- components/chattingView/ChattingRoomList.vue -->
+<!-- components/chattingView/ChattingRoomListFrame.vue -->
 <script setup>
 import { defineProps } from 'vue'
 import ChattingRoomCard from './ChattingRoomCard.vue'
+
+const emit = defineEmits(['selectRoom'])
+
 
 const props = defineProps({
   rooms: {
@@ -9,6 +12,11 @@ const props = defineProps({
     default: () => []
   }
 })
+
+const handleSelect = (room) => {
+  emit('selectRoom', room)
+  console.log(`ChattingRoomList : chattingRoomId : ${room}`);
+}
 </script>
 
 <template>
@@ -17,6 +25,7 @@ const props = defineProps({
         v-for="room in rooms"
         :key="room.id"
         :room="room"
+        @selectRoom="handleSelect"
     />
   </div>
 </template>

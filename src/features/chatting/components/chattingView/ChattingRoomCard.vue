@@ -1,16 +1,22 @@
 <script setup>
-import {defineProps} from "vue";
+import { defineProps } from 'vue'
 
-const props = defineProps({
+const emit = defineEmits(['selectRoom'])
+
+const {room} = defineProps({
   room: {
-    type: Object,
-    default: () => {}
+    type: Object
   }
-})
+});
+
+const onClick = () => {
+  emit('selectRoom', room.chattingRoomId)
+  console.log(`ChattingRoomCard : chattingRoomId : ${room.chattingRoomId}`);
+}
 </script>
 
 <template>
-<div class = "chattingRoomCard">
+<div class = "chattingRoomCard" @click="onClick">
 <div class = Profile>
 <!--  나중에 사용자 이미지로 수정-->
   <img src="../../../../assets/images/common/header/navToggle.png" alt="아이콘" class="icon" />
@@ -35,6 +41,7 @@ const props = defineProps({
   gap : 10px;
   padding: 10px 10px;
   position : relative;
+  cursor: pointer;
 }
 .Profile{
   width : 40px;

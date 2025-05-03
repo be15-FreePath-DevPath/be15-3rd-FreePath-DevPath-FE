@@ -1,13 +1,41 @@
 <script setup>
-import {onMounted, ref} from 'vue'
-import ChattingRoomCard from "@/features/chatting/components/chattingView/ChattingRoomCard.vue";
+import {onMounted, reactive, ref} from 'vue'
 import ChattingInsertFrame from "@/features/chatting/components/chattingView/ChattingInsertFrame.vue";
-import ChattingCard from "@/features/chatting/components/chattingView/ChattingCard.vue";
-import {getChattingRoomList} from "@/features/chatting/api.js";
-import ChattingRoomList from "@/features/chatting/components/chattingView/ChattingRoomList.vue"
+import {getChatting, getChattingRoomList} from "@/features/chatting/api.js";
+import ChattingRoomListFrame from "@/features/chatting/components/chattingView/ChattingRoomListFrame.vue"
+import ChattingListFrame from "@/features/chatting/components/chattingView/ChattingListFrame.vue";
 const newBreadCrumbItems = ref(['채팅','채팅','참여 중인 채팅방'])
 const emit = defineEmits(['updateBreadCrumb'])
 const chattingRooms = ref([]);
+const chattings = ref([]);
+const selectedRoom = ref(0);
+const myChatting = reactive([
+  [{
+    userId :  1,
+    nickname : '닉네임1',
+    message : '1111-1',
+    timestamp : '시간1-1'
+  },
+    {
+      userId :  1,
+      nickname : '닉네임1',
+      message : '1111-2',
+      timestamp : '시간1-2'
+    }],
+  [
+    {
+      userId :  2,
+      nickname : '닉네임2',
+      message : '2222-1',
+      timestamp : '시간2-1'
+    },
+    {
+      userId :  2,
+      nickname : '닉네임2',
+      message : '2222-2',
+      timestamp : '시간2-2'
+    }
+  ]]);
 
 const fetchChattingRoomList =async() => {
   try {
@@ -22,7 +50,28 @@ const fetchChattingRoomList =async() => {
   }
 }
 
+const fetchChattings = async (chattingRoomId) => {
+  try{
+  // api 호출 (axios lib)
+    const { data : wrapper } = await getChatting(chattingRoomId);
+    const respData = wrapper.data;
+    chattings.value = respData.chattingList || [];
+    // Object.assign(target, ...sources) : source의 속성을 모두 꺼내 target에 덮어쓰기
+    console.log('채팅 내역 : ',chattings.value);
+} catch(e) {
+  console.log('채팅 내역 로드 실패', e);
+}
+}
 
+const onRoomSelected = (room) => {
+  selectedRoom.value = room;
+  console.log(`chattingRoomId : ${selectedRoom.value}`);
+  fetchChattings(selectedRoom.value);
+  chattings.value = myChatting[selectedRoom.value-1];
+  chattings.value.forEach(msg => {
+    console.log(msg);
+  });
+}
 
 onMounted(() => {
   emit('updateBreadCrumb', newBreadCrumbItems.value);
@@ -30,34 +79,32 @@ onMounted(() => {
   chattingRooms.value = [
     {chattingRoomId : 1,
     chattingRoomTitle : '채팅방1',
-    userCount : 2},
-    {chattingRoomId : 1,
-      chattingRoomTitle : '채팅방1',
+    userCount : 1,},
+    {chattingRoomId : 2,
+      chattingRoomTitle : '채팅방2',
       userCount : 2},
+    {chattingRoomId : 3,
+      chattingRoomTitle : '채팅방3',
+      userCount : 3}
   ]
+
+  const original = [...myChatting[1]];
+  for (let i = 0; i < 5; i++) {
+    myChatting[1].push(...original);
+  }
+
+  myChatting[1].forEach(msg => {
+    console.log(msg);
+  });
 });
 </script>
 
 <template>
     <div class = "content-frame">
-      <ChattingRoomList :rooms="chattingRooms" />
+      <ChattingRoomListFrame :rooms="chattingRooms" @selectRoom="onRoomSelected"/>
 
       <div class = "chattingFrame">
-        <div class = "chattingList">
-        <ChattingCard/>
-          <ChattingCard/>
-          <ChattingCard/>
-          <ChattingCard/>
-          <ChattingCard/>
-          <ChattingCard/>
-          <ChattingCard/>
-          <ChattingCard/>
-          <ChattingCard/>
-          <ChattingCard/>
-          <ChattingCard/>
-          <ChattingCard/>
-          <ChattingCard/>
-      </div>
+        <ChattingListFrame :chattings="chattings"/>
         <ChattingInsertFrame class = "chattingInsertFrame"/>
       </div>
     </div>

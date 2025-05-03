@@ -2,13 +2,20 @@
 
 import OtherChatting from "@/features/chatting/components/chattingView/OtherChatting.vue";
 import UserFrame from "@/features/chatting/components/chattingView/UserFrame.vue";
+import {defineProps} from "vue";
+
+const props = defineProps({
+  chatting: {
+    type: Object,
+  }
+})
 </script>
 
 <template>
 <div class="other-chatting-wrapper">
-  <UserFrame/>
+  <UserFrame :nickname="props.chatting.nickname"/>
   <div class = "element">
-    <OtherChatting class="other-chatting-instnace"/>
+    <OtherChatting class="other-chatting-instnace" :chatting="props.chatting"/>
   </div>
 </div>
 </template>

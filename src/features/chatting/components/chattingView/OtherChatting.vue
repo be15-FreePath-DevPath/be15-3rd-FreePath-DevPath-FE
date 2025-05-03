@@ -1,25 +1,29 @@
 <script setup>
-import {ref} from "vue";
-
-const text = ref('채팅내역입니다가나다라마바사아자차카타파하기니디리미비시이지티치 rrrrr rrrrr rrrrrrrrrrrrrrrrrrrrrrrrrrrㅍㅍㅍㅍrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrdddddddd');
+import {defineProps, ref} from "vue";
+const props = defineProps({
+  chatting: {
+    type: Object,
+  }
+})
 </script>
 
 <template>
 <div class="other-chatting">
   <p class="text-wrapper">
-    {{text}}
+    {{props.chatting.message}}
   </p>
 </div>
 </template>
 
 <style scoped>
 .other-chatting{
-  align-items : flex-start;
+  align-items: center;
   background-color: #C6C7F8;
   border-radius:8px;
-  display:inline-flex;
+  display: flex;
   max-width : 400px;
-  padding: 10px 20px;
+  padding: 10px 14px;
+  padding-right : 30px;
   position:relative;
 }
 .text-wrapper{
@@ -30,7 +34,7 @@ const text = ref('채팅내역입니다가나다라마바사아자차카타파�
   max-width : 400px;
   letter-spacing: 0;
   line-height : 24px;
-  margin-top : -1.00px;
+  margin : 1px;
   position:relative;
   word-wrap: anywhere; /* 단어가 길면 줄바꿈 */
   white-space: normal;   /* 일반 줄바꿈 허용 */
