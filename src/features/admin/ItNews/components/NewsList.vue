@@ -167,4 +167,7 @@ onMounted(() => fetchNews())
 .clickable-row:hover {
   background-color: #f9f9f9;
 }
+th{
+  color: #aaaaaa;
+}
 </style>

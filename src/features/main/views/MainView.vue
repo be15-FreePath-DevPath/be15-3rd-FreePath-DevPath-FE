@@ -40,7 +40,7 @@ onMounted(() => {
   flex-direction: column; /* 방향: 세로 (⬇️) */
   gap: 10px;
 
-  align-items: flex-start; /* 정렬: 왼쪽 정렬 */
+  align-items: center; /* 정렬: 왼쪽 정렬 */
   justify-content: flex-start; /* 정렬: 위쪽 정렬 */
 
   padding: 27px 46px 0px 27px; /* 위 오른쪽 아래 왼쪽 순서 (시계방향) */
@@ -49,7 +49,7 @@ onMounted(() => {
 }
 
 .content {
-  width: 100%; /* w: fill → 부모 영역 가득 채움 */
+  width: 1116px; /* w: fill → 부모 영역 가득 채움 */
   height: auto; /* h: hug → 내용물 크기만큼 높이 자동 */
 
   display: flex;

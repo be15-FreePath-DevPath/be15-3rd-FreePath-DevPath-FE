@@ -93,7 +93,6 @@ const handleDelete = async () => {
 
 <template>
     <div v-if="currentNews" class="detail-wrapper">
-      <h1 class="page-title">뉴스 상세 조회</h1>
       <NewsForm v-model="currentNews" :isReadOnly="isPastDate" />
       <div class="button-area">
         <button @click="goToList">목록</button>
@@ -121,11 +120,6 @@ const handleDelete = async () => {
   display: flex;
   flex-direction: column;
   gap: 32px;
-}
-.page-title {
-  font-size: 36px;
-  font-weight: 700;
-  margin-bottom: 30px;
 }
 .button-area {
   display: flex;
