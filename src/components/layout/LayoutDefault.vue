@@ -11,7 +11,7 @@
             :breadcrumbItems="breadcrumbItems"
             @navToggle="handleSidebar"/>
         <main class="main-content" >
-          <RouterView />
+          <RouterView @updateBreadCrumb = "updateBreadCrumb"/>
         </main>
       </div>
     </div>
@@ -28,13 +28,17 @@
   const handleSidebar = () => {
     showSidebar.value = !showSidebar.value
   }
+
+  const updateBreadCrumb = (newBreadCrumbItems) => {
+    breadcrumbItems.value = newBreadCrumbItems;
+  }
   </script>
 
   <style scoped>
   .layout-default {
     display: flex;
     height: 100vh;
-    width: 100vw;
+    width: 100%;
     background-color: #f9f9f9;
     overflow: hidden;
   }

@@ -1,83 +1,108 @@
 <script setup>
-import { ref ,onMounted} from 'vue'
+import { onMounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import NewsList from '@/features/admin/ItNews/components/NewsList.vue'
-//import ReportList from '@/components/admin/ReportList.vue'
 import CsQuizList from '@/features/admin/csquiz/components/CsQuizList.vue'
+import { getNewsList } from '@/features/admin/ItNews/api.js'
+import ReportList from "@/features/admin/report/components/ReportList.vue"
 
-import { useRouter } from 'vue-router'
-import {getNewsList} from "@/features/admin/ItNews/api.js";
+const emit = defineEmits(['updateBreadCrumb'])
 
-const selectedTab = ref('news')
+const route = useRoute()
 const router = useRouter()
-const ItNews = ref([]);
-
-const goToAddNews = () => {
-  router.push('/admin/news/write') // 실제 경로에 맞게 조정
-}
-
-const goToAddQuiz = () => {
-  router.push('/admin/csquiz/write') // 실제 경로에 맞게 조정
-}
+const ItNews = ref([])
 
 const fetchNews = async () => {
   try {
     const response = await getNewsList()
-    console.log(response)
     ItNews.value = response.data.data.news
   } catch (e) {
     console.error('뉴스 불러오기 실패', e)
   }
 }
 
+const handleTabChange = (tab) => {
+  if (tab === 'news') {
+    fetchNews()
+    emit('updateBreadCrumb', ['관리자페이지', 'IT 뉴스 목록'])
+  } else if (tab === 'report') {
+    emit('updateBreadCrumb', ['관리자페이지', '신고 목록'])
+  } else if (tab === 'quiz') {
+    emit('updateBreadCrumb', ['관리자페이지', 'CS 퀴즈 목록'])
+  }
+}
 
-onMounted(fetchNews)
+onMounted(() => {
+  const initialTab = route.query.tab || 'news'
+  if (!route.query.tab) {
+    router.replace({ path: '/admin', query: { tab: initialTab } })
+  }
+  handleTabChange(initialTab)
+})
+
+watch(() => route.query.tab, (newTab) => {
+  handleTabChange(newTab)
+})
+
+const selectTab = (tabName) => {
+  router.push({ path: '/admin', query: { tab: tabName } })
+}
+
+const goToAddNews = () => router.push('/admin/news/write')
+const goToAddQuiz = () => router.push('/admin/csquiz/write')
 </script>
 
 <template>
+  <div class="admin-main">
+    <!-- 탭 버튼 -->
+    <section class="tab-buttons">
+      <button
+          :class="{ active: $route.query.tab === 'news' }"
+          @click="selectTab('news')"
+      >
+        IT 뉴스
+      </button>
+      <button
+          :class="{ active: $route.query.tab === 'report' }"
+          @click="selectTab('report')"
+      >
+        신고
+      </button>
+      <button
+          :class="{ active: $route.query.tab === 'quiz' }"
+          @click="selectTab('quiz')"
+      >
+        CS 퀴즈
+      </button>
+    </section>
 
-    <div class="admin-main">
-      <!-- 탭 버튼 -->
-      <section class="tab-buttons">
-        <button
-            :class="{ active: selectedTab === 'news' }"
-            @click="selectedTab = 'news'"
-        >
-          IT 뉴스
-        </button>
-        <button
-            :class="{ active: selectedTab === 'report' }"
-            @click="selectedTab = 'report'"
-        >
-          신고
-        </button>
-        <button
-            :class="{ active: selectedTab === 'quiz' }"
-            @click="selectedTab = 'quiz'"
-        >
-          CS 퀴즈
-        </button>
-      </section>
+    <div class="blank"></div>
 
+    <!-- 콘텐츠 영역 -->
+    <section class="content-area">
+      <NewsList v-if="$route.query.tab === 'news'" :ItNews="ItNews" />
+      <ReportList v-else-if="$route.query.tab === 'report'" />
+      <CsQuizList v-else-if="$route.query.tab === 'quiz'" />
+    </section>
 
-      <!-- 콘텐츠 영역 -->
-      <section class="content-area">
-        <NewsList v-if="selectedTab === 'news'" :ItNews="ItNews"/>
-        <!--      <ReportList v-else-if="selectedTab === 'report'" />-->
-        <CsQuizList v-else-if="selectedTab === 'quiz'"/>
-      </section>
-
-      <!-- 하단 버튼 -->
-      <div class="bottom-button" v-if="selectedTab === 'news'">
-        <button @click="goToAddNews">뉴스 추가</button>
-      </div>
-      <div class="bottom-button" v-else-if="selectedTab === 'quiz'">
-        <button @click="goToAddQuiz">CS 퀴즈 추가</button>
-      </div>
-      <!-- 신고에는 버튼 없음 -->
+    <!-- 하단 버튼 -->
+    <div class="bottom-button" v-if="$route.query.tab === 'news'">
+      <button @click="goToAddNews">뉴스 추가</button>
     </div>
+    <div class="bottom-button" v-else-if="$route.query.tab === 'quiz'">
+      <button @click="goToAddQuiz">CS 퀴즈 추가</button>
+    </div>
+  </div>
 </template>
 
 <style scoped>
+.blank {
+  width: 100%;
+  height: 50px;
+  background-color: #f7f9fb;
+  border-radius: 15px;
+}
+
 .admin-main {
   display: flex;
   flex-direction: column;
@@ -89,7 +114,6 @@ onMounted(fetchNews)
   font-family: 'Pretendard', sans-serif;
 }
 
-/* 탭 버튼 영역 */
 .tab-buttons {
   display: flex;
   justify-content: center;
@@ -110,20 +134,16 @@ onMounted(fetchNews)
   transition: background-color 0.2s ease;
 }
 
-/* 선택된 탭 스타일 */
 .tab-buttons button.active {
   background-color: #b3b3b3;
 }
 
-/* 콘텐츠 영역 */
 .content-area {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 30px;
 }
 
-/* 하단 버튼 */
 .bottom-button {
   display: flex;
   justify-content: flex-end;
@@ -150,4 +170,3 @@ onMounted(fetchNews)
   color: white;
 }
 </style>
-

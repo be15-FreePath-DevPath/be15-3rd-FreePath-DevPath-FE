@@ -32,7 +32,21 @@ const props = defineProps({
 const route = useRoute()
 
 // 현재 경로가 해당 메뉴와 같으면 active 처리
-const isActive = computed(() => route.path === props.to)
+const isActive = computed(() => {
+  if (route.path === '/admin') {
+    const tab = route.query.tab;
+
+    // 각 탭과 text에 맞춰서 활성화 처리
+    return (
+        (tab === 'news' && props.text === 'IT 기사 목록') ||
+        (tab === 'quiz' && props.text === 'CS 퀴즈 목록') ||
+        (tab === 'report' && props.text === '회원 신고 검토 목록')
+    );
+  }
+
+  // 기본적인 경로 일치 시 활성화
+  return route.path === props.to;
+});
 </script>
 
 <style scoped>

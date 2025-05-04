@@ -14,4 +14,14 @@ export const boardRoutes = [
         name: 'ProjectBoard',
         component : () => import('@/features/board/views/ProjectBoardListView.vue')
     },
+    {
+        path: '/board/1',
+        name: 'PostDetail',
+        component : () => import('@/features/board/views/PostDetailView.vue')
+    },
+    {
+        path: 'board/write',
+        name: 'PostWrite',
+        component : () => import('@/features/board/views/PostWriteView.vue')
+    }
 ]

@@ -6,8 +6,12 @@ const emit = defineEmits(['navToggle'])
 const navToggle =  () => {
   emit('navToggle', {navToggled:true})
 }
-
-const breadcrumbItems = inject('items');
+defineProps({
+  breadcrumbItems: {
+    type: Array,
+    default: () => []
+  }
+})
 
 </script>
 
@@ -40,7 +44,7 @@ const breadcrumbItems = inject('items');
     >로그인
     </RouterLink>
     <RouterLink
-        to="/"
+        to="/user/signup"
         class="user-button"
         size="small"
     >회원 가입
