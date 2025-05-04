@@ -4,7 +4,9 @@ import { useRoute, useRouter } from 'vue-router'
 import NewsList from '@/features/admin/ItNews/components/NewsList.vue'
 import CsQuizList from '@/features/admin/csquiz/components/CsQuizList.vue'
 import { getNewsList } from '@/features/admin/ItNews/api.js'
-import ReportList from "@/features/admin/report/components/ReportList.vue";
+import ReportList from "@/features/admin/report/components/ReportList.vue"
+
+const emit = defineEmits(['updateBreadCrumb'])
 
 const route = useRoute()
 const router = useRouter()
@@ -19,21 +21,29 @@ const fetchNews = async () => {
   }
 }
 
+const handleTabChange = (tab) => {
+  if (tab === 'news') {
+    fetchNews()
+    emit('updateBreadCrumb', ['관리자페이지', 'IT 뉴스 목록'])
+  } else if (tab === 'report') {
+    emit('updateBreadCrumb', ['관리자페이지', '신고 목록'])
+  } else if (tab === 'quiz') {
+    emit('updateBreadCrumb', ['관리자페이지', 'CS 퀴즈 목록'])
+  }
+}
+
 onMounted(() => {
+  const initialTab = route.query.tab || 'news'
   if (!route.query.tab) {
-    // 기본값으로 news 탭 설정
-    router.replace({ path: '/admin', query: { tab: 'news' } })
-  } else if (route.query.tab === 'news') {
-    fetchNews()
+    router.replace({ path: '/admin', query: { tab: initialTab } })
   }
+  handleTabChange(initialTab)
 })
-// tab 변경 감지 시 뉴스 새로고침
+
 watch(() => route.query.tab, (newTab) => {
-  if (newTab === 'news') {
-    fetchNews()
-  }
+  handleTabChange(newTab)
 })
-// 탭 클릭 시 URL 쿼리 갱신
+
 const selectTab = (tabName) => {
   router.push({ path: '/admin', query: { tab: tabName } })
 }
@@ -65,6 +75,7 @@ const goToAddQuiz = () => router.push('/admin/csquiz/write')
         CS 퀴즈
       </button>
     </section>
+
     <div class="blank"></div>
 
     <!-- 콘텐츠 영역 -->
@@ -85,12 +96,13 @@ const goToAddQuiz = () => router.push('/admin/csquiz/write')
 </template>
 
 <style scoped>
-.blank{
+.blank {
   width: 100%;
   height: 50px;
-  background-color: #F7F9FB;
+  background-color: #f7f9fb;
   border-radius: 15px;
 }
+
 .admin-main {
   display: flex;
   flex-direction: column;

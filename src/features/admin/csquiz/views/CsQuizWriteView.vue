@@ -1,8 +1,15 @@
 <script setup>
-import {ref, computed} from 'vue'
+import {ref, computed, onMounted} from 'vue'
 import {useRouter} from 'vue-router'
 import CsQuizForm from '@/features/admin/csquiz/components/CsQuizForm.vue'
-import LayoutDefault from '@/components/layout/LayoutDefault.vue'
+
+const newBreadCrumbItems = ref(['관리자페이지', 'CS 퀴즈 목록' ,'CS 퀴즈 등록']);
+const emit = defineEmits(['updateBreadCrumb']);
+
+onMounted(() => {
+  emit('updateBreadCrumb', newBreadCrumbItems.value);
+});
+
 
 const router = useRouter()
 
@@ -23,7 +30,7 @@ const isValid = computed(() => {
 })
 
 const goToList = () => {
-  router.push('/admin')
+  router.push('/admin?tab=quiz')
 }
 
 const handleSubmit = () => {
@@ -44,16 +51,14 @@ const handleSubmit = () => {
 </script>
 
 <template>
-  <layout-default>
-    <div class="create-wrapper">
-      <h1 class="page-title">CS 퀴즈 등록</h1>
-      <CsQuizForm v-model="quizForm" :isReadOnly="false"/>
-      <div class="button-area">
-        <button @click="goToList">CS 퀴즈 목록</button>
-        <button :disabled="!isValid" @click="handleSubmit">퀴즈 등록</button>
-      </div>
+  <div class="create-wrapper">
+    <h1 class="page-title">CS 퀴즈 등록</h1>
+    <CsQuizForm v-model="quizForm" :isReadOnly="false"/>
+    <div class="button-area">
+      <button @click="goToList">CS 퀴즈 목록</button>
+      <button :disabled="!isValid" @click="handleSubmit">퀴즈 등록</button>
     </div>
-  </layout-default>
+  </div>
 </template>
 
 <style scoped>
