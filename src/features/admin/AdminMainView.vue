@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import NewsList from '@/features/admin/ItNews/components/NewsList.vue'
 import CsQuizList from '@/features/admin/csquiz/components/CsQuizList.vue'
 import { getNewsList } from '@/features/admin/ItNews/api.js'
+import ReportList from "@/features/admin/report/components/ReportList.vue";
 
 const route = useRoute()
 const router = useRouter()
@@ -64,11 +65,12 @@ const goToAddQuiz = () => router.push('/admin/csquiz/write')
         CS 퀴즈
       </button>
     </section>
+    <div class="blank"></div>
 
     <!-- 콘텐츠 영역 -->
     <section class="content-area">
       <NewsList v-if="$route.query.tab === 'news'" :ItNews="ItNews" />
-      <!-- <ReportList v-else-if="$route.query.tab === 'report'" /> -->
+      <ReportList v-else-if="$route.query.tab === 'report'" />
       <CsQuizList v-else-if="$route.query.tab === 'quiz'" />
     </section>
 
@@ -83,6 +85,12 @@ const goToAddQuiz = () => router.push('/admin/csquiz/write')
 </template>
 
 <style scoped>
+.blank{
+  width: 100%;
+  height: 50px;
+  background-color: #F7F9FB;
+  border-radius: 15px;
+}
 .admin-main {
   display: flex;
   flex-direction: column;
@@ -122,7 +130,6 @@ const goToAddQuiz = () => router.push('/admin/csquiz/write')
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 30px;
 }
 
 .bottom-button {

@@ -118,29 +118,6 @@ onMounted(() => fetchNews())
   max-width: 1200px;
   margin: 0 auto;
 }
-.header-bar {
-  width: 100%;
-  height: 44px;
-  background: #f7f9fb;
-  display: flex;
-  border-radius: 8px;
-  padding: 8px;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 16px;
-}
-.header-title {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  width: 100px;
-  max-width: 240px;
-  min-width: 80px;
-  height: 40px;
-  padding: 8px 12px;
-  border-bottom: 1px solid rgba(28, 28, 28, 0.2);
-}
 .header-title span {
   color: rgba(28, 28, 28, 0.4);
   font-size: 12px;
@@ -161,7 +138,6 @@ onMounted(() => fetchNews())
   border-bottom: 1px solid #ccc;
 }
 .news-table thead th {
-  background-color: #f1f1f1;
   font-weight: 600;
 }
 .clickable-row:hover {
