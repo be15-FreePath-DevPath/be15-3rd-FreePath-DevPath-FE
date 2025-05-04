@@ -1,101 +1,129 @@
 <script setup>
-
 import MainInfoPaging from "@/features/main/components/MainInfoPaging.vue";
-import {onMounted, ref} from 'vue'
+import MainContentBoard from "@/features/main/components/MainContentBoard.vue";
+import { onMounted, ref } from 'vue';
 
-const newBreadCrumbItems = ref(['메인페이지'])
-const emit = defineEmits(['updateBreadCrumb'])
+const newBreadCrumbItems = ref(['메인페이지']);
+const emit = defineEmits(['updateBreadCrumb']);
 
 onMounted(() => {
-  emit('updateBreadCrumb', newBreadCrumbItems.value)
+  emit('updateBreadCrumb', newBreadCrumbItems.value);
 });
+
+// 테스트 값
+const boardItems = [
+  {
+    date: "2025.04.24 17:10",
+    user: "Natali Craig",
+    userImage: "src/assets/images/main/user.png",
+    title: "제목 길이 생략 테스트 테스트 테스트"
+  },
+  {
+    date: "2025.04.24 17:00",
+    user: "Kate Morrison",
+    userImage: "src/assets/images/main/user.png",
+    title: "Title 2"
+  },
+  {
+    date: "2025.04.24 16:50",
+    user: "Drew Cano",
+    userImage: "src/assets/images/main/user.png",
+    title: "Title 3"
+  },
+  {
+    date: "2025.04.24 16:40",
+    user: "Orlando Diggs",
+    userImage: "src/assets/images/main/user.png",
+    title: "Title 4"
+  },
+  {
+    date: "2025.04.24 16:30",
+    user: "Natali Craig",
+    userImage: "src/assets/images/main/user.png",
+    title: "Title 5"
+  },
+  {
+    date: "2025.04.24 16:20",
+    user: "Kate Morrison",
+    userImage: "src/assets/images/main/user.png",
+    title: "Title 6"
+  },
+  {
+    date: "2025.04.24 16:10",
+    user: "Drew Cano",
+    userImage: "src/assets/images/main/user.png",
+    title: "Title 7"
+  },
+  {
+    date: "2025.04.24 16:00",
+    user: "Orlando Diggs",
+    userImage: "src/assets/images/main/user.png",
+    title: "Title 8"
+  },
+  {
+    date: "2025.04.24 15:50",
+    user: "Andi Lane",
+    userImage: "src/assets/images/main/user.png",
+    title: "Title 9"
+  },
+  {
+    date: "2025.04.24 15:40",
+    user: "Andi Lane",
+    userImage: "src/assets/images/main/user.png",
+    title: "Title 10"
+  }
+]
 </script>
 
 <template>
-    <div class="content-frame">
-      <div class="content">
-        <div class="main-info">
-          <div class="main-info-board">
-              <MainInfoPaging/>
-          </div>
+  <div class="content-frame">
+    <div class="content">
+      <div class="main-info">
+        <div class="main-info-board">
+          <MainInfoPaging />
         </div>
-        <div class="main-general-board">
-          테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트
-        </div>
-        <div class="main-general-board">
-          테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트
-        </div>
-
       </div>
-    </div>
-</template>
 
+      <!-- 자유게시판 -->
+      <MainContentBoard title="자유게시판" :boardItems="boardItems" />
+
+      <!-- 직무게시판 -->
+      <MainContentBoard title="직무게시판" :boardItems="boardItems" />
+    </div>
+  </div>
+</template>
 
 <style scoped>
 .content-frame {
-  width: auto;
-  height: auto;
-
   display: flex;
-  flex-direction: column; /* 방향: 세로 (⬇️) */
+  flex-direction: column;
   gap: 10px;
-
-  align-items: flex-start; /* 정렬: 왼쪽 정렬 */
-  justify-content: flex-start; /* 정렬: 위쪽 정렬 */
-
-  padding: 27px 46px 0px 27px; /* 위 오른쪽 아래 왼쪽 순서 (시계방향) */
-
-  overflow: hidden; /* Clip content 과 같음 */
+  align-items: center;
+  justify-content: flex-start;
+  padding: 27px 46px 0 27px;
+  overflow: hidden;
 }
 
 .content {
-  width: 100%; /* w: fill → 부모 영역 가득 채움 */
-  height: auto; /* h: hug → 내용물 크기만큼 높이 자동 */
-
+  width: 1116px;
   display: flex;
-  flex-wrap: wrap; /* direction: wrap */
+  flex-wrap: wrap;
   justify-content: space-between;
-  align-items: flex-start; /* 세로는 위쪽 정렬 */
-
-  row-gap: 29px; /* 세로 간격 */
+  align-items: flex-start;
+  row-gap: 29px;
 }
 
-.text
-{
-  height:20px;
-  width:232px;
-  border-radius:8px;
-  padding:0px;
-  display:flex;
-  flex-direction:column;
-  border-style:hidden;
-  outline:none;
-}
-
-.main-info
-{
-  height:auto;
-  width:1110px;
-  padding:0px;
-  display:flex;
-  flex-direction:column;
-  position:relative;
+.main-info {
+  width: 1110px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 
 .main-info-board {
-  background-color: #F7F9FB;
+  width: 100%;
   height: 384px;
-  width: 1110px;
   border-radius: 16.5px;
-  padding: 0px;
-}
-
-.main-general-board {
   background-color: #F7F9FB;
-  height: 399px;
-  width: 480px;
-  border-radius: 16.5px;
-  padding: 0px;
 }
-
 </style>
