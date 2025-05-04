@@ -14,11 +14,6 @@ import UserButtonPurple from "@/features/user/components/UserButtonPurple.vue";
         subtitle="회원 정보를 입력해주세요"
     >
       <!-- 기본 슬롯 (입력 폼들) -->
-      <UserInput label="로그인 ID" placeholder="로그인 ID를 입력해주세요" />
-      <UserInput label="비밀번호" placeholder="비밀번호를 입력해주세요" />
-      <UserInput label="비밀번호 확인" placeholder="비밀번호를 재입력해주세요" />
-      <UserInput label="이름" placeholder="이름을 입력해주세요" />
-      <UserInput label="이메일" placeholder="이메일을 입력해주세요" />
       <UserInput label="닉네임" placeholder="닉네임을 입력해주세요" />
       <UserItNewsSubWhite />
 
