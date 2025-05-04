@@ -1,28 +1,37 @@
 <script setup>
-import {useRouter} from 'vue-router'
+import { useRouter } from 'vue-router'
+import { onMounted, ref } from 'vue'
+import { useToast } from 'vue-toastification'
+import { getUserCsQuizResult } from '@/features/csquiz/api.js'
+
 import bookIcon from '@/assets/images/csquiz/book.svg'
 import clipboardIcon from '@/assets/images/csquiz/clipboard.svg'
 import clockIcon from '@/assets/images/csquiz/clock.svg'
-import {onMounted, ref} from "vue";
 
 const newBreadCrumbItems = ref(['CS 퀴즈', 'CS 퀴즈 응시']);
 const emit = defineEmits(['updateBreadCrumb']);
+const router = useRouter()
+const toast = useToast()
 
 onMounted(() => {
-  emit('updateBreadCrumb', newBreadCrumbItems.value);
-});
+  emit('updateBreadCrumb', newBreadCrumbItems.value)
+})
 
-const router = useRouter()
+async function goToQuizPage() {
+  try {
+    const res = await getUserCsQuizResult()
+    const results = res.data // ✅ 여기! 바로 data임
+    console.log('✅ 퀴즈 결과 응답:', results)
 
-// ✅ localStorage를 이용한 임시 저장 확인 (추후 API로 대체)
-function goToQuizPage() {
-  const submitted = localStorage.getItem('csquizSubmitted') === 'false' // 원래 true여야 함. api 연결 후 수정
-
-  if (submitted) {
-    alert('이미 답변이 저장되어있습니다.')
-    router.push('/csquiz/result')
-  } else {
-    router.push('/csquiz/take')
+    if (Array.isArray(results) && results.length === 10) {
+      toast.warning('이미 답변이 저장되어있습니다.', { position: 'top-center' })
+      await router.push('/csquiz/result')
+    } else {
+      await router.push('/csquiz/take')
+    }
+  } catch (e) {
+    console.error('퀴즈 결과 조회 실패:', e)
+    toast.error('퀴즈 결과를 불러오지 못했습니다.', { position: 'top-center' })
   }
 }
 </script>
@@ -32,7 +41,7 @@ function goToQuizPage() {
     <!-- 상단 타이틀 -->
     <div class="quiz-header">
       <div class="icon-title-wrapper">
-        <img class="icon-large" :src="clipboardIcon" alt="Clipboard Icon"/>
+        <img class="icon-large" :src="clipboardIcon" alt="Clipboard Icon" />
         <div class="title">CS QUIZ</div>
       </div>
       <div class="subtitle">핵심 개념을 빠르게 점검하고 실전 감각까지!</div>
@@ -43,7 +52,7 @@ function goToQuizPage() {
       <div class="info-card">
         <div class="card-label">문제 수:</div>
         <div class="card-content">
-          <img class="icon" :src="bookIcon" alt="Book Icon"/>
+          <img class="icon" :src="bookIcon" alt="Book Icon" />
           <div class="value">10문제</div>
         </div>
       </div>
@@ -51,7 +60,7 @@ function goToQuizPage() {
       <div class="info-card">
         <div class="card-label">예상 소요 시간:</div>
         <div class="card-content">
-          <img class="icon" :src="clockIcon" alt="Countdown Clock"/>
+          <img class="icon" :src="clockIcon" alt="Countdown Clock" />
           <div class="value">10~20분</div>
         </div>
       </div>
