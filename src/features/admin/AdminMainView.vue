@@ -6,6 +6,13 @@ import CsQuizList from '@/features/admin/csquiz/components/CsQuizList.vue'
 import { getNewsList } from '@/features/admin/ItNews/api.js'
 import ReportList from "@/features/admin/report/components/ReportList.vue";
 
+const newBreadCrumbItems = ref(['관리자페이지']);
+const emit = defineEmits(['updateBreadCrumb']);
+
+onMounted(() => {
+  emit('updateBreadCrumb', newBreadCrumbItems.value);
+});
+
 const route = useRoute()
 const router = useRouter()
 const ItNews = ref([])
