@@ -73,6 +73,16 @@ const onRoomSelected = (room) => {
   });
 }
 
+const sendMessage = (message) => {
+  console.log(`send : ${selectedRoom.value} , ${message}`);
+  chattings.value.push({
+    userId :  2,
+    nickname : '닉네임2',
+    message : message,
+    timestamp : '시간2-2'
+  })
+}
+
 onMounted(() => {
   emit('updateBreadCrumb', newBreadCrumbItems.value);
   fetchChattingRoomList();
@@ -105,7 +115,7 @@ onMounted(() => {
 
       <div class = "chattingFrame">
         <ChattingListFrame :chattings="chattings"/>
-        <ChattingInsertFrame class = "chattingInsertFrame"/>
+        <ChattingInsertFrame v-if="selectedRoomc" class = "chattingInsertFrame" @sendMessage="sendMessage"/>
       </div>
     </div>
 </template>

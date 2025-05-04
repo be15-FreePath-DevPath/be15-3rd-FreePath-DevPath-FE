@@ -1,4 +1,15 @@
 <script setup>
+import {ref} from "vue";
+
+const message = ref('')
+const emit = defineEmits(['sendMessage'])
+
+const send = () => {
+  if (message.value.trim() !== '') {
+    emit('sendMessage', message.value)
+    message.value = ''
+  }
+}
 
 </script>
 
@@ -6,11 +17,11 @@
 <div class = "chatting-insert">
   <div class="div-wrapper">
     <div class="text-wrapper">
-      <textarea type="text" class="chat-input" placeholder="메시지를 입력하세요..." />
+      <textarea type="text" v-model="message" class="chat-input" placeholder="메시지를 입력하세요..." @keydown.enter.prevent="send"/>
     </div>
   </div>
   <button class = "send-button">
-    <img src="../../../../assets/images/chatting/chattingSend.png" alt = "전송버튼"/>
+    <img src="../../../../assets/images/chatting/chattingSend.png" alt = "전송" @click="send"/>
   </button>
 </div>
 </template>
@@ -43,6 +54,7 @@
 .send-button{
   background: none;
   border: none;
+  cursor: pointer;
 }
 .text-wrapper{
   width : 100%;
