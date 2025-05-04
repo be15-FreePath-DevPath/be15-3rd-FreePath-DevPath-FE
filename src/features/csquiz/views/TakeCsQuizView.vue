@@ -1,8 +1,14 @@
 <script setup>
-import {ref} from 'vue'
+import {onMounted, ref} from 'vue'
 import {useRouter} from 'vue-router'
 import CsQuizCard from '@/features/csquiz/components/CsQuizCard.vue'
-import LayoutDefault from '@/components/layout/LayoutDefault.vue'
+
+const newBreadCrumbItems = ref(['CS 퀴즈', 'CS 퀴즈 응시']);
+const emit = defineEmits(['updateBreadCrumb']);
+
+onMounted(() => {
+  emit('updateBreadCrumb', newBreadCrumbItems.value);
+});
 
 const router = useRouter()
 
@@ -48,22 +54,20 @@ function submitAnswers() {
 </script>
 
 <template>
-  <layout-default>
-    <div class="quiz-wrapper">
-      <CsQuizCard
-          v-for="(quiz, index) in quizList"
-          :key="quiz.id"
-          :quiz="quiz"
-          :index="index"
-          :selectedOption="selectedOptions[index]"
-          @select="selectOption(index, $event)"
-      />
+  <div class="quiz-wrapper">
+    <CsQuizCard
+        v-for="(quiz, index) in quizList"
+        :key="quiz.id"
+        :quiz="quiz"
+        :index="index"
+        :selectedOption="selectedOptions[index]"
+        @select="selectOption(index, $event)"
+    />
 
-      <div class="submit-wrapper">
-        <div class="submit-button" @click="submitAnswers">답안 제출</div>
-      </div>
+    <div class="submit-wrapper">
+      <div class="submit-button" @click="submitAnswers">답안 제출</div>
     </div>
-  </layout-default>
+  </div>
 </template>
 
 <style scoped>
