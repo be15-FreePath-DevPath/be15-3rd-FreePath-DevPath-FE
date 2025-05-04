@@ -1,4 +1,3 @@
-// src/api/csquiz.js
 import axios from "axios";
 
 const api = axios.create({
