@@ -29,14 +29,12 @@ import UserWhiteButton from "@/features/user/components/UserButtonWhite.vue";
 
 <style scoped>
 .content-frame {
-  width: 1170px;
+  width: 100%;
   height: 956px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 27px 46px 0 27px;
-  overflow: hidden;
   gap: 30px;
 }
 </style>
