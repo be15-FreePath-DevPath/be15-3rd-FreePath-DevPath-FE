@@ -1,9 +1,8 @@
 <script setup>
 
-// 더미 댓글 데이터
+import {reactive} from "vue";
 import CommentList from "@/features/comment/components/CommentList.vue";
 import PagingBar from "@/components/common/PagingBar.vue";
-import {reactive} from "vue";
 import InteractionBar from "@/features/interaction/components/InteractionBar.vue";
 import PostDescriptionBar from "@/features/board/components/PostDescriptionBar.vue";
 
@@ -37,9 +36,9 @@ const comments = [
 ]
 
 const pagination = reactive({
-  currentPage : 1,
-  totalPages : 1,
-  totalItems : 0
+  currentPage: 1,
+  totalPages: 1,
+  totalItems: 0
 });
 
 </script>

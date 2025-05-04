@@ -18,5 +18,10 @@ export const boardRoutes = [
         path: '/board/1',
         name: 'PostDetail',
         component : () => import('@/features/board/views/PostDetailView.vue')
+    },
+    {
+        path: 'board/write',
+        name: 'PostWrite',
+        component : () => import('@/features/board/views/PostWriteView.vue')
     }
 ]
