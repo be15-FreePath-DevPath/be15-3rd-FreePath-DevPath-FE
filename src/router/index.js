@@ -6,6 +6,7 @@ import {adminRoutes} from "@/features/admin/router.js";
 import LayoutDefault from "@/components/layout/LayoutDefault.vue";
 import {itNewsRoutes} from "@/features/admin/ItNews/router.js";
 import {boardRoutes} from "@/features/board/router.js";
+import {userRoutes} from "@/features/user/router.js";
 import {adminCsQuizRoutes} from "@/features/admin/csquiz/router.js";
 import {mypageRoutes} from "@/features/mypage/router.js";
 
@@ -22,6 +23,7 @@ const router = createRouter({
                 ...adminRoutes,
                 ...itNewsRoutes,
                 ...boardRoutes,
+                ...userRoutes,
                 ...adminCsQuizRoutes,
                 ...mypageRoutes
             ]
