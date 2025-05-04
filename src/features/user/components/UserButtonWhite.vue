@@ -28,26 +28,29 @@ function goTo(url) {
 </script>
 
 <template>
-  <div class="button" @click="goTo(props.generalUrl)">
+  <button class="button" @click="goTo(props.generalUrl)">
     <img src="@/assets/images/user/general.png" alt="general" class="icon" />
     <span>{{ props.general }}</span>
-  </div>
-  <div class="button" @click="goTo(props.googleUrl)">
+  </button>
+  <button class="button" @click="goTo(props.googleUrl)">
     <img src="@/assets/images/user/google.png" alt="google" class="icon" />
     <span>{{ props.google }}</span>
-  </div>
+  </button>
 </template>
 
 <style scoped>
 .button {
+  all: unset;
+  display: flex;
   background-color: #ffffff;
-  width: 194.64px;
+  width: 100%;
+  min-width: 100%;
+  flex-shrink: 0;
   border-radius: 15.78px;
   padding-left: 24px;
   padding-right: 24px;
   padding-top: 16px;
   padding-bottom: 16px;
-  display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: center;
@@ -55,5 +58,6 @@ function goTo(url) {
   gap: 8.27px;
   position: relative;
   cursor: pointer;
+  box-sizing: border-box;
 }
 </style>
