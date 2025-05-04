@@ -1,16 +1,16 @@
 <template>
-  <div class="post-item">
-    <div class="item title">
-      {{ text }}
-    </div>
-    <div class="item date">
-      <img src="@/assets/images/board/CalendarIcon.png" alt="Calendar Icon" class="icon" />
-      {{ date }}
-    </div>
-    <div class="item user">
-      {{ user }}
-    </div>
-  </div>
+  <router-link :to="`/board/${id}`" class="post-item">
+      <div class="item title">
+        {{ text }}
+      </div>
+      <div class="item date">
+        <img src="@/assets/images/board/CalendarIcon.png" alt="Calendar Icon" class="icon" />
+        {{ date }}
+      </div>
+      <div class="item user">
+        {{ user }}
+      </div>
+  </router-link>
 </template>
 
 <script setup>
@@ -30,6 +30,7 @@ const props = defineProps({
   height: 65px;
   border-bottom: 1px solid #0000000d;
   font-size: 14px;
+  text-decoration: none;
 }
 
 .item {
