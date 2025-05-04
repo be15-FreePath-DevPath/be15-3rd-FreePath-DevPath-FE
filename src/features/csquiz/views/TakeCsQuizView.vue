@@ -1,26 +1,45 @@
 <script setup>
-import {onMounted, ref} from 'vue'
-import {useRouter} from 'vue-router'
+import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { getWeeklyCsQuiz, submitWeeklyCsQuiz, getUserCsQuizResult } from '@/features/csquiz/api.js'
 import CsQuizCard from '@/features/csquiz/components/CsQuizCard.vue'
+import { useToast } from 'vue-toastification'
 
-const newBreadCrumbItems = ref(['CS 퀴즈', 'CS 퀴즈 응시']);
-const emit = defineEmits(['updateBreadCrumb']);
-
-onMounted(() => {
-  emit('updateBreadCrumb', newBreadCrumbItems.value);
-});
-
+const toast = useToast()
+const emit = defineEmits(['updateBreadCrumb'])
+const newBreadCrumbItems = ref(['CS 퀴즈', 'CS 퀴즈 응시'])
 const router = useRouter()
 
-const quizList = ref(
-    Array.from({length: 10}, (_, i) => ({
-      id: i + 1,
-      question: `질문 ${i + 1}`,
-      options: ['선택지 1', '선택지 2', '선택지 3', '선택지 4']
-    }))
-)
+const quizList = ref([])
+const selectedOptions = ref([])
 
-const selectedOptions = ref(Array(quizList.value.length).fill(null))
+onMounted(async () => {
+  emit('updateBreadCrumb', newBreadCrumbItems.value)
+
+  try {
+    const resultRes = await getUserCsQuizResult()
+    if (resultRes.data && resultRes.data.length === 10) {
+      toast.info('이미 응시한 퀴즈입니다.', { position: 'top-center' })
+      return router.push('/csquiz/result')
+    }
+  } catch (e) {
+    // 무시하고 새 퀴즈 응시 가능 (응답 없으면 신규 응시자로 간주)
+    console.warn('이전 응답 없음 → 신규 응시자로 판단')
+  }
+
+  try {
+    const res = await getWeeklyCsQuiz()
+    quizList.value = res.data.data.map(q => ({
+      id: q.csquizId,
+      question: q.csquizContents,
+      options: q.options.map((opt, i) => `${i + 1}. ${opt.optionContents}`)
+    }))
+    selectedOptions.value = Array(quizList.value.length).fill(null)
+  } catch (e) {
+    console.error('퀴즈 불러오기 실패', e)
+    toast.error('퀴즈 데이터를 불러오는 데 실패했습니다.', { position: 'top-center' })
+  }
+})
 
 function selectOption(quizIndex, optionIndex) {
   selectedOptions.value[quizIndex] = optionIndex
@@ -33,25 +52,30 @@ function buildAnswerPayload() {
   }))
 }
 
-function submitAnswers() {
-  const unansweredIndices = selectedOptions.value
+async function submitAnswers() {
+  const unanswered = selectedOptions.value
       .map((v, i) => (v === null ? i + 1 : null))
       .filter(v => v !== null)
 
-  if (unansweredIndices.length > 0) {
-    alert(`${unansweredIndices.join(', ')}번 문항이 선택되지 않았습니다.`)
+  if (unanswered.length > 0) {
+    toast.warning(`${unanswered.join(', ')}번 문항이 선택되지 않았습니다.`, { position: 'top-center' })
     return
   }
 
-  const answers = buildAnswerPayload()
-  console.log('사용자 응답:', answers)
+  const payload = buildAnswerPayload()
 
-  localStorage.setItem('csquizSubmitted', 'true')
-
-  const confirmed = confirm('답안이 성공적으로 제출되었습니다.\n결과 화면으로 이동하시겠습니까?')
-  router.push(confirmed ? '/csquiz/result' : '/csquiz')
+  try {
+    await submitWeeklyCsQuiz(payload)
+    toast.success('답안 제출 완료!', { position: 'top-center' })
+    localStorage.setItem('csquizSubmitted', 'true')
+    router.push('/csquiz/result')
+  } catch (e) {
+    console.error('제출 실패', e)
+    toast.error('답안 제출 중 오류가 발생했습니다.', { position: 'top-center' })
+  }
 }
 </script>
+
 
 <template>
   <div class="quiz-wrapper">
