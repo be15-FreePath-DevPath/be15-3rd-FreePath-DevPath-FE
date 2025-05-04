@@ -4,7 +4,19 @@
 import CommentList from "@/features/comment/components/CommentList.vue";
 import PagingBar from "@/components/common/PagingBar.vue";
 import {reactive} from "vue";
+import InteractionBar from "@/features/interaction/components/InteractionBar.vue";
+import PostDescriptionBar from "@/features/board/components/PostDescriptionBar.vue";
 
+// 게시글 더미 데이터
+const postDescription = {
+  category: "자유게시판",
+  title: "테스트용 제목입니다. 테스트용 제목입니다. 테스트용 제목입니다.",
+  author: "개발자 취준생 103958",
+  createdAt: "2025-04-24T17:50:00Z",
+  content: "테스트입니다. 테스트입니다. 테스트입니다.테스트입니다.테스트입니다.테스트입니다.테스트입니다.테스트입니다.테스트입니다.테스트입니다.테스트입니다.테스트입니다.테스트입니다.테스트입니다."
+};
+
+// 댓글 더미 데이터
 const comments = [
   {
     commentId: 1,
@@ -33,6 +45,8 @@ const pagination = reactive({
 </script>
 
 <template>
+  <PostDescriptionBar :postDescription="postDescription"/>
+  <InteractionBar/>
   <CommentList :comments="comments"/>
   <PagingBar v-bind="pagination"/>
 </template>

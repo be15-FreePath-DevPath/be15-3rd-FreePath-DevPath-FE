@@ -37,7 +37,7 @@ export default {
 .comment-input {
   display: flex;
   padding: 10px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 2px solid #eee;
 }
 
 .input-area {
@@ -45,7 +45,7 @@ export default {
 }
 
 .input-box {
-  width: 100%;
+  width: 99%;
   resize: none;
   border: 1px solid #ccc;
   border-radius: 6px;

@@ -1,86 +1,106 @@
 <template>
-  <div class="comment-item">
-    <img src="@/assets/images/board/ProfileImage.png" alt="프로필 이미지" class="profile-image">
-    <div class="comment-content">
-      <div class="user-info">
-        <span class="username">{{ nickname }}</span>
-        <span class="date">{{ formattedDate }}</span>
-      </div>
-      <p class="text">{{ contents }}</p>
-      <div class="actions">
-        <button @click="likeComment" class="like-button">
-          <img src="@/assets/images/board/HeartStraight.png" alt="좋아요" class="action-icon">
-          <span>{{ likeCount }}</span>
-        </button>
-        <button @click="replyToComment" class="reply-button">답글</button>
-        <div class="more-options" v-if="!isMine">
-          <img src="@/assets/images/board/Button.png" alt="더보기" class="action-icon" @click="toggleOptions">
-          <div v-if="showOptions" class="options-menu">
-            <button @click="reportComment" class="report-button">신고</button>
+  <div :class="['comment-wrapper', { reply: depth > 0 }]">
+    <div class="comment-item">
+      <img src="@/assets/images/board/ProfileImage.png" alt="프로필 이미지" class="profile-image" />
+      <div class="comment-content">
+        <div class="user-info">
+          <span class="username">{{ comment.nickname }}</span>
+          <span class="date">{{ formattedDate }}</span>
+        </div>
+        <p class="text">{{ comment.contents }}</p>
+        <div class="actions">
+          <button @click="likeComment" class="like-button">
+            <img src="@/assets/images/board/HeartStraight.png" alt="좋아요" class="action-icon" />
+            <span>{{ comment.likeCount || 0 }}</span>
+          </button>
+          <button @click="replyToComment" class="reply-button">답글쓰기</button>
+          <div class="more-options">
+            <img
+                src="@/assets/images/board/Button.png"
+                alt="더보기"
+                class="action-icon"
+                @click="toggleOptions"
+            >
+            <div
+                v-if="isOptionsOpen"
+                class="options-menu"
+            >
+              <button @click="deleteComment" class="report-button">댓글 삭제</button>
+              <button @click="modifyComment" class="report-button">댓글 수정</button>
+              <button @click="reportComment" class="report-button">댓글 신고</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- 답글 입력창 -->
+    <div v-if="replyingToId === comment.commentId" class="reply-input-wrapper">
+      <CommentInput @submit="handleSubmitReply" />
+    </div>
+
+    <!-- 대댓글 재귀 렌더링 -->
+    <CommentItem
+        v-for="reply in comment.replies"
+        :key="reply.commentId"
+        :comment="reply"
+        :depth="depth + 1"
+        :replying-to-id="replyingToId"
+        :active-options-id="activeOptionsId"
+        @like="$emit('like', $event)"
+        @reply="$emit('reply', $event)"
+        @submit-reply="$emit('submit-reply', $event)"
+        @delete="$emit('delete', $event)"
+        @modify="$emit('modify', $event)"
+        @report="$emit('report', $event)"
+        @toggle-options="$emit('toggle-options', $event)"
+    />
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed } from 'vue';
+import CommentInput from './CommentInput.vue';
 
-export default {
-  props: {
-    commentId: {
-      type: Number,
-      required: true
-    },
-    nickname: {
-      type: String,
-      required: true
-    },
-    createdAt: {
-      type: [String, Date],
-      required: true
-    },
-    modifiedAt: {
-      type: [String, Date],
-      required: false,
-      default: null
-    },
-    contents: {
-      type: String,
-      required: true
-    },
-    likeCount: {
-      type: Number,
-      default: 0
-    },
-  },
-  data() {
-    return {
-      showOptions: false,
-      // commentText를 contents로 변경 (템플릿과 일관성 유지)
-      // commentText: this.contents,
-    };
-  },
-  methods: {
-    likeComment() {
-      this.$emit('like', this.commentId);
-    },
-    replyToComment() {
-      this.$emit('reply', this.commentId);
-    },
-    reportComment() {
-      this.$emit('report', this.commentId);
-      this.showOptions = false;
-    },
-    toggleOptions() {
-      this.showOptions = !this.showOptions;
-    }
+const props = defineProps({
+  comment: Object,
+  replyingToId: Number,
+  activeOptionsId: Number,
+  depth: {
+    type: Number,
+    default: 0
   }
+});
+
+const emit = defineEmits([
+  'like', 'reply', 'submit-reply', 'delete', 'modify', 'report', 'toggle-options'
+]);
+
+const likeComment = () => emit('like', props.comment.commentId);
+const replyToComment = () => emit('reply', props.comment.commentId);
+const toggleOptions = (event) => {
+  emit('toggle-options', props.comment.commentId);
+  event.stopPropagation();
 };
+const handleSubmitReply = (content) => {
+  emit('submit-reply', { parentId: props.comment.commentId, content });
+};
+const deleteComment = () => emit('delete', props.comment.commentId);
+const modifyComment = () => emit('modify', props.comment.commentId);
+const reportComment = () => emit('report', props.comment.commentId);
+
+const isOptionsOpen = computed(() => props.activeOptionsId === props.comment.commentId);
+
+const formattedDate = computed(() =>
+    new Date(props.comment.createdAt).toLocaleDateString()
+);
 </script>
 
 <style scoped>
-/* 스타일은 그대로 유지 */
+.comment-wrapper {
+  margin-bottom: 10px;
+}
+
 .comment-item {
   display: flex;
   padding: 10px;
@@ -117,7 +137,7 @@ export default {
 
 .text {
   margin-bottom: 8px;
-  white-space: pre-line; /* 줄바꿈 유지 */
+  white-space: pre-line;
 }
 
 .actions {
@@ -154,13 +174,16 @@ export default {
 
 .options-menu {
   position: absolute;
-  top: 100%;
-  right: 0;
+  top: 0;
+  left: 100%;
+  margin-left: 8px;
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 10;
+  display: flex;
+  flex-direction: column;
 }
 
 .options-menu button {
@@ -172,9 +195,15 @@ export default {
   border: none;
   cursor: pointer;
   font-size: 0.9em;
+  white-space: nowrap;
 }
 
 .options-menu button:hover {
   background-color: #f0f0f0;
+}
+
+.reply-input-wrapper {
+  margin-left: 50px;
+  margin-top: 8px;
 }
 </style>
