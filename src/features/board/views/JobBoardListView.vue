@@ -15,12 +15,18 @@
 </template>
 
 <script setup>
-import {ref, reactive} from 'vue';
+import {ref, reactive, onMounted} from 'vue';
 import PostListHeaderBar from "@/features/board/components/PostListHeaderBar.vue";
 import PagingBar from "@/components/common/PagingBar.vue";
 import SearchBar from "@/features/board/components/SearchBar.vue";
 import PostList from "@/features/board/components/PostList.vue";
 import {useRouter} from "vue-router";
+
+const emit = defineEmits(['updateBreadCrumb'])
+
+onMounted(() => {
+  emit('updateBreadCrumb', ['게시판', '직무 정보 게시판'])
+})
 
 // 임시 게시글 데이터
 const posts = ref([
