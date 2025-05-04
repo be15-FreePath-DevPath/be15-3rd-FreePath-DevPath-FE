@@ -18,20 +18,12 @@ defineProps({
         <div class="text1">{{ title }}</div>
         <div class="text2">{{ subtitle }}</div>
       </div>
-      <!-- 입력 폼 영역 -->
-      <div class="content">
-        <slot></slot>
-      </div>
-
-      <!-- 버튼 영역 -->
-      <div class="button-area">
-        <slot name="button"></slot>
-      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+/* 스타일은 그대로 유지 */
 .array {
   display: flex;
   flex-direction: column;
@@ -41,26 +33,23 @@ defineProps({
 }
 
 .form {
-  background-color: #1c1c1c;
+  background-color: #ffffff;
   width: 259.44px;
   filter: drop-shadow(0px 13px 27px rgba(0.196, 0.196, 0.364, 0.25));
   border-radius: 11.42px;
   padding: 22.4px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 28px;
   border-style: hidden;
   outline: none;
-  align-items: stretch;
 }
 
-.button-area {
+.text-area {
+  width: auto;
+  gap: 11.2px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: stretch;
-  width: 100%;
-  gap: 10px;
 }
 
 .text-area .text1 {
@@ -68,10 +57,10 @@ defineProps({
   -webkit-text-fill-color: transparent;
   background: linear-gradient(
       95deg,
-      rgba(255, 255, 255, 1) 0%,
-      rgba(190, 107, 255, 1) 54%,
+      rgba(0, 0, 0, 1) 0%,
+      rgba(52, 55, 201, 1) 54%,
       rgba(98, 95, 255, 1) 66%,
-      rgba(198, 199, 248, 1) 79%
+      rgba(190, 107, 255, 1) 79%
   );
   background-clip: text;
   color: transparent;
@@ -83,7 +72,7 @@ defineProps({
 }
 
 .text-area .text2 {
-  color: #ffffff;
+  color: #1c1c1c;
   text-align: left;
   font-size: 14px;
   line-height: normal;
@@ -92,12 +81,4 @@ defineProps({
   width: 214.64px;
 }
 
-.content {
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  justify-content: center;
-  align-items: center;
-}
 </style>
