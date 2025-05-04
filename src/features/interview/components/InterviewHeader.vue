@@ -38,39 +38,28 @@ const applyTypeFilter = (filter) => {
 
 <template>
   <div class="interview-header-row">
-    <!-- 면접방 제목 -->
-    <div class="header-cell clickable">
-      <div @click="toggleTitleFilter">
-        <img class="icon" src="@/assets/images/interview/ListFilter.png" />
-        <span>면접방 제목</span>
-      </div>
+    <div class="header-title clickable" @click="toggleTitleFilter">
+      <img class="icon" src="@/assets/images/interview/ListFilter.png" />
+      <span>면접방 제목</span>
       <FilterDropdown
           v-if="isTitleFilterOpen"
           filterType="title"
           @apply="applyTitleFilter"
       />
     </div>
-
-    <!-- 면접방 종류 -->
-    <div class="header-cell clickable">
-      <div @click="toggleTypeFilter">
-        <img class="icon" src="@/assets/images/interview/ListFilter.png" />
-        <span>면접방 종류</span>
-      </div>
+    <div class="header-type clickable" @click="toggleTypeFilter">
+      <img class="icon" src="@/assets/images/interview/ListFilter.png" />
+      <span>면접방 종류</span>
       <FilterDropdown
           v-if="isTypeFilterOpen"
           filterType="category"
           @apply="applyTypeFilter"
       />
     </div>
-
-    <!-- 면접 일시 -->
-    <div class="header-cell">
+    <div class="header-date">
       <span>면접 일시</span>
     </div>
-
-    <!-- 점수 정렬 -->
-    <div class="header-cell clickable" @click="toggleScoreDropdown">
+    <div class="header-score clickable" @click="toggleScoreDropdown">
       <img class="icon" src="@/assets/images/interview/ListSort.png" />
       <span>점수</span>
       <SortDropdown
@@ -84,34 +73,54 @@ const applyTypeFilter = (filter) => {
   </div>
 </template>
 
+
 <style scoped>
 .interview-header-row {
   display: flex;
+  width: var(--interview-width);
+  height: 40px;
   align-items: center;
-  justify-content: flex-start;
-  gap: 24px;
-  padding: 16px 20px;
+  padding: 0 0;
+  box-sizing: border-box;
   border-bottom: 1px solid rgba(28, 28, 28, 0.05);
   background-color: #ffffff;
-  position: relative;
+  font-size:12px
 }
 
-.header-cell {
+.header-title {
+  width: var(--column-title);
   display: flex;
   align-items: center;
+  padding: 12px 8px;
   gap: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  color: rgba(28, 28, 28, 0.4);
-  position: relative;
+}
+.header-type {
+  width: var(--column-type);
+  display: flex;
+  align-items: center;
+  padding: 12px 8px;
+  gap: 6px;
+}
+.header-date {
+  width: var(--column-date);
+  display: flex;
+  align-items: center;
+  padding: 12px 8px;
+}
+.header-score {
+  width: var(--column-score);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 8px;
+  gap: 6px;
 }
 
-.header-cell.clickable {
-  cursor: pointer;
-}
 
 .icon {
   width: 20px;
   height: 20px;
 }
 </style>
+
+

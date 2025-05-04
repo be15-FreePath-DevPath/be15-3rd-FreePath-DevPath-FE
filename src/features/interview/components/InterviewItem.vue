@@ -8,7 +8,6 @@ const props = defineProps({
   }
 })
 
-// 면접 일시 포맷팅: yyyy.MM.dd (일) hh:mm
 const formattedDate = computed(() => {
   const date = new Date(props.interview.createdAt)
   return date.toLocaleString('ko-KR', {
@@ -19,20 +18,28 @@ const formattedDate = computed(() => {
     minute: '2-digit'
   })
 })
+
+const scoreColor = computed(() => {
+  const score = props.interview.score
+  if (score < 40) return 'rgba(0, 0, 0, 0.4)'
+  if (score <= 60) return '#8A8CD9'
+  if (score <= 80) return '#59A8D4'
+  return '#4AA785'
+})
 </script>
 
 <template>
   <div class="interview-item">
     <div class="title-column">
       <div class="interview-title">
-        <div class="text-wrapper">{{ interview.title }}</div>
+        <div class="interview-title-text">{{ interview.title }}</div>
         <p class="summary">{{ interview.summary }}</p>
       </div>
     </div>
 
     <div class="type-column">
       <div class="topic-content">
-        <div class="text-wrapper"># {{ interview.category }}</div>
+        <div class="category"># {{ interview.category }}</div>
       </div>
     </div>
 
@@ -52,7 +59,7 @@ const formattedDate = computed(() => {
     <div class="score-column">
       <div class="score-content">
         <div class="score-badge">
-          <div class="score">{{ interview.score }}점</div>
+          <div class="score" :style="{ color: scoreColor }">{{ interview.score }}점</div>
         </div>
       </div>
     </div>
@@ -62,52 +69,39 @@ const formattedDate = computed(() => {
 <style scoped>
 .interview-item {
   display: flex;
-  width: 1116px;
+  width: var(--interview-width);
+  height: 60px;
   align-items: center;
-  position: relative;
   border-bottom: 1px solid rgba(28, 28, 28, 0.05);
+  box-sizing: border-box;
+  gap: 0;
 }
 
-.title-column,
-.type-column,
-.date-column,
-.score-column {
+.title-column {
+  width: var(--column-title);
   display: flex;
   flex-direction: column;
-  padding: 8px 12px;
+  padding: 12px 8px;
+  gap: 3px;
 }
-
-.title-column { flex: 3; }
-.type-column { flex: 1; }
-.date-column { flex: 1.2; }
-.score-column { flex: 0.5; }
-
 .interview-title {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.text-wrapper {
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 18px;
-  color: rgba(28, 28, 28, 1);
-}
-
-.summary {
-  font-size: 12px;
-  line-height: 18px;
-  color: rgba(0, 0, 0, 0.2);
-}
-
-.topic-content,
-.calendar-content,
-.score-content {
+.type-column {
+  width: var(--column-type);
   display: flex;
   align-items: center;
-  height: 60px;
-  border-bottom: 1px solid rgba(28, 28, 28, 0.05);
+  padding: 12px 8px;
+}
+
+.date-column {
+  width: var(--column-date);
+  display: flex;
+  align-items: center;
+  padding: 12px 8px;
 }
 
 .calendar-icon-text {
@@ -116,13 +110,44 @@ const formattedDate = computed(() => {
   gap: 8px;
 }
 
-.calendar-icon img {
-  width: 16px;
-  height: 16px;
+.score-column {
+  width: var(--column-score);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 8px;
 }
 
-.score-badge .score {
+/* === 텍스트 스타일 === */
+.interview-title-text {
+  font-family: "Inter", sans-serif;
+  font-weight: 600; /* SemiBold */
+  font-size: 14px;
+  color: rgba(28, 28, 28, 1);
+}
+
+.summary {
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
   font-size: 12px;
-  color: #8a8cd9;
+  line-height: 18px;
+  color: rgba(0, 0, 0, 0.2);
+  margin: 0;
+}
+
+.category,
+.date {
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  color: rgba(28, 28, 28, 1);
+}
+
+.score {
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  white-space: nowrap;
 }
 </style>

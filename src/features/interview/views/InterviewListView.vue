@@ -86,8 +86,10 @@ onMounted(() => loadInterviews())
   padding: 20px;
 }
 .title {
-  font-size: 1.5rem;
-  margin-bottom: 16px;
   font-weight: bold;
+  font-size: 14px;
+  height: 20px;
+  margin-bottom: 20px;
+  margin-left: 8px;
 }
 </style>

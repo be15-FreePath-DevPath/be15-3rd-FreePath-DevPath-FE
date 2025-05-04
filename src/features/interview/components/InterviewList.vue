@@ -20,6 +20,5 @@ const props = defineProps({
 .interview-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
 }
 </style>

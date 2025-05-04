@@ -4,6 +4,9 @@ import Toast from 'vue-toastification';
 import 'vue-toastification/dist/index.css';
 import router from './router'
 
+import '@/assets/styles/fonts.css'
+import '@/assets/styles/interview-columns.css'
+
 
 createApp(App)
     .use(router)
