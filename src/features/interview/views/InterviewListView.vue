@@ -1,16 +1,95 @@
-<template>
-  <LayoutDefault>
-    <div class="dummy-content">모의 면접 목록 페이지</div>
-  </LayoutDefault>
-</template>
-
 <script setup>
-import LayoutDefault from '@/components/layout/LayoutDefault.vue'
+import { ref, onMounted } from 'vue'
+import SkeletonList from '@/components/common/SkeletonList.vue'
+import PagingBar from '@/components/common/PagingBar.vue'
+import InterviewList from '@/features/interview/components/InterviewList.vue'
+import InterviewHeader from '@/features/interview/components/InterviewHeader.vue'
+import { fetchInterviewRooms } from '@/features/interview/api.js'
+
+// 상태 변수
+const interviews = ref([])
+const pagination = ref({
+  currentPage: 1,
+  totalPages: 1,
+  totalItems: 0
+})
+const isLoading = ref(true)
+const sortOrder = ref('desc')  // 기본: 점수 내림차순
+const filters = ref({
+  category: null,
+  difficulty: null,
+  evaluation: null
+})
+
+// 면접 목록 불러오기
+const loadInterviews = async (page = 1) => {
+  isLoading.value = true
+  try {
+    const { data } = await fetchInterviewRooms({
+      page,
+      sortOrder: sortOrder.value,
+      ...filters.value
+    })
+    interviews.value = data.interviews
+    pagination.value = data.pagination
+  } catch (e) {
+    console.error('면접방 목록 로딩 실패', e)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+// 필터 변경 처리
+const handleFilterChange = ({ type, value }) => {
+  if (type === 'title') {
+    filters.value.difficulty = value.difficulty
+    filters.value.evaluation = value.strictness
+  } else if (type === 'type') {
+    filters.value.category = value.category
+  }
+  pagination.value.currentPage = 1
+  loadInterviews(1)
+}
+
+// 정렬 변경 처리
+const handleSortChange = (order) => {
+  sortOrder.value = order
+  pagination.value.currentPage = 1
+  loadInterviews(1)
+}
+
+// 최초 로딩
+onMounted(() => loadInterviews())
 </script>
 
+<template>
+  <div class="interview-list-view">
+    <h2 class="title">면접방 목록</h2>
+
+    <InterviewHeader
+        @filter-change="handleFilterChange"
+        @sort-change="handleSortChange"
+    />
+
+    <SkeletonList v-if="isLoading" />
+    <InterviewList v-else :interviews="interviews" />
+
+    <PagingBar
+        v-bind="pagination"
+        @page-changed="loadInterviews"
+    />
+  </div>
+</template>
+
 <style scoped>
-.dummy-content {
+.interview-list-view {
   padding: 20px;
-  font-size: 18px;
+}
+.title {
+  font-weight: bold;
+  font-size: 14px;
+  height: 20px;
+  margin-bottom: 20px;
+  margin-left: 8px;
 }
 </style>
