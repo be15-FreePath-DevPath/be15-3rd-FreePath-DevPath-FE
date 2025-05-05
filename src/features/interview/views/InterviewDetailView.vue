@@ -4,38 +4,46 @@ import { useRouter } from 'vue-router'
 import { fetchInterviewDetail } from '@/features/interview/api.js'
 import InterviewQuestionCard from '@/features/interview/components/InterviewQuestionCard.vue'
 import InterviewReexecuteModal from '@/features/interview/components/InterviewReexecuteModal.vue'
+import ReexecutedListModal from '@/features/interview/components/ReexecutedListModal.vue'
 
-const router = useRouter();
+const router = useRouter()
 const interview = ref(null)
 const questions = ref([])
 const totalComment = ref('')
-const showModal = ref(false)
-const closeModal = () => {
-  showModal.value = false
+const reexecutedRooms = ref([])
+
+const showReexecuteModal = ref(false)
+const showReexecutedListModal = ref(false)
+
+const closeReexecuteModal = () => {
+  showReexecuteModal.value = false
+}
+
+const closeReexecutedListModal = () => {
+  showReexecutedListModal.value = false
 }
 
 const handleReexecute = ({ difficulty, strictness }) => {
   console.log('재실행 요청됨:', difficulty, strictness)
-  showModal.value = false
-  // 실제 재실행 API 요청 or 라우팅 처리 등을 여기서
+  showReexecuteModal.value = false
 }
+
 
 onMounted(async () => {
   const { data } = await fetchInterviewDetail(45)
   interview.value = data
 
+  // 면접 질문 정리
   const tempQuestions = []
   let buffer = []
 
   data.interviewList.forEach((item) => {
     const message = item.interviewMessage
-
     if (message.startsWith('[총평]')) {
       totalComment.value = message.replace('[총평]', '').trim()
       return
     }
 
-    // 면접 질문 묶음 처리
     if (message.startsWith('[면접 질문]')) {
       if (buffer.length) tempQuestions.push([...buffer])
       buffer = [message]
@@ -43,17 +51,32 @@ onMounted(async () => {
       buffer.push(message)
     }
   })
-
   if (buffer.length) tempQuestions.push([...buffer])
-
   questions.value = tempQuestions
-})
 
+  // 재실행 면접방 목록 가공
+  reexecutedRooms.value = data.reexecutedRooms.map((room) => {
+    const dateObj = new Date(room.interviewRoomCreatedAt)
+    const formattedDate = dateObj.toLocaleDateString('ko-KR', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      weekday: 'short'
+    }).replace(/\. /g, '.').replace('.', '')
+    return {
+      id: room.interviewRoomId,
+      title: room.interviewRoomTitle,
+      date: formattedDate,
+      score: null  // 점수는 없음
+    }
+  })
+})
 
 const goBack = () => {
   router.push('/interview/list')
 }
 </script>
+
 
 <template>
   <div class="interview-detail">
@@ -103,9 +126,15 @@ const goBack = () => {
     </section>
 
     <InterviewReexecuteModal
-        v-if="showModal"
-        :onClose="closeModal"
-        :onSubmit="handleReexecute"
+        v-if="showReexecuteModal"
+        @close="closeReexecuteModal"
+        @reexecute="handleReexecute"
+    />
+
+    <ReexecutedListModal
+        v-if="showReexecutedListModal"
+        :rooms="reexecutedRooms"
+        @close="closeReexecutedListModal"
     />
 
     <section class="questions">
@@ -119,10 +148,10 @@ const goBack = () => {
 
     <div class="interview-foot-bar">
       <div class="interview-run-button">
-        <button class="button">재실행한 면접방 보기</button>
+        <button class="button" @click="showReexecutedListModal = true">재실행한 면접방 보기</button>
       </div>
       <div class="interview-run-button">
-        <button class="button" @click="showModal = true">면접 재실행하기</button>
+        <button class="button" @click="showReexecuteModal = true">면접 재실행하기</button>
       </div>
     </div>
   </div>

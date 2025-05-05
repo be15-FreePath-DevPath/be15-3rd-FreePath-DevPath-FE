@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 
 const props = defineProps({
   interview: {
@@ -7,6 +8,12 @@ const props = defineProps({
     required: true
   }
 })
+
+const router = useRouter()
+
+const handleClick = () => {
+  router.push(`/interview/${props.interview.id}`)
+}
 
 const formattedDate = computed(() => {
   const date = new Date(props.interview.createdAt)
@@ -29,7 +36,7 @@ const scoreColor = computed(() => {
 </script>
 
 <template>
-  <div class="interview-item">
+  <div class="interview-item" @click="handleClick">
     <div class="title-column">
       <div class="interview-title">
         <div class="interview-title-text">{{ interview.title }}</div>
@@ -75,6 +82,9 @@ const scoreColor = computed(() => {
   border-bottom: 1px solid rgba(28, 28, 28, 0.05);
   box-sizing: border-box;
   gap: 0;
+}
+.interview-item:hover {
+  background-color: #f0f2f5;
 }
 
 .title-column {
@@ -150,4 +160,6 @@ const scoreColor = computed(() => {
   font-size: 12px;
   white-space: nowrap;
 }
+
+
 </style>

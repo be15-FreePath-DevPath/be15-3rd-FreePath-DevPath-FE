@@ -1,13 +1,13 @@
 export const fetchInterviewRooms = async ({ page = 1, sortOrder = 'desc', category, difficulty, evaluation } = {}) => {
     const allInterviews = [
                 {
-                    id: 1,
+                    id: 45,
                     title: "운영체제_20241221_1030",
                     summary: "총평의 미리보기가 보여집니다.",
                     category: "운영체제",
                     difficulty: "easy",
                     evaluation: "generous",
-                    score: 46,
+                    score: 100,
                     createdAt: "2024-12-21T10:30:00"
                 },
                 {
