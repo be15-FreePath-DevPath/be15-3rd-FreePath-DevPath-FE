@@ -1,37 +1,51 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import PagingBar from '@/components/common/PagingBar.vue'
+import { getAdminCsQuizList } from '@/features/admin/csquiz/api.js'
 
 const router = useRouter()
 
-const quizzes = ref([
-  {
-    id: 1,
-    question: '질문 1',
-    options: ['선택지 1', '선택지 2', '선택지 3', '선택지 4'],
-    explanation: '해설 1'
-  },
-  {
-    id: 2,
-    question: '질문 2',
-    options: ['선택지 1', '선택지 2', '선택지 3', '선택지 4'],
-    explanation: '해설 2'
-  },
-])
-
+const quizzes = ref([])
 const currentPage = ref(1)
 const totalPages = ref(1)
-const totalItems = ref(2)
+const totalItems = ref(0)
+const pageSize = 10  // 퀴즈 기준으로 10개씩 보기
 
-function handlePageChange(page) {
+const fetchQuizList = async (page = 1) => {
+  const params = {
+    page: page,
+    size: pageSize,
+  };
+
+  const response = await getAdminCsQuizList(params);
+  const data = response.data.data;
+
+  quizzes.value = data.csQuizList.map(q => ({
+    id: q.csquizId,
+    question: q.csquizContents,
+    options: q.options.map(o => o.optionContents),
+    explanation: q.csquizExplanation,
+  }));
+
+  totalItems.value = data.pagination.totalItems;
+  totalPages.value = data.pagination.totalPage;
+  currentPage.value = data.pagination.currentPage;
+};
+
+
+const handlePageChange = (page) => {
   currentPage.value = page
-  // TODO: API 호출로 교체 예정
+  fetchQuizList(page)
 }
 
-function goToDetail(id) {
+const goToDetail = (id) => {
   router.push(`/admin/csquiz/${id}`)
 }
+
+onMounted(() => {
+  fetchQuizList(1)
+})
 </script>
 
 <template>
@@ -62,6 +76,8 @@ function goToDetail(id) {
     </table>
 
     <PagingBar
+        :key="currentPage"
+        v-if="totalPages"
         :currentPage="currentPage"
         :totalPages="totalPages"
         :totalItems="totalItems"
