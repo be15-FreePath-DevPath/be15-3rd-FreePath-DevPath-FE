@@ -8,28 +8,60 @@
           rows="3"
       ></textarea>
       <div class="actions">
-        <button @click="submitComment" class="submit-button" :disabled="!newComment.trim()">등록</button>
+        <button
+            v-if="isEditing"
+            @click="cancelEdit"
+            class="cancel-button"
+            type="button"
+        >
+          취소
+        </button>
+        <button
+            @click="submitComment"
+            class="submit-button"
+            :disabled="!newComment.trim()"
+        >
+          등록
+        </button>
       </div>
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  emits: ['submit'],
-  data() {
-    return {
-      newComment: ''
-    };
+<script setup>
+import { ref, watch } from 'vue';
+
+// Props & Emits
+const props = defineProps({
+  initialValue: {
+    type: String,
+    default: '',
   },
-  methods: {
-    submitComment() {
-      if (this.newComment.trim()) {
-        this.$emit('submit', this.newComment.trim());
-        this.newComment = '';
-      }
-    }
+  isEditing: {
+    type: Boolean,
+    default: false,
+  },
+});
+const emit = defineEmits(['submit', 'cancel']);
+
+// Local State
+const newComment = ref(props.initialValue);
+
+// Watch for prop changes (e.g. when editing a different comment)
+watch(() => props.initialValue, (val) => {
+  newComment.value = val;
+});
+
+// Methods
+const submitComment = () => {
+  if (newComment.value.trim()) {
+    emit('submit', newComment.value.trim());
+    newComment.value = '';
   }
+};
+
+const cancelEdit = () => {
+  emit('cancel');
 };
 </script>
 
@@ -58,11 +90,11 @@ export default {
   margin-top: 6px;
   display: flex;
   justify-content: flex-end;
+  gap: 10px;
 }
 
-.submit-button {
-  background-color: #007bff;
-  color: white;
+.submit-button,
+.cancel-button {
   padding: 6px 12px;
   font-size: 0.9em;
   border: none;
@@ -70,8 +102,18 @@ export default {
   cursor: pointer;
 }
 
+.submit-button {
+  background-color: #007bff;
+  color: white;
+}
+
 .submit-button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+}
+
+.cancel-button {
+  background-color: #6c757d;
+  color: white;
 }
 </style>

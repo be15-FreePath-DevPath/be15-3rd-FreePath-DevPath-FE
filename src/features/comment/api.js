@@ -7,3 +7,15 @@ const api = axios.create({
 export function fetchCommentList(postId) {
     return api.get(`/board/${postId}/comments`);
 }
+
+export function deleteComment(commentId) {
+    return api.delete(`/comments/${commentId}`);
+}
+
+export function updateComment(commentId, contents) {
+    return api.put(`/comments/${commentId}`, {contents});
+}
+
+export function reportComment(commentId) {
+    return api.post(`/report/comment/${commentId}`)
+}
