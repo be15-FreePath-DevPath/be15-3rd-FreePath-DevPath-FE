@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const goTo = () => {
-  router.push('/')
+  router.push('/mypage/devti/result')
 }
 </script>
 
