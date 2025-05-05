@@ -16,7 +16,9 @@
             <img src="@/assets/images/board/HeartStraight.png" alt="좋아요" class="action-icon" />
             <span>{{ comment.likeCount || 0 }}</span>
           </button>
-          <button @click="replyToComment" class="reply-button">답글쓰기</button>
+          <button v-if="depth === 0"
+                  @click="replyToComment"
+                  class="reply-button">답글쓰기</button>
           <div class="more-options">
             <img
                 src="@/assets/images/board/Button.png"

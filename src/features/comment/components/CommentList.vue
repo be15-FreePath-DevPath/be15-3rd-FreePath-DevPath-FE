@@ -28,36 +28,12 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
 import CommentItem from './CommentItem.vue';
 import CommentInput from './CommentInput.vue';
 
-const comments = ref([
-  {
-    commentId: 1,
-    nickname: 'user1',
-    contents: '첫 댓글',
-    createdAt: '2024-05-04T14:30:00Z',
-    modifiedAt: '2024-05-04T15:00:00Z',
-    likeCount: 3,
-    replies: [
-      {
-        commentId: 2,
-        nickname: 'user2',
-        contents: '답글입니다',
-        createdAt: '2024-05-04T15:10:00Z',
-        modifiedAt: '2024-05-04T15:20:00Z',
-        likeCount: 1,
-        replies: []
-      }
-    ]
-  },
-  {
-    commentId: 3,
-    nickname: 'user3',
-    contents: '두 번째 댓글',
-    createdAt: '2024-05-03T10:00:00Z',
-    modifiedAt: '2024-05-03T11:00:00Z',
-    likeCount: 5,
-    replies: []
+const props = defineProps({
+  comments: {
+    type: Array,
+    required: true
   }
-]);
+});
 
 const replyingToId = ref(null);
 const activeOptionsId = ref(null);
