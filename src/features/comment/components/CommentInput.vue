@@ -1,5 +1,5 @@
 <template>
-  <div class="comment-input">
+  <div :class="['comment-input', { 'editing-mode': isEditing }]">
     <div class="input-area">
       <textarea
           v-model="newComment"
@@ -70,6 +70,11 @@ const cancelEdit = () => {
   display: flex;
   padding: 10px;
   border-bottom: 2px solid #eee;
+}
+
+/* isEditing이 true일 때 적용될 클래스 */
+.editing-mode {
+  border-bottom: none;
 }
 
 .input-area {
