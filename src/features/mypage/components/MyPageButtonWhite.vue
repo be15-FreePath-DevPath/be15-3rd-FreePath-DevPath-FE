@@ -1,9 +1,15 @@
 <script setup>
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
+
+const goTo = () => {
+  router.push('/')
+}
 </script>
 
 <template>
-<button class="button">
+  <button class="button" @click="goTo">
   <text class="text">차단한 회원</text>
 </button>
 </template>
@@ -18,6 +24,7 @@
   padding:13.2px;
   border-style:hidden;
   outline:none;
+  cursor: pointer;
 }
 
 .text

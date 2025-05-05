@@ -5,6 +5,7 @@ import MyPageProfile from "@/features/mypage/components/MyPageProfile.vue";
 import MyPageButtonBlue from "@/features/mypage/components/MyPageButtonBlue.vue";
 import MyPageButtonWhite from "@/features/mypage/components/MyPageButtonWhite.vue";
 import MyPageContent from "@/features/mypage/components/MyPageContent.vue";
+
 </script>
 
 <template>
