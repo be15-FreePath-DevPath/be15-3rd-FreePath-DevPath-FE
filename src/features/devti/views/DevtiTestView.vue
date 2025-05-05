@@ -21,7 +21,7 @@ const handleAnswer = (value) => {
       answers.value.T >= 2 ? 'T' : 'M',
       answers.value.F >= 2 ? 'F' : 'D'
     ].join('')
-    router.push(`/mypage/devti/result/${result}`)
+    router.push({ path: '/mypage/devti/result', query: { type: result } });
   }
 }
 </script>
