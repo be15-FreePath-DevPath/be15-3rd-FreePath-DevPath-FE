@@ -3,7 +3,7 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import SectionTitle from '@/features/interview/components/SectionTitle.vue'
 import OptionSelectGrid from '@/features/interview/components/OptionSelectGrid.vue'
-import { fetchInterviewDetail } from '@/features/interview/api.js'
+import {fetchInterviewProgressStart} from '@/features/interview/api.js'
 
 const router = useRouter()
 
@@ -20,23 +20,29 @@ const categories = [
 const difficulties = ['EASY', 'MEDIUM', 'HARD']
 const strictnessLevels = ['관대함', '표준', '엄격함']
 
-// 더미 인터뷰 데이터를 불러오는 onMounted
-const dummyInterview = ref(null)
-
-onMounted(async () => {
-  const { data } = await fetchInterviewDetail(45) // 더미 인터뷰 하나 고정 ID로 조회
-  dummyInterview.value = data
-})
-
-const handleStartInterview = () => {
+const handleStartInterview = async () => {
   if (!selectedCategory.value || !selectedDifficulty.value || !selectedStrictness.value) {
     alert('모든 항목을 선택해주세요.')
     return
   }
 
-  // 실제 API 요청은 생략하고, 더미 인터뷰 ID로 이동
-  const newInterviewId = dummyInterview.value?.interviewRoomId || 45
-  router.push(`/interview/detail/${newInterviewId}`)
+  // 면접 시작 API 호출 → 첫 질문 포함 데이터
+  const { data } = await fetchInterviewProgressStart(
+      selectedCategory.value,
+      selectedDifficulty.value,
+      selectedStrictness.value
+  )
+
+  // 면접 진행 화면으로 이동 (면접방 ID 전달)
+  await router.push({
+    path: `/interview/progress/${data.interviewRoomId}`,
+    query: {
+      title: data.interviewRoomTitle,
+      category: data.difficultyLevel,
+      strictness: data.evaluationStrictness,
+      firstQuestion: data.firstQuestion
+    }
+  })
 }
 </script>
 

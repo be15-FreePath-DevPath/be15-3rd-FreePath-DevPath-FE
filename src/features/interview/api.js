@@ -1,7 +1,7 @@
 export const fetchInterviewRooms = async ({ page = 1, sortOrder = 'desc', category, difficulty, evaluation } = {}) => {
     const allInterviews = [
                 {
-                    id: 45,
+                    id: 1,
                     title: "운영체제_20241221_1030",
                     summary: "총평의 미리보기가 보여집니다.",
                     category: "운영체제",
@@ -10,7 +10,7 @@ export const fetchInterviewRooms = async ({ page = 1, sortOrder = 'desc', catego
                     score: 100,
                     createdAt: "2024-12-21T10:30:00"
                 },
-                {
+                /*{
                     id: 2,
                     title: "운영체제_20241222_1030",
                     summary: "총평의 미리보기가 보여집니다.",
@@ -299,7 +299,17 @@ export const fetchInterviewRooms = async ({ page = 1, sortOrder = 'desc', catego
                     evaluation: "strict",
                     score: 88,
                     createdAt: "2025-01-19T10:30:00"
-                },
+                },*/,
+                {
+                    id: 30,
+                    title: "클라우드 & 인프라_20250119_1030",
+                    summary: "총평의 미리보기가 보여집니다.",
+                    category: "클라우드 & 인프라",
+                    difficulty: "hard",
+                    evaluation: "strict",
+                    score: 88,
+                    createdAt: "2025-01-19T10:30:00"
+                }
             ]
 
     // 필터 적용
@@ -395,3 +405,47 @@ export const fetchInterviewDetail = async (id) => {
 
     return Promise.resolve({ data: dummyData })
 }
+
+export const fetchInterviewProgressStart = async (category, difficulty, strictness) => {
+    return Promise.resolve({
+        data: {
+            interviewRoomId: 999, // 가상의 면접방 ID
+            interviewRoomTitle: `${category}_${new Date().toISOString().slice(0, 16).replace(/[-T:]/g, '').slice(0, 14)}`,
+            interviewRoomStatus: "PROGRESS",
+            difficultyLevel: difficulty,
+            evaluationStrictness: strictness,
+            firstQuestion: "[면접 질문] 프로세스와 스레드의 가장 큰 차이점은 무엇인가요?"
+        }
+    });
+};
+
+
+// 다음 질문 요청: 답변에 대한 평가와 다음 질문 제공
+export const fetchNextQuestion = async (interviewRoomId, interviewIndex, userAnswer) => {
+    // 더미 질문과 평가
+    const dummyData = [
+        {
+            gptEvaluation: "[답변 평가] 총점: 65 - 첫 질문에 대한 평가입니다.",
+            nextQuestion: "[면접 질문] 운영체제에서 멀티태스킹과 멀티프로세싱의 차이는 무엇인가요?"
+        },
+        {
+            gptEvaluation: "[답변 평가] 총점: 55 - 두 번째 질문에 대한 평가입니다.",
+            nextQuestion: "[면접 질문] 메모리 단편화란 무엇인가요?"
+        },
+        {
+            gptEvaluation: "[답변 평가] 총점: 75 - 세 번째 질문에 대한 평가입니다.",
+            nextQuestion: null // 마지막 질문이므로 null
+        }
+    ];
+
+    const index = interviewIndex - 1;
+
+    return Promise.resolve({
+        data: {
+            interviewRoomId,
+            userAnswer,
+            gptEvaluation: dummyData[index]?.gptEvaluation || "평가 없음",
+            nextQuestion: dummyData[index]?.nextQuestion || null
+        }
+    });
+};
