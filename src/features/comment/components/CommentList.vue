@@ -24,10 +24,11 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
+import {ref, watch, onMounted, onBeforeUnmount, computed} from 'vue';
 import CommentItem from './CommentItem.vue';
 import CommentInput from './CommentInput.vue';
-import {deleteComment, reportComment, updateComment} from "@/features/comment/api.js";
+import {deleteComment, reportComment, saveComment, updateComment} from "@/features/comment/api.js";
+import {useRoute} from "vue-router";
 
 const props = defineProps({
   comments: {
@@ -57,14 +58,44 @@ const onToggleOptions = (id) => {
   activeOptionsId.value = activeOptionsId.value === id ? null : id;
 };
 
-const submitReply = ({ parentId, content }) => {
-  console.log(`댓글 ${parentId}에 답글 작성:`, content);
-  replyingToId.value = null;
+//queryString에서 게시글 Id 받아오기
+const route  = useRoute();
+const boardId = computed(() => Number(route.params.id));
+
+const submitReply = async ({ parentId, content }) => {
+  try {
+    console.log(boardId.value);
+    console.log(parentId);
+    const response = await saveComment({ postId:boardId.value, parentCommentId: parentId, contents: content });
+
+    const newReply = response.data.result;
+
+    // 답글은 localComments에서 해당 부모 댓글 찾아서 replies 배열에 push
+    const parent = localComments.value.find(c => c.commentId === parentId);
+    if (parent) {
+      if (!parent.replies) parent.replies = [];
+      parent.replies.push(newReply);
+    }
+
+    replyingToId.value = null;
+  } catch (e) {
+    const msg = e?.response?.data?.message || '답글 작성 중 오류가 발생했습니다.';
+    alert(msg);
+  }
 };
 
-const submitMainComment = (content) => {
-  console.log('기본 댓글 작성:', content);
+const submitMainComment = async (content) => {
+  try {
+    const response = await saveComment({ postId:boardId.value, contents: content });
+
+    const newComment = response.data.result;
+    localComments.value.push(newComment);
+  } catch (e) {
+    const msg = e?.response?.data?.message || '댓글 작성 중 오류가 발생했습니다.';
+    alert(msg);
+  }
 };
+
 
 const onDelete = async (id) => {
   if (!confirm('정말 삭제하시겠습니까?')) return;
@@ -72,7 +103,7 @@ const onDelete = async (id) => {
     await deleteComment(id);
     alert('삭제되었습니다.');
 
-    // ✅ 삭제 후 로컬 상태에서 반영
+    // 삭제 후 로컬 상태에서 반영
     localComments.value = localComments.value.filter(c => c.commentId !== id);
   } catch (e) {
     const message =
@@ -82,13 +113,31 @@ const onDelete = async (id) => {
   }
 };
 
+// 대댓글인 경우 local에서 관리하는 댓글의 내용을 덮어쓰기 위해 재귀적으로 탐색
+function findCommentById(comments, commentId) {
+  for (const comment of comments) {
+    if (comment.commentId === commentId) {
+      return comment;
+    }
+
+    if (comment.replies && comment.replies.length > 0) {
+      const found = findCommentById(comment.replies, commentId);
+      if (found) {
+        return found;
+      }
+    }
+  }
+
+  return null;
+}
+
 const onModify = async ({ commentId, content }) => {
   try {
     await updateComment(commentId, content);
     alert('댓글이 수정되었습니다.');
 
     // 내부에서 관리하는 commentId에 해당하는 content 값을 변경된 내용으로 덮어씌움
-    const target = localComments.value.find(c => c.commentId === commentId);
+    const target = findCommentById(localComments.value, commentId);
     if (target) {
       target.contents = content;
     }
