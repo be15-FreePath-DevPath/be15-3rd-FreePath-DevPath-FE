@@ -15,7 +15,7 @@ export const boardRoutes = [
         component : () => import('@/features/board/views/ProjectBoardListView.vue')
     },
     {
-        path: '/board/1',
+        path: `/board/:id`,
         name: 'PostDetail',
         component : () => import('@/features/board/views/PostDetailView.vue')
     },

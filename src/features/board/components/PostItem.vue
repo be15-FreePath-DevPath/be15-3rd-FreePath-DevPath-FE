@@ -15,10 +15,11 @@
 
 <script setup>
 const props = defineProps({
+  id: { type: Number, required: true },   // ← 이 줄 추가
   text: { type: String, required: true },
   date: { type: String, required: true },
   user: { type: String, required: true },
-})
+});
 </script>
 
 <style scoped>
