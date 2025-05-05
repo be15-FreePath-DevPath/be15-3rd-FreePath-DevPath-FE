@@ -1,31 +1,61 @@
 <script setup>
 import { ref, watch, onMounted, nextTick } from 'vue'
+import { isEqual } from 'lodash'
+
+const questionRef = ref(null)
+const explanationRef = ref(null)
+const optionRefs = ref([])
 
 const props = defineProps({
   modelValue: Object,
   isReadOnly: Boolean
 })
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'invalidAnswer'])
 
 const localQuiz = ref({
-  question: props.modelValue?.question || '',
-  options: props.modelValue?.options || ['', '', '', ''],
-  answer: props.modelValue?.answer || '',
-  explanation: props.modelValue?.explanation || ''
+  question: '',
+  options: ['', '', '', ''],
+  answer: '',
+  explanation: ''
 })
 
-watch(() => localQuiz.value, (val) => {
-  emit('update:modelValue', val)
-}, { deep: true })
+// props.modelValue가 바뀌면 localQuiz 초기화
+watch(() => props.modelValue, (newVal) => {
+  if (newVal) {
+    localQuiz.value = {
+      question: newVal.question || '',
+      options: newVal.options || ['', '', '', ''],
+      answer: newVal.answer || '',
+      explanation: newVal.explanation || ''
+    }
 
-const questionRef = ref(null)
+    nextTick(() => {
+      autoResize(questionRef.value)
+      autoResize(explanationRef.value)
+      optionRefs.value.forEach(el => autoResize(el))
+    })
+  }
+}, { immediate: true })
+
+// 로컬 값이 바뀌면 부모로 emit
+watch(() => localQuiz.value, (val) => {
+  if (!isEqual(val, props.modelValue)) {
+    emit('update:modelValue', val)
+  }
+}, { deep: true })
 
 function autoResize(el) {
   if (el) {
-    el.style.height = '20px' // 기본 한 줄 높이
-    if (el.scrollHeight > el.clientHeight) {
-      el.style.height = `${el.scrollHeight}px`
-    }
+    el.style.height = '20px'
+    el.style.height = `${el.scrollHeight}px`
+  }
+}
+
+function validateAnswer() {
+  const num = Number(localQuiz.value.answer)
+  if (isNaN(num) || num < 1 || num > 4) {
+    emit('invalidAnswer')
+    localQuiz.value.answer = ''
   }
 }
 
@@ -59,6 +89,7 @@ onMounted(() => {
             class="auto-textarea"
             rows="1"
             @input="e => autoResize(e.target)"
+            :ref="el => optionRefs[index] = el"
         />
       </div>
     </div>
@@ -71,6 +102,8 @@ onMounted(() => {
           min="1"
           max="4"
           :readonly="isReadOnly"
+          @blur="validateAnswer"
+          @keydown.enter="validateAnswer"
       />
     </div>
 
@@ -82,6 +115,7 @@ onMounted(() => {
           class="auto-textarea"
           rows="1"
           @input="e => autoResize(e.target)"
+          ref="explanationRef"
       />
     </div>
   </div>

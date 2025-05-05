@@ -44,7 +44,7 @@ defineProps({
     >로그인
     </RouterLink>
     <RouterLink
-        to="/"
+        to="/user/signup"
         class="user-button"
         size="small"
     >회원 가입

@@ -1,54 +1,51 @@
 <script setup>
-import {useRouter} from 'vue-router'
-import {onMounted, ref} from 'vue'
+import { useRouter } from 'vue-router'
+import { onMounted, ref, computed } from 'vue'
+import { useToast } from 'vue-toastification'
+import { getUserCsQuizResult } from '@/features/csquiz/api.js'
 
-const newBreadCrumbItems = ref(['CS 퀴즈', 'CS 퀴즈 결과']);
-const emit = defineEmits(['updateBreadCrumb']);
-
-onMounted(() => {
-  emit('updateBreadCrumb', newBreadCrumbItems.value);
-});
-
+const toast = useToast()
+const newBreadCrumbItems = ref(['CS 퀴즈', 'CS 퀴즈 결과'])
+const emit = defineEmits(['updateBreadCrumb'])
 const router = useRouter()
 
-const results = ref([
-  {
-    question: '객체지향 프로그래밍의 4대 특징 중 하나가 아닌 것은?',
-    options: ['상속', '다형성', '병렬성', '캡슐화'],
-    correctAnswer: 2,
-    userAnswer: 3,
-    explanation: '객체지향의 4대 특징은 상속, 캡슐화, 다형성, 추상화입니다.'
-  },
-  {
-    question: 'Spring Framework에서 의존성 주입의 주된 목적은 무엇인가요?',
-    options: [
-      '객체의 재사용성을 높이기 위해',
-      '모든 객체를 자동으로 생성하기 위해',
-      '객체 간 결합도를 낮추고 유연하고 테스트하기 쉬운 구조를 만들기 위해',
-      'JVM의 성능을 향상시키기 위해'
-    ],
-    correctAnswer: 2,
-    userAnswer: 2,
-    explanation: '의존성 주입은 객체 간 결합도를 낮추고 테스트하기 쉬운 구조를 만들기 위한 설계 원칙입니다.'
-  },
-  {
-    question: '자바에서 기본 자료형이 아닌 것은?',
-    options: ['int', 'Integer', 'double', 'char'],
-    correctAnswer: 1,
-    userAnswer: 1,
-    explanation: 'Integer는 객체형이므로 기본 자료형이 아닙니다.'
-  }
-])
+const results = ref([])
 
-const score = results.value.filter(r => r.correctAnswer === r.userAnswer).length
-const total = results.value.length
+onMounted(async () => {
+  emit('updateBreadCrumb', newBreadCrumbItems.value)
+
+  try {
+    const res = await getUserCsQuizResult()
+    const data = res.data
+
+    if (!data || data.length === 0) {
+      toast.warning('아직 응시한 퀴즈가 없습니다.', { position: 'top-center' })
+      return router.push('/csquiz')
+    }
+
+    results.value = data.map(item => ({
+      question: item.csquizContents,
+      options: item.options.map(opt => opt.optionContents),
+      correctAnswer: item.csquizAnswer - 1,
+      userAnswer: item.userAnswer - 1,
+      explanation: item.csquizExplanation,
+      isCorrect: item.isCsquizCorrect === 'Y'
+    }))
+  } catch (e) {
+    console.error('결과 조회 실패:', e)
+    toast.error('결과 데이터를 불러오지 못했습니다.', { position: 'top-center' })
+  }
+})
+
+const score = computed(() => results.value.filter(r => r.isCorrect).length)
+const total = computed(() => results.value.length)
 
 const goToMain = () => router.push('/csquiz')
 </script>
 
+
 <template>
   <div class="result-page">
-    <!-- 상단 요약 -->
     <div class="result-summary">
       <div class="icon-title">
         <span class="check-icon">✅</span>
@@ -58,14 +55,9 @@ const goToMain = () => router.push('/csquiz')
       <p class="summary-percent">정답률: {{ Math.round((score / total) * 100) }}%</p>
     </div>
 
-    <!-- 문제 카드 반복 -->
-    <div
-        v-for="(result, index) in results"
-        :key="index"
-        class="quiz-result-card"
-    >
+    <div v-for="(result, index) in results" :key="index" class="quiz-result-card">
       <div class="question-header">
-        <span class="mark">{{ result.userAnswer === result.correctAnswer ? '✔️' : '❌' }}</span>
+        <span class="mark">{{ result.isCorrect ? '✔️' : '❌' }}</span>
         <span class="question-text">{{ index + 1 }}. {{ result.question }}</span>
       </div>
 
@@ -79,7 +71,7 @@ const goToMain = () => router.push('/csquiz')
             'option-item',
             {
               'is-selected': optIdx === result.userAnswer,
-              'is-wrong': optIdx === result.userAnswer && result.userAnswer !== result.correctAnswer
+              'is-wrong': optIdx === result.userAnswer && !result.isCorrect
             }
           ]"
         >
@@ -90,7 +82,6 @@ const goToMain = () => router.push('/csquiz')
       <p class="explanation-box">해설: {{ result.explanation }}</p>
     </div>
 
-    <!-- 수고 및 돌아가기 -->
     <div class="result-footer">
       <p class="footer-text">수고하셨습니다👏</p>
       <div class="button-wrapper">

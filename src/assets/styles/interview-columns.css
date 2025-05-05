@@ -1,0 +1,8 @@
+:root {
+    --interview-width: 1116px;
+
+    --column-score: 80px;
+    --column-date: 200px;
+    --column-type: 180px;
+    --column-title: calc(var(--interview-width) - var(--column-score) - var(--column-date) - var(--column-type));
+}

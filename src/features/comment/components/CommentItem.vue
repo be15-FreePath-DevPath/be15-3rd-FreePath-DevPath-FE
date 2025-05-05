@@ -1,5 +1,8 @@
 <template>
-  <div :class="['comment-wrapper', { reply: depth > 0 }]">
+  <div
+      :class="['comment-wrapper', { reply: depth > 0 }]"
+      :style="{ marginLeft: `${depth * 50}px` }"
+  >
     <div class="comment-item">
       <img src="@/assets/images/board/ProfileImage.png" alt="프로필 이미지" class="profile-image" />
       <div class="comment-content">

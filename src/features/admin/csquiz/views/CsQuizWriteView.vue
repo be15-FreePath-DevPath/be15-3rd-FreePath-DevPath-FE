@@ -1,17 +1,20 @@
 <script setup>
-import {ref, computed, onMounted} from 'vue'
-import {useRouter} from 'vue-router'
+import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
+
 import CsQuizForm from '@/features/admin/csquiz/components/CsQuizForm.vue'
+import { createAdminCsQuiz } from '@/features/admin/csquiz/api.js'
 
-const newBreadCrumbItems = ref(['관리자페이지', 'CS 퀴즈 목록' ,'CS 퀴즈 등록']);
-const emit = defineEmits(['updateBreadCrumb']);
-
-onMounted(() => {
-  emit('updateBreadCrumb', newBreadCrumbItems.value);
-});
-
+const newBreadCrumbItems = ref(['관리자페이지', 'CS 퀴즈 목록', 'CS 퀴즈 등록'])
+const emit = defineEmits(['updateBreadCrumb'])
 
 const router = useRouter()
+const toast = useToast()
+
+onMounted(() => {
+  emit('updateBreadCrumb', newBreadCrumbItems.value)
+})
 
 const quizForm = ref({
   question: '',
@@ -21,10 +24,11 @@ const quizForm = ref({
 })
 
 const isValid = computed(() => {
+  const ans = Number(quizForm.value.answer)
   return (
       quizForm.value.question.trim() !== '' &&
       quizForm.value.explanation.trim() !== '' &&
-      quizForm.value.answer !== '' &&
+      !isNaN(ans) && ans >= 1 && ans <= 4 &&
       quizForm.value.options.every(opt => opt.trim() !== '')
   )
 })
@@ -33,7 +37,7 @@ const goToList = () => {
   router.push('/admin?tab=quiz')
 }
 
-const handleSubmit = () => {
+const handleSubmit = async () => {
   const payload = {
     csquizContents: quizForm.value.question,
     csquizAnswer: Number(quizForm.value.answer),
@@ -44,16 +48,26 @@ const handleSubmit = () => {
       optionContents: content
     }))
   }
-  console.log('전송될 데이터:', payload) // 추후 axios.post
-  alert('퀴즈가 등록되었습니다.')
-  goToList()
+
+  try {
+    await createAdminCsQuiz(payload)
+    toast.success('퀴즈가 등록되었습니다.', { position: 'top-center' })
+    goToList()
+  } catch (e) {
+    console.error('퀴즈 등록 실패', e)
+    toast.error('퀴즈 등록 중 오류가 발생했습니다.', { position: 'top-center' })
+  }
 }
 </script>
 
 <template>
   <div class="create-wrapper">
     <h1 class="page-title">CS 퀴즈 등록</h1>
-    <CsQuizForm v-model="quizForm" :isReadOnly="false"/>
+    <CsQuizForm
+        v-model="quizForm"
+        :isReadOnly="false"
+        @invalidAnswer="toast.warning('정답 번호는 1부터 4 사이여야 합니다.', { position: 'top-center' })"
+    />
     <div class="button-area">
       <button @click="goToList">CS 퀴즈 목록</button>
       <button :disabled="!isValid" @click="handleSubmit">퀴즈 등록</button>
