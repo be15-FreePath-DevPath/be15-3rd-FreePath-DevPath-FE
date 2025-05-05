@@ -1,5 +1,6 @@
 import InterviewListView from './views/InterviewListView.vue';
 import InterviewDetailView from "@/features/interview/views/InterviewDetailView.vue";
+import InterviewRunView from "@/features/interview/views/InterviewRunView.vue";
 
 export const interviewRoutes = [
     {
@@ -12,5 +13,10 @@ export const interviewRoutes = [
         name: 'InterviewDetailView',
         component: InterviewDetailView,
         props: true
+    },
+    {
+        path: '/interview/run',
+        name: 'InterviewRun',
+        component: InterviewRunView
     }
 ];
