@@ -13,7 +13,9 @@ defineProps({
     <div class="title-area">
       <div class="title-text">{{ title }}</div>
     </div>
-    <slot />
+    <div class="content-area">
+      <slot />
+    </div>
   </div>
 
 </template>
@@ -48,5 +50,15 @@ defineProps({
   outline:none;
   width:100%;
   font-weight: 600;
+}
+
+.content-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  height: 100%;
 }
 </style>

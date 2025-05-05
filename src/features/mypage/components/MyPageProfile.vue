@@ -1,5 +1,7 @@
 <script setup>
 
+import MyPageButtonUpdate from "@/features/mypage/components/MyPageButtonUpdate.vue";
+import Vector from "@/assets/images/user/vector.png"
 </script>
 
 <template>
@@ -12,6 +14,13 @@
       <div class="profile-text">IT 기사 구독</div>
       <div class="profile-text">개발자 MBTI</div>
     </div>
+  </div>
+  <div class="button-area">
+    <MyPageButtonUpdate
+        text="내 정보 수정하기"
+        goTo="/mypage/edit"
+        :icon="Vector"
+    />
   </div>
 </template>
 
@@ -44,5 +53,12 @@
 
 .profile-text{
   font-size:14px;
+}
+
+.button-area {
+  display: flex;
+  justify-content: flex-start; /* 왼쪽 정렬 */
+  align-items: center; /* 세로 가운데 정렬 */
+  width: 100%; /* 부모 높이를 기준으로 가운데 맞춤 */
 }
 </style>
