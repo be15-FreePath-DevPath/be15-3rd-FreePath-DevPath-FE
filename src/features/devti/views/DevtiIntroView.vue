@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const startTest = () => {
-  router.push('/devti/test')
+  router.push('/mypage/devti/test')
 }
 </script>
 
