@@ -6,10 +6,12 @@ const props = defineProps({
   posts: {
     type: Array,
     required: true
+  },
+  category: {
+    type: String,
+    required: true
   }
 });
-
-console.log(props.posts);
 </script>
 
 <template>
@@ -20,6 +22,7 @@ console.log(props.posts);
       :text="post.text"
       :date="post.date"
       :user="post.user"
+      :category="category"
   />
 </template>
 

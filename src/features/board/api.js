@@ -7,3 +7,7 @@ const api = axios.create({
 export function fetchPostList(params) {
     return api.get('/board/search', { params });
 }
+
+export function fetchPostDetail(postId) {
+    return api.get(`/board/${postId}`);
+}
