@@ -9,10 +9,6 @@ const props = defineProps({
   goTo: {
     type: String,
     default: ''
-  },
-  icon: {
-    type: String,
-    default: ''
   }
 })
 
@@ -23,11 +19,13 @@ function handleClick() {
     router.push(props.goTo)
   }
 }
+
+const iconSrc = new URL('@/assets/images/user/vector.png', import.meta.url).href
 </script>
 
 <template>
   <div class="button-frame" @click="handleClick">
-    <img :src="icon" alt="img" class="icon" />
+    <img :src="iconSrc" alt="icon" class="icon" />
     <div class="text">{{ text }}</div>
   </div>
 </template>
@@ -60,5 +58,6 @@ function handleClick() {
   line-height: 20px;
   border-style: hidden;
   outline: none;
+  white-space: nowrap;
 }
 </style>

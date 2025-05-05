@@ -1,7 +1,6 @@
 <script setup>
 
 import MyPageButtonUpdate from "@/features/mypage/components/MyPageButtonUpdate.vue";
-import Vector from "@/assets/images/user/vector.png"
 </script>
 
 <template>
@@ -19,7 +18,6 @@ import Vector from "@/assets/images/user/vector.png"
     <MyPageButtonUpdate
         text="내 정보 수정하기"
         goTo="/mypage/edit"
-        :icon="Vector"
     />
   </div>
 </template>
