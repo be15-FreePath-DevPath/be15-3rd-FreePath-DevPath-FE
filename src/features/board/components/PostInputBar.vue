@@ -71,6 +71,10 @@ const categories = [
   margin-bottom: 16px;
 }
 
+/deep/ .ql-editor {
+  min-height: 400px;
+}
+
 .form-group label {
   display: block;
   margin-bottom: 4px;
