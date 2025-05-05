@@ -420,21 +420,22 @@ export const fetchInterviewProgressStart = async (category, difficulty, strictne
 };
 
 
-// 다음 질문 요청: 답변에 대한 평가와 다음 질문 제공
 export const fetchNextQuestion = async (interviewRoomId, interviewIndex, userAnswer) => {
-    // 더미 질문과 평가
     const dummyData = [
         {
             gptEvaluation: "[답변 평가] 총점: 65 - 첫 질문에 대한 평가입니다.",
-            nextQuestion: "[면접 질문] 운영체제에서 멀티태스킹과 멀티프로세싱의 차이는 무엇인가요?"
+            nextQuestion: "[면접 질문] 운영체제에서 멀티태스킹과 멀티프로세싱의 차이는 무엇인가요?",
+            isLast: false
         },
         {
             gptEvaluation: "[답변 평가] 총점: 55 - 두 번째 질문에 대한 평가입니다.",
-            nextQuestion: "[면접 질문] 메모리 단편화란 무엇인가요?"
+            nextQuestion: "[면접 질문] 메모리 단편화란 무엇인가요?",
+            isLast: true // ← 마지막 질문임을 명시!
         },
         {
             gptEvaluation: "[답변 평가] 총점: 75 - 세 번째 질문에 대한 평가입니다.",
-            nextQuestion: null // 마지막 질문이므로 null
+            nextQuestion: null,
+            isLast: true
         }
     ];
 
@@ -445,7 +446,9 @@ export const fetchNextQuestion = async (interviewRoomId, interviewIndex, userAns
             interviewRoomId,
             userAnswer,
             gptEvaluation: dummyData[index]?.gptEvaluation || "평가 없음",
-            nextQuestion: dummyData[index]?.nextQuestion || null
+            nextQuestion: dummyData[index]?.nextQuestion || null,
+            isLast: dummyData[index]?.isLast || false
         }
     });
 };
+

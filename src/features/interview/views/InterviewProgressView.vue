@@ -31,22 +31,29 @@ const isFinalQuestion = ref(false)
 
 // 다음 질문 요청
 const handleNext = async () => {
-  const { data: interviewData } = await fetchNextQuestion({
-    interviewRoomId: interviewId,
-    interviewIndex: currentIndex.value,
-    userAnswer: userAnswer.value
-  })
+  const interviewIndex = currentIndex.value;
 
-  gptEvaluation.value = interviewData.gptEvaluation
-  userAnswer.value = ''
-  currentIndex.value++
-
-  if (interviewData.nextQuestion) {
-    currentQuestion.value = interviewData.nextQuestion
-  } else {
-    isFinalQuestion.value = true
+  // 질문 3이면 → 미리 마지막 질문으로 판단
+  if (interviewIndex === 3) {
+    isFinalQuestion.value = true;
   }
-}
+
+  const { data: nextData } = await fetchNextQuestion(
+      interviewId,
+      interviewIndex,
+      userAnswer.value
+  );
+
+  gptEvaluation.value = nextData.gptEvaluation;
+  userAnswer.value = '';
+
+  if (nextData.isLast) {
+    isFinalQuestion.value = true
+  } else {
+    currentIndex.value++
+    currentQuestion.value = nextData.nextQuestion
+  }
+};
 
 // 마지막 제출
 const handleSubmit = () => {
@@ -79,10 +86,6 @@ const handleSubmit = () => {
       <button v-else class="submit-button" @click="handleSubmit">제출하기</button>
     </div>
 
-    <div v-if="gptEvaluation" class="evaluation-box">
-      <div class="evaluation-label">GPT 평가</div>
-      <pre class="evaluation-content">{{ gptEvaluation }}</pre>
-    </div>
   </div>
 </template>
 
