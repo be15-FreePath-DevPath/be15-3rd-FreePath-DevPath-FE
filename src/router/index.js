@@ -9,6 +9,7 @@ import {boardRoutes} from "@/features/board/router.js";
 import {userRoutes} from "@/features/user/router.js";
 import {adminCsQuizRoutes} from "@/features/admin/csquiz/router.js";
 import {mypageRoutes} from "@/features/mypage/router.js";
+import {devtiRoutes} from '@/features/devti/router.js'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -25,7 +26,8 @@ const router = createRouter({
                 ...boardRoutes,
                 ...userRoutes,
                 ...adminCsQuizRoutes,
-                ...mypageRoutes
+                ...mypageRoutes,
+                ...devtiRoutes,
             ]
         }
     ]
