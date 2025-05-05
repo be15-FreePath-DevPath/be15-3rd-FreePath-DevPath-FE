@@ -9,20 +9,20 @@ import UserWhiteButton from "@/features/user/components/UserButtonWhite.vue";
   <div class="content-frame">
     <UserLogo />
     <UserForm
-        title="Welcome to DevPath"
-        subtitle="처음 방문하시나요?"
+        title="Welcome back to DevPath"
+        subtitle="다시 와주셨군요!"
     >
       <UserWhiteButton
-          general="일반 회원가입"
-          google="구글 회원가입"
-          generalUrl="/user/signup/general"
-          googleUrl="/user/signup/google"
+          general="일반 로그인"
+          google="구글 로그인"
+          generalUrl="/user/login/general"
+          googleUrl=""
       />
     </UserForm>
     <UserExtraService
-        topText="이미 가입한 회원이신가요?"
-        :links="['로그인 하러 가기']"
-        :urls="['/user/login']"
+        topText="아직 회원이 아니신가요?"
+        :links="['회원가입 하러 가기']"
+        :urls="['/user/signup']"
     />
   </div>
 </template>

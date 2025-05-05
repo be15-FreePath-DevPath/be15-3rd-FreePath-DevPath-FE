@@ -9,6 +9,10 @@ const props = defineProps({
   goTo: {
     type: String,
     default: ''
+  },
+  icon: {
+    type: String,
+    default: ''
   }
 })
 
@@ -23,7 +27,7 @@ function handleClick() {
 
 <template>
   <div class="button-frame" @click="handleClick">
-    <img src="@/assets/images/user/four_leaf_clover.png" alt="img" class="icon" />
+    <img :src="icon" alt="img" class="icon" />
     <div class="text">{{ text }}</div>
   </div>
 </template>
