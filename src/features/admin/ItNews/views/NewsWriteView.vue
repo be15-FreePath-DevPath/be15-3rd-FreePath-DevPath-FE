@@ -1,9 +1,17 @@
 <script setup>
-import { ref, computed } from 'vue'
+import {ref, computed, onMounted} from 'vue'
 import { useRouter } from 'vue-router'
 import NewsForm from '@/features/admin/ItNews/components/NewsForm.vue'
-import LayoutDefault from '@/components/layout/LayoutDefault.vue'
 import { saveNews } from '@/features/admin/ItNews/api.js'  // 실제 뉴스 등록 API import
+
+
+const newBreadCrumbItems = ref(['관리자페이지', 'IT 기사 목록' ,'IT 기사 등록']);
+const emit = defineEmits(['updateBreadCrumb']);
+
+onMounted(() => {
+  emit('updateBreadCrumb', newBreadCrumbItems.value);
+});
+
 
 const router = useRouter()
 
