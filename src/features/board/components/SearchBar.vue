@@ -1,6 +1,6 @@
 <template>
   <div class="search-bar">
-    <input v-model="keyword" placeholder="검색어를 입력하세요" />
+    <input v-model="keyword" placeholder="검색어를 입력하세요" @keyup.enter="search"/>
 
     <button @click="toggleFilter">필터</button>
 
@@ -63,23 +63,38 @@ const toggleFilter = () => {
 
 // 체크박스 단일 선택 로직
 const handleCheckboxChange = (key) => {
-  filters.title = false;
-  filters.content = false;
-  filters.user = false;
-  filters[key] = true;
-  // 날짜 초기화
-  filters.startDate = '';
-  filters.endDate = '';
+  if (key === 'content') {
+    // 내용 선택 시: 제목, 작성자, 날짜 초기화
+    filters.title = false;
+    filters.user = false;
+    filters.startDate = '';
+    filters.endDate = '';
+    filters.content = !filters.content;
+    return;
+  }
+
+  // 내용이 이미 선택돼 있으면 해제
+  if (filters.content) filters.content = false;
+
+  // 제목 선택 시 → 작성자 해제
+  if (key === 'title') {
+    filters.title = !filters.title;
+    if (filters.title && filters.user) filters.user = false;
+  }
+
+  // 작성자 선택 시 → 제목 해제
+  if (key === 'user') {
+    filters.user = !filters.user;
+    if (filters.user && filters.title) filters.title = false;
+  }
 };
 
-// 날짜 입력 시 → 체크박스 초기화
 watch(
     () => [filters.startDate, filters.endDate],
     ([start, end]) => {
       if (start || end) {
-        filters.title = false;
+        // 날짜 선택 시 내용 필터는 무조건 해제
         filters.content = false;
-        filters.user = false;
       }
     }
 );
@@ -112,9 +127,12 @@ const search = () => {
   }
 
   emit('search', {
-    keyword: keyword.value,
-    ...filters,
+    keyWord: filters.title ? keyword.value : undefined,
+    nickname: filters.user ? keyword.value : undefined,
+    startDate: filters.startDate || undefined,
+    endDate: filters.endDate || undefined,
   });
+
 };
 
 
