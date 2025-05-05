@@ -1,11 +1,12 @@
 <script setup>
-import { onMounted, ref, reactive } from "vue";
+import {onMounted, ref, reactive, nextTick} from "vue";
 import { useRouter } from "vue-router";
 import PagingBar from "@/components/common/PagingBar.vue";
 import { getReportList } from "@/features/admin/report/api.js";
+import { useReportStore } from "@/features/admin/report/reportStore.js";
 
+const store = useReportStore();
 const router = useRouter();
-
 const reports = ref([]);
 const isLoading = ref(true);
 
@@ -15,25 +16,19 @@ const pagination = reactive({
   totalItems: 0
 });
 
-// 날짜 포맷 함수
 const formatDateTime = (dateString) => {
   if (!dateString) return '';
   const date = new Date(dateString);
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
-  return `${year}년${month}월${day}일 ${hours}:${minutes}`;
+  return `${date.getFullYear()}년${String(date.getMonth() + 1).padStart(2, '0')}월${String(date.getDate()).padStart(2, '0')}일 ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
 };
 
-// 신고 목록 불러오기
 const fetchReports = async (page = 1) => {
   isLoading.value = true;
   try {
     const response = await getReportList();
     reports.value = response.data.reportCheckList || [];
     pagination.totalItems = reports.value.length;
+    console.log(response.data);
   } catch (error) {
     console.error("신고 목록 불러오기 실패:", error);
   } finally {
@@ -41,15 +36,26 @@ const fetchReports = async (page = 1) => {
   }
 };
 
-// 페이지 변경 처리 (페이지네이션이 실제 구현되면 사용)
 const handlePageChange = (page) => {
-  console.log("페이지 변경 요청됨:", page);
   fetchReports(page);
 };
 
-// 신고 상세 페이지로 이동
-const goToReportDetail = (id) => {
-  router.push(`/report/check/${id}`);
+const goToReportDetail = (report) => {
+  console.log("선택된 보고서:", report);  // 실제 데이터 확인
+
+  store.setReport(report);  // Pinia store에 데이터 저장 후
+  nextTick(() => {
+    const currentReport = store.currentReport;
+
+    // reportCheckDto와 reportCheckId가 존재하는지 확인
+    const reportCheckId = currentReport?.reportCheckDto?.reportCheckId;
+    if (reportCheckId) {
+      router.push(`/report/check/${reportCheckId}`);  // reportCheckId로 라우팅
+    } else {
+      console.error("신고 데이터가 없습니다. (reportCheckDto 또는 reportCheckId가 없음)");
+      router.push("/admin?tab=report");  // 신고 데이터가 없으면 리디렉션
+    }
+  });
 };
 
 onMounted(() => {
@@ -74,18 +80,18 @@ onMounted(() => {
         <tbody>
         <tr
             v-for="report in reports"
-            :key="report.reportCheckDto.reportcheckId"
-            @click="goToReportDetail(report.reportCheckDto.reportcheckId)"
+            :key="report.reportCheckDto.reportCheckId"
+            @click="goToReportDetail(report)"
             class="clickable-row"
         >
-          <td>{{ report.reportCheckDto.reportcheckId }}</td>
+          <td>{{ report.reportCheckDto.reportCheckId }}</td>
           <td>
-              <span v-if="report.commentDetailDto">
-                {{ report.commentDetailDto.commentCotents }}
-              </span>
-            <span v-else-if="report.postDetailDto">
-                {{ report.postDetailDto.postTitle }}
-              </span>
+            <span v-if="report.commentDetailDto?.commentContents">
+              {{ report.commentDetailDto.commentContents }}
+            </span>
+            <span v-else-if="report.postDetailDto?.postTitle">
+              {{ report.postDetailDto.postTitle }}
+            </span>
             <span v-else>내용 없음</span>
           </td>
           <td>
@@ -94,19 +100,18 @@ onMounted(() => {
             <span v-else>알 수 없음</span>
           </td>
           <td>
-              <span v-if="report.commentDetailDto">
-                {{ formatDateTime(report.commentDetailDto.commentCreatedAt) }}
-              </span>
-            <span v-else-if="report.postDetailDto">
-                {{ formatDateTime(report.postDetailDto.postCreatedAt) }}
-              </span>
+            <span v-if="report.commentDetailDto?.commentCreatedAt">
+              {{ formatDateTime(report.commentDetailDto.commentCreatedAt) }}
+            </span>
+            <span v-else-if="report.postDetailDto?.postCreatedAt">
+              {{ formatDateTime(report.postDetailDto.postCreatedAt) }}
+            </span>
             <span v-else>시간 정보 없음</span>
           </td>
         </tr>
         </tbody>
       </table>
 
-      <!-- 페이지네이션 바 -->
       <div class="paging-bar">
         <PagingBar
             :currentPage="pagination.currentPage"

@@ -1,135 +1,146 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { getReportDetail, processReportCheck } from '@/api/report'; // <-- 변경된 부분
+import { useRoute, useRouter } from "vue-router";
+import { useReportStore } from "@/features/admin/report/reportStore.js";
+import { ref } from "vue";
+import { processReportCheck } from "@/features/admin/report/api.js";
 
-const route = useRoute();
 const router = useRouter();
-const reportId = route.params.id;
+const store = useReportStore();
+const report = store.currentReport;
 
-const report = ref(null);
-const reason = ref('');
-const isLoading = ref(true);
+const checkReason = ref('');
+const processing = ref(false);
 
-const formatDate = (dateStr) => {
-  const date = new Date(dateStr);
-  return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
-};
-
-const fetchReportDetail = async () => {
-  try {
-    const res = await getReportDetail(reportId); // <-- 변경된 부분
-    report.value = res.data;
-  } catch (e) {
-    console.error('신고 상세 조회 실패:', e);
-  } finally {
-    isLoading.value = false;
+const handleReportAction = async (result) => {
+  if (!checkReason.value) {
+    alert("처리 사유를 입력해주세요.");
+    return;
   }
-};
 
-onMounted(() => {
-  fetchReportDetail();
-});
+  if (!report?.reportCheckDto?.reportCheckId) {
+    alert("잘못된 신고 정보입니다. reportCheckId가 존재하지 않습니다.");
+    return;
+  }
 
-const handleProcess = async (approval) => {
   try {
+    processing.value = true;
+
     const formData = new FormData();
-    formData.append('isApproved', approval);
-    formData.append('reason', reason.value);
-    formData.append('reviewedAt', new Date().toISOString());
+    formData.append("checkReason", checkReason.value);
+    formData.append("checkResult", result === 'DELETE' ? 'Y' : 'N');
 
-    await processReportCheck(reportId, formData); // <-- 변경된 부분
+    const reportCheckId = report.reportCheckDto.reportCheckId;
+    const postId = report.reportCheckDto.postId;
+    const commentId = report.reportCheckDto.commentId;
 
-    alert('처리 완료되었습니다.');
-    router.push('/admin/report');
-  } catch (e) {
-    console.error('처리 실패:', e);
-    alert('처리에 실패했습니다.');
+    formData.append("postId", postId ?? '');
+    formData.append("commentId", commentId ?? '');
+
+    await processReportCheck(reportCheckId, formData);
+
+    alert("신고 처리가 완료되었습니다.");
+    router.push("/admin?tab=report");
+  } catch (error) {
+    console.error("신고 처리 실패:", error);
+    alert("신고 처리 중 오류가 발생했습니다. 오류 메시지: " + error.message);
+  } finally {
+    processing.value = false;
   }
 };
 </script>
 
 <template>
-  <div class="detail-wrapper">
-    <div v-if="isLoading">로딩 중...</div>
-    <div v-else-if="!report">데이터 없음</div>
-    <div v-else>
-      <div class="field">
-        <label>구분</label>
-        <div class="readonly">{{ report.commentId ? '댓글' : '게시글' }}</div>
-      </div>
+  <div v-if="report" class="form">
+    <h2>신고 처리</h2>
 
-      <div class="field">
-        <label>내용</label>
-        <div class="readonly">{{ report.content }}</div>
+    <label>
+      구분
+      <div class="readonly-field">
+        {{ report?.reportCheckDto?.commentId ? '댓글' : '게시글' }}
       </div>
+    </label>
 
-      <div class="field">
-        <label>처리 이유</label>
-        <textarea v-model="reason" placeholder="처리 사유를 입력하세요"></textarea>
+    <label>
+      내용
+      <div class="readonly-field">
+        {{ report?.commentDetailDto?.commentContents || report?.postDetailDto?.postTitle || '내용 없음' }}
       </div>
+    </label>
 
-      <div class="field">
-        <label>날짜</label>
-        <div class="readonly">{{ formatDate(report.createdAt) }}</div>
-      </div>
+    <label>
+      처리 사유
+      <textarea v-model="checkReason" placeholder="처리 사유를 입력하세요" />
+    </label>
 
-      <div class="button-area">
-        <button @click="router.push('/admin/report')">신고 목록</button>
-        <button @click="handleProcess('Y')">삭제 처리</button>
-        <button @click="handleProcess('N')">반려 처리</button>
+    <label>
+      날짜
+      <div class="readonly-field">
+        {{
+          report?.commentDetailDto?.commentCreatedAt
+              ? new Date(report.commentDetailDto.commentCreatedAt).toLocaleDateString()
+              : report?.postDetailDto?.postCreatedAt
+                  ? new Date(report.postDetailDto.postCreatedAt).toLocaleDateString()
+                  : '시간 정보 없음'
+        }}
       </div>
+    </label>
+
+    <div class="button-group">
+      <button @click="() => handleReportAction('REJECT')" :disabled="processing">반려 처리</button>
+      <button @click="() => handleReportAction('DELETE')" :disabled="processing">삭제 처리</button>
+      <button @click="() => router.push('/admin?tab=report')">신고 목록</button>
     </div>
   </div>
 </template>
 
 <style scoped>
-.detail-wrapper {
+.form {
   width: 1116px;
   margin: 0 auto;
   padding-top: 40px;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 24px;
 }
 
-.field {
+label {
+  font-size: 16px;
+  font-weight: 500;
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.field label {
-  font-size: 15px;
-  font-weight: 600;
-  color: #333;
-}
-
-.field .readonly {
-  background-color: #f4f4f4;
-  padding: 16px;
-  border-radius: 8px;
-  font-size: 14px;
-  color: #444;
-}
-
-.field textarea {
+input,
+textarea {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
   width: 100%;
-  height: 140px;
-  padding: 16px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  font-size: 14px;
-  resize: none;
 }
 
-.button-area {
+textarea {
+  resize: vertical;
+  min-height: 150px;
+}
+
+.readonly-field {
+  background-color: #f5f5f5;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+}
+
+.button-group {
   display: flex;
   justify-content: flex-end;
   gap: 16px;
+  margin-top: 16px;
 }
 
-.button-area button {
+.button-group button {
   width: 130px;
   height: 56px;
   background-color: #e9e9e9;
@@ -142,13 +153,13 @@ const handleProcess = async (approval) => {
   transition: background-color 0.2s ease;
 }
 
-.button-area button:disabled {
+.button-group button:disabled {
   background-color: #cccccc;
   color: #666;
   cursor: not-allowed;
 }
 
-.button-area button:hover:enabled {
+.button-group button:hover:enabled {
   background-color: #1c1c1c;
   color: white;
 }
