@@ -3,11 +3,22 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { fetchInterviewDetail } from '@/features/interview/api.js'
 import InterviewQuestionCard from '@/features/interview/components/InterviewQuestionCard.vue'
+import InterviewReexecuteModal from '@/features/interview/components/InterviewReexecuteModal.vue'
 
-const router = useRouter()
+const router = useRouter();
 const interview = ref(null)
 const questions = ref([])
 const totalComment = ref('')
+const showModal = ref(false)
+const closeModal = () => {
+  showModal.value = false
+}
+
+const handleReexecute = ({ difficulty, strictness }) => {
+  console.log('재실행 요청됨:', difficulty, strictness)
+  showModal.value = false
+  // 실제 재실행 API 요청 or 라우팅 처리 등을 여기서
+}
 
 onMounted(async () => {
   const { data } = await fetchInterviewDetail(45)
@@ -39,7 +50,7 @@ onMounted(async () => {
 })
 
 
-function goBack() {
+const goBack = () => {
   router.push('/interview/list')
 }
 </script>
@@ -72,8 +83,8 @@ function goBack() {
       </div>
     </div>
 
-    <div class="div-wrapper">
-      <span class="div">면접 총점: {{ interview?.interviewRoomScore }}점</span>
+    <div class="full-scorer-wrapper">
+      <span class="full-score">면접 총점: {{ interview?.interviewRoomScore }}점</span>
     </div>
     <section class="total-comment" v-if="totalComment">
       <h3 class="info-text">전체 총평</h3>
@@ -91,6 +102,12 @@ function goBack() {
         >{{ interview?.interviewRoomMemo }}</textarea>
     </section>
 
+    <InterviewReexecuteModal
+        v-if="showModal"
+        :onClose="closeModal"
+        :onSubmit="handleReexecute"
+    />
+
     <section class="questions">
       <InterviewQuestionCard
           v-for="(qset, index) in questions"
@@ -105,7 +122,7 @@ function goBack() {
         <button class="button">재실행한 면접방 보기</button>
       </div>
       <div class="interview-run-button">
-        <button class="button">면접 재실행하기</button>
+        <button class="button" @click="showModal = true">면접 재실행하기</button>
       </div>
     </div>
   </div>
@@ -160,7 +177,7 @@ function goBack() {
 }
 
 .view,
-.div-wrapper{
+.full-score-wrapper{
   display: flex;
   gap: 12px;
   align-items: center;
@@ -190,7 +207,7 @@ function goBack() {
   font-weight: 600;
 }
 
-.div {
+.full-score {
   color: #7094f4;
   font-weight: 600;
   font-size: 16px;
