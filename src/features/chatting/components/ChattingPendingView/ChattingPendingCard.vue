@@ -1,5 +1,11 @@
 <script setup>
+import {defineProps} from "vue";
 
+const props = defineProps({
+  chattingPendingRoom: {
+    type: Object,
+  }
+})
 </script>
 
 <template>
@@ -8,7 +14,7 @@
       <img src="@/assets/images/chatting/profile.png" alt="프로필사진"/>
     </div>
     <div class="div-wrapper">
-      <div class="text-wrapper">채팅방 제목1 (대기)</div>
+      <div class="text-wrapper">{{chattingPendingRoom.chattingRoomTitle}}</div>
     </div>
   </div>
 </template>

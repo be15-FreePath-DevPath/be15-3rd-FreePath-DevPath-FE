@@ -115,7 +115,7 @@ onMounted(() => {
 
       <div class = "chattingFrame">
         <ChattingListFrame :chattings="chattings"/>
-        <ChattingInsertFrame v-if="selectedRoomc" class = "chattingInsertFrame" @sendMessage="sendMessage"/>
+        <ChattingInsertFrame v-if="selectedRoom" class = "chattingInsertFrame" @sendMessage="sendMessage"/>
       </div>
     </div>
 </template>

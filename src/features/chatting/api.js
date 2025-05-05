@@ -8,3 +8,5 @@ const api = axios.create({
 export const getChatting = chattingRoomId => api.get(`/chatting/list/${chattingRoomId}`);
 
 export const getChattingRoomList = () => api.get('/chatting/list');
+
+export const getChattingPendingList = () => api.get('/chatting/waitingChattingRoom');

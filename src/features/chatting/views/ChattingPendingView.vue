@@ -1,12 +1,29 @@
 <script setup>
 import {onMounted, ref} from "vue";
 import ChattingPendingCard from "@/features/chatting/components/ChattingPendingView/ChattingPendingCard.vue";
+import {getChatting, getChattingPendingList} from "@/features/chatting/api.js";
 
 const newBreadCrumbItems = ref(['채팅','채팅','참여 대기 중인 채팅방'])
 const emit = defineEmits(['updateBreadCrumb'])
+const chattingPendingList = ref([]);
+
+const fetchChattingPendingList = async () => {
+  const { data : wrapper } = await getChattingPendingList();
+  const respData = wrapper.data;
+  chattingPendingList.value = respData.waitingChattingRoomDTOList;
+
+}
 
 onMounted(() => {
   emit('updateBreadCrumb', newBreadCrumbItems.value)
+  fetchChattingPendingList()
+  chattingPendingList.value = [
+    {chattingRoomTitle : '채팅방 제목1'},
+    {chattingRoomTitle : '채팅방 제목2'},
+    {chattingRoomTitle : '채팅방 제목3'},
+    {chattingRoomTitle : '채팅방 제목4'},
+    {chattingRoomTitle : '채팅방 제목5'}
+  ];
 });
 
 </script>
@@ -14,21 +31,7 @@ onMounted(() => {
 <template>
   <div class = "content-frame">
     <div class = "chattingRoomList">
-      <ChattingPendingCard/>
-      <ChattingPendingCard/>
-      <ChattingPendingCard/>
-      <ChattingPendingCard/>
-      <ChattingPendingCard/>
-      <ChattingPendingCard/>
-      <ChattingPendingCard/>
-      <ChattingPendingCard/>
-      <ChattingPendingCard/>
-      <ChattingPendingCard/>
-      <ChattingPendingCard/>
-
-      <ChattingPendingCard/>
-      <ChattingPendingCard/>
-
+      <ChattingPendingCard v-for = "chattingPendingRoom in chattingPendingList " :chattingPendingRoom = "chattingPendingRoom"/>
     </div>
   </div>
 </template>
