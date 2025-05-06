@@ -1,11 +1,12 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, computed, onMounted } from 'vue'
+import {useRoute, useRouter} from 'vue-router'
 import { fetchInterviewDetail } from '@/features/interview/api.js'
 import InterviewQuestionCard from '@/features/interview/components/InterviewQuestionCard.vue'
 import InterviewReexecuteModal from '@/features/interview/components/InterviewReexecuteModal.vue'
 import ReexecutedListModal from '@/features/interview/components/ReexecutedListModal.vue'
 
+const route = useRoute()
 const router = useRouter()
 const interview = ref(null)
 const questions = ref([])
@@ -28,49 +29,75 @@ const handleReexecute = ({ difficulty, strictness }) => {
   showReexecuteModal.value = false
 }
 
+const roomId = route.params.interviewRoomId
+
+const difficultyText = computed(() => {
+  const level = interview.value?.difficultyLevel
+  return level && typeof level === 'string' ? level.toUpperCase() : '-'
+})
+
+const strictnessText = computed(() => {
+  const strict = interview.value?.evaluationStrictness
+  return strict && typeof strict === 'string' ? strict.toUpperCase() : '-'
+})
+
 
 onMounted(async () => {
-  const { data } = await fetchInterviewDetail(45)
-  interview.value = data
+  try {
+    const response = await fetchInterviewDetail(roomId);
+    if (!response || !response.data) return;
 
-  // 면접 질문 정리
-  const tempQuestions = []
-  let buffer = []
+    const data = response.data.data;
 
-  data.interviewList.forEach((item) => {
-    const message = item.interviewMessage
-    if (message.startsWith('[총평]')) {
-      totalComment.value = message.replace('[총평]', '').trim()
-      return
-    }
+    // 필수 값 검사
+    if (!data.interviewList) data.interviewList = [];
 
-    if (message.startsWith('[면접 질문]')) {
-      if (buffer.length) tempQuestions.push([...buffer])
-      buffer = [message]
-    } else {
-      buffer.push(message)
-    }
-  })
-  if (buffer.length) tempQuestions.push([...buffer])
-  questions.value = tempQuestions
+    interview.value = data;
 
-  // 재실행 면접방 목록 가공
-  reexecutedRooms.value = data.reexecutedRooms.map((room) => {
-    const dateObj = new Date(room.interviewRoomCreatedAt)
-    const formattedDate = dateObj.toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      weekday: 'short'
-    }).replace(/\. /g, '.').replace('.', '')
-    return {
-      id: room.interviewRoomId,
-      title: room.interviewRoomTitle,
-      date: formattedDate,
-      score: null  // 점수는 없음
-    }
-  })
-})
+    // 총평 파싱
+    const tempQuestions = [];
+    let buffer = [];
+
+    data.interviewList.forEach((item) => {
+      const message = item.interviewMessage;
+      if (message.startsWith('[총평]')) {
+        totalComment.value = message.replace('[총평]', '').trim();
+        return;
+      }
+
+      if (message.startsWith('[면접 질문]')) {
+        if (buffer.length) tempQuestions.push([...buffer]);
+        buffer = [message];
+      } else {
+        buffer.push(message);
+      }
+    });
+    if (buffer.length) tempQuestions.push([...buffer]);
+    questions.value = tempQuestions;
+
+    // 재실행 면접방
+    reexecutedRooms.value = data.reexecutedRooms?.map((room) => {
+      const dateObj = new Date(room.interviewRoomCreatedAt);
+      const formattedDate = dateObj.toLocaleDateString('ko-KR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        weekday: 'short'
+      }).replace(/\. /g, '.').replace('.', '');
+
+      return {
+        id: room.interviewRoomId,
+        title: room.interviewRoomTitle,
+        date: formattedDate,
+        score: null
+      };
+    }) || [];
+
+  } catch (err) {
+    console.error('상세 조회 실패:', err);
+  }
+});
+
 
 const goBack = () => {
   router.push('/interview/list')
@@ -93,10 +120,10 @@ const goBack = () => {
               <span class="info-text-2">{{ interview?.interviewCategory }}</span>
               <span class="info-text-div">   |   </span>
               <span class="info-text-2">난이도 : </span>
-              <span class="info-text-2">{{ interview?.difficultyLevel.toUpperCase() }}</span>
+              <span class="info-text-2">{{ difficultyText }}</span>
               <span class="info-text-div">   |   </span>
               <span class="info-text-2">평가 : </span>
-              <span class="info-text-2">{{ interview?.evaluationStrictness.toUpperCase() }}</span>
+              <span class="info-text-2">{{ strictnessText }}</span>
             </div>
           </div>
         </div>
@@ -107,7 +134,7 @@ const goBack = () => {
     </div>
 
     <div class="full-scorer-wrapper">
-      <span class="full-score">면접 총점: {{ interview?.interviewRoomScore }}점</span>
+      <span class="full-score">면접 총점: {{ interview?.averageScore ?? '-' }}점</span>
     </div>
     <section class="total-comment" v-if="totalComment">
       <h3 class="info-text">전체 총평</h3>
