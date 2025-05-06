@@ -1,53 +1,58 @@
 <script setup>
+import {defineProps} from "vue";
 
+const props = defineProps({
+  nickname: {
+    type: String,
+  }
+})
 </script>
 
 <template>
-<div class="user-frame">
-  <div class="frame">
-    <div class="text-wrapper">사용자</div>
+  <div class="user-frame">
+    <div class="frame">
+      <div class="text-wrapper">{{ props.nickname }}</div>
+    </div>
+    <div class="user-icon">
+      <img src="../../../../assets/images/chatting/profile.png" alt="프로필사진" />
+    </div>
   </div>
-  <div class="user-icon">
-    <img src="../../../../assets/images/chatting/profile.png" alt="프로필사진"/>
-  </div>
-</div>
 </template>
 
 <style scoped>
-.user-frame{
-  align-items : center;
+.user-frame {
   display: flex;
-  flex-direction:column;
-  height:80px;
-  position:relative;
-  gap :20px;
-  width:60px;
+  flex-direction: column;
+  align-items: center;       /* 가로 기준 가운데 정렬 */
+  justify-content: center;   /* 세로 기준 가운데 정렬 */
+  height: 80px;
+  width: 60px;
+  gap: 8px;
+  position: relative;
 }
 
-.frame{
-  align-self:stretch;
-  height : 20px;
-  position : relative;
-  width : 100%;
+.frame {
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
-.text-wrapper{
-  font-family: "Inter-Regular",Helvetica;
-  font-size:14px;
+.text-wrapper {
+  font-family: "Inter-Regular", Helvetica;
+  font-size: 14px;
   font-weight: 400;
-  height:1px;
-  left:7px;
-  letter-spacing: 0;
-  line-height : 0.1px;
-  position:absolute;
-  top:9px
+  text-align: center;
+  line-height: 1.2;
+  position: static; /* 기존 absolute 제거 */
 }
 
-.icon-instnace{
-  height: 60px !important;
-  position:relative !important;
-  width: 60px !important;
+.user-icon img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  display: block;
+  border-radius: 50%;
 }
-
-
 </style>

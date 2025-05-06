@@ -9,33 +9,7 @@ const emit = defineEmits(['updateBreadCrumb'])
 const chattingRooms = ref([]);
 const chattings = ref([]);
 const selectedRoom = ref(0);
-const myChatting = reactive([
-  [{
-    userId :  1,
-    nickname : '닉네임1',
-    message : '1111-1',
-    timestamp : '시간1-1'
-  },
-    {
-      userId :  1,
-      nickname : '닉네임1',
-      message : '1111-2',
-      timestamp : '시간1-2'
-    }],
-  [
-    {
-      userId :  2,
-      nickname : '닉네임2',
-      message : '2222-1',
-      timestamp : '시간2-1'
-    },
-    {
-      userId :  2,
-      nickname : '닉네임2',
-      message : '2222-2',
-      timestamp : '시간2-2'
-    }
-  ]]);
+const myChatting = reactive([]);
 
 const fetchChattingRoomList =async() => {
   try {
@@ -63,14 +37,10 @@ const fetchChattings = async (chattingRoomId) => {
 }
 }
 
-const onRoomSelected = (room) => {
+const onRoomSelected = async (room) => {
   selectedRoom.value = room;
   console.log(`chattingRoomId : ${selectedRoom.value}`);
-  fetchChattings(selectedRoom.value);
-  chattings.value = myChatting[selectedRoom.value-1];
-  chattings.value.forEach(msg => {
-    console.log(msg);
-  });
+  await fetchChattings(selectedRoom.value);
 }
 
 const sendMessage = (message) => {
@@ -83,29 +53,9 @@ const sendMessage = (message) => {
   })
 }
 
-onMounted(() => {
+onMounted(async () => {
   emit('updateBreadCrumb', newBreadCrumbItems.value);
-  fetchChattingRoomList();
-  chattingRooms.value = [
-    {chattingRoomId : 1,
-    chattingRoomTitle : '채팅방1',
-    userCount : 1,},
-    {chattingRoomId : 2,
-      chattingRoomTitle : '채팅방2',
-      userCount : 2},
-    {chattingRoomId : 3,
-      chattingRoomTitle : '채팅방3',
-      userCount : 3}
-  ]
-
-  const original = [...myChatting[1]];
-  for (let i = 0; i < 5; i++) {
-    myChatting[1].push(...original);
-  }
-
-  myChatting[1].forEach(msg => {
-    console.log(msg);
-  });
+  await fetchChattingRoomList();
 });
 </script>
 
