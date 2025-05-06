@@ -18,9 +18,9 @@
               alt="더보기"
           />
           <div v-if="showOptions" class="dropdown" @click.stop>
-            <button @click="$emit('delete')">게시글 삭제</button>
-            <button @click="$emit('modify')">게시글 수정</button>
-            <button @click="$emit('report')">게시글 신고</button>
+            <button @click="emit('delete')">게시글 삭제</button>
+            <button @click="emit('modify')">게시글 수정</button>
+            <button @click="emit('report')">게시글 신고</button>
           </div>
         </div>
       </div>
@@ -45,6 +45,7 @@ const props = defineProps({
 // toRefs로 구조분해 (반응성 유지)
 const { category, title, author, createdAt, content } = toRefs(props.postDescription);
 
+const emit = defineEmits(['delete', 'modify', 'report']);
 
 const showOptions = ref(false);
 

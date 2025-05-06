@@ -1,8 +1,4 @@
-import axios from 'axios';
-
-const api = axios.create({
-    baseURL: "http://localhost:8080"
-});
+import api from "@/api/axios.js";
 
 export function fetchCommentList(postId) {
     return api.get(`/board/${postId}/comments`);
@@ -10,7 +6,7 @@ export function fetchCommentList(postId) {
 
 export function saveComment({ postId, parentCommentId = null, contents }) {
     return api.post('/comments', {
-        postId,
+        boardId:postId,
         parentCommentId,
         contents
     });
