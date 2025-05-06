@@ -11,3 +11,14 @@ export function refreshUserToken() {
 export function logoutUser() {
     return api.post(`/user/logout`);
 }
+
+export function signupTemp({ email, loginId, password, nickname, name, itNewsSubscription }) {
+    return api.post('/user/signup/temp', {
+        email,
+        loginId,
+        password,
+        nickname,
+        name,
+        itNewsSubscription
+    });
+}
