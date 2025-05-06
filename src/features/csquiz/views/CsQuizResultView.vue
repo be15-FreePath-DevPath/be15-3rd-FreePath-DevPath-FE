@@ -34,6 +34,7 @@ onMounted(async () => {
   } catch (e) {
     console.error('결과 조회 실패:', e)
     toast.error('결과 데이터를 불러오지 못했습니다.', { position: 'top-center' })
+    router.push('/csquiz')
   }
 })
 

@@ -3,6 +3,7 @@ import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import PagingBar from '@/components/common/PagingBar.vue'
 import { getBookmarkList } from '@/features/mypage/bookmark/api.js'
+import calendarIcon from '@/assets/images/interview/calendar-blank.png'
 
 const router = useRouter()
 const posts = ref([])
@@ -27,7 +28,17 @@ const handlePageChange = (page) => {
   fetchBookmarkList(page)
 }
 
-const formatDate = (date) => date?.slice(0, 10)
+const formatDate = (dateStr) => {
+  if (!dateStr) return ''
+  const date = new Date(dateStr.replace(' ', 'T'))
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  const hours = String(date.getHours()).padStart(2, '0')
+  const minutes = String(date.getMinutes()).padStart(2, '0')
+  const weekdayNames = ['일', '월', '화', '수', '목', '금', '토']
+  const weekday = weekdayNames[date.getDay()]
+  return `${month}.${day} ${weekday} ${hours}:${minutes}`
+}
 
 const goToPost = (id) => {
   router.push(`/board/${id}`)
@@ -40,34 +51,32 @@ onMounted(() => {
 
 <template>
   <div class="list-wrapper">
-    <!-- 게시글 없을 때 안내 -->
+    <div class="list-header" v-if="posts.length > 0">
+      <div class="col-title">게시글 제목</div>
+      <div class="col-date">작성일자</div>
+      <div class="col-writer">작성자</div>
+    </div>
+
     <div v-if="posts.length === 0" class="empty-wrapper">
       <div class="empty-icon">📌</div>
       <div class="empty-text">북마크한 게시글이 없습니다.</div>
     </div>
 
-    <!-- 게시글 리스트 -->
-    <table class="list-table" v-else>
-      <thead>
-      <tr>
-        <th>게시글 제목</th>
-        <th>작성일자</th>
-        <th>작성자</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr
+    <div class="post-list">
+      <div
+          class="post-item"
           v-for="post in posts"
           :key="post.boardId"
-          class="clickable-row"
           @click="goToPost(post.boardId)"
       >
-        <td>{{ post.boardTitle }}</td>
-        <td>{{ formatDate(post.boardCreatedAt) }}</td>
-        <td>{{ post.nickname }}</td>
-      </tr>
-      </tbody>
-    </table>
+        <div class="col-title">{{ post.boardTitle }}</div>
+        <div class="col-date">
+          <img class="date-icon" :src="calendarIcon" alt="calendar" />
+          {{ formatDate(post.boardCreatedAt) }}
+        </div>
+        <div class="col-writer">{{ post.nickname }}</div>
+      </div>
+    </div>
 
     <PagingBar
         :key="currentPage"
@@ -87,40 +96,76 @@ onMounted(() => {
   margin: 0 auto;
 }
 
-/* 리스트 테이블 */
-.list-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-  font-family: 'Pretendard', sans-serif;
-  margin-bottom: 40px;
+/* 리스트 헤더 */
+.list-header {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  color: #9FA0A2;
+  font-size: 12px;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  padding: 0 20px;
 }
-
-.list-table th,
-.list-table td {
-  padding: 12px 16px;
-  border-bottom: 1px solid #ccc;
+.list-header .col-title {
+  text-align: center;
 }
-
-.list-table thead th {
-  background-color: #f1f1f1;
-  font-weight: 600;
-}
-
-.clickable-row {
+/* 게시글 항목 */
+.post-item {
+  display: flex;
+  align-items: center;
+  padding: 14px 20px;
+  border-bottom: 1px solid #ddd;
   cursor: pointer;
+  transition: background-color 0.2s;
 }
 
-.clickable-row:hover {
+.post-item:hover {
   background-color: #f9f9f9;
+}
+
+/* 게시글 제목 */
+.col-title {
+  width: 450px;
+  padding-right: 20px;
+  word-break: break-word;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+/* 작성일자 */
+.col-date {
+  width: 150px;
+  text-align: center;
+  white-space: nowrap;
+  padding-right: 10px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 캘린더 아이콘 */
+.date-icon {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+/* 작성자 */
+.col-writer {
+  width: 150px;
+  text-align: center;
+  white-space: nowrap;
+  font-size: 14px;
 }
 
 /* 게시글 없음 안내 */
 .empty-wrapper {
   text-align: center;
-  padding: 80px 0;
   color: #777;
-  font-family: 'Pretendard', sans-serif;
+  padding: 120px 0;
 }
 
 .empty-icon {

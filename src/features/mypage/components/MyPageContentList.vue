@@ -1,37 +1,18 @@
 <script setup>
+import BookmarkList from "@/features/mypage/bookmark/components/BookmarkList.vue";
+import LikeList from "@/features/mypage/like/components/LikeList.vue";
+
 const props = defineProps(['selectedMain', 'selectedSub'])
 </script>
 
 <template>
   <div class="content-frame">
-    <div class="title">
-      <template v-if="selectedMain === '게시글'">
-        <div class="text1">제목</div>
-        <div class="text2">작성일자</div>
-        <div class="text2">작성자</div>
-      </template>
-      <template v-else>
-        <div class="text1">댓글 내용</div>
-        <div class="text2">작성일자</div>
-        <div class="text2">작성자</div>
-      </template>
-    </div>
-
     <div class="content">
-      <!-- selectedSub 값에 따라 데이터 분기 렌더링 -->
-      <div class="list-frame">
-        <div class="list-title">
-          <span class="list-title-text">
-            제목 테스트 제목 테스트 제목 테스트 제목 테스트 제목 테스트 제목 테스트 제목 테스트 제목 테스트 제목 테스트 제목 테스트
-          </span>
-        </div>
-        <div class="list-date">
-          <img src="@/assets/images/board/CalendarIcon.png" alt="calendar" class="calendar-icon" />
-          날짜 테스트
-        </div>
-        <div class="list-writer">
-          작성자 테스트
-        </div>
+      <div v-if="selectedSub === '북마크한 게시물'">
+        <BookmarkList />
+      </div>
+      <div v-if="selectedSub === '좋아요한 게시물'">
+        <LikeList />
       </div>
     </div>
   </div>
