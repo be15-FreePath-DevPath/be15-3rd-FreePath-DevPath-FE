@@ -27,6 +27,9 @@ defineProps({
       <div class="button-area">
         <slot name="button"></slot>
       </div>
+      <div class="button-area">
+        <slot name="verify-button"></slot>
+      </div>
     </div>
   </div>
 </template>

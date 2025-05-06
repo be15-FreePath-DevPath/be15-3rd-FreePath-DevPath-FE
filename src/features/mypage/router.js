@@ -1,11 +1,11 @@
-import MyPage2View from "@/features/mypage/views/MyPage2View.vue";
+import MyPageView from "@/features/mypage/views/MyPageView.vue";
 import MyPageEdit from "@/features/mypage/views/MyPageEdit.vue";
 
 export const mypageRoutes = [
     {
         path: '/mypage/info',
-        name: 'MyPage2',
-        component: MyPage2View
+        name: 'MyPage',
+        component: MyPageView
     },
     {
         path: '/mypage/edit',
