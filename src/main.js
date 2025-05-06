@@ -18,8 +18,7 @@ import { refreshUserToken } from '@/features/user/api.js'
 async function bootstrap() {
     const app = createApp(App)
 
-    const pinia = createPinia()
-    app.use(pinia)
+    app.use(createPinia())
 
     // ✅ Pinia 생성 후 auth 상태 복구
     const authStore = useAuthStore()
