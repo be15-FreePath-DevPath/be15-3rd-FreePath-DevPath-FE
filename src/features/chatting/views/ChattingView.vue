@@ -1,15 +1,18 @@
 <script setup>
-import {onMounted, reactive, ref} from 'vue'
+import {onBeforeUnmount, onMounted, reactive, ref} from 'vue'
 import ChattingInsertFrame from "@/features/chatting/components/chattingView/ChattingInsertFrame.vue";
 import {getChatting, getChattingRoomList} from "@/features/chatting/api.js";
 import ChattingRoomListFrame from "@/features/chatting/components/chattingView/ChattingRoomListFrame.vue"
 import ChattingListFrame from "@/features/chatting/components/chattingView/ChattingListFrame.vue";
+import { connectStomp, subscribeStomp, sendMessage, disconnectStomp } from '@/features/chatting/stomp-client.js';
+
+
 const newBreadCrumbItems = ref(['채팅','채팅','참여 중인 채팅방'])
 const emit = defineEmits(['updateBreadCrumb'])
 const chattingRooms = ref([]);
 const chattings = ref([]);
 const selectedRoom = ref(0);
-const myChatting = reactive([]);
+
 
 const fetchChattingRoomList =async() => {
   try {
@@ -41,22 +44,39 @@ const onRoomSelected = async (room) => {
   selectedRoom.value = room;
   console.log(`chattingRoomId : ${selectedRoom.value}`);
   await fetchChattings(selectedRoom.value);
+  subscribeStomp((subResponse) => {
+    console.log("새 메시지 도착:", subResponse);
+    addChat(subResponse);
+  }, room);
 }
 
-const sendMessage = (message) => {
-  console.log(`send : ${selectedRoom.value} , ${message}`);
+const addChat = (subResponse) => {
   chattings.value.push({
-    userId :  2,
-    nickname : '닉네임2',
-    message : message,
-    timestamp : '시간2-2'
+     userId : subResponse.userId,
+     nickname : subResponse.nickname,
+     message : subResponse.message,
+     timestamp : subResponse.timestamp
   })
+
 }
+
+const sendChat = (message) => {
+  console.log(`send : ${selectedRoom.value} , ${message}`);
+  sendMessage('/app/chatting/send', { chattingRoomId: selectedRoom.value, chattingMessage:message });
+}
+
+
 
 onMounted(async () => {
   emit('updateBreadCrumb', newBreadCrumbItems.value);
+  await connectStomp();
   await fetchChattingRoomList();
 });
+
+// 컴포넌트가 제거될 때 연결 해제
+onBeforeUnmount(() => {
+  disconnectStomp();
+})
 </script>
 
 <template>
@@ -65,7 +85,7 @@ onMounted(async () => {
 
       <div class = "chattingFrame">
         <ChattingListFrame :chattings="chattings"/>
-        <ChattingInsertFrame v-if="selectedRoom" class = "chattingInsertFrame" @sendMessage="sendMessage"/>
+        <ChattingInsertFrame v-if="selectedRoom" class = "chattingInsertFrame" @sendMessage="sendChat"/>
       </div>
     </div>
 </template>

@@ -1,6 +1,7 @@
 <script setup>
 import ChattingCard from './ChattingCard.vue'
-import { defineProps, ref, watch, nextTick } from 'vue'
+import DateDivider from './DateDivider.vue'
+import { defineProps, ref, watch, nextTick, computed } from 'vue'
 
 const props = defineProps({
   chattings: {
@@ -10,6 +11,23 @@ const props = defineProps({
 })
 
 const listRef = ref(null)
+
+// 날짜별로 그룹화된 채팅 생성
+const groupedChattings = computed(() => {
+  const groups = []
+  let lastDate = null
+
+  props.chattings.forEach(chat => {
+    const dateStr = chat.timestamp.slice(0, 10) // 'YYYY-MM-DD'
+    if (lastDate !== dateStr) {
+      groups.push({ type: 'divider', date: dateStr })
+      lastDate = dateStr
+    }
+    groups.push({ type: 'chat', data: chat })
+  })
+
+  return groups
+})
 
 // 채팅이 바뀔 때마다 스크롤 아래로
 watch(
@@ -28,11 +46,10 @@ watch(
 
 <template>
   <div class="chattingList" ref="listRef">
-    <ChattingCard
-        v-for="(chatting, index) in props.chattings"
-        :key="index"
-        :chatting="chatting"
-    />
+    <template v-for="(item, index) in groupedChattings" :key="index">
+      <DateDivider v-if="item.type === 'divider'" :date="item.date" />
+      <ChattingCard v-else-if="item.type === 'chat'" :chatting="item.data" />
+    </template>
   </div>
 </template>
 
