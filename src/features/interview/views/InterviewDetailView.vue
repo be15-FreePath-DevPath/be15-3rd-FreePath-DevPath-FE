@@ -101,8 +101,8 @@ const goBack = () => {
           </div>
         </div>
       </div>
-      <div class="interview-run-button">
-        <button class="button">메모 저장하기</button>
+      <div class="interview-top-button">
+        <button class="button">삭제하기</button>
       </div>
     </div>
 
@@ -117,12 +117,17 @@ const goBack = () => {
     </section>
 
     <section class="memo-section">
-        <h3 class="info-text">메모</h3>
-        <textarea
-            rows="5"
-            class="user-input-box"
-            placeholder="여기에 메모를 입력하세요..."
-        >{{ interview?.interviewRoomMemo }}</textarea>
+      <h3 class="info-text">메모</h3>
+      <textarea
+          rows="5"
+          class="user-input-box"
+          placeholder="여기에 메모를 입력하세요..."
+      >{{ interview?.interviewRoomMemo }}</textarea>
+      <div class="memo-footbar">
+        <div class="interview-run-button">
+          <button class="button">메모 저장하기</button>
+        </div>
+      </div>
     </section>
 
     <InterviewReexecuteModal
@@ -211,7 +216,11 @@ const goBack = () => {
   gap: 12px;
   align-items: center;
 }
-
+.interview-top-button {
+  display: flex;
+  width: auto;
+  height: 40px;
+}
 .interview-run-button {
   display: flex;
   width: 200px;
@@ -264,6 +273,11 @@ const goBack = () => {
   flex-direction: column;
   width: 100%;
   gap: 22px;
+}
+
+.memo-footbar {
+  display: flex;
+  justify-content: right;
 }
 
 
