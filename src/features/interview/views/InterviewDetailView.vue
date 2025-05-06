@@ -1,7 +1,7 @@
 <script setup>
 import { ref, reactive, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import {deleteInterviewRoom, fetchInterviewDetail} from '@/features/interview/api.js'
+import {deleteInterviewRoom, fetchInterviewDetail, updateInterviewMemo} from '@/features/interview/api.js'
 import InterviewQuestionCard from '@/features/interview/components/InterviewQuestionCard.vue'
 import InterviewReexecuteModal from '@/features/interview/components/InterviewReexecuteModal.vue'
 import ReexecutedListModal from '@/features/interview/components/ReexecutedListModal.vue'
@@ -13,6 +13,8 @@ const interview = reactive({})
 const questions = ref([])
 const totalComment = ref('')
 const reexecutedRooms = ref([])
+const titleText = ref('')
+const memoText = ref('');
 const roomId = ref(route.params.interviewRoomId)
 
 const showReexecuteModal = ref(false)
@@ -39,6 +41,22 @@ const handleDelete = async () => {
   } catch (err) {
     console.error('면접방 삭제 실패:', err)
     alert('삭제 중 문제가 발생했습니다.')
+  }
+}
+
+// 초기 주입 (watch 말고 onMounted 이후 수동 할당으로 처리)
+watch(interview, (newVal) => {
+  memoText.value = newVal?.interviewRoomMemo || ''
+  titleText.value = newVal?.interviewRoomTitle || ''
+}, { immediate: true })
+
+const handleSaveMemo = async () => {
+  try {
+    await updateInterviewMemo(interview.interviewRoomId, titleText.value, memoText.value)
+    alert('메모가 저장되었습니다.')
+  } catch (err) {
+    console.error('메모 저장 실패:', err)
+    alert('메모 저장에 실패했습니다.')
   }
 }
 
@@ -145,12 +163,12 @@ watch(() => route.params.interviewRoomId, (newId) => {
       <textarea
           rows="5"
           class="user-input-box"
-          :value="interview?.interviewRoomMemo ?? ''"
           placeholder="여기에 메모를 입력하세요..."
+          v-model="memoText"
       />
       <div class="memo-footbar">
         <div class="interview-run-button">
-          <button class="button">메모 저장하기</button>
+          <button class="button" @click="handleSaveMemo">메모 저장하기</button>
         </div>
       </div>
     </section>

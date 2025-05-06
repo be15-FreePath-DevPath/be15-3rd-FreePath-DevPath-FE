@@ -50,9 +50,11 @@ export function deleteInterviewRoom(roomId) {
     return api.delete(`/interview-room/${roomId}`);
 }
 
-/* 7. 면접방 메모 수정 */
-export function updateInterviewMemo(roomId, memo) {
+/* 7. 면접방 정보 수정 */
+export function updateInterviewMemo(roomId, title, memo) {
     return api.patch(`/interview-room/${roomId}`, {
-        memo
+        interviewRoomTitle: title,
+        interviewRoomMemo: memo
     });
 }
+
