@@ -1,7 +1,12 @@
 <script setup>
 import { ref, reactive, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import {deleteInterviewRoom, fetchInterviewDetail, updateInterviewMemo} from '@/features/interview/api.js'
+import {
+  deleteInterviewRoom,
+  fetchInterviewDetail,
+  reexecuteInterviewRoom,
+  updateInterviewMemo
+} from '@/features/interview/api.js'
 import InterviewQuestionCard from '@/features/interview/components/InterviewQuestionCard.vue'
 import InterviewReexecuteModal from '@/features/interview/components/InterviewReexecuteModal.vue'
 import ReexecutedListModal from '@/features/interview/components/ReexecutedListModal.vue'
@@ -23,10 +28,28 @@ const showReexecutedListModal = ref(false)
 const closeReexecuteModal = () => showReexecuteModal.value = false
 const closeReexecutedListModal = () => showReexecutedListModal.value = false
 
-const handleReexecute = ({ difficulty, strictness }) => {
-  console.log('재실행 요청됨:', difficulty, strictness)
-  showReexecuteModal.value = false
+const handleReexecute = async ({ strictness }) => {
+  try {
+    const { data } = await reexecuteInterviewRoom(roomId.value, strictness)
+
+    // 새 면접방으로 라우팅
+    await router.push({
+      path: `/interview/progress/${data.interviewRoomId}`,
+      query: {
+        title: data.interviewRoomTitle,
+        category: data.difficultyLevel,
+        strictness: data.evaluationStrictness,
+        firstQuestion: data.firstQuestion
+      }
+    })
+  } catch (err) {
+    console.error('면접 재실행 실패:', err)
+    alert('면접을 재실행하는 데 실패했습니다.')
+  } finally {
+    showReexecuteModal.value = false
+  }
 }
+
 
 const goBack = () => {
   router.push('/interview/list')
@@ -175,9 +198,11 @@ watch(() => route.params.interviewRoomId, (newId) => {
 
     <InterviewReexecuteModal
         v-if="showReexecuteModal"
+        :evaluationStrictness="interview.evaluationStrictness"
         @close="closeReexecuteModal"
         @reexecute="handleReexecute"
     />
+
 
     <ReexecutedListModal
         v-if="showReexecutedListModal"

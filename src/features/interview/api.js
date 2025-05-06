@@ -38,12 +38,11 @@ export function fetchNextQuestion(roomId, questionIndex, answer) {
 }
 
 /* 5. 면접방 재실행 (새 면접방 생성) */
-export function reexecuteInterviewRoom(roomId, difficulty, strictness) {
-    return api.post(`/interview-room/${roomId}/reexecute`, {
-        difficultyLevel: difficulty,
-        evaluationStrictness: strictness,
-    });
+// api.js
+export function reexecuteInterviewRoom(roomId, strictness) {
+    return api.post(`/interview-room/${roomId}/reexecute?strictness=${strictness}`);
 }
+
 
 /* 6. 면접방 삭제 */
 export function deleteInterviewRoom(roomId) {
