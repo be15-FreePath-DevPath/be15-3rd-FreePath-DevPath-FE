@@ -7,7 +7,7 @@
     </div>
     <div class="separator-line"></div> <!-- 얇은 줄 -->
     <div class="bottom-row">
-      <span class="author">개발자 {{ author }}</span>
+      <span class="author">{{ author }}</span>
       <div class="right-section">
         <span class="date">{{ formattedDate }}</span>
         <div class="more-options">
@@ -18,9 +18,9 @@
               alt="더보기"
           />
           <div v-if="showOptions" class="dropdown" @click.stop>
-            <button @click="$emit('delete')">게시글 삭제</button>
-            <button @click="$emit('modify')">게시글 수정</button>
-            <button @click="$emit('report')">게시글 신고</button>
+            <button @click="emit('delete')">게시글 삭제</button>
+            <button @click="emit('modify')">게시글 수정</button>
+            <button @click="emit('report')">게시글 신고</button>
           </div>
         </div>
       </div>
@@ -33,7 +33,7 @@
 
 
 <script setup>
-import {ref, onMounted, onBeforeUnmount, computed} from 'vue';
+import {ref, onMounted, onBeforeUnmount, computed, toRefs} from 'vue';
 
 const props = defineProps({
   postDescription: {
@@ -42,10 +42,10 @@ const props = defineProps({
   }
 });
 
+// toRefs로 구조분해 (반응성 유지)
+const { category, title, author, createdAt, content } = toRefs(props.postDescription);
 
-// 상위 객체로부터 받은 props를 구조분해 해놓기
-const { category, title, author, createdAt, content } = props.postDescription;
-
+const emit = defineEmits(['delete', 'modify', 'report']);
 
 const showOptions = ref(false);
 
@@ -67,7 +67,7 @@ onBeforeUnmount(() => {
 });
 
 const formattedDate = computed(() => {
-  return new Date(createdAt).toLocaleString();
+  return new Date(createdAt.value).toLocaleString();
 });
 </script>
 

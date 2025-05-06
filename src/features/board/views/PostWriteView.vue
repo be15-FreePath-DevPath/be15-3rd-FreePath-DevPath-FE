@@ -1,13 +1,11 @@
 <template>
   <div class="post-write-view">
-    <!-- 입력 바 -->
     <PostInputBar
         v-model:category="category"
         v-model:title="title"
         v-model:content="content"
+        @add-used-image="addUsedImage"
     />
-
-    <!-- 등록/취소 바 -->
     <PostRegistBar
         :category="category"
         :title="title"
@@ -20,10 +18,11 @@
 </template>
 
 <script setup>
-import {ref, watch} from 'vue'
-import {useRouter} from 'vue-router'
-import PostInputBar from "@/features/board/components/PostInputBar.vue"
-import PostRegistBar from "@/features/board/components/PostRegistBar.vue"
+import { ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
+import PostInputBar from '@/features/board/components/PostInputBar.vue'
+import PostRegistBar from '@/features/board/components/PostRegistBar.vue'
+import { createPost } from '@/features/board/api.js'
 
 const router = useRouter()
 
@@ -32,7 +31,15 @@ const title = ref('')
 const content = ref('')
 const createChat = ref(false)
 const chatTitle = ref('')
+const usedImageUrls = ref([])
 
+function addUsedImage(url) {
+  if (!usedImageUrls.value.includes(url)) {
+    usedImageUrls.value.push(url)
+  }
+}
+
+// 프로젝트 매칭 외 카테고리일 때 채팅 비활성화
 watch(category, (newCat) => {
   if (newCat !== '프로젝트 매칭 게시판') {
     createChat.value = false
@@ -40,17 +47,26 @@ watch(category, (newCat) => {
   }
 })
 
-function onRegister() {
-  const payload = {
-    category: category.value,
-    title: title.value,
-    content: content.value,
-    chatRoom: createChat.value
-        ? {title: chatTitle.value || title.value}
-        : null
+async function onRegister() {
+  try {
+    const payload = {
+      boardCategory: category.value,
+      boardTitle: title.value,
+      boardContents: content.value,
+      vote: null,
+      files: [],
+      usedImageUrls: usedImageUrls.value
+    }
+
+    const response = await createPost(payload)
+    alert('게시글이 등록되었습니다.')
+    const postId = response.data.result.postId
+    router.push(`/board/${postId}`)
+  } catch (e) {
+    const msg = e?.response?.data?.message || '게시글 등록 중 오류가 발생했습니다.'
+    alert(msg)
+    console.error(e)
   }
-  console.log('register payload:', payload)
-  router.back()
 }
 
 function onCancel() {
@@ -59,5 +75,7 @@ function onCancel() {
 </script>
 
 <style scoped>
-
+.post-write-view {
+  padding: 20px;
+}
 </style>
