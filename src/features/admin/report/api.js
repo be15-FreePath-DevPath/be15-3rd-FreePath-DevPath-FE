@@ -4,21 +4,14 @@ const api = axios.create({
     baseURL: "http://localhost:8080"
 });
 
+// 신고 목록 조회
 export const getReportList = async () => {
     const response = await api.get('/report/check');
     return response.data;
 };
 
-export const getReportDetail = async (reportId) => {
-    const response = await api.get(`/admin/reports/${reportId}`);
-    return response.data;
-};
-
-export const processReportCheck = async (reportId, formData) => {
-    const response = await api.post(`/admin/reports/check/${reportId}`, formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        }
-    });
+// 신고 반려/삭제 처리
+export const processReportCheck = async (reportCheckId, formData) => {
+    const response = await api.post(`/report/check/${reportCheckId}`, formData);
     return response.data;
 };

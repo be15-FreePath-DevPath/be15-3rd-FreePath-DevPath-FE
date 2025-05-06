@@ -1,5 +1,8 @@
 <template>
-  <router-link :to="`/board/${id}`" class="post-item">
+  <router-link
+      :to="{ path: `/board/${id}`, query: { category } }"
+      class="post-item"
+  >
       <div class="item title">
         {{ text }}
       </div>
@@ -19,7 +22,10 @@ const props = defineProps({
   text: { type: String, required: true },
   date: { type: String, required: true },
   user: { type: String, required: true },
+  category: { type: String, required: true }
 });
+
+console.log(props.category);
 </script>
 
 <style scoped>

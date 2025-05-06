@@ -9,13 +9,18 @@ import '@/assets/styles/interview-columns.css'
 
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import '@/features/board/quill-config.js'
+import { createPinia } from 'pinia'; // ✅ Pinia import
 
-createApp(App)
+const app = createApp(App);
+const pinia = createPinia();         // ✅ Pinia 인스턴스 생성
+
+app
     .use(router)
+    .use(pinia)                        // ✅ Pinia 등록
     .use(Toast, {
-        // 글로벌 옵션 예시
         position: 'top-right',
         timeout: 3000,
     })
     .component('QuillEditor', QuillEditor)
-    .mount('#app')
+    .mount('#app');
