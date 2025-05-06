@@ -1,23 +1,40 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import UserNoti from './UserNoti.vue'
+
+// props로 v-model 받아오기
+const props = defineProps({
+  modelValue: {
+    type: String,
+    default: 'N'
+  }
+})
+
+// emit으로 값 전달
+const emit = defineEmits(['update:modelValue'])
 
 // 이미지 경로 import
 import subY from '@/assets/images/user/sub_y.png'
 import subN from '@/assets/images/user/sub_n.png'
 import notiWhite from '@/assets/images/user/noti_white.png'
 
-// 구독 상태
-const isSubscribed = ref(false)
+// 구독 상태 (로컬용 ref)
+const isSubscribed = ref(props.modelValue === 'Y')
 
 // 상태 변경
 function toggleSubscribe() {
   isSubscribed.value = !isSubscribed.value
   console.log(isSubscribed.value ? 'Y' : 'N')
+  emit('update:modelValue', isSubscribed.value ? 'Y' : 'N')
 }
 
 // 안내사항 표시 상태
 const showNoti = ref(false)
+
+// props 변경 시 ref도 업데이트
+watch(() => props.modelValue, (newVal) => {
+  isSubscribed.value = newVal === 'Y'
+})
 </script>
 
 <template>

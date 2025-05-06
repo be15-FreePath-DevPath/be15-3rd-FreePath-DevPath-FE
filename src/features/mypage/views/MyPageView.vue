@@ -1,41 +1,40 @@
-<template>
-  <div class="tab-buttons">
-    <button :class="{ active: tab === 'bookmark' }" @click="tab = 'bookmark'">북마크</button>
-    <button :class="{ active: tab === 'like' }" @click="tab = 'like'">좋아요</button>
-  </div>
-
-  <div class="tab-content">
-    <BookmarkList v-if="tab === 'bookmark'" />
-    <LikeList v-if="tab === 'like'" />
-  </div>
-</template>
-
 <script setup>
-import { ref } from 'vue';
-import BookmarkList from '@/features/mypage/bookmark/components/BookmarkList.vue';
-import LikeList from '@/features/mypage/like/components/LikeList.vue';
 
-const tab = ref('bookmark');
+import MyPageBoard from "@/features/mypage/components/MyPageBoard.vue";
+import MyPageProfile from "@/features/mypage/components/MyPageProfile.vue";
+import MyPageButtonBlue from "@/features/mypage/components/MyPageButtonBlue.vue";
+import MyPageButtonWhite from "@/features/mypage/components/MyPageButtonWhite.vue";
+import MyPageContent from "@/features/mypage/components/MyPageContent.vue";
+
 </script>
 
+<template>
+  <div class="content-frame">
+    <MyPageBoard title="내 프로필">
+      <MyPageProfile />
+    </MyPageBoard>
+    <MyPageBoard title="개발자 MBTI">
+      <MyPageButtonBlue />
+    </MyPageBoard>
+    <MyPageBoard title="채팅">
+      <MyPageButtonWhite />
+    </MyPageBoard>
+    <MyPageBoard>
+      <MyPageContent />
+    </MyPageBoard>
+  </div>
+
+</template>
+
 <style scoped>
-.tab-buttons {
+.content-frame {
+  width: 940px;
   display: flex;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-button {
-  padding: 0.5rem 1rem;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  background: #e0e0e0;
-  border-radius: 8px;
-}
-
-button.active {
-  background: #2196f3;
-  color: white;
+  flex-wrap: wrap;
+  gap: 28px;
+  padding: 28px;
+  box-sizing: border-box;
+  justify-content: flex-start;
+  margin: 0 auto;
 }
 </style>

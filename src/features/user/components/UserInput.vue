@@ -1,17 +1,10 @@
 <script setup>
+import { defineProps, defineEmits, computed } from 'vue'
+
 const props = defineProps({
-  label: {
-    type: String,
-    required: true
-  },
-  placeholder: {
-    type: String,
-    required: true
-  },
-  modelValue: {
-    type: String,
-    required: true
-  },
+  modelValue: String,
+  label: String,
+  placeholder: String,
   type: {
     type: String,
     default: 'text'
@@ -20,9 +13,10 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
-function onInput(event) {
-  emit('update:modelValue', event.target.value)
-}
+const inputValue = computed({
+  get: () => props.modelValue,
+  set: (val) => emit('update:modelValue', val)
+})
 </script>
 
 <template>
@@ -32,10 +26,9 @@ function onInput(event) {
     </div>
     <input
         class="input-area"
+        v-model="inputValue"
         :type="type"
         :placeholder="placeholder"
-        :value="modelValue"
-        @input="onInput"
     />
   </div>
 </template>

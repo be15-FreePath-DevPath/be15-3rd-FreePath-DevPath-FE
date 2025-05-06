@@ -11,6 +11,8 @@ import {userRoutes} from "@/features/user/router.js";
 import {adminCsQuizRoutes} from "@/features/admin/csquiz/router.js";
 import {mypageRoutes} from "@/features/mypage/router.js";
 import {devtiRoutes} from '@/features/devti/router.js'
+import {useAuthStore} from "@/stores/auth.js";
+import { useToast } from 'vue-toastification'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -33,6 +35,23 @@ const router = createRouter({
             ]
         }
     ]
+})
+
+// 관리자 페이지 접근 시
+router.beforeEach((to, from, next) => {
+    const authStore = useAuthStore()
+    const toast = useToast()
+
+    if (to.meta.requiresAdmin) {
+        if (!authStore.isAuthenticated || authStore.userRole !== 'ADMIN') {
+            toast.warning('관리자만 접근할 수 있습니다.', {
+                position: 'top-center'
+            })
+            return next('/')
+        }
+    }
+
+    next()
 })
 
 export default router

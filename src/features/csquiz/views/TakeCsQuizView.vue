@@ -23,7 +23,6 @@ onMounted(async () => {
       return router.push('/csquiz/result')
     }
   } catch (e) {
-    // 무시하고 새 퀴즈 응시 가능 (응답 없으면 신규 응시자로 간주)
     console.warn('이전 응답 없음 → 신규 응시자로 판단')
   }
 
