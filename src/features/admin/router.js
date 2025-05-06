@@ -1,6 +1,4 @@
 import AdminMainView from "@/features/admin/AdminMainView.vue";
-import CsQuizWriteView from "@/features/admin/csquiz/views/CsQuizWriteView.vue";
-import CsQuizDetailView from "@/features/admin/csquiz/views/CsQuizDetailView.vue";
 import ReportDetailView from "@/features/admin/report/views/ReportDetailView.vue";
 
 
