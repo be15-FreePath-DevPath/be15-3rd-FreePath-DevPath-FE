@@ -33,30 +33,55 @@ const isFinalQuestion = ref(false)
 const handleNext = async () => {
   const interviewIndex = currentIndex.value;
 
-  const { data: nextData } = await fetchNextQuestion(
-      interviewId,
-      interviewIndex,
-      userAnswer.value
-  );
+  try {
+    const response = await fetchNextQuestion(interviewId, interviewIndex, userAnswer.value);
+    const nextData = response.data.data;
 
-  gptEvaluation.value = nextData.gptEvaluation;
-  userAnswer.value = '';
+    gptEvaluation.value = nextData.gptEvaluation;
+    userAnswer.value = '';
 
-  if (interviewIndex === 2) {
+    // 먼저 질문 바꾸고
+    if (nextData.nextQuestion) {
+      currentIndex.value++;
+      currentQuestion.value = nextData.nextQuestion;
+    }
+
+    // 그 후 종료 조건 판단
+    if (!nextData.nextQuestion || currentIndex.value >= 3) {
+      isFinalQuestion.value = true;
+    }
+
+  } catch (err) {
+    console.error('다음 질문 불러오기 실패:', err);
+    alert('다음 질문을 불러오는 데 실패했습니다.');
     isFinalQuestion.value = true;
-  }
-
-  if (nextData.nextQuestion) {
-    currentIndex.value++;
-    currentQuestion.value = nextData.nextQuestion;
   }
 };
 
 
 // 마지막 제출
-const handleSubmit = () => {
-  router.push(`/interview/${interviewId}`)
-}
+const handleSubmit = async () => {
+  try {
+    console.log('마지막 요청 전송:', {
+      interviewRoomId: interviewId,
+      interviewIndex: currentIndex.value,
+      userAnswer: userAnswer.value
+    });
+
+    // 마지막 답변 저장
+    await fetchNextQuestion(
+        interviewId,
+        currentIndex.value,
+        userAnswer.value
+    );
+
+    router.push(`/interview/${interviewId}`);
+  } catch (err) {
+    console.error('면접 종료 실패:', err);
+    alert('마지막 답변을 저장하는 데 실패했습니다.');
+  }
+};
+
 </script>
 
 <template>
