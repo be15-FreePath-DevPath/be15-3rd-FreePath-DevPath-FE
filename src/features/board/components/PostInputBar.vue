@@ -6,15 +6,15 @@
       <select
           id="category"
           :value="category"
-          @change="$emit('update:category', $event.target.value)"
+          @change="onCategoryChange"
       >
         <option disabled value="">카테고리를 선택하세요</option>
         <option
             v-for="cat in categories"
-            :key="cat"
-            :value="cat"
+            :key="cat.id"
+            :value="cat.id"
         >
-          {{ cat }}
+          {{ cat.label }}
         </option>
       </select>
     </div>
@@ -33,32 +33,84 @@
 
     <!-- Quill 에디터 -->
     <div class="form-group">
-      <QuillEditor theme="snow" />
+      <QuillEditor
+          theme="snow"
+          :toolbar="toolbar"
+          v-model:content="editorContent"
+          contentType="html"
+          @ready="onEditorReady"
+          @update:content="$emit('update:content', editorContent)"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue'
+import { ref, defineProps, defineEmits } from 'vue'
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
+import { uploadTempImage } from '@/features/board/api.js'
 
+// Props & Emits
 const props = defineProps({
-  category: { type: String, default: '' },
-  title:    { type: String, default: '' },
-  content:  { type: String, default: '' }
+  category: String,
+  title: String,
+  content: String
 })
 const emit = defineEmits([
   'update:category',
   'update:title',
-  'update:content'
+  'update:content',
+  'add-used-image'
 ])
 
+// 카테고리 목록 및 선택 처리
 const categories = [
-  '자유게시판',
-  '프로젝트 매칭 게시판',
-  '질문게시판'
+  { id: 1, label: '자유게시판' },
+  { id: 2, label: '직무 정보 게시판' },
+  { id: 3, label: '프로젝트 매칭 게시판' }
 ]
+const onCategoryChange = (event) => {
+  emit('update:category', Number(event.target.value))
+}
+
+// 에디터 바인딩 값
+const editorContent = ref(props.content)
+
+// 툴바 설정
+const toolbar = [
+  ['bold', 'italic', 'underline'],
+  [{ header: 1 }, { header: 2 }],
+  [{ list: 'ordered' }, { list: 'bullet' }],
+  ['link', 'image']
+]
+
+// 에디터 인스턴스 초기화 시 이미지 핸들러 설정
+const onEditorReady = (quill) => {
+  const toolbar = quill.getModule('toolbar')
+  toolbar.addHandler('image', () => {
+    const input = document.createElement('input')
+    input.setAttribute('type', 'file')
+    input.setAttribute('accept', 'image/*')
+    input.click()
+
+    input.onchange = async () => {
+      const file = input.files?.[0]
+      if (!file) return
+
+      try {
+        const res = await uploadTempImage(file)
+        const imageUrl = res.data.url
+        const range = quill.getSelection()
+        quill.insertEmbed(range.index, 'image', imageUrl)
+        emit('add-used-image', imageUrl)
+      } catch (e) {
+        console.error('이미지 업로드 실패:', e)
+        alert('이미지 업로드에 실패했습니다.')
+      }
+    }
+  })
+}
 </script>
 
 <style scoped>
@@ -71,7 +123,7 @@ const categories = [
   margin-bottom: 16px;
 }
 
-/deep/ .ql-editor {
+::v-deep(.ql-editor) {
   min-height: 400px;
 }
 

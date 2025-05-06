@@ -10,26 +10,38 @@
           <span class="username">{{ comment.nickname }}</span>
           <span class="date">{{ formattedDate }}</span>
         </div>
-        <p class="text">{{ comment.contents }}</p>
+
+        <!-- 댓글 본문 / 수정 모드 -->
+        <template v-if="!isEditing">
+          <p class="text">{{ comment.contents }}</p>
+        </template>
+        <template v-else>
+          <CommentInput
+              :initial-value="editedContent"
+              :is-editing="true"
+              @submit="submitEdit"
+              @cancel="cancelEdit"
+          />
+        </template>
+
         <div class="actions">
           <button @click="likeComment" class="like-button">
             <img src="@/assets/images/board/HeartStraight.png" alt="좋아요" class="action-icon" />
             <span>{{ comment.likeCount || 0 }}</span>
           </button>
-          <button @click="replyToComment" class="reply-button">답글쓰기</button>
+          <button v-if="depth === 0 && !isEditing" @click="replyToComment" class="reply-button">
+            답글쓰기
+          </button>
           <div class="more-options">
             <img
                 src="@/assets/images/board/Button.png"
                 alt="더보기"
                 class="action-icon"
                 @click="toggleOptions"
-            >
-            <div
-                v-if="isOptionsOpen"
-                class="options-menu"
-            >
+            />
+            <div v-if="isOptionsOpen" class="options-menu">
               <button @click="deleteComment" class="report-button">댓글 삭제</button>
-              <button @click="modifyComment" class="report-button">댓글 수정</button>
+              <button @click="enableEditMode" class="report-button">댓글 수정</button>
               <button @click="reportComment" class="report-button">댓글 신고</button>
             </div>
           </div>
@@ -38,7 +50,7 @@
     </div>
 
     <!-- 답글 입력창 -->
-    <div v-if="replyingToId === comment.commentId" class="reply-input-wrapper">
+    <div v-if="replyingToId === comment.commentId && !isEditing" class="reply-input-wrapper">
       <CommentInput @submit="handleSubmitReply" />
     </div>
 
@@ -62,7 +74,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import CommentInput from './CommentInput.vue';
 
 const props = defineProps({
@@ -71,13 +83,22 @@ const props = defineProps({
   activeOptionsId: Number,
   depth: {
     type: Number,
-    default: 0
-  }
+    default: 0,
+  },
 });
 
 const emit = defineEmits([
-  'like', 'reply', 'submit-reply', 'delete', 'modify', 'report', 'toggle-options'
+  'like',
+  'reply',
+  'submit-reply',
+  'delete',
+  'modify',
+  'report',
+  'toggle-options',
 ]);
+
+const isEditing = ref(false);
+const editedContent = ref(props.comment.contents);
 
 const likeComment = () => emit('like', props.comment.commentId);
 const replyToComment = () => emit('reply', props.comment.commentId);
@@ -85,18 +106,29 @@ const toggleOptions = (event) => {
   emit('toggle-options', props.comment.commentId);
   event.stopPropagation();
 };
+
+const deleteComment = () => emit('delete', props.comment.commentId);
+const reportComment = () => emit('report', props.comment.commentId);
+const enableEditMode = () => {
+  editedContent.value = props.comment.contents;
+  isEditing.value = true;
+};
+
+const cancelEdit = () => {
+  isEditing.value = false;
+};
+
+const submitEdit = (newContent) => {
+  emit('modify', { commentId: props.comment.commentId, content: newContent });
+  isEditing.value = false;
+};
+
 const handleSubmitReply = (content) => {
   emit('submit-reply', { parentId: props.comment.commentId, content });
 };
-const deleteComment = () => emit('delete', props.comment.commentId);
-const modifyComment = () => emit('modify', props.comment.commentId);
-const reportComment = () => emit('report', props.comment.commentId);
 
 const isOptionsOpen = computed(() => props.activeOptionsId === props.comment.commentId);
-
-const formattedDate = computed(() =>
-    new Date(props.comment.createdAt).toLocaleDateString()
-);
+const formattedDate = computed(() => new Date(props.comment.createdAt).toLocaleDateString());
 </script>
 
 <style scoped>

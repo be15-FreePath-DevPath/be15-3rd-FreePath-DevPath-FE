@@ -1,5 +1,5 @@
 <script setup>
-defineProps({
+const props = defineProps({
   label: {
     type: String,
     required: true
@@ -7,8 +7,22 @@ defineProps({
   placeholder: {
     type: String,
     required: true
+  },
+  modelValue: {
+    type: String,
+    required: true
+  },
+  type: {
+    type: String,
+    default: 'text'
   }
 })
+
+const emit = defineEmits(['update:modelValue'])
+
+function onInput(event) {
+  emit('update:modelValue', event.target.value)
+}
 </script>
 
 <template>
@@ -16,7 +30,13 @@ defineProps({
     <div class="text-area">
       <div class="text">{{ label }}</div>
     </div>
-    <input class="input-area" :placeholder="placeholder" />
+    <input
+        class="input-area"
+        :type="type"
+        :placeholder="placeholder"
+        :value="modelValue"
+        @input="onInput"
+    />
   </div>
 </template>
 

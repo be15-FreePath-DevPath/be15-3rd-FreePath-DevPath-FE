@@ -6,7 +6,7 @@
     <div v-if="isLoading">로딩 중입니다...</div>
 
     <!-- 로딩 끝났을 때만 PostList 보여줌 -->
-    <PostList v-else :posts="posts" />
+    <PostList v-else :posts="posts" category="직무 정보 게시판"/>
   </div>
 
   <div class="post-button-wrapper">

@@ -9,6 +9,7 @@ import '@/assets/styles/interview-columns.css'
 
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import '@/features/board/quill-config.js'
 import { createPinia } from 'pinia'; // ✅ Pinia import
 
 const app = createApp(App);
