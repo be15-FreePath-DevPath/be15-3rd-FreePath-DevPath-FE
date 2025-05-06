@@ -1,8 +1,13 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import {ref, onMounted, onBeforeUnmount, defineProps} from 'vue'
 
 const showOption = ref(false)
 const optionWrapperRef = ref(null)
+const props = defineProps({
+  userBlock: {
+    type: Object,
+  }
+})
 
 const toggleOption = () => {
   showOption.value = !showOption.value
@@ -29,7 +34,7 @@ onBeforeUnmount(() => {
       <img src="@/assets/images/chatting/profile.png" alt="프로필사진" />
     </div>
     <div class="div-wrapper">
-      <div class="text-wrapper">사용자 1</div>
+      <div class="text-wrapper">{{userBlock.nickname}}</div>
     </div>
 
     <!-- 옵션버튼 + 팝업을 감싸는 래퍼 -->

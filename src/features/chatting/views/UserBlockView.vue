@@ -1,12 +1,31 @@
 <script setup>
 import {onMounted, ref} from "vue";
 import UserBlockCard from "@/features/chatting/components/userBlockView/UserBlockCard.vue";
+import {getChattingPendingList, getUserBlocked} from "@/features/chatting/api.js";
 
 const newBreadCrumbItems = ref(['마이페이지','마이페이지','채팅 차단 목록 조회'])
 const emit = defineEmits(['updateBreadCrumb'])
+const userBlockList = ref([]);
+
+const fetchUserBlockList = async () => {
+  const { data : wrapper } = await getUserBlocked();
+  const respData = wrapper.data;
+  userBlockList.value = respData.userBlockDTOList;
+}
 
 onMounted(() => {
-  emit('updateBreadCrumb', newBreadCrumbItems.value)
+  emit('updateBreadCrumb', newBreadCrumbItems.value);
+  fetchUserBlockList();
+  userBlockList.value = [
+    {userId : 1,
+    nickname : 'nickname1'},
+    {userId : 2,
+      nickname : 'nickname2'},
+    {userId : 3,
+      nickname : 'nickname3'},
+    {userId : 4,
+      nickname : 'nickname4'},
+  ]
 });
 
 </script>
@@ -14,10 +33,7 @@ onMounted(() => {
 <template>
   <div class = "content-frame">
     <div class = "userBlockList">
-      <UserBlockCard/>
-      <UserBlockCard/>
-      <UserBlockCard/>
-      <UserBlockCard/>
+      <UserBlockCard v-for = "userBlock in userBlockList" :userBlock = "userBlock"/>
     </div>
   </div>
 </template>

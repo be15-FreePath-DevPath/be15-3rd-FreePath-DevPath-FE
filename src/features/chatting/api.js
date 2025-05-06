@@ -10,3 +10,6 @@ export const getChatting = chattingRoomId => api.get(`/chatting/list/${chattingR
 export const getChattingRoomList = () => api.get('/chatting/list');
 
 export const getChattingPendingList = () => api.get('/chatting/waitingChattingRoom');
+
+export const getUserBlocked = () => api.get('/chatting/block');
+
