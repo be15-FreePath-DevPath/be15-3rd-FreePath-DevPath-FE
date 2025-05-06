@@ -23,7 +23,7 @@ export function fetchInterviewDetail(interviewRoomId) {
 /* 3. 면접방 생성 → 첫 질문 포함 */
 export function fetchInterviewProgressStart(category, difficulty, strictness) {
     return api.post('/interview-room', {
-        category,
+        interviewCategory: category,
         difficultyLevel: difficulty,
         evaluationStrictness: strictness,
     });

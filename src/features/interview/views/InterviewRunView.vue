@@ -18,7 +18,7 @@ const categories = [
   '객체 지향 프로그래밍', '보안', 'CI/CD', '시스템 설계', '클라우드 & 인프라'
 ]
 const difficulties = ['EASY', 'MEDIUM', 'HARD']
-const strictnessLevels = ['관대함', '표준', '엄격함']
+const strictnessLevels = ['GENEROUS', 'NORMAL', 'STRICT']
 
 const handleStartInterview = async () => {
   if (!selectedCategory.value || !selectedDifficulty.value || !selectedStrictness.value) {
@@ -38,7 +38,8 @@ const handleStartInterview = async () => {
     path: `/interview/progress/${data.interviewRoomId}`,
     query: {
       title: data.interviewRoomTitle,
-      category: data.difficultyLevel,
+      category: data.interviewCategory,
+      difficulty: data.difficultyLevel,
       strictness: data.evaluationStrictness,
       firstQuestion: data.firstQuestion
     }
