@@ -20,7 +20,7 @@ onMounted(() => {
 async function goToQuizPage() {
   try {
     const res = await getUserCsQuizResult()
-    const results = res.data // ✅ 여기! 바로 data임
+    const results = res.data
     console.log('✅ 퀴즈 결과 응답:', results)
 
     if (Array.isArray(results) && results.length === 10) {

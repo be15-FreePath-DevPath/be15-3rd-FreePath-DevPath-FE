@@ -1,8 +1,4 @@
-import axios from "axios";
-
-const api = axios.create({
-    baseURL: "http://localhost:8080"
-});
+import api from "@/api/axios.js";
 
 // 퀴즈 목록 조회
 export const getAdminCsQuizList = (params) => {
