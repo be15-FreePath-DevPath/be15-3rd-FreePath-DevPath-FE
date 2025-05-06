@@ -20,6 +20,8 @@ const categories = [
 const difficulties = ['EASY', 'MEDIUM', 'HARD']
 const strictnessLevels = ['GENEROUS', 'NORMAL', 'STRICT']
 
+
+
 const handleStartInterview = async () => {
   if (!selectedCategory.value || !selectedDifficulty.value || !selectedStrictness.value) {
     alert('모든 항목을 선택해주세요.')
@@ -27,21 +29,26 @@ const handleStartInterview = async () => {
   }
 
   // 면접 시작 API 호출 → 첫 질문 포함 데이터
-  const { data } = await fetchInterviewProgressStart(
+  const response = await fetchInterviewProgressStart(
       selectedCategory.value,
       selectedDifficulty.value,
       selectedStrictness.value
   )
 
+  const result = response.data.data;
+
+  console.log('면접 실행 결과:', response);
+  console.log('실제 데이터:', result);
+
   // 면접 진행 화면으로 이동 (면접방 ID 전달)
   await router.push({
-    path: `/interview/progress/${data.interviewRoomId}`,
+    path: `/interview/progress/${result.interviewRoomId}`,
     query: {
-      title: data.interviewRoomTitle,
-      category: data.interviewCategory,
-      difficulty: data.difficultyLevel,
-      strictness: data.evaluationStrictness,
-      firstQuestion: data.firstQuestion
+      title: result.interviewRoomTitle,
+      category: result.interviewCategory,
+      strictness: result.evaluationStrictness,
+      difficulty: result.difficultyLevel,
+      firstQuestion: result.firstQuestion
     }
   })
 }

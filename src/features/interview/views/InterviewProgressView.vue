@@ -33,11 +33,6 @@ const isFinalQuestion = ref(false)
 const handleNext = async () => {
   const interviewIndex = currentIndex.value;
 
-  // 질문 3이면 → 미리 마지막 질문으로 판단
-  if (interviewIndex === 3) {
-    isFinalQuestion.value = true;
-  }
-
   const { data: nextData } = await fetchNextQuestion(
       interviewId,
       interviewIndex,
@@ -47,13 +42,16 @@ const handleNext = async () => {
   gptEvaluation.value = nextData.gptEvaluation;
   userAnswer.value = '';
 
-  if (nextData.isLast) {
-    isFinalQuestion.value = true
-  } else {
-    currentIndex.value++
-    currentQuestion.value = nextData.nextQuestion
+  if (interviewIndex === 2) {
+    isFinalQuestion.value = true;
+  }
+
+  if (nextData.nextQuestion) {
+    currentIndex.value++;
+    currentQuestion.value = nextData.nextQuestion;
   }
 };
+
 
 // 마지막 제출
 const handleSubmit = () => {
@@ -83,7 +81,7 @@ const handleSubmit = () => {
 
     <div class="button-section">
       <button v-if="!isFinalQuestion" class="next-button" @click="handleNext">다음 질문</button>
-      <button v-else class="submit-button" @click="handleSubmit">제출하기</button>
+      <button v-else class="submit-button" @click="handleSubmit">면접 종료</button>
     </div>
 
   </div>
