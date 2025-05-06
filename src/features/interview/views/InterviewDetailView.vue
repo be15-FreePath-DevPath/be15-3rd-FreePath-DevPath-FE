@@ -1,7 +1,7 @@
 <script setup>
 import { ref, reactive, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { fetchInterviewDetail } from '@/features/interview/api.js'
+import {deleteInterviewRoom, fetchInterviewDetail} from '@/features/interview/api.js'
 import InterviewQuestionCard from '@/features/interview/components/InterviewQuestionCard.vue'
 import InterviewReexecuteModal from '@/features/interview/components/InterviewReexecuteModal.vue'
 import ReexecutedListModal from '@/features/interview/components/ReexecutedListModal.vue'
@@ -13,6 +13,7 @@ const interview = reactive({})
 const questions = ref([])
 const totalComment = ref('')
 const reexecutedRooms = ref([])
+const roomId = ref(route.params.interviewRoomId)
 
 const showReexecuteModal = ref(false)
 const showReexecutedListModal = ref(false)
@@ -27,6 +28,18 @@ const handleReexecute = ({ difficulty, strictness }) => {
 
 const goBack = () => {
   router.push('/interview/list')
+}
+
+const handleDelete = async () => {
+  if (!confirm('정말 이 면접방을 삭제하시겠습니까?')) return;
+  try {
+    await deleteInterviewRoom(roomId.value)
+    alert('면접방이 삭제되었습니다.')
+    await router.push('/interview/list') // 목록 페이지로 이동
+  } catch (err) {
+    console.error('면접방 삭제 실패:', err)
+    alert('삭제 중 문제가 발생했습니다.')
+  }
 }
 
 const loadInterviewDetail = async (roomId) => {
@@ -112,7 +125,7 @@ watch(() => route.params.interviewRoomId, (newId) => {
         </div>
       </div>
       <div class="interview-top-button">
-        <button class="button">삭제하기</button>
+        <button class="button" @click="handleDelete">삭제하기</button>
       </div>
     </div>
 

@@ -45,12 +45,12 @@ export function reexecuteInterviewRoom(roomId, difficulty, strictness) {
     });
 }
 
-/* (선택) 6. 면접방 삭제 */
+/* 6. 면접방 삭제 */
 export function deleteInterviewRoom(roomId) {
     return api.delete(`/interview-room/${roomId}`);
 }
 
-/* (선택) 7. 면접방 메모 수정 */
+/* 7. 면접방 메모 수정 */
 export function updateInterviewMemo(roomId, memo) {
     return api.patch(`/interview-room/${roomId}`, {
         memo
