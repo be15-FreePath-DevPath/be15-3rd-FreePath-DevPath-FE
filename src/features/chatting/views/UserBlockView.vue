@@ -8,9 +8,13 @@ const emit = defineEmits(['updateBreadCrumb'])
 const userBlockList = ref([]);
 
 const fetchUserBlockList = async () => {
-  const { data : wrapper } = await getUserBlocked();
-  const respData = wrapper.data;
-  userBlockList.value = respData.userBlockDTOList;
+  try{
+    const { data : wrapper } = await getUserBlocked();
+    const respData = wrapper.data;
+    userBlockList.value = respData.userBlockDTOList;
+  }catch(e){
+    console.log('차단 목록 조회 실패 ',e);
+  }
 }
 
 onMounted(() => {

@@ -8,9 +8,14 @@ const emit = defineEmits(['updateBreadCrumb'])
 const chattingPendingList = ref([]);
 
 const fetchChattingPendingList = async () => {
-  const { data : wrapper } = await getChattingPendingList();
-  const respData = wrapper.data;
-  chattingPendingList.value = respData.waitingChattingRoomDTOList;
+  try{
+    const { data : wrapper } = await getChattingPendingList();
+    const respData = wrapper.data;
+    chattingPendingList.value = respData.waitingChattingRoomDTOList;
+  }catch(e){
+    console.log('대기중인 채팅방 리스트 fetch 실패 : ',e)
+  }
+
 
 }
 
