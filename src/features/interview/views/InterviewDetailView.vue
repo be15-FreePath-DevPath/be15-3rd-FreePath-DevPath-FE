@@ -1,6 +1,6 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import {useRoute, useRouter} from 'vue-router'
+import { ref, reactive, onMounted, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { fetchInterviewDetail } from '@/features/interview/api.js'
 import InterviewQuestionCard from '@/features/interview/components/InterviewQuestionCard.vue'
 import InterviewReexecuteModal from '@/features/interview/components/InterviewReexecuteModal.vue'
@@ -8,7 +8,8 @@ import ReexecutedListModal from '@/features/interview/components/ReexecutedListM
 
 const route = useRoute()
 const router = useRouter()
-const interview = ref(null)
+
+const interview = reactive({})
 const questions = ref([])
 const totalComment = ref('')
 const reexecutedRooms = ref([])
@@ -16,115 +17,97 @@ const reexecutedRooms = ref([])
 const showReexecuteModal = ref(false)
 const showReexecutedListModal = ref(false)
 
-const closeReexecuteModal = () => {
-  showReexecuteModal.value = false
-}
-
-const closeReexecutedListModal = () => {
-  showReexecutedListModal.value = false
-}
+const closeReexecuteModal = () => showReexecuteModal.value = false
+const closeReexecutedListModal = () => showReexecutedListModal.value = false
 
 const handleReexecute = ({ difficulty, strictness }) => {
   console.log('재실행 요청됨:', difficulty, strictness)
   showReexecuteModal.value = false
 }
 
-const roomId = route.params.interviewRoomId
+const goBack = () => {
+  router.push('/interview/list')
+}
 
-const difficultyText = computed(() => {
-  const level = interview.value?.difficultyLevel
-  return level && typeof level === 'string' ? level.toUpperCase() : '-'
-})
-
-const strictnessText = computed(() => {
-  const strict = interview.value?.evaluationStrictness
-  return strict && typeof strict === 'string' ? strict.toUpperCase() : '-'
-})
-
-
-onMounted(async () => {
+const loadInterviewDetail = async (roomId) => {
   try {
-    const response = await fetchInterviewDetail(roomId);
-    if (!response || !response.data) return;
+    const response = await fetchInterviewDetail(roomId)
+    const data = response.data.data
+    console.log('받은 데이터:', data)
 
-    const data = response.data.data;
+    Object.assign(interview, data)
 
-    // 필수 값 검사
-    if (!data.interviewList) data.interviewList = [];
+    // 질문/답변/평가 파싱
+    const tempQuestions = []
+    let buffer = []
 
-    interview.value = data;
+    if (data.interviewList) {
+      data.interviewList.forEach((item) => {
+        const message = item.interviewMessage
+        if (message.startsWith('[총평]')) {
+          totalComment.value = message.replace('[총평]', '').trim()
+          return
+        }
 
-    // 총평 파싱
-    const tempQuestions = [];
-    let buffer = [];
+        if (message.startsWith('[면접 질문]')) {
+          if (buffer.length) tempQuestions.push([...buffer])
+          buffer = [message]
+        } else {
+          buffer.push(message)
+        }
+      })
+      if (buffer.length) tempQuestions.push([...buffer])
+    }
 
-    data.interviewList.forEach((item) => {
-      const message = item.interviewMessage;
-      if (message.startsWith('[총평]')) {
-        totalComment.value = message.replace('[총평]', '').trim();
-        return;
-      }
+    questions.value = tempQuestions
 
-      if (message.startsWith('[면접 질문]')) {
-        if (buffer.length) tempQuestions.push([...buffer]);
-        buffer = [message];
-      } else {
-        buffer.push(message);
-      }
-    });
-    if (buffer.length) tempQuestions.push([...buffer]);
-    questions.value = tempQuestions;
-
-    // 재실행 면접방
     reexecutedRooms.value = data.reexecutedRooms?.map((room) => {
-      const dateObj = new Date(room.interviewRoomCreatedAt);
+      const dateObj = new Date(room.interviewRoomCreatedAt)
       const formattedDate = dateObj.toLocaleDateString('ko-KR', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        weekday: 'short'
-      }).replace(/\. /g, '.').replace('.', '');
+        year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'short'
+      }).replace(/\. /g, '.').replace('.', '')
 
       return {
         id: room.interviewRoomId,
         title: room.interviewRoomTitle,
         date: formattedDate,
-        score: null
-      };
-    }) || [];
+        score: room.averageScore ?? null
+      }
+    }) || []
 
   } catch (err) {
-    console.error('상세 조회 실패:', err);
+    console.error('상세 조회 실패:', err)
   }
-});
-
-
-const goBack = () => {
-  router.push('/interview/list')
 }
-</script>
 
+onMounted(() => {
+  loadInterviewDetail(route.params.interviewRoomId)
+})
+
+watch(() => route.params.interviewRoomId, (newId) => {
+  loadInterviewDetail(newId)
+  window.scrollTo(0, 0)
+})
+</script>
 
 <template>
   <div class="interview-detail">
     <div class="detail-view-top">
       <div class="list-and-title">
         <div class="list-button" @click="goBack">
-          <div class="list-mg"/>
+          <div class="list-mg" />
         </div>
         <div class="room-summary">
-          <h2 class="info-text">{{ interview?.interviewRoomTitle }}</h2>
+          <h2 class="info-text">{{ interview.interviewRoomTitle ?? '-' }}</h2>
           <div class="view">
-            <div class="info-text-component">
-              <span class="info-text-2">카테고리 : </span>
-              <span class="info-text-2">{{ interview?.interviewCategory }}</span>
-              <span class="info-text-div">   |   </span>
-              <span class="info-text-2">난이도 : </span>
-              <span class="info-text-2">{{ difficultyText }}</span>
-              <span class="info-text-div">   |   </span>
-              <span class="info-text-2">평가 : </span>
-              <span class="info-text-2">{{ strictnessText }}</span>
-            </div>
+            <span class="info-text-2">카테고리 : </span>
+            <span class="info-text-2">{{ interview.difficultyLevel?.toUpperCase() ?? '-' }}</span>
+            <span class="info-text-div"> | </span>
+            <span class="info-text-2">난이도 : </span>
+            <span class="info-text-2">{{ interview?.difficultyLevel?.toUpperCase() ?? '-' }}</span>
+            <span class="info-text-div"> | </span>
+            <span class="info-text-2">평가 : </span>
+            <span class="info-text-2">{{ interview.evaluationStrictness?.toUpperCase() ?? '-' }}</span>
           </div>
         </div>
       </div>
@@ -133,9 +116,10 @@ const goBack = () => {
       </div>
     </div>
 
-    <div class="full-scorer-wrapper">
+    <div class="full-score-wrapper">
       <span class="full-score">면접 총점: {{ interview?.averageScore ?? '-' }}점</span>
     </div>
+
     <section class="total-comment" v-if="totalComment">
       <h3 class="info-text">전체 총평</h3>
       <div class="print-out-text">
@@ -148,8 +132,9 @@ const goBack = () => {
       <textarea
           rows="5"
           class="user-input-box"
+          :value="interview?.interviewRoomMemo ?? ''"
           placeholder="여기에 메모를 입력하세요..."
-      >{{ interview?.interviewRoomMemo }}</textarea>
+      />
       <div class="memo-footbar">
         <div class="interview-run-button">
           <button class="button">메모 저장하기</button>

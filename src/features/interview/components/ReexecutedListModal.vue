@@ -17,7 +17,12 @@
 
       <!-- 목록 -->
       <div class="reexecuted">
-        <div class="small-interview" v-for="room in rooms" :key="room.id">
+        <div
+            class="small-interview"
+            v-for="room in rooms"
+            :key="room.id"
+            @click="goToRoom(room.id)"
+        >
           <div class="interview-title">
             <div class="div">{{ room.title }}</div>
           </div>
@@ -48,13 +53,26 @@
 </template>
 
 <script setup>
-defineProps({
+import { useRouter } from 'vue-router'
+
+const emit = defineEmits(['close']) // 닫기 이벤트
+
+const props = defineProps({
   rooms: {
     type: Array,
     default: () => []
   }
 })
+
+const router = useRouter()
+
+const goToRoom = (roomId) => {
+  emit('close')
+  window.scrollTo(0, 0)
+  router.push(`/interview/${roomId}`)
+}
 </script>
+
 
 <style scoped>
 .modal-overlay {
@@ -104,6 +122,11 @@ defineProps({
 .small-interview {
   border-bottom: 1px solid #ddd;
   padding-bottom: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.small-interview:hover {
+  background-color: #e6ebf0;
 }
 
 .interview-title .div {
