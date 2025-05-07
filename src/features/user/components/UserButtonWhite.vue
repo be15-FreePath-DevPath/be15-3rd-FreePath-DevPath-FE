@@ -1,5 +1,5 @@
 <script setup>
-import { useRouter } from 'vue-router'
+import {useRoute, useRouter} from 'vue-router'
 
 const props = defineProps({
   general: { type: String, default: '일반 회원가입' },
@@ -10,9 +10,14 @@ const props = defineProps({
 const emit = defineEmits(['click-google'])
 
 const router = useRouter()
+const route = useRoute()
 
 function goToGeneral() {
-  router.push(props.generalUrl)
+  // 현재 redirect 쿼리 유지해서 일반 로그인 페이지로 이동
+  router.push({
+    path: props.generalUrl,
+    query: route.query.redirect ? { redirect: route.query.redirect } : {}
+  })
 }
 
 function goToGoogle() {
