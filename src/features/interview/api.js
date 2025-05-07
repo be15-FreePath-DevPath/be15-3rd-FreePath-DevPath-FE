@@ -1,5 +1,3 @@
-// features/interview/api.js
-
 import api from '@/api/axios.js'
 
 /* 1. 면접방 목록 조회 */
@@ -38,7 +36,6 @@ export function fetchNextQuestion(roomId, questionIndex, answer) {
 }
 
 /* 5. 면접방 재실행 (새 면접방 생성) */
-// api.js
 export function reexecuteInterviewRoom(roomId, strictness) {
     return api.post(`/interview-room/${roomId}/reexecute?strictness=${strictness}`);
 }

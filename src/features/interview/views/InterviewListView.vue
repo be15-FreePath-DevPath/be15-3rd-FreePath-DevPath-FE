@@ -6,7 +6,9 @@ import InterviewList from '@/features/interview/components/InterviewList.vue'
 import InterviewHeader from '@/features/interview/components/InterviewHeader.vue'
 import {fetchInterviewRooms} from '@/features/interview/api.js'
 
-// 상태 변수
+const newBreadCrumbItems = ref(['모의 면접', '모의 면접 조회']);
+const emit = defineEmits(['updateBreadCrumb']);
+
 const interviews = ref([])
 const pagination = ref({
   currentPage: 1,
@@ -14,7 +16,7 @@ const pagination = ref({
   totalItems: 0
 })
 const isLoading = ref(true)
-const sortOrder = ref('desc')  // 기본: 점수 내림차순
+const sortOrder = ref('desc')
 const filters = ref({
   category: null,
   difficulty: null,
@@ -70,7 +72,11 @@ const handleSortChange = (order) => {
 }
 
 // 최초 로딩
-onMounted(() => loadInterviews())
+onMounted(() => {
+  emit('updatebreadcrumb', newBreadCrumbItems.value)
+  loadInterviews()
+})
+
 </script>
 
 <template>

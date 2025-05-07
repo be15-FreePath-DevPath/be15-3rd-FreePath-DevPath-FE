@@ -11,6 +11,8 @@ import InterviewQuestionCard from '@/features/interview/components/InterviewQues
 import InterviewReexecuteModal from '@/features/interview/components/InterviewReexecuteModal.vue'
 import ReexecutedListModal from '@/features/interview/components/ReexecutedListModal.vue'
 
+const newBreadCrumbItems = ref(['모의 면접', '모의 면접 목록']);
+const emit = defineEmits(['updateBreadCrumb']);
 const route = useRoute()
 const router = useRouter()
 
@@ -67,7 +69,6 @@ const handleDelete = async () => {
   }
 }
 
-// 초기 주입 (watch 말고 onMounted 이후 수동 할당으로 처리)
 watch(interview, (newVal) => {
   memoText.value = newVal?.interviewRoomMemo || ''
   titleText.value = newVal?.interviewRoomTitle || ''
@@ -135,6 +136,7 @@ const loadInterviewDetail = async (roomId) => {
 }
 
 onMounted(() => {
+  emit('updatebreadcrumb', newBreadCrumbItems.value)
   loadInterviewDetail(route.params.interviewRoomId)
 })
 

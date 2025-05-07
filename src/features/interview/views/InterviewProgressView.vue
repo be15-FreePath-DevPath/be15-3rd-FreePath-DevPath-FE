@@ -1,11 +1,14 @@
 <script setup>
-import { ref } from 'vue'
+import {onMounted, ref} from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { fetchNextQuestion } from '@/features/interview/api.js'
 
 const route = useRoute()
 const router = useRouter()
 const interviewId = Number(route.params.id)
+
+const newBreadCrumbItems = ref(['모의 면접', '모의 면접 실행']);
+const emit = defineEmits(['updateBreadCrumb']);
 
 // query로 받은 값
 const interviewTitle = ref(route.query.title || '')
@@ -81,6 +84,10 @@ const handleSubmit = async () => {
     alert('마지막 답변을 저장하는 데 실패했습니다.');
   }
 };
+
+onMounted(() => {
+  emit('updatebreadcrumb', newBreadCrumbItems.value)
+})
 
 </script>
 
