@@ -9,7 +9,7 @@ const route = useRoute()
 
 const itNews = ref([])
 const currentPage = ref(1)
-const pageSize = 10 //
+const pageSize = 10
 const pagination = reactive({
   currentPage: 1,
   totalPages: 1,
@@ -47,13 +47,14 @@ const fetchNews = async (page = 1) => {
   isLoading.value = true
   try {
     const { data: wrapper } = await getNewsList({ page, size: pageSize })
+    console.log(wrapper.data.newsList.length)
     const respData = wrapper?.data || {}
     itNews.value = (respData.newsList || []).sort((a, b) => a.itNewsId - b.itNewsId)
 
     // pagination 정보 수동 계산
     pagination.currentPage = respData.pagination?.currentPage || 1
     pagination.totalItems = respData.pagination?.totalItems || 0
-    pagination.totalPages = Math.ceil(pagination.totalItems / pageSize)
+    pagination.totalPages = respData.pagination?.totalPage || 1
     currentPage.value = page
   } catch (e) {
     console.error('뉴스 목록 로드 실패', e)

@@ -1,7 +1,8 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
+import { useAuthStore } from '@/stores/auth'
 
 import likedIcon from '@/assets/images/board/BigHeartStraightRed.png'
 import unlikedIcon from '@/assets/images/board/BigHeartStraight.png'
@@ -18,13 +19,12 @@ import {
   unbookmark
 } from '@/features/interaction/api.js'
 
-// 토스트 인스턴스
-const toast = useToast({
-  position: 'top-center', // ← 여기서만 중앙 정렬
-  timeout: 2000
-})
+// 스토어 및 라우터
+const authStore = useAuthStore()
+const router = useRouter()
+const toast = useToast({ position: 'top-center', timeout: 2000 })
 
-// 게시글 ID 가져오기
+// 게시글 ID
 const route = useRoute()
 const postId = route.params.id
 
@@ -36,14 +36,19 @@ const isBookmarked = ref(false)
 // 초기 상태 조회
 onMounted(async () => {
   try {
-    const [likeRes, countRes, bookmarkRes] = await Promise.all([
-      hasUserLikedBoard(postId),
-      countLikesByBoardId(postId),
-      hasUserBookmarkedPost(postId)
-    ])
-    isLiked.value = likeRes.data.data
+    // 좋아요 개수는 누구나 조회 가능
+    const countRes = await countLikesByBoardId(postId)
     likeCount.value = countRes.data.data
-    isBookmarked.value = bookmarkRes.data.data
+
+    // 로그인 사용자만 좋아요/북마크 여부 조회
+    if (authStore.isLoggedIn) {
+      const [likeRes, bookmarkRes] = await Promise.all([
+        hasUserLikedBoard(postId),
+        hasUserBookmarkedPost(postId)
+      ])
+      isLiked.value = likeRes.data.data
+      isBookmarked.value = bookmarkRes.data.data
+    }
   } catch (err) {
     console.error('초기 상태 조회 실패:', err)
     toast.error('초기 상태 조회 중 오류 발생')
@@ -52,10 +57,13 @@ onMounted(async () => {
 
 // 좋아요 토글
 const toggleLike = async () => {
-  const payload = {
-    boardId: parseInt(postId),
-    commentId: null
+  if (!authStore.isLoggedIn) {
+    toast.warning('로그인이 필요합니다.')
+    router.push('/user/login')
+    return
   }
+
+  const payload = { boardId: parseInt(postId), commentId: null }
 
   try {
     if (isLiked.value) {
@@ -76,9 +84,13 @@ const toggleLike = async () => {
 
 // 북마크 토글
 const toggleBookmark = async () => {
-  const payload = {
-    boardId: parseInt(postId)
+  if (!authStore.isLoggedIn) {
+    toast.warning('로그인이 필요합니다.')
+    router.push('/user/login')
+    return
   }
+
+  const payload = { boardId: parseInt(postId) }
 
   try {
     if (isBookmarked.value) {
@@ -95,6 +107,7 @@ const toggleBookmark = async () => {
   }
 }
 </script>
+
 
 
 <template>
