@@ -1,9 +1,11 @@
 <script setup>
-import {computed, ref} from 'vue'
+import {computed, ref, onMounted} from 'vue'
 import { useRouter } from 'vue-router'
 import { devtiQuestions } from '@/features/devti/data/devtiQuestions.js'
 import {saveDevtiResult} from "@/features/devti/api.js";
+import {useAuthStore} from "@/stores/auth.js";
 
+const auth = useAuthStore()
 const router = useRouter()
 const currentIndex = ref(0)
 const answers = ref({ G: 0, S: 0, A: 0, B: 0, T: 0, M: 0, F: 0, D: 0 })
@@ -32,6 +34,13 @@ const handleAnswer = async (value) => {
     await router.push({path: '/mypage/devti/result', query: {type: result}});
   }
 }
+
+onMounted(() => {
+  if (!auth.isAuthenticated) {
+    alert('로그인이 필요한 서비스입니다.')
+    router.push('/user/login') // 혹은 회원가입 페이지
+  }
+})
 
 </script>
 

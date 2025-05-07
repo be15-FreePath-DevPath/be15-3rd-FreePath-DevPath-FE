@@ -29,18 +29,21 @@
 
     <div class="button-group">
       <button @click="goToTest">다시 테스트하기</button>
-      <button @click="shareResult">공유하기</button>
+      <button @click="shareResult" :disabled="!isAuthenticated">공유하기</button>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
 import { devtiResults } from '@/features/devti/data/devtiResults.js'
 import { useRoute, useRouter } from "vue-router";
+import {useAuthStore} from "@/stores/auth.js";
+import {computed} from "vue";
 
 const route = useRoute();
 const router = useRouter();
+const auth = useAuthStore();
+const isAuthenticated = computed(() => auth.isAuthenticated);
 
 const props = defineProps({
   resultType: {
@@ -58,13 +61,21 @@ const result = devtiResults[props.resultType] || {
 }
 
 const goToTest = () => {
+  if (!isAuthenticated.value) {
+    alert('로그인이 필요합니다.');
+    return;
+  }
   router.push("/mypage/devti/test");
 };
 
 const shareResult = () => {
+  if (!isAuthenticated.value) {
+    alert('로그인이 필요합니다.');
+    return;
+  }
+
   const title = result?.name ?? '알 수 없음';
   const description = result?.description ?? '결과 설명이 없습니다.';
-
   const shareText = `내 개발자 성향은 ${title}!\n\n${description}`;
   const shareUrl = window.location.href;
 
