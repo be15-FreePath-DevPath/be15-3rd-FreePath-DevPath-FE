@@ -154,7 +154,6 @@ async function handleVerifyCode() {
 <template>
   <MyPageBoardLarge title="이메일 수정">
     <!-- 이메일 입력 -->
-    <template v-if="!verifyVisible">
       <MyPageInput
           v-model="displayEmail"
           label="새 이메일"
@@ -175,12 +174,12 @@ async function handleVerifyCode() {
       <p v-if="isLoading" class="loading-message">
         입력하신 이메일로 인증 번호 보내는 중{{ loadingDots }}
       </p>
-    </template>
 
     <!-- 인증 화면 -->
-    <template v-else>
+    <template v-if="verifyVisible">
       <MyPageVerify
           :email="email"
+          :current-email="originalEmail"
           purpose="CHANGE_EMAIL"
           @verify-success="handleVerifyCode"
       />

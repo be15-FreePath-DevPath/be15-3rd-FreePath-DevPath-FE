@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { emailCheck } from '@/features/user/api'
+import { changeEmail } from '@/features/mypage/api'  // 이메일 변경 API 임포트
 import { errorMap } from '@/features/user/errorcode.js'
 
 // 컴포넌트 import
@@ -9,16 +10,11 @@ import UserModal from "@/features/user/components/UserModal.vue";
 import MyPageInput from "@/features/mypage/components/MyPageInput.vue";
 import UserButtonPurple from "@/features/user/components/UserButtonPurple.vue";
 
-// 부모로부터 email과 purpose 값을 전달 받음
+// 부모로부터 값 전달 받음
 const props = defineProps({
-  email: {
-    type: String,
-    required: true
-  },
-  purpose: {
-    type: String,
-    required: true
-  }
+  email: { type: String, required: true },          // 새 이메일
+  currentEmail: { type: String, required: true },   // 기존 이메일
+  purpose: { type: String, required: true }
 })
 
 // emit 이벤트 정의
@@ -45,7 +41,18 @@ async function verify() {
     const res = await emailCheck(props.email, authNum.value, props.purpose)
 
     if (res.data.isVerified) {
-      // 성공 시 부모에 이벤트 emit
+      // 인증 성공 시 이메일 변경 API 호출
+      await changeEmail({
+        currentEmail: props.currentEmail,
+        newEmail: props.email
+      })
+
+      // 모달로 성공 알림
+      modalTitle.value = 'Success!'
+      modalSubtitle.value = '이메일이 성공적으로 변경되었습니다.'
+      showModal.value = true
+
+      // 부모에게 성공 이벤트 emit
       emit('verify-success')
     } else {
       showModal.value = true
