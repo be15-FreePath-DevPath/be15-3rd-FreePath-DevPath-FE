@@ -9,3 +9,4 @@ export const getChattingPendingList = () => api.get('/chatting/waitingChattingRo
 
 export const getUserBlocked = () => api.get('/chatting/block');
 
+export const deleteBlockUser = (userId) => api.delete(`/chatting/block/${userId}`);

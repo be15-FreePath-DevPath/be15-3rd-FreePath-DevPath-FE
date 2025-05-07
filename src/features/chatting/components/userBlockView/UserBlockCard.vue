@@ -9,6 +9,12 @@ const props = defineProps({
   }
 })
 
+const emit = defineEmits(['handleModalOpen'])
+
+function handleModalOpen() {
+  emit('handleModalOpen',props.userBlock.userId)
+}
+
 const toggleOption = () => {
   showOption.value = !showOption.value
 }
@@ -18,6 +24,8 @@ const handleClickOutside = (event) => {
     showOption.value = false
   }
 }
+
+
 
 onMounted(() => {
   document.addEventListener('click', handleClickOutside)
@@ -44,7 +52,7 @@ onBeforeUnmount(() => {
       </button>
 
       <!-- 옵션 팝업 -->
-      <div v-if="showOption" class="option-popup">
+      <div v-if="showOption" class="option-popup" @click="handleModalOpen">
         <div class="popup-item">차단 해제</div>
       </div>
     </div>
