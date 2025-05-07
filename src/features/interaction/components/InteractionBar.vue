@@ -41,7 +41,7 @@ onMounted(async () => {
     likeCount.value = countRes.data.data
 
     // 로그인 사용자만 좋아요/북마크 여부 조회
-    if (authStore.isLoggedIn) {
+    if (authStore.isAuthenticated) {
       const [likeRes, bookmarkRes] = await Promise.all([
         hasUserLikedBoard(postId),
         hasUserBookmarkedPost(postId)
@@ -57,7 +57,7 @@ onMounted(async () => {
 
 // 좋아요 토글
 const toggleLike = async () => {
-  if (!authStore.isLoggedIn) {
+  if (!authStore.isAuthenticated) {
     toast.warning('로그인이 필요합니다.')
     router.push('/user/login')
     return
@@ -84,7 +84,7 @@ const toggleLike = async () => {
 
 // 북마크 토글
 const toggleBookmark = async () => {
-  if (!authStore.isLoggedIn) {
+  if (!authStore.isAuthenticated) {
     toast.warning('로그인이 필요합니다.')
     router.push('/user/login')
     return
