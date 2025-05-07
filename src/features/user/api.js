@@ -23,7 +23,7 @@ export function signupTemp({ email, loginId, password, nickname, name, itNewsSub
     });
 }
 
-export function signupGoogle() {
+export function signupGoogleTemp() {
     const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
     console.log("VITE_API_BASE_URL:", apiBaseUrl);
     if (apiBaseUrl) {
@@ -31,5 +31,13 @@ export function signupGoogle() {
     } else {
         console.error("API Base URL is not defined.");
     }
+}
+
+export function signupGoogle(email, nickname, itNewsSubscription){
+    return api.post('/user/signup-social', {
+        email,
+        nickname,
+        itNewsSubscription
+    });
 }
 

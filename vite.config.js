@@ -20,7 +20,6 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/user/signup/google': 'http://localhost:8080', // 백엔드 API 서버 주소
       '/oauth2': 'http://localhost:8080', // oauth 리디렉트 받을 때도 프록시 필요
       '/login': 'http://localhost:8080', // 이 경로도 필요할 수 있음
     },

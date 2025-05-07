@@ -3,7 +3,7 @@ import UserForm from "@/features/user/components/UserForm.vue";
 import UserExtraService from "@/features/user/components/UserExtraService.vue";
 import UserLogo from "@/features/user/components/UserLogo.vue";
 import UserButtonWhite from "@/features/user/components/UserButtonWhite.vue";
-import {signupGoogle} from "@/features/user/api.js";
+import {signupGoogleTemp} from "@/features/user/api.js";
 
 </script>
 
@@ -18,7 +18,7 @@ import {signupGoogle} from "@/features/user/api.js";
           general="일반 회원가입"
           google="구글 회원가입"
           generalUrl="/user/signup/general"
-          @click-google="signupGoogle"
+          @click-google="signupGoogleTemp"
       />
     </UserForm>
     <UserExtraService
