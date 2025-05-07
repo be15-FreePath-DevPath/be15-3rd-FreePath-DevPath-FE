@@ -71,7 +71,7 @@ async function handleUpdate() {
     const response = await modifyUserInfo(nickname.value, itNewsSubscription.value);
 
     if (response && response.data.success) {
-      showModal("수정 완료", "회원 정보가 성공적으로 수정되었습니다.");
+      showModal("Success!", "회원 정보가 성공적으로 수정되었습니다.");
       // 원본 값도 갱신
       originalNickname.value = nickname.value;
       originalItNewsSubscription.value = itNewsSubscription.value;

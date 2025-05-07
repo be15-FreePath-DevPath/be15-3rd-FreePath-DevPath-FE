@@ -11,6 +11,10 @@ const props = defineProps({
   modelValue: {
     type: String,
     required: true
+  },
+  type: {
+    type: String,
+    default: 'text'  // 기본값은 text
   }
 });
 
@@ -27,6 +31,7 @@ const emit = defineEmits(['update:modelValue']);
         :placeholder="placeholder"
         :value="modelValue"
         @input="event => emit('update:modelValue', event.target.value)"
+        :type="type"
     />
   </div>
 </template>

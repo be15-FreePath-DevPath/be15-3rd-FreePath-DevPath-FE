@@ -21,3 +21,7 @@ export function changeEmail(currentEmail, newEmail) {
         newEmail
     });
 }
+
+export function changePassword(data) {
+    return api.post('/user/change-password', data)
+}
