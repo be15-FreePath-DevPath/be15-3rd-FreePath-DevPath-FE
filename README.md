@@ -26,6 +26,7 @@
        <ul>
           <li><a href="#figma">🙌 화면 설계서 (Figma)</a></li>
           <li><a href="#test">🎖️ 테스트 결과 보고서</a></li>
+          <li><a href="#featuresheet">📋 기능 명세서</a></li>
         </ul>
     </td>
   </tr>
@@ -1300,6 +1301,14 @@ src/
 </details>
 </details>
 <br>
+
+<h1 id="featuresheet">📋 기능 명세서</h1>
+
+<p>
+  👉 <a href="https://docs.google.com/spreadsheets/d/1QiwmdboXW1NQqpaus8WPn9rSQqanZmAI-qdMtQAnVAA/edit?usp=sharing" target="_blank">
+    기능 명세서 보기 (Google Sheets)
+  </a>
+</p>
 
 
 <br>
