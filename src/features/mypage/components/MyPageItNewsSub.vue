@@ -1,23 +1,34 @@
 <script setup>
-import { ref } from 'vue'
-import UserNoti from '@/features/user/components/UserNoti.vue'
+import { ref, computed } from 'vue';
+import { defineProps, defineEmits } from 'vue';
 
-// 이미지 경로 import
-import subY from '@/assets/images/user/sub_y.png'
-import subN from '@/assets/images/user/sub_n.png'
-import notiWhite from '@/assets/images/mypage/info_black.png'
+import subY from '@/assets/images/user/sub_y.png';
+import subN from '@/assets/images/user/sub_n.png';
+import notiWhite from '@/assets/images/mypage/info_black.png';
+import UserNoti from '@/features/user/components/UserNoti.vue';
 
-// 구독 상태
-const isSubscribed = ref(false)
+const props = defineProps({
+  modelValue: {
+    type: String,
+    default: "Y",
+  },
+});
 
-// 상태 변경
+const emit = defineEmits(["update:modelValue"]);
+
+// 구독 상태 true/false로 변환
+const isSubscribed = computed({
+  get: () => props.modelValue === "Y",
+  set: (val) => emit("update:modelValue", val ? "Y" : "N"),
+});
+
+// 구독 상태 토글
 function toggleSubscribe() {
-  isSubscribed.value = !isSubscribed.value
-  console.log(isSubscribed.value ? 'Y' : 'N')
+  isSubscribed.value = !isSubscribed.value;
 }
 
 // 안내사항 표시 상태
-const showNoti = ref(false)
+const showNoti = ref(false);
 </script>
 
 <template>
@@ -28,20 +39,14 @@ const showNoti = ref(false)
         <div class="text">It 기사 구독</div>
       </div>
 
-      <!-- info 아이콘 + 팝업 묶음 -->
+      <!-- info 아이콘 + 팝업 -->
       <div class="info-area" @mouseenter="showNoti = true" @mouseleave="showNoti = false">
-        <img
-            :src="notiWhite"
-            class="info-icon"
-            alt="info icon"
-        />
-        <!-- 안내 사항 -->
+        <img :src="notiWhite" class="info-icon" alt="info icon" />
         <UserNoti
             v-if="showNoti"
             class="noti-popup"
             title="It News Subscription"
-            subtitle="일주일에 한 번씩 주요 it 기사들을
-                메일로 전송해 주는 서비스입니다"/>
+            subtitle="일주일에 한 번씩 주요 it 기사들을 메일로 전송해 주는 서비스입니다" />
       </div>
     </div>
 

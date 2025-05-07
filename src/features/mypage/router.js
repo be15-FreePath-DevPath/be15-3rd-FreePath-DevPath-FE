@@ -1,5 +1,5 @@
 import MyPageView from "@/features/mypage/views/MyPageView.vue";
-import MyPageEdit from "@/features/mypage/views/MyPageEdit.vue";
+import MyPageEditView from "@/features/mypage/views/MyPageEditView.vue";
 
 export const mypageRoutes = [
     {
@@ -10,6 +10,6 @@ export const mypageRoutes = [
     {
         path: '/mypage/edit',
         name: 'MyPageEdit',
-        component: MyPageEdit
+        component: MyPageEditView
     }
 ];
