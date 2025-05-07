@@ -11,8 +11,12 @@ const currentPage = ref(1)
 const totalPages = ref(1)
 const totalItems = ref(0)
 const pageSize = 10
+const isLoading = ref(true)
+
 
 const fetchBookmarkList = async (page = 1) => {
+  isLoading.value = true
+  await new Promise(resolve => setTimeout(resolve, 1000)) // isLoading 확인
   const params = { page, size: pageSize }
   const response = await getBookmarkList(params)
   const data = response.data.data
@@ -21,6 +25,7 @@ const fetchBookmarkList = async (page = 1) => {
   totalItems.value = data.pagination.totalItems
   totalPages.value = data.pagination.totalPage
   currentPage.value = data.pagination.currentPage
+  isLoading.value = false
 }
 
 const handlePageChange = (page) => {
@@ -51,43 +56,50 @@ onMounted(() => {
 
 <template>
   <div class="list-wrapper">
-    <div class="list-header" v-if="posts.length > 0">
-      <div class="col-title">게시글 제목</div>
-      <div class="col-date">작성일자</div>
-      <div class="col-writer">작성자</div>
-    </div>
+    <!-- ✅ 로딩 중일 때 -->
+    <div v-if="isLoading">로딩 중입니다...</div>
 
-    <div v-if="posts.length === 0" class="empty-wrapper">
-      <div class="empty-icon">📌</div>
-      <div class="empty-text">북마크한 게시글이 없습니다.</div>
-    </div>
-
-    <div class="post-list">
-      <div
-          class="post-item"
-          v-for="post in posts"
-          :key="post.boardId"
-          @click="goToPost(post.boardId)"
-      >
-        <div class="col-title">{{ post.boardTitle }}</div>
-        <div class="col-date">
-          <img class="date-icon" :src="calendarIcon" alt="calendar" />
-          {{ formatDate(post.boardCreatedAt) }}
-        </div>
-        <div class="col-writer">{{ post.nickname }}</div>
+    <!-- ✅ 로딩 완료 후 -->
+    <template v-else>
+      <div class="list-header" v-if="posts.length > 0">
+        <div class="col-title">게시글 제목</div>
+        <div class="col-date">작성일자</div>
+        <div class="col-writer">작성자</div>
       </div>
-    </div>
 
-    <PagingBar
-        :key="currentPage"
-        v-if="posts.length > 0"
-        :currentPage="currentPage"
-        :totalPages="totalPages"
-        :totalItems="totalItems"
-        @page-changed="handlePageChange"
-    />
+      <div v-if="posts.length === 0" class="empty-wrapper">
+        <div class="empty-icon">📌</div>
+        <div class="empty-text">북마크한 게시글이 없습니다.</div>
+      </div>
+
+      <div class="post-list">
+        <div
+            class="post-item"
+            v-for="post in posts"
+            :key="post.boardId"
+            @click="goToPost(post.boardId)"
+        >
+          <div class="col-title">{{ post.boardTitle }}</div>
+          <div class="col-date">
+            <img class="date-icon" :src="calendarIcon" alt="calendar" />
+            {{ formatDate(post.boardCreatedAt) }}
+          </div>
+          <div class="col-writer">{{ post.nickname }}</div>
+        </div>
+      </div>
+
+      <PagingBar
+          :key="currentPage"
+          v-if="posts.length > 0"
+          :currentPage="currentPage"
+          :totalPages="totalPages"
+          :totalItems="totalItems"
+          @page-changed="handlePageChange"
+      />
+    </template>
   </div>
 </template>
+
 
 <style scoped>
 .list-wrapper {
