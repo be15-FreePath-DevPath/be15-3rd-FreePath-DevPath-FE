@@ -1,17 +1,16 @@
 import api from '@/api/axios.js'
 
 /* 1. 면접방 목록 조회 */
-export function fetchInterviewRooms({ page = 1, sortOrder = 'desc', category, difficulty, evaluation }) {
-    return api.get('/interview-room', {
-        params: {
-            page,
-            sortOrder,
-            category,
-            difficulty,
-            evaluation,
-        },
-    });
+export function fetchInterviewRooms({ page=1, size=10, sortOrder, category, difficulty, evaluation }) {
+    const params = { page, size }
+    if (sortOrder)             params.sortOrder = sortOrder
+    if (category)              params.category = category
+    if (difficulty)            params.difficultyLevel = difficulty
+    if (evaluation)            params.evaluationStrictness = evaluation
+
+    return api.get('/interview-room/filter', { params })
 }
+
 
 /* 2. 면접방 상세 조회 */
 export function fetchInterviewDetail(interviewRoomId) {

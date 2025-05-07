@@ -5,6 +5,7 @@ const emit = defineEmits(['select'])
 const selected = ref(null)
 
 const selectOption = (value) => {
+  console.log('[SortDropdown] emit select:', value)
   selected.value = value
   emit('select', value)
 }
