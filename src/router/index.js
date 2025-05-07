@@ -35,7 +35,6 @@ const router = createRouter({
             ]
         }
     ],
-
 })
 
 // 로그인이나 회원가입 시, RouterView 내부의 스크롤바를 맨 위로 설정
@@ -78,6 +77,7 @@ router.beforeEach((to, from, next) => {
     const toast = useToast()
 
     if (to.meta.requiresAdmin) {
+        console.log(to.meta.requiresAdmin)
         if (!authStore.isAuthenticated || authStore.userRole !== 'ADMIN') {
             toast.warning('관리자만 접근할 수 있습니다.', {
                 position: 'top-center'
@@ -91,10 +91,13 @@ router.beforeEach((to, from, next) => {
 
 // 비로그인 상태로 접근 시 차단하는 설정 -> requiresAuth를 meta에 기입하기
 router.beforeEach(to => {
-
     const authStore = useAuthStore();
+    const toast = useToast()
     // 인증이 되어야만 하는 페이지인데 인증이 되어 있지 않다면 로그인 페이지로 이동
     if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+        toast.warning('로그인이 필요한 서비스입니다.', {
+            position: 'top-center'
+        })
         return {
             name : 'UserLogin',
             query : { redirect : to.fullPath }
@@ -102,8 +105,8 @@ router.beforeEach(to => {
     }
 
     // 로그인, 회원가입 페이지에 이미 로그인 된 상태로 접근하면 메인으로 이동
-    if ((to.name === 'login' || to.name === 'register') && authStore.isAuthenticated) {
-        return { name : 'main' }
+    if ((to.name === 'UserLoginGeneral' || to.name === 'UserLogin' || to.name === 'UserSignUpGeneral' || to.name === 'UserSignUp') && authStore.isAuthenticated) {
+        return { name : 'Main' }
     }
     // 그 외에는 그대로 라우팅 처리함
 })
