@@ -29,11 +29,12 @@ const loadInterviews = async (page = 1) => {
   try {
     const resp = await fetchInterviewRooms({
       page,
+      size: 10,
       sortOrder: sortOrder.value,
       category: filters.value.category,
       difficulty: filters.value.difficulty,
       evaluation: filters.value.evaluation,
-    });
+    })
 
     const { interviewRooms, pagination: rawPagination } = resp.data.data;
 
@@ -66,6 +67,7 @@ const handleFilterChange = ({type, value}) => {
 
 // 정렬 변경 처리
 const handleSortChange = (order) => {
+  console.log('[InterviewListView] handleSortChange:', order)
   sortOrder.value = order
   pagination.value.currentPage = 1
   loadInterviews(1)
