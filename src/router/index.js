@@ -3,6 +3,7 @@ import mainRoutes from '@/features/main/router'
 import { interviewRoutes } from '@/features/interview/router.js'
 import { csquizRoutes } from "@/features/csquiz/router.js";
 import {adminRoutes} from "@/features/admin/router.js";
+import {chattingRoutes} from "@/features/chatting/router.js";
 import LayoutDefault from "@/components/layout/LayoutDefault.vue";
 import {itNewsRoutes} from "@/features/admin/ItNews/router.js";
 import {boardRoutes} from "@/features/board/router.js";
@@ -26,6 +27,7 @@ const router = createRouter({
                 ...adminRoutes,
                 ...itNewsRoutes,
                 ...boardRoutes,
+                ...chattingRoutes,
                 ...userRoutes,
                 ...adminCsQuizRoutes,
                 ...mypageRoutes,

@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@stomp/stompjs": "^7.1.1",
     "@vueup/vue-quill": "^1.2.0",
     "axios": "^1.9.0",
     "lodash": "^4.17.21",
@@ -23,6 +24,7 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.3",
     "vite": "^6.3.4",
+    "vite-plugin-node-polyfills": "^0.23.0",
     "vite-plugin-vue-devtools": "^7.7.2"
   }
 }

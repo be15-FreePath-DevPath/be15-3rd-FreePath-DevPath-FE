@@ -7,6 +7,9 @@ import {fetchInterviewProgressStart} from '@/features/interview/api.js'
 
 const router = useRouter()
 
+const newBreadCrumbItems = ref(['모의 면접', '모의 면접 실행']);
+const emit = defineEmits(['updateBreadCrumb']);
+
 // 선택 상태
 const selectedCategory = ref('')
 const selectedDifficulty = ref('')
@@ -19,7 +22,6 @@ const categories = [
 ]
 const difficulties = ['EASY', 'MEDIUM', 'HARD']
 const strictnessLevels = ['GENEROUS', 'NORMAL', 'STRICT']
-
 
 
 const handleStartInterview = async () => {
@@ -52,6 +54,10 @@ const handleStartInterview = async () => {
     }
   })
 }
+
+onMounted(() => {
+  emit('updateBreadCrumb', newBreadCrumbItems.value)
+})
 </script>
 
 <template>
