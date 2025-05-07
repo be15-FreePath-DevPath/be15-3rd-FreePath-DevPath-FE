@@ -1,6 +1,8 @@
 <script setup>
 import BookmarkList from "@/features/mypage/bookmark/components/BookmarkList.vue";
 import LikeList from "@/features/mypage/like/components/LikeList.vue";
+import CommentList from "@/features/mypage/comment/components/CommentList.vue";
+import ReportCommentList from "@/features/mypage/comment/components/ReportCommentList.vue";
 
 const props = defineProps(['selectedMain', 'selectedSub'])
 </script>
@@ -13,6 +15,12 @@ const props = defineProps(['selectedMain', 'selectedSub'])
       </div>
       <div v-if="selectedSub === '좋아요한 게시물'">
         <LikeList />
+      </div>
+      <div v-if="selectedSub === '작성한 댓글'">
+        <CommentList />
+      </div>
+      <div v-if="selectedSub === '신고된 댓글'">
+        <ReportCommentList />
       </div>
     </div>
   </div>
