@@ -7,7 +7,7 @@ import PagingBar from "@/components/common/PagingBar.vue";
 import InteractionBar from "@/features/interaction/components/InteractionBar.vue";
 import PostDescriptionBar from "@/features/board/components/PostDescriptionBar.vue";
 import {fetchCommentList} from "@/features/comment/api.js";
-import {createChattingRoom} from "@/features/chatting/api.js";
+import {createChattingRoom, postChattingJoin} from "@/features/chatting/api.js";
 
 const emit = defineEmits(['updateBreadCrumb'])
 
@@ -151,6 +151,16 @@ const handleChattingByComment = async(userId) => {
   }
 }
 
+const handleGroupChattingJoin = async () => {
+  try{
+    await postChattingJoin(postId);
+    alert('그룹채팅방 참여 요청을 보냈습니다!');
+  }catch(e){
+    const msg = e?.response?.data?.message || '그룹채팅방 참여 요청 실패';
+    alert(msg);
+  }
+}
+
 </script>
 
 <template>
@@ -166,7 +176,7 @@ const handleChattingByComment = async(userId) => {
         @report="handleReportPost"
         @chat="handleChatting"
     />
-    <InteractionBar/>
+    <InteractionBar @groupChattingJoin = "handleGroupChattingJoin" :postCategory="postCategory"/>
     <CommentList :comments="comments" @routeChat="handleChattingByComment"/>
     <PagingBar v-bind="pagination"/>
   </template>
