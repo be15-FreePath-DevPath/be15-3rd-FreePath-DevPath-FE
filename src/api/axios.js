@@ -24,7 +24,7 @@ api.interceptors.response.use(
         const authStore = useAuthStore();
         const { config, response } = err;
 
-        if (config.url.includes('/auth/refresh')) {
+        if (config.url.includes('/user/refresh')) {
             // 리프레시 요청에서 401이 오면 바로 로그아웃 처리
             await authStore.clearAuth();
             return Promise.reject(err);

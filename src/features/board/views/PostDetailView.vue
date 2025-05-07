@@ -2,12 +2,22 @@
 import {reactive, onMounted, computed, ref} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import {deletePost, fetchPostDetail, reportPost, updatePost} from '@/features/board/api.js';
-
 import CommentList from "@/features/comment/components/CommentList.vue";
 import PagingBar from "@/components/common/PagingBar.vue";
 import InteractionBar from "@/features/interaction/components/InteractionBar.vue";
 import PostDescriptionBar from "@/features/board/components/PostDescriptionBar.vue";
 import {fetchCommentList} from "@/features/comment/api.js";
+
+const emit = defineEmits(['updateBreadCrumb'])
+
+onMounted(() => {
+  if (!postCategory.value) {
+    emit('updateBreadCrumb', ['마이페이지', '회원 정보 조회'])
+  } else {
+    emit('updateBreadCrumb', ['게시판', postCategory.value])
+  }
+})
+
 
 // 게시글 정보
 const postDescription = reactive({
