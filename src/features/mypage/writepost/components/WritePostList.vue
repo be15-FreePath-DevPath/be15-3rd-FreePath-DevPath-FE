@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import PagingBar from '@/components/common/PagingBar.vue'
-import { getBookmarkList } from '@/features/mypage/bookmark/api.js'
+import { getMyPostList } from '@/features/mypage/writepost/api.js'
 import calendarIcon from '@/assets/images/interview/calendar-blank.png'
 
 const router = useRouter()
@@ -13,15 +13,14 @@ const totalItems = ref(0)
 const pageSize = 10
 const isLoading = ref(true)
 
-
-const fetchBookmarkList = async (page = 1) => {
+const fetchMyPostList = async (page = 1) => {
   isLoading.value = true
   await new Promise(resolve => setTimeout(resolve, 1000)) // isLoading 확인
   const params = { page, size: pageSize }
-  const response = await getBookmarkList(params)
+  const response = await getMyPostList(params)
   const data = response.data.data
-
-  posts.value = data.posts
+  console.log('응답 데이터', response.data.data)
+  posts.value = data.myPosts
   totalItems.value = data.pagination.totalItems
   totalPages.value = data.pagination.totalPage
   currentPage.value = data.pagination.currentPage
@@ -30,7 +29,7 @@ const fetchBookmarkList = async (page = 1) => {
 
 const handlePageChange = (page) => {
   currentPage.value = page
-  fetchBookmarkList(page)
+  fetchMyPostList(page)
 }
 
 const formatDate = (dateStr) => {
@@ -46,20 +45,21 @@ const formatDate = (dateStr) => {
 }
 
 const goToPost = (id) => {
-  router.push(`/board/${id}`)
+  if (typeof id === 'number') {
+    router.push(`/board/${id}`)
+  } else {
+    console.warn('잘못된 boardId:', id)
+  }
 }
 
 onMounted(() => {
-  fetchBookmarkList(1)
+  fetchMyPostList(1)
 })
 </script>
-
 <template>
   <div class="list-wrapper">
-    <!-- ✅ 로딩 중일 때 -->
     <div v-if="isLoading">로딩 중입니다...</div>
 
-    <!-- ✅ 로딩 완료 후 -->
     <template v-else>
       <div class="list-header" v-if="posts.length > 0">
         <div class="col-title">게시글 제목</div>
@@ -68,8 +68,8 @@ onMounted(() => {
       </div>
 
       <div v-if="posts.length === 0" class="empty-wrapper">
-        <div class="empty-icon">📌</div>
-        <div class="empty-text">북마크한 게시글이 없습니다.</div>
+        <div class="empty-icon">📝</div>
+        <div class="empty-text">작성한 게시글이 없습니다.</div>
       </div>
 
       <div class="post-list">
@@ -98,9 +98,8 @@ onMounted(() => {
       />
     </template>
   </div>
+
 </template>
-
-
 <style scoped>
 .list-wrapper {
   width: 100%;

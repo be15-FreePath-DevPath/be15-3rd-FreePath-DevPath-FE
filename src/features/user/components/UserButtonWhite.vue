@@ -2,41 +2,35 @@
 import { useRouter } from 'vue-router'
 
 const props = defineProps({
-  general: {
-    type: String,
-    default: '일반 회원가입'
-  },
-  google: {
-    type: String,
-    default: '구글 회원가입'
-  },
-  generalUrl: {
-    type: String,
-    default: '/user/signup/general'
-  },
-  googleUrl: {
-    type: String,
-    default: '/user/signup/google'
-  }
+  general: { type: String, default: '일반 회원가입' },
+  google: { type: String, default: '구글 회원가입' },
+  generalUrl: { type: String, default: '/user/signup/general' }
 })
+
+const emit = defineEmits(['click-google'])
 
 const router = useRouter()
 
-function goTo(url) {
-  router.push(url)
+function goToGeneral() {
+  router.push(props.generalUrl)
+}
+
+function goToGoogle() {
+  emit('click-google')
 }
 </script>
 
 <template>
-  <button class="button" @click="goTo(props.generalUrl)">
+  <button class="button" @click="goToGeneral">
     <img src="@/assets/images/user/general.png" alt="general" class="icon" />
-    <span>{{ props.general }}</span>
+    <span>{{ general }}</span>
   </button>
-  <button class="button" @click="goTo(props.googleUrl)">
+  <button class="button" @click="goToGoogle">
     <img src="@/assets/images/user/google.png" alt="google" class="icon" />
-    <span>{{ props.google }}</span>
+    <span>{{ google }}</span>
   </button>
 </template>
+
 
 <style scoped>
 .button {
@@ -59,5 +53,10 @@ function goTo(url) {
   position: relative;
   cursor: pointer;
   box-sizing: border-box;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
 }
 </style>

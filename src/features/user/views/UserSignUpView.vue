@@ -2,7 +2,9 @@
 import UserForm from "@/features/user/components/UserForm.vue";
 import UserExtraService from "@/features/user/components/UserExtraService.vue";
 import UserLogo from "@/features/user/components/UserLogo.vue";
-import UserWhiteButton from "@/features/user/components/UserButtonWhite.vue";
+import UserButtonWhite from "@/features/user/components/UserButtonWhite.vue";
+import {signupGoogleTemp} from "@/features/user/api.js";
+
 </script>
 
 <template>
@@ -12,11 +14,11 @@ import UserWhiteButton from "@/features/user/components/UserButtonWhite.vue";
         title="Welcome to DevPath"
         subtitle="처음 방문하시나요?"
     >
-      <UserWhiteButton
+      <UserButtonWhite
           general="일반 회원가입"
           google="구글 회원가입"
           generalUrl="/user/signup/general"
-          googleUrl="/user/signup/google"
+          @click-google="signupGoogleTemp"
       />
     </UserForm>
     <UserExtraService

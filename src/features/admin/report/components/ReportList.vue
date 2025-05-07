@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, ref, reactive, nextTick} from "vue";
+import { onMounted, ref, reactive, nextTick } from "vue";
 import { useRouter } from "vue-router";
 import PagingBar from "@/components/common/PagingBar.vue";
 import { getReportList } from "@/features/admin/report/api.js";
@@ -7,9 +7,11 @@ import { useReportStore } from "@/features/admin/report/reportStore.js";
 
 const store = useReportStore();
 const router = useRouter();
-const reports = ref([]);
+const allReports = ref([]);     // 전체 리스트 저장
+const reports = ref([]);        // 현재 페이지에 보여줄 리스트
 const isLoading = ref(true);
 
+const pageSize = 10; // 한 페이지당 10개
 const pagination = reactive({
   currentPage: 1,
   totalPages: 1,
@@ -19,16 +21,26 @@ const pagination = reactive({
 const formatDateTime = (dateString) => {
   if (!dateString) return '';
   const date = new Date(dateString);
-  return `${date.getFullYear()}년${String(date.getMonth() + 1).padStart(2, '0')}월${String(date.getDate()).padStart(2, '0')}일 ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+  return `${date.getFullYear()}년
+  ${String(date.getMonth() + 1).padStart(2, '0')}월
+  ${String(date.getDate()).padStart(2, '0')}일
+  ${String(date.getHours()).padStart(2, '0')}:
+  ${String(date.getMinutes()).padStart(2, '0')}`;
 };
 
-const fetchReports = async (page = 1) => {
+const fetchReports = async () => {
   isLoading.value = true;
   try {
     const response = await getReportList();
-    reports.value = response.data.reportCheckList || [];
-    pagination.totalItems = reports.value.length;
-    console.log(response.data);
+    allReports.value = (response.data.reportCheckList || []).sort((a, b) => {
+      const idA = a?.reportCheckDto?.reportCheckId || 0;
+      const idB = b?.reportCheckDto?.reportCheckId || 0;
+      return idA - idB;
+    });
+    pagination.totalItems = allReports.value.length;
+    pagination.totalPages = Math.ceil(pagination.totalItems / pageSize);
+
+    setPage(1); // 첫 페이지 로드
   } catch (error) {
     console.error("신고 목록 불러오기 실패:", error);
   } finally {
@@ -36,24 +48,27 @@ const fetchReports = async (page = 1) => {
   }
 };
 
+const setPage = (page) => {
+  pagination.currentPage = page;
+  const start = (page - 1) * pageSize;
+  const end = start + pageSize;
+  reports.value = allReports.value.slice(start, end);
+};
+
 const handlePageChange = (page) => {
-  fetchReports(page);
+  setPage(page);
 };
 
 const goToReportDetail = (report) => {
-  console.log("선택된 보고서:", report);  // 실제 데이터 확인
-
-  store.setReport(report);  // Pinia store에 데이터 저장 후
+  store.setReport(report);
   nextTick(() => {
     const currentReport = store.currentReport;
-
-    // reportCheckDto와 reportCheckId가 존재하는지 확인
     const reportCheckId = currentReport?.reportCheckDto?.reportCheckId;
     if (reportCheckId) {
-      router.push(`/report/check/${reportCheckId}`);  // reportCheckId로 라우팅
+      router.push(`/report/check/${reportCheckId}`);
     } else {
-      console.error("신고 데이터가 없습니다. (reportCheckDto 또는 reportCheckId가 없음)");
-      router.push("/admin?tab=report");  // 신고 데이터가 없으면 리디렉션
+      console.error("신고 데이터가 없습니다.");
+      router.push("/admin?tab=report");
     }
   });
 };
@@ -84,27 +99,27 @@ onMounted(() => {
             @click="goToReportDetail(report)"
             class="clickable-row"
         >
-          <td>{{ report.reportCheckDto.reportCheckId }}</td>
+          <td class="text-align">{{ report.reportCheckDto.reportCheckId }}</td>
           <td>
             <span v-if="report.commentDetailDto?.commentContents">
               {{ report.commentDetailDto.commentContents }}
             </span>
-            <span v-else-if="report.postDetailDto?.postTitle">
-              {{ report.postDetailDto.postTitle }}
+            <span v-else-if="report.postDetailDto?.boardContents">
+              {{ report.postDetailDto.boardContents }}
             </span>
             <span v-else>내용 없음</span>
           </td>
-          <td>
+          <td class="text-align">
             <span v-if="report.reportCheckDto.commentId">댓글</span>
             <span v-else-if="report.reportCheckDto.postId">게시글</span>
             <span v-else>알 수 없음</span>
           </td>
-          <td>
+          <td class="text-align">
             <span v-if="report.commentDetailDto?.commentCreatedAt">
               {{ formatDateTime(report.commentDetailDto.commentCreatedAt) }}
             </span>
-            <span v-else-if="report.postDetailDto?.postCreatedAt">
-              {{ formatDateTime(report.postDetailDto.postCreatedAt) }}
+            <span v-else-if="report.postDetailDto?.boardCreatedAt">
+              {{ formatDateTime(report.postDetailDto.boardCreatedAt) }}
             </span>
             <span v-else>시간 정보 없음</span>
           </td>
@@ -145,6 +160,14 @@ onMounted(() => {
   padding: 12px 16px;
   border-bottom: 1px solid #eee;
   vertical-align: top;
+}
+
+.report-table th {
+  text-align: center;
+}
+
+.text-align {
+  text-align: center;
 }
 
 .report-table thead th {

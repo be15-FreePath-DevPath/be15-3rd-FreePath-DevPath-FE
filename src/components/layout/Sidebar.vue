@@ -3,12 +3,12 @@
     <!-- 로고 영역 -->
     <SidebarLogo />
 
-    <!-- 섹션별 사이드바 조각들 -->
-    <SidebarBoardSection />
-    <SidebarChatSection />
-    <SidebarSkillSection />
-    <SidebarMyPageSection />
-    <SidebarAdminSection />
+    <!-- 조건부 섹션 렌더링 -->
+    <SidebarBoardSection v-if="isGuest || isUser || isAdmin" />
+    <SidebarChatSection v-if="isUser || isGuest" />
+    <SidebarSkillSection v-if="isUser || isGuest" />
+    <SidebarMyPageSection v-if="isUser || isAdmin" />
+    <SidebarAdminSection v-if="isAdmin" />
   </aside>
 </template>
 
@@ -19,6 +19,16 @@ import SidebarChatSection from './sidebar/SidebarChatSection.vue'
 import SidebarSkillSection from './sidebar/SidebarSkillSection.vue'
 import SidebarMyPageSection from './sidebar/SidebarMyPageSection.vue'
 import SidebarAdminSection from './sidebar/SidebarAdminSection.vue'
+import { useAuthStore } from '@/stores/auth.js'
+import { storeToRefs } from 'pinia'
+import { computed } from 'vue'
+
+const auth = useAuthStore()
+const { isAuthenticated, userRole } = storeToRefs(auth)
+
+const isGuest = computed(() => !isAuthenticated.value)
+const isUser = computed(() => isAuthenticated.value && userRole.value === 'USER')
+const isAdmin = computed(() => isAuthenticated.value && userRole.value === 'ADMIN')
 </script>
 
 <style scoped>
@@ -35,5 +45,4 @@ import SidebarAdminSection from './sidebar/SidebarAdminSection.vue'
   overflow-x: hidden;
   overflow-y: auto;
 }
-
 </style>

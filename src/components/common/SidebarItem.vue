@@ -1,14 +1,11 @@
 <template>
   <div class="sidebar-item-wrapper">
-    <!-- 선택된 항목일 경우 왼쪽에 표시될 검정 rectangle -->
     <img
         v-if="isActive"
         :src="selectedIcon"
         alt="selected"
         class="selected-indicator"
     />
-
-    <!-- 실제 메뉴 항목 -->
     <router-link
         :to="to"
         class="sidebar-item"
@@ -31,22 +28,64 @@ const props = defineProps({
 
 const route = useRoute()
 
-// 현재 경로가 해당 메뉴와 같으면 active 처리
 const isActive = computed(() => {
-  if (route.path === '/admin') {
-    const tab = route.query.tab;
+  const path = route.path
 
-    // 각 탭과 text에 맞춰서 활성화 처리
-    return (
-        (tab === 'news' && props.text === 'IT 기사 목록') ||
-        (tab === 'quiz' && props.text === 'CS 퀴즈 목록') ||
-        (tab === 'report' && props.text === '회원 신고 검토 목록')
-    );
+  // 게시판
+  if ([
+    '/board/free', '/board/job', '/board/project'
+  ].includes(props.to)) {
+    if (path.startsWith('/board/') && path !== '/board/write') {
+      const categoryMap = {
+        1: '자유 게시판',
+        2: '직무 정보 게시판',
+        3: '프로젝트 매칭 게시판'
+      }
+      const postCategoryId = Number(route.query.categoryId || route.params.categoryId)
+      return props.text === categoryMap[postCategoryId] || path === props.to
+    }
+    if (path === '/board/write') {
+      const from = route.query.from
+      return (
+          (from === 'free' && props.text === '자유 게시판') ||
+          (from === 'job' && props.text === '직무 정보 게시판') ||
+          (from === 'project' && props.text === '프로젝트 매칭 게시판')
+      )
+    }
   }
 
-  // 기본적인 경로 일치 시 활성화
-  return route.path === props.to;
-});
+  // 채팅
+  if (props.to === '/chatting') return path === '/chatting'
+  if (props.to === '/chatting/pending') return path === '/chatting/pending'
+
+  // CS퀴즈
+  if (props.to === '/csquiz') return path.startsWith('/csquiz')
+
+  // 모의면접
+  if (props.to === '/interview/list') {
+    return path === '/interview/list' || /^\/interview\/\d+$/.test(path)
+  }
+  if (props.to === '/interview/run') {
+    return path === '/interview/run' || path.startsWith('/interview/progress')
+  }
+
+  // 마이페이지
+  if (props.to === '/mypage/info') return path === '/mypage/info'
+  if (props.to === '/mypage/edit') return path === '/mypage/edit'
+  if (props.to === '/mypage/block') return path === '/mypage/block'
+  if (props.to === '/mypage/devti/solve') {
+    return path === '/mypage/devti/solve' || path === '/mypage/devti/test'
+  }
+  if (props.to === '/mypage/devti/result') return path === '/mypage/devti/result'
+
+  // 관리자
+  if (props.to.startsWith('/admin/csquiz')) return path.startsWith('/admin/csquiz')
+  if (props.to.startsWith('/admin/news')) return path.startsWith('/admin/news')
+  if (props.to.startsWith('/report/check')) return path.startsWith('/report/check')
+
+  // 기본
+  return path === props.to
+})
 </script>
 
 <style scoped>
@@ -56,7 +95,6 @@ const isActive = computed(() => {
   align-items: center;
 }
 
-/* 좌측 검정 rectangle */
 .selected-indicator {
   position: absolute;
   left: 0;
@@ -64,7 +102,6 @@ const isActive = computed(() => {
   height: 100%;
 }
 
-/* 기본 항목 스타일 */
 .sidebar-item {
   box-sizing: border-box;
   padding: 6px 12px 6px 54px;
@@ -77,12 +114,10 @@ const isActive = computed(() => {
   transition: background 0.2s;
 }
 
-/* Hover 시 음영 */
 .sidebar-item:hover {
   background-color: rgba(28, 28, 28, 0.05);
 }
 
-/* Active(선택) 시 더 짙은 음영 */
 .sidebar-item.active {
   background-color: rgba(28, 28, 28, 0.1);
   font-weight: 500;

@@ -24,7 +24,6 @@ const isSubscribed = ref(props.modelValue === 'Y')
 // 상태 변경
 function toggleSubscribe() {
   isSubscribed.value = !isSubscribed.value
-  console.log(isSubscribed.value ? 'Y' : 'N')
   emit('update:modelValue', isSubscribed.value ? 'Y' : 'N')
 }
 

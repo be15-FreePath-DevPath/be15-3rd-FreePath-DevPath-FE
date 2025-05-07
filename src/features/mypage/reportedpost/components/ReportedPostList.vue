@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import PagingBar from '@/components/common/PagingBar.vue'
-import { getBookmarkList } from '@/features/mypage/bookmark/api.js'
+import { getMyReportedPostList } from '@/features/mypage/reportedpost/api.js'
 import calendarIcon from '@/assets/images/interview/calendar-blank.png'
 
 const router = useRouter()
@@ -13,15 +13,14 @@ const totalItems = ref(0)
 const pageSize = 10
 const isLoading = ref(true)
 
-
-const fetchBookmarkList = async (page = 1) => {
+const fetchMyReportedPostList = async (page = 1) => {
   isLoading.value = true
   await new Promise(resolve => setTimeout(resolve, 1000)) // isLoading 확인
   const params = { page, size: pageSize }
-  const response = await getBookmarkList(params)
+  const response = await getMyReportedPostList(params)
   const data = response.data.data
-
-  posts.value = data.posts
+  console.log('응답 데이터', response.data.data)
+  posts.value = data.myPosts
   totalItems.value = data.pagination.totalItems
   totalPages.value = data.pagination.totalPage
   currentPage.value = data.pagination.currentPage
@@ -30,7 +29,7 @@ const fetchBookmarkList = async (page = 1) => {
 
 const handlePageChange = (page) => {
   currentPage.value = page
-  fetchBookmarkList(page)
+  fetchMyReportedPostList(page)
 }
 
 const formatDate = (dateStr) => {
@@ -45,21 +44,13 @@ const formatDate = (dateStr) => {
   return `${month}.${day} ${weekday} ${hours}:${minutes}`
 }
 
-const goToPost = (id) => {
-  router.push(`/board/${id}`)
-}
-
 onMounted(() => {
-  fetchBookmarkList(1)
+  fetchMyReportedPostList(1)
 })
 </script>
-
 <template>
   <div class="list-wrapper">
-    <!-- ✅ 로딩 중일 때 -->
     <div v-if="isLoading">로딩 중입니다...</div>
-
-    <!-- ✅ 로딩 완료 후 -->
     <template v-else>
       <div class="list-header" v-if="posts.length > 0">
         <div class="col-title">게시글 제목</div>
@@ -68,8 +59,8 @@ onMounted(() => {
       </div>
 
       <div v-if="posts.length === 0" class="empty-wrapper">
-        <div class="empty-icon">📌</div>
-        <div class="empty-text">북마크한 게시글이 없습니다.</div>
+        <div class="empty-icon">📝</div>
+        <div class="empty-text">신고된 게시글이 없습니다.</div>
       </div>
 
       <div class="post-list">
@@ -77,7 +68,6 @@ onMounted(() => {
             class="post-item"
             v-for="post in posts"
             :key="post.boardId"
-            @click="goToPost(post.boardId)"
         >
           <div class="col-title">{{ post.boardTitle }}</div>
           <div class="col-date">
@@ -99,8 +89,6 @@ onMounted(() => {
     </template>
   </div>
 </template>
-
-
 <style scoped>
 .list-wrapper {
   width: 100%;
@@ -132,9 +120,7 @@ onMounted(() => {
   transition: background-color 0.2s;
 }
 
-.post-item:hover {
-  background-color: #f9f9f9;
-}
+
 
 /* 게시글 제목 */
 .col-title {
