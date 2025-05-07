@@ -2,22 +2,22 @@
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import PagingBar from '@/components/common/PagingBar.vue'
-import { getLikedList } from '@/features/mypage/like/api.js'
+import { getMyReportedCommentList } from '@/features/mypage/comment/api.js'
 import calendarIcon from '@/assets/images/interview/calendar-blank.png'
 
 const router = useRouter()
-const posts = ref([])
+const comments = ref([])
 const currentPage = ref(1)
 const totalPages = ref(1)
 const totalItems = ref(0)
 const pageSize = 10
 
-const fetchLikedList = async (page = 1) => {
+const fetchComments = async (page = 1) => {
   const params = { page, size: pageSize }
-  const response = await getLikedList(params)
+  const response = await getMyReportedCommentList(params)
   const data = response.data.data
 
-  posts.value = data.posts
+  comments.value = data.comments
   totalItems.value = data.pagination.totalItems
   totalPages.value = data.pagination.totalPage
   currentPage.value = data.pagination.currentPage
@@ -25,7 +25,7 @@ const fetchLikedList = async (page = 1) => {
 
 const handlePageChange = (page) => {
   currentPage.value = page
-  fetchLikedList(page)
+  fetchComments(page)
 }
 
 const formatDate = (dateStr) => {
@@ -40,47 +40,47 @@ const formatDate = (dateStr) => {
   return `${month}.${day} ${weekday} ${hours}:${minutes}`
 }
 
-const goToPost = (id) => {
-  router.push(`/board/${id}`)
+const goToPost = (boardId) => {
+  router.push(`/board/${boardId}`)
 }
 
 onMounted(() => {
-  fetchLikedList(1)
+  fetchComments(1)
 })
 </script>
 
 <template>
   <div class="list-wrapper">
-    <div class="list-header" v-if="posts.length > 0">
-      <div class="col-title">게시글 제목</div>
+    <div class="list-header" v-if="comments.length > 0">
+      <div class="col-title">댓글 내용</div>
       <div class="col-date">작성일자</div>
       <div class="col-writer">작성자</div>
     </div>
 
-    <div v-if="posts.length === 0" class="empty-wrapper">
-      <div class="empty-icon">💗</div>
-      <div class="empty-text">좋아요한 게시글이 없습니다.</div>
+    <div v-if="comments.length === 0" class="empty-wrapper">
+      <div class="empty-icon">🚨</div>
+      <div class="empty-text">신고된 댓글이 없습니다.</div>
     </div>
 
     <div class="post-list">
       <div
           class="post-item"
-          v-for="post in posts"
-          :key="post.boardId"
-          @click="goToPost(post.boardId)"
+          v-for="comment in comments"
+          :key="comment.commentId"
+          @click="goToPost(comment.boardId)"
       >
-        <div class="col-title">{{ post.boardTitle }}</div>
+        <div class="col-title">{{ comment.contents }}</div>
         <div class="col-date">
           <img class="date-icon" :src="calendarIcon" alt="calendar" />
-          {{ formatDate(post.boardCreatedAt) }}
+          {{ formatDate(comment.createdAt) }}
         </div>
-        <div class="col-writer">{{ post.nickname }}</div>
+        <div class="col-writer">{{ comment.nickName }}</div>
       </div>
     </div>
 
     <PagingBar
         :key="currentPage"
-        v-if="posts.length > 0"
+        v-if="comments.length > 0"
         :currentPage="currentPage"
         :totalPages="totalPages"
         :totalItems="totalItems"
@@ -96,7 +96,6 @@ onMounted(() => {
   margin: 0 auto;
 }
 
-/* 리스트 헤더 */
 .list-header {
   display: flex;
   align-items: center;
@@ -110,7 +109,7 @@ onMounted(() => {
 .list-header .col-title {
   text-align: center;
 }
-/* 게시글 항목 */
+
 .post-item {
   display: flex;
   align-items: center;
@@ -119,12 +118,10 @@ onMounted(() => {
   cursor: pointer;
   transition: background-color 0.2s;
 }
-
 .post-item:hover {
   background-color: #f9f9f9;
 }
 
-/* 게시글 제목 */
 .col-title {
   width: 450px;
   padding-right: 20px;
@@ -133,7 +130,6 @@ onMounted(() => {
   font-size: 14px;
 }
 
-/* 작성일자 */
 .col-date {
   width: 150px;
   text-align: center;
@@ -145,7 +141,6 @@ onMounted(() => {
   justify-content: center;
 }
 
-/* 캘린더 아이콘 */
 .date-icon {
   width: 16px;
   height: 16px;
@@ -153,15 +148,15 @@ onMounted(() => {
   margin-right: 4px;
 }
 
-/* 작성자 */
 .col-writer {
   width: 150px;
   text-align: center;
   white-space: nowrap;
   font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* 게시글 없음 안내 */
 .empty-wrapper {
   text-align: center;
   color: #777;
