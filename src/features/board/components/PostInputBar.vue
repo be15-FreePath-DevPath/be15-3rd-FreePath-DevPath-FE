@@ -100,9 +100,10 @@ const onEditorReady = (quill) => {
 
       try {
         const res = await uploadTempImage(file)
-        const imageUrl = res.data.url
+        const imageUrl = res.data.data.url
         const range = quill.getSelection()
-        quill.insertEmbed(range.index, 'image', imageUrl)
+        const index = range ? range.index : quill.getLength(); // null이면 문서 끝에 삽입
+        quill.insertEmbed(index, 'image', imageUrl);
         emit('add-used-image', imageUrl)
       } catch (e) {
         console.error('이미지 업로드 실패:', e)

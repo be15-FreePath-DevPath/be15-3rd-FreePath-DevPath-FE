@@ -61,8 +61,7 @@ async function onRegister() {
       boardTitle: title.value,
       boardContents: content.value,
       vote: null,
-      files: [],
-      usedImageUrls: usedImageUrls.value
+      // usedImageUrls: [...usedImageUrls.value]   -> S3 put 요청등을 최소화하기 위해 그냥 임시저장 파일을 영구 저장시켜 사용하기
     }
 
     const response = await createPost(payload)
