@@ -1,5 +1,5 @@
 <script setup>
-import {onBeforeUnmount, onMounted, ref} from 'vue'
+import {computed, onBeforeUnmount, onMounted, ref} from 'vue'
 import ChattingInsertFrame from "@/features/chatting/components/chattingView/ChattingInsertFrame.vue";
 import {
   getChatting,
@@ -19,6 +19,9 @@ import ChangeChattingRoomModal from "@/features/chatting/components/chattingView
 import ChattingExitModal from "@/features/chatting/components/chattingView/ChattingExitModal.vue";
 import {errorMap} from "@/features/user/errorcode.js";
 import {useAuthStore} from "@/stores/auth.js";
+import { useRoute } from 'vue-router';
+const route = useRoute();
+
 
 const emit = defineEmits(['updateBreadCrumb'])
 const newBreadCrumbItems = ref(['채팅','채팅','참여 중인 채팅방'])
@@ -220,6 +223,10 @@ onMounted(async () => {
   emit('updateBreadCrumb', newBreadCrumbItems.value);
   await connectStomp();
   await fetchChattingRoomList();
+  const queryRoomId = route.query.queryRoomId ? Number(route.query.queryRoomId) : null;
+  if (queryRoomId !== null) {
+    await onRoomSelected(queryRoomId);
+  }
 });
 
 // 컴포넌트가 제거될 때 연결 해제

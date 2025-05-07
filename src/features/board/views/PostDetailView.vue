@@ -7,6 +7,7 @@ import PagingBar from "@/components/common/PagingBar.vue";
 import InteractionBar from "@/features/interaction/components/InteractionBar.vue";
 import PostDescriptionBar from "@/features/board/components/PostDescriptionBar.vue";
 import {fetchCommentList} from "@/features/comment/api.js";
+import {createChattingRoom} from "@/features/chatting/api.js";
 
 const emit = defineEmits(['updateBreadCrumb'])
 
@@ -35,6 +36,7 @@ const postCategory = computed(() => route.query.category || '');
 
 // 댓글 정보
 const comments = ref([]);
+const writer = ref(0);
 
 const errorMessage = ref('');
 
@@ -58,6 +60,7 @@ onMounted(async () => {
       postDescription.author = dto.nickname;
       postDescription.createdAt = dto.boardCreatedAt;
       postDescription.content = dto.boardContents;
+      writer.value = dto.userId;
     } else {
       errorMessage.value = data.message || '게시글 정보를 불러올 수 없습니다.';
       console.error('유효하지 않은 게시글 응답:', data);
@@ -124,6 +127,18 @@ const handleReportPost = async () => {
   }
 };
 
+const handleChatting = async() => {
+  try{
+    const response = await createChattingRoom(writer.value);
+    const queryRoomId = response.data.data.chattingRoomId;
+    console.log('채팅방 id ',queryRoomId);
+    await router.replace({ path: '/chatting', query: { queryRoomId: queryRoomId } });
+  }catch(e){
+    const msg = e?.response?.data?.message || '채팅방 이동 실패.';
+    alert(msg);
+  }
+}
+
 </script>
 
 <template>
@@ -137,6 +152,7 @@ const handleReportPost = async () => {
         @delete="handleDeletePost"
         @modify="handleModifyPost"
         @report="handleReportPost"
+        @chat="handleChatting"
     />
     <InteractionBar/>
     <CommentList :comments="comments"/>
