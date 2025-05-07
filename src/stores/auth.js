@@ -5,6 +5,7 @@ export const useAuthStore = defineStore('auth', () => {
     const accessToken = ref(null);
     const userRole = ref(null);
     const expirationTime = ref(null);
+    const userId = ref(null);
 
     // 인증 되어 있는지 확인하는 getter 값
     const isAuthenticated = computed(() =>
@@ -18,10 +19,12 @@ export const useAuthStore = defineStore('auth', () => {
             console.log('payload', payload);
             userRole.value = payload.role;
             expirationTime.value = payload.exp * 1000;
+            userId.value = parseInt(payload.sub);
         } catch (e) {
             accessToken.value = null;
             userRole.value = null;
             expirationTime.value = null;
+            userId.value = null;
         }
     }
 
@@ -29,6 +32,7 @@ export const useAuthStore = defineStore('auth', () => {
         accessToken.value = null;
         userRole.value = null;
         expirationTime.value = null;
+        userId.value =null;
     }
 
     return {
@@ -36,6 +40,7 @@ export const useAuthStore = defineStore('auth', () => {
         userRole,
         expirationTime,
         isAuthenticated,
+        userId,
         setAuth,
         clearAuth
     }
