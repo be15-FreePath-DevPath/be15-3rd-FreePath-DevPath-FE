@@ -26,6 +26,13 @@ import { createPost } from '@/features/board/api.js'
 
 const router = useRouter()
 
+const emit = defineEmits(['updateBreadCrumb'])
+const categoryMap = {
+  1: '자유게시판',
+  2: '직무 정보 게시판',
+  3: '프로젝트 매칭 게시판'
+};
+
 const category = ref('')
 const title = ref('')
 const content = ref('')
@@ -54,14 +61,22 @@ async function onRegister() {
       boardTitle: title.value,
       boardContents: content.value,
       vote: null,
-      files: [],
-      usedImageUrls: usedImageUrls.value
+      // usedImageUrls: [...usedImageUrls.value]   -> S3 put 요청등을 최소화하기 위해 그냥 임시저장 파일을 영구 저장시켜 사용하기
     }
 
     const response = await createPost(payload)
     alert('게시글이 등록되었습니다.')
-    const postId = response.data.result.postId
-    router.push(`/board/${postId}`)
+
+    const postId = response.data.data.postId
+
+    emit('updateBreadCrumb', ['게시판', categoryMap[category.value]]);
+
+    router.push({
+      path: `/board/${postId}`,
+      query: {
+        category: categoryMap[category.value] || '알 수 없음'
+      }
+    });
   } catch (e) {
     const msg = e?.response?.data?.message || '게시글 등록 중 오류가 발생했습니다.'
     alert(msg)
