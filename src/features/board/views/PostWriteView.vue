@@ -72,7 +72,12 @@ async function onRegister() {
 
     emit('updateBreadCrumb', ['게시판', categoryMap[category.value]]);
 
-    router.push(`/board/${postId}`)
+    router.push({
+      path: `/board/${postId}`,
+      query: {
+        category: categoryMap[category.value] || '알 수 없음'
+      }
+    });
   } catch (e) {
     const msg = e?.response?.data?.message || '게시글 등록 중 오류가 발생했습니다.'
     alert(msg)
