@@ -77,7 +77,7 @@ const shareResult = () => {
   const title = result?.name ?? '알 수 없음';
   const description = result?.description ?? '결과 설명이 없습니다.';
   const shareText = `내 개발자 성향은 ${title}!\n\n${description}`;
-  const shareUrl = window.location.href;
+  const shareUrl = `${window.location.origin}/mypage/devti/result?type=${props.resultType}`;
 
   if (navigator.share) {
     navigator.share({
