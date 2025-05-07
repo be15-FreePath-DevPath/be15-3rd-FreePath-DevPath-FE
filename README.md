@@ -24,9 +24,8 @@
     <td>
       <b>️2️⃣ Project Result</b>
        <ul>
-          <li><a href="#requirements">📣 요구사항 명세서</a></li>
-          <li><a href="#ddd">📑 DDD</a></li>
-          <li><a href="#erd">📋 논리/물리 ERD</a></li>
+          <li><a href="#figma">🙌 화면 설계서 (Figma)</a></li>
+          <li><a href="#test">🎖️ 테스트 결과 보고서</a></li>
         </ul>
     </td>
   </tr>
@@ -44,19 +43,19 @@
 
 <h1>1️⃣ We are FreePath</h1>
 
-<h3 id="team">✨ Team FreePath profile</h3>
+<h3><span id="team">✨ Team FreePath profile</span></h3>
 
 <div align="center">
 
-|                        **김운경**                        |                            **김태인**                            |                            **이기연**                            |
-|:-----------------------------------------------------:|:-------------------------------------------------------------:|:-------------------------------------------------------------:|
+|                        **김운경**                        |                        **김태인**                        |                        **이기연**                        |
+|:-----------------------------------------------------:|:-----------------------------------------------------:|:-----------------------------------------------------:|
 | <img src="./assets/김운경.png" width="180" height="130"> | <img src="./assets/김태인.png" width="180" height="130"> | <img src="./assets/이기연.png" width="180" height="130"> |
-|       [@splguyjr](https://github.com/splguyjr)        |          [@Taein5415](https://github.com/Taein5415)           |        [@Lee-gi-yeun](https://github.com/Lee-gi-yeun)         |
+|       [@splguyjr](https://github.com/splguyjr)        |      [@Taein5415](https://github.com/Taein5415)       |    [@Lee-gi-yeun](https://github.com/Lee-gi-yeun)     |
 
-|                            **이주미**                            |                            **이채은**                            |                            **하채린**                            |
-|:-------------------------------------------------------------:|:-------------------------------------------------------------:|:-------------------------------------------------------------:|
+|                        **이주미**                        |                        **이채은**                        |                        **하채린**                        |
+|:-----------------------------------------------------:|:-----------------------------------------------------:|:-----------------------------------------------------:|
 | <img src="./assets/이주미.png" width="180" height="130"> | <img src="./assets/이채은.png" width="180" height="130"> | <img src="./assets/하채린.png" width="180" height="130"> |
-|            [@z00m-1n](https://github.com/z00m-1n)             |            [@nineeko](https://github.com/nineeko)             |             [@didiha](https://github.com/didiha)              | 
+|        [@z00m-1n](https://github.com/z00m-1n)         |        [@nineeko](https://github.com/nineeko)         |         [@didiha](https://github.com/didiha)          | 
 
 </div>
 
@@ -118,21 +117,64 @@
 <br><br>
 
 <h3><b>프로젝트 목적</b></h3>
-프로젝트 <b>DevPath</b>는 비전공자와 주니어 개발자들이 실전 준비 과정에서 겪는 단절을 해소하고자 합니다. 구조화된 피드백과 동료와의 협업, 성장 추적 기능을 통해 지속적인 성장을 지원합니다. 이를 통해 단편적인 정보 소비를 넘어 자기 주도적 학습과 회고가 가능한 환경을 제공합니다.
+프로젝트 <b>DevPath</b>는 비전공자와 주니어 개발자들이 실전 준비 과정에서 겪는 단절을 해소하고자 합니다. 구조화된 피드백과 동료와의 협업, 성장 추적 기능을 통해 지속적인 성장을 지원합니다. 이를 통해
+단편적인 정보 소비를 넘어 자기 주도적 학습과 회고가 가능한 환경을 제공합니다.
 <br><br>
 <details>
   <summary><b><span style="font-size: 1.2em">프로젝트 구조</span></b></summary>
 
 ```angular2html
 
+src/
+├── api/
+│   └── axios.js
+├── assets/
+│   ├── font/
+│   └── images/ (board, chatting, common, csquiz, devti, interview, main, mypage, user)
+│   └── styles/
+├── components/
+│   ├── common/
+│   └── layout/ (Header, Sidebar, Sidebar Sections)
+├── features/
+│   ├── admin/
+│   │   ├── csquiz, ItNews, report (각각 api.js, router.js, components/, views/)
+│   ├── board/
+│   │   ├── components/, views/, api.js, quill-config.js, router.js
+│   ├── chatting/
+│   │   ├── components/ (chattingView, userBlockView, ChattingPendingView), views/, api.js, router.js, stomp-client.js
+│   ├── comment/
+│   │   ├── components/, api.js
+│   ├── csquiz/
+│   │   ├── components/, views/, api.js, router.js
+│   ├── devti/
+│   │   ├── components/, views/, data/, api.js, router.js
+│   ├── interaction/
+│   │   └── components/, api.js
+│   ├── interview/
+│   │   ├── components/, views/, api.js, router.js
+│   ├── main/
+│   │   ├── components/, views/, api.js, router.js
+│   ├── mypage/
+│   │   ├── bookmark/, comment/, like/, reportedpost/, writepost/, views/, components/, api.js, router.js
+│   └── user/
+│       ├── components/, views/, api.js, errorcode.js, router.js
+├── router/
+│   └── index.js
+└── stores/
+    └── auth.js
+
 ```
+
 </details>
 <br>
 
 <h1 id="project-result">2️⃣ Project Result</h1>
 
 <br>
-<h3 id="eca">🙌 화면 설계서 (Figma)</h3>
+<details open>
+<summary>
+    <span id="figma" style="font-size: 1.7em; font-weight: bold;">🙌 화면 설계서 (Figma)</span>
+  </summary>
 
 ### 👤 회원 관련 (회원가입 / 로그인 / 마이페이지)
 
@@ -206,9 +248,7 @@
 
 </details>
 
-
-
-### 🏠 메인 
+### 🏠 메인
 
 <details>
 <summary>메인 페이지 - 회원</summary>
@@ -226,7 +266,7 @@
 
 </details>
 
-### 📝  게시판
+### 📝 게시판
 
 <details>
 <summary>게시글 목록</summary>
@@ -256,9 +296,7 @@
 
 </details>
 
-
-
-### 🗣️ 채팅 
+### 🗣️ 채팅
 
 <details>
 <summary>일대일 채팅룸 목록 페이지</summary>
@@ -287,8 +325,6 @@
 <img src="./assets/figma/430. 채팅 차단 목록 조회 페이지.png" alt="430. 채팅 차단 목록 조회 페이지" style="width: 80%; height: auto;">
 
 </details>
-
-
 
 ### 👔 면접 기능
 
@@ -341,7 +377,6 @@
 
 </details>
 
-
 ### 📊 성향 테스트
 
 <details>
@@ -372,8 +407,6 @@
 
 </details>
 
-
-
 ### 🧠 CS 퀴즈
 
 <details>
@@ -396,9 +429,6 @@
 <img src="./assets/figma/CS 퀴즈 결과.png" alt="CS 퀴즈 결과" style="width: 80%; height: auto;">
 
 </details>
-
-
-
 
 ### 🛠️ 관리자 관련 (신고 / CS 퀴즈 / IT 뉴스 기사)
 
@@ -460,169 +490,173 @@
 </details>
 
 
-
+</details>
 
 <br>
-<h3 id="test">🎖️ 테스트 결과 보고서</h3>
-<li><span style="font-size: 1.2em">회원 테스트</span></li>
-    <details>
-        <summary><b>회원 가입</b></summary>
-        1. 일반 회원가입
-        <br>
-        <img src="./assets/test/user/일반회원_회원가입.png" alt="user1" style="width: 80%; height: auto;">
-        <br>: 일반 회원가입 시 인증 이메일 발송
-        <br><br>
-        <img src="./assets/test/user/일반회원_회원가입인증번호확인.png" alt="user2" style="width: 80%; height: auto;">
-        <br>: 인증번호 확인
-        <br><br>
-        <img src="./assets/test/user/일반회원_회원가입완료.png" alt="user3" style="width: 80%; height: auto;">
-        <br>: 인증번호 확인
-        <br><br>
-        2. 구글 회원가입
-        <br>
-        <img src="./assets/test/user/소셜회원_회원가입&로그인창.png" alt="user4" style="width: 80%; height: auto;">
-        <br>: 구글 회원가입 or 로그인 화면
-        <br><br>
-        <img src="./assets/test/user/소셜회원_닉네임,구독여부입력페이지.png" alt="user5" style="width: 80%; height: auto;">
-        <br>: 구글 인증 후 닉네임, it 기사 구독 여부 입력
-        <br><br>
-        <img src="./assets/test/user/소셜회원_회원가입완료.png" alt="user6" style="width: 80%; height: auto;">
-        <br>: 구글 회원가입 완료
-    </details>
-    <details>
-        <summary><b>로그인</b></summary>
-        1. 일반 로그인
-        <br>
-        <img src="./assets/test/user/일반회원_로그인.png" alt="user7" style="width: 80%; height: auto;">
-        <br>: 일반 로그인 완료
-        <br><br>
-        2. 구글 로그인
-        <br>
-        <img src="./assets/test/user/소셜회원_회원가입&로그인창.png" alt="user8" style="width: 80%; height: auto;">
-        <br>: 구글 로그인 화면
-        <br><br>
-        <img src="./assets/test/user/소셜회원_로그인시토큰확인가능.png" alt="user9" style="width: 80%; height: auto;">
-        <br>: 구글 로그인 시 토큰 확인 가능
-        <br><br>
-    </details>
-    <details>
-        <summary><b>로그아웃</b></summary>
-        1. 로그아웃
-        <br>
-        <img src="./assets/test/user/회원_로그아웃.png" alt="user11" style="width: 80%; height: auto;">
-        <br><br>
-    </details>
-    <details>
-        <summary><b>리프레시 토큰 발급</b></summary>
-        1. 리프레시 토큰 발급
-        <br>
-        <img src="./assets/test/user/회원_리프레시토큰.png" alt="user10" style="width: 80%; height: auto;">
-        <br><br>
-    </details>
-    <details>
-        <summary><b>회원 탈퇴</b></summary>
-        1. 이메일 발송
-        <br>
-        <img src="./assets/test/user/회원_회원탈퇴이메일.png" alt="user11" style="width: 80%; height: auto;">
-        <br>: 회원 탈퇴 시 본인 확인을 위한 이메일 발송
-        <br><br>
-        2. 인증 번호
-        <br>
-        <img src="./assets/test/user/회원_회원탈퇴인증번호확인.png" alt="user12" style="width: 80%; height: auto;">
-        <br>: 인증 번호 확인
-        <br><br>
-        3. 회원 탈퇴
-        <br>
-        <img src="./assets/test/user/회원_회원탈퇴완료.png" alt="user13" style="width: 80%; height: auto;">
-        <br>: 회원 탈퇴 완료
-        <br><br>
-    </details>
-    <details>
-        <summary><b>로그인 아이디 찾기</b></summary>
-        1. 이메일 발송
-        <br>
-        <img src="./assets/test/user/일반회원_로그인아이디찾기이메일.png" alt="user14" style="width: 80%; height: auto;">
-        <br>: 로그인 아이디 찾기를 위한 인증용 이메일 발송
-        <br><br>
-        2. 인증 번호
-        <br>
-        <img src="./assets/test/user/일반회원_로그인아이디찾기인증번호확인.png" alt="user15" style="width: 80%; height: auto;">
-        <br>: 인증 번호 인증 완료
-        <br><br>
-        3. 로그인 찾기 완료
-        <br>
-        <img src="./assets/test/user/일반회원_로그인아이디찾기완료.png" alt="user16" style="width: 80%; height: auto;">
-        <br>: 회원의 아이디 반환
-        <br><br>
-    </details>
-    <details>
-        <summary><b>비밀번호 재설정</b></summary>
-        1. 이메일 발송
-        <br>
-        <img src="./assets/test/user/일반회원_비밀번호재설정이메일.png" alt="user17" style="width: 80%; height: auto;">
-        <br>: 비밀번호를 잃어버렸을 때 재설정하는 기능을 사용하기 위해 인증용 이메일 발송
-        <br><br>
-        2. 인증 번호
-        <br>
-        <img src="./assets/test/user/일반회원_비밀번호재설정인증번호확인.png" alt="user18" style="width: 80%; height: auto;">
-        <br>: 인증 번호 인증 완료
-        <br><br>
-        3. 비밀번호 재설정 오류
-        <br>
-        <img src="./assets/test/user/일반회원_비밀번호재설정_오류.png" alt="user19" style="width: 80%; height: auto;">
-        <br>: 비밀번호에 특수문자를 넣지 않으면 안 됨
-        <br><br>
-        4. 비밀번호 재설정 완료
-        <br>
-        <img src="./assets/test/user/일반회원_비밀번호재설정완료.png" alt="user20" style="width: 80%; height: auto;">
-        <br>: 특수문자 넣고 다시 시도하면 성공함
-        <br><br>
-    </details>
-    <details>
-        <summary><b>비밀번호 변경</b></summary>
-        1. 이메일 발송
-        <br>
-        <img src="./assets/test/user/일반회원_비밀번호변경이메일.png" alt="user21" style="width: 80%; height: auto;">
-        <br>: 비밀번호를 변경 시 인증용 이메일 발송
-        <br><br>
-        2. 인증 번호
-        <br>
-        <img src="./assets/test/user/일반회원_비밀번호변경인증번호확인.png" alt="user22" style="width: 80%; height: auto;">
-        <br>: 인증 번호 인증 완료
-        <br><br>
-        3. 비밀번호 변경 완료
-        <br>
-        <img src="./assets/test/user/일반회원_비밀번호변경완료.png" alt="user23" style="width: 80%; height: auto;">
-        <br>: 비밀번호가 성공적으로 변경됨
-        <br><br>
-    </details>
-    <details>
-        <summary><b>회원 정보 수정</b></summary>
-        1. 닉네임, it 기사 구독 여부 수정
-        <br>
-        <img src="./assets/test/user/회원_닉네임,it구독여부수정.png" alt="user24" style="width: 80%; height: auto;">
-        <br>: 중복되는 닉네임은 변경이 불가능
-        <br><br>
-    </details>
-     <details>
-        <summary><b>개발자 성향 테스트 저장</b></summary>
-        1. 개발자 성향 테스트 저장
-        <br>
-        <img src="./assets/test/user/회원_개발자성향테스트저장.png" alt="user25" style="width: 80%; height: auto;">
-        <br>: 프론트에서 주는 값을 회원의 개발자 성향 테스트 결과로 저장함
-        <br><br>
-    </details>
-    <details>
-        <summary><b>마이페이지 내의 회원 정보 조회</b></summary>
-        1. 회원 정보 조회
-        <br>
-        <img src="./assets/test/user/회원_마이페이지정보조회.png" alt="user26" style="width: 80%; height: auto;">
-        <br>: 이메일, 닉네임, it 뉴스 구독 여부, 개발자 성향 테스트 등을 조회할 수 있다.
-        <br><br>
-    </details>
+<details open>
+ <summary>
+    <span id="test" style="font-size: 1.7em; font-weight: bold;">🎖️ 테스트 결과 보고서</span>
+  </summary>
+<details>
+    <summary><b>회원 가입</b></summary>
+    1. 일반 회원가입
+    <br>
+    <img src="./assets/test/user/일반회원_회원가입.png" alt="user1" style="width: 80%; height: auto;">
+    <br>: 일반 회원가입 시 인증 이메일 발송
+    <br><br>
+    <img src="./assets/test/user/일반회원_회원가입인증번호확인.png" alt="user2" style="width: 80%; height: auto;">
+    <br>: 인증번호 확인
+    <br><br>
+    <img src="./assets/test/user/일반회원_회원가입완료.png" alt="user3" style="width: 80%; height: auto;">
+    <br>: 인증번호 확인
+    <br><br>
+    2. 구글 회원가입
+    <br>
+    <img src="./assets/test/user/소셜회원_회원가입&로그인창.png" alt="user4" style="width: 80%; height: auto;">
+    <br>: 구글 회원가입 or 로그인 화면
+    <br><br>
+    <img src="./assets/test/user/소셜회원_닉네임,구독여부입력페이지.png" alt="user5" style="width: 80%; height: auto;">
+    <br>: 구글 인증 후 닉네임, it 기사 구독 여부 입력
+    <br><br>
+    <img src="./assets/test/user/소셜회원_회원가입완료.png" alt="user6" style="width: 80%; height: auto;">
+    <br>: 구글 회원가입 완료
+</details>
+<details>
+    <summary><b>로그인</b></summary>
+    1. 일반 로그인
+    <br>
+    <img src="./assets/test/user/일반회원_로그인.png" alt="user7" style="width: 80%; height: auto;">
+    <br>: 일반 로그인 완료
+    <br><br>
+    2. 구글 로그인
+    <br>
+    <img src="./assets/test/user/소셜회원_회원가입&로그인창.png" alt="user8" style="width: 80%; height: auto;">
+    <br>: 구글 로그인 화면
+    <br><br>
+    <img src="./assets/test/user/소셜회원_로그인시토큰확인가능.png" alt="user9" style="width: 80%; height: auto;">
+    <br>: 구글 로그인 시 토큰 확인 가능
+    <br><br>
+</details>
+<details>
+    <summary><b>로그아웃</b></summary>
+    1. 로그아웃
+    <br>
+    <img src="./assets/test/user/회원_로그아웃.png" alt="user11" style="width: 80%; height: auto;">
+    <br><br>
+</details>
+<details>
+    <summary><b>리프레시 토큰 발급</b></summary>
+    1. 리프레시 토큰 발급
+    <br>
+    <img src="./assets/test/user/회원_리프레시토큰.png" alt="user10" style="width: 80%; height: auto;">
+    <br><br>
+</details>
+<details>
+    <summary><b>회원 탈퇴</b></summary>
+    1. 이메일 발송
+    <br>
+    <img src="./assets/test/user/회원_회원탈퇴이메일.png" alt="user11" style="width: 80%; height: auto;">
+    <br>: 회원 탈퇴 시 본인 확인을 위한 이메일 발송
+    <br><br>
+    2. 인증 번호
+    <br>
+    <img src="./assets/test/user/회원_회원탈퇴인증번호확인.png" alt="user12" style="width: 80%; height: auto;">
+    <br>: 인증 번호 확인
+    <br><br>
+    3. 회원 탈퇴
+    <br>
+    <img src="./assets/test/user/회원_회원탈퇴완료.png" alt="user13" style="width: 80%; height: auto;">
+    <br>: 회원 탈퇴 완료
+    <br><br>
+</details>
+<details>
+    <summary><b>로그인 아이디 찾기</b></summary>
+    1. 이메일 발송
+    <br>
+    <img src="./assets/test/user/일반회원_로그인아이디찾기이메일.png" alt="user14" style="width: 80%; height: auto;">
+    <br>: 로그인 아이디 찾기를 위한 인증용 이메일 발송
+    <br><br>
+    2. 인증 번호
+    <br>
+    <img src="./assets/test/user/일반회원_로그인아이디찾기인증번호확인.png" alt="user15" style="width: 80%; height: auto;">
+    <br>: 인증 번호 인증 완료
+    <br><br>
+    3. 로그인 찾기 완료
+    <br>
+    <img src="./assets/test/user/일반회원_로그인아이디찾기완료.png" alt="user16" style="width: 80%; height: auto;">
+    <br>: 회원의 아이디 반환
+    <br><br>
+</details>
+<details>
+    <summary><b>비밀번호 재설정</b></summary>
+    1. 이메일 발송
+    <br>
+    <img src="./assets/test/user/일반회원_비밀번호재설정이메일.png" alt="user17" style="width: 80%; height: auto;">
+    <br>: 비밀번호를 잃어버렸을 때 재설정하는 기능을 사용하기 위해 인증용 이메일 발송
+    <br><br>
+    2. 인증 번호
+    <br>
+    <img src="./assets/test/user/일반회원_비밀번호재설정인증번호확인.png" alt="user18" style="width: 80%; height: auto;">
+    <br>: 인증 번호 인증 완료
+    <br><br>
+    3. 비밀번호 재설정 오류
+    <br>
+    <img src="./assets/test/user/일반회원_비밀번호재설정_오류.png" alt="user19" style="width: 80%; height: auto;">
+    <br>: 비밀번호에 특수문자를 넣지 않으면 안 됨
+    <br><br>
+    4. 비밀번호 재설정 완료
+    <br>
+    <img src="./assets/test/user/일반회원_비밀번호재설정완료.png" alt="user20" style="width: 80%; height: auto;">
+    <br>: 특수문자 넣고 다시 시도하면 성공함
+    <br><br>
+</details>
+<details>
+    <summary><b>비밀번호 변경</b></summary>
+    1. 이메일 발송
+    <br>
+    <img src="./assets/test/user/일반회원_비밀번호변경이메일.png" alt="user21" style="width: 80%; height: auto;">
+    <br>: 비밀번호를 변경 시 인증용 이메일 발송
+    <br><br>
+    2. 인증 번호
+    <br>
+    <img src="./assets/test/user/일반회원_비밀번호변경인증번호확인.png" alt="user22" style="width: 80%; height: auto;">
+    <br>: 인증 번호 인증 완료
+    <br><br>
+    3. 비밀번호 변경 완료
+    <br>
+    <img src="./assets/test/user/일반회원_비밀번호변경완료.png" alt="user23" style="width: 80%; height: auto;">
+    <br>: 비밀번호가 성공적으로 변경됨
+    <br><br>
+</details>
+<details>
+    <summary><b>회원 정보 수정</b></summary>
+    1. 닉네임, it 기사 구독 여부 수정
+    <br>
+    <img src="./assets/test/user/회원_닉네임,it구독여부수정.png" alt="user24" style="width: 80%; height: auto;">
+    <br>: 중복되는 닉네임은 변경이 불가능
+    <br><br>
+</details>
+ <details>
+    <summary><b>개발자 성향 테스트 저장</b></summary>
+    1. 개발자 성향 테스트 저장
+    <br>
+    <img src="./assets/test/user/회원_개발자성향테스트저장.png" alt="user25" style="width: 80%; height: auto;">
+    <br>: 프론트에서 주는 값을 회원의 개발자 성향 테스트 결과로 저장함
+    <br><br>
+</details>
+<details>
+    <summary><b>마이페이지 내의 회원 정보 조회</b></summary>
+    1. 회원 정보 조회
+    <br>
+    <img src="./assets/test/user/회원_마이페이지정보조회.png" alt="user26" style="width: 80%; height: auto;">
+    <br>: 이메일, 닉네임, it 뉴스 구독 여부, 개발자 성향 테스트 등을 조회할 수 있다.
+    <br><br>
+</details>
+
 <br>
 
-<li><span style="font-size: 1.2em">게시글 테스트</span></li>
+### 📝 게시글 테스트
+
 <details>
   <summary><b>게시글 업로드</b></summary>
   1. 게시글 업로드
@@ -696,7 +730,8 @@
 </details>
 <br>
 
-<li><span style="font-size: 1.2em">댓글 테스트</span></li>
+### 💬 댓글 테스트
+
 <details>
     <summary><b>게시글 내 댓글 조회 기능</b></summary>
     1. 게시글 내 댓글 조회 기능
@@ -748,7 +783,8 @@
 </details>
 <br>
 
-<li><span style="font-size: 1.2em">투표 테스트</span></li>
+### 🗳️ 투표 테스트
+
 <details>
   <summary><b>투표 참여</b></summary>
   1. 투표 참여(일반)
@@ -783,7 +819,8 @@
 </details>
 <br>
 
-<li><span style="font-size: 1.2em">게시판 상호작용 테스트</span></li>
+### 🔁 게시판 상호작용 테스트
+
 <details>
     <summary><b>게시글 북마크</b></summary>
     1. 게시글 북마크
@@ -913,167 +950,173 @@
 </details>
 
 <br>
-<li><span style="font-size: 1.2em">CS 퀴즈 테스트</span></li>
-    <details>
-        <summary><b>CS 퀴즈 등록</b></summary>
-        1. 등록
-        <br>
-        <img src="./assets/test/csquiz/CS퀴즈 등록.png" alt="csquiz1" style="width: 80%; height: auto;">
-        <br>: 관리자가 CS 퀴즈를 등록함
-        <br><br>
-    </details>
-    <details>
-        <summary><b>CS 퀴즈 버전 갱신</b></summary>
-        1. 버전 갱신(수동)
-        <br>
-        <img src="./assets/test/csquiz/CS퀴즈 버전 갱신(수동).gif" alt="csquiz2" style="width: 80%; height: auto;">
-        <br>: 관리자가 CS 퀴즈 버전 갱신을 수동으로 진행함
-        <br><br>
-    </details>
-    <details>
-        <summary><b>CS 퀴즈 조회</b></summary>
-        1. 상세 조회
-        <br>
-        <img src="./assets/test/csquiz/CS퀴즈 상세조회.png" alt="csquiz3" style="width: 80%; height: auto;">
-        <br>: CS 퀴즈를 상세 조회함
-        <br><br>
-        2. 목록 조회
-        <br>
-        <img src="./assets/test/csquiz/CS 퀴즈 전체 목록 조회.png" alt="csquiz4" style="width: 80%; height: auto;">
-        <br>: CS 퀴즈의 전체 목록 조회함
-        <br><br>
-        3. 주간 조회
-        <br>
-        <img src="./assets/test/csquiz/주간 CS퀴즈 조회.png" alt="csquiz5" style="width: 80%; height: auto;">
-        <br>: 주간 CS 퀴즈 조회함
-        <br><br>
-    </details>
-    <details>
-        <summary><b>CS 퀴즈 수정</b></summary>
-        1. 수정
-        <br>
-        <img src="./assets/test/csquiz/CS퀴즈 수정.png" alt="csquiz6" style="width: 80%; height: auto;">
-        <br>: 관리자가 CS 퀴즈 내용을 수정함
-        <br><br>
-    </details>
-    <details>
-        <summary><b>사용자 답변 등록</b></summary>
-        1. 답변 등록
-        <br>
-        <img src="./assets/test/csquiz/사용자 답변 등록.png" alt="csquiz7" style="width: 80%; height: auto;">
-        <br>: 사용자가 퀴즈에 대해 답변을 등록함
-        <br><br>
-    </details>
-    <details>
-        <summary><b>사용자 CS 퀴즈 결과 조회</b></summary>
-        1. 결과 조회
-        <br>
-        <img src="./assets/test/csquiz/사용자 CS퀴즈 결과 조회.png" alt="csquiz8" style="width: 80%; height: auto;">
-        <br>: 사용자는 퀴즈 결과를 조회할 수 있음
-        <br><br>
-    </details>
-    <details>
-        <summary><b>사용자 주간 CS 퀴즈 정답 개수 조회</b></summary>
-        1. 정답 개수 조회
-        <br>
-        <img src="./assets/test/csquiz/사용자 주간 CS퀴즈 정답 개수.png" alt="csquiz9" style="width: 80%; height: auto;">
-        <br>: 사용자는 주간 CS 퀴즈의 정답 개수를 조회할 수 있음
-        <br><br>
-    </details>
+
+### 🧠 CS 퀴즈 테스트
+
+<details>
+    <summary><b>CS 퀴즈 등록</b></summary>
+    1. 등록
+    <br>
+    <img src="./assets/test/csquiz/CS퀴즈 등록.png" alt="csquiz1" style="width: 80%; height: auto;">
+    <br>: 관리자가 CS 퀴즈를 등록함
+    <br><br>
+</details>
+<details>
+    <summary><b>CS 퀴즈 버전 갱신</b></summary>
+    1. 버전 갱신(수동)
+    <br>
+    <img src="./assets/test/csquiz/CS퀴즈 버전 갱신(수동).gif" alt="csquiz2" style="width: 80%; height: auto;">
+    <br>: 관리자가 CS 퀴즈 버전 갱신을 수동으로 진행함
+    <br><br>
+</details>
+<details>
+    <summary><b>CS 퀴즈 조회</b></summary>
+    1. 상세 조회
+    <br>
+    <img src="./assets/test/csquiz/CS퀴즈 상세조회.png" alt="csquiz3" style="width: 80%; height: auto;">
+    <br>: CS 퀴즈를 상세 조회함
+    <br><br>
+    2. 목록 조회
+    <br>
+    <img src="./assets/test/csquiz/CS 퀴즈 전체 목록 조회.png" alt="csquiz4" style="width: 80%; height: auto;">
+    <br>: CS 퀴즈의 전체 목록 조회함
+    <br><br>
+    3. 주간 조회
+    <br>
+    <img src="./assets/test/csquiz/주간 CS퀴즈 조회.png" alt="csquiz5" style="width: 80%; height: auto;">
+    <br>: 주간 CS 퀴즈 조회함
+    <br><br>
+</details>
+<details>
+    <summary><b>CS 퀴즈 수정</b></summary>
+    1. 수정
+    <br>
+    <img src="./assets/test/csquiz/CS퀴즈 수정.png" alt="csquiz6" style="width: 80%; height: auto;">
+    <br>: 관리자가 CS 퀴즈 내용을 수정함
+    <br><br>
+</details>
+<details>
+    <summary><b>사용자 답변 등록</b></summary>
+    1. 답변 등록
+    <br>
+    <img src="./assets/test/csquiz/사용자 답변 등록.png" alt="csquiz7" style="width: 80%; height: auto;">
+    <br>: 사용자가 퀴즈에 대해 답변을 등록함
+    <br><br>
+</details>
+<details>
+    <summary><b>사용자 CS 퀴즈 결과 조회</b></summary>
+    1. 결과 조회
+    <br>
+    <img src="./assets/test/csquiz/사용자 CS퀴즈 결과 조회.png" alt="csquiz8" style="width: 80%; height: auto;">
+    <br>: 사용자는 퀴즈 결과를 조회할 수 있음
+    <br><br>
+</details>
+<details>
+    <summary><b>사용자 주간 CS 퀴즈 정답 개수 조회</b></summary>
+    1. 정답 개수 조회
+    <br>
+    <img src="./assets/test/csquiz/사용자 주간 CS퀴즈 정답 개수.png" alt="csquiz9" style="width: 80%; height: auto;">
+    <br>: 사용자는 주간 CS 퀴즈의 정답 개수를 조회할 수 있음
+    <br><br>
+</details>
 <br>
-<li><span style="font-size: 1.2em">채팅 테스트</span></li>
-    <details>
-        <summary><b>채팅방 기능</b></summary>
-        1. 채팅방 생성
-        <br>
-        <img src="./assets/test/chatting/1_채팅방 생성.png" alt="채팅방 생성성" style="width: 80%; height: auto;">
-        <br>: 사용자 토큰을 이용하여 채팅방 생성
-        <br><br>
-        2. 그룹채팅방 생성
-        <br>
-        <img src="./assets/test/chatting/2_그룹채팅방 생성.png" alt="그룹채팅방 생성성" style="width: 80%; height: auto;">
-        <br>: 게시글ID와 사용자 토큰을 이용해 그룹채팅방 생성
-        <br><br>
-        3. 채팅방 나가기
-        <br>
-        <img src="./assets/test/chatting/3_채팅방 나가기.png" alt="채팅방 나가기기" style="width: 80%; height: auto;">
-        <br>: 채팅방Id와 토큰을 이용해 채팅방을 나감
-        <br><br>
-        4. 채팅방 삭제
-        <br>
-        <img src="./assets/test/chatting/4_채팅방 삭제.png" alt="채팅방 나가기" style="width: 80%; height: auto;">
-        <br>: 그룹채팅방의 OWNER인 사용자만이 채팅방 삭제 가능
-        <br><br>
-        5. 채팅방 조회
-        <br>
-        <img src="./assets/test/chatting/5_채팅방 조회.png" alt="채팅방 조회회" style="width: 80%; height: auto;">
-        <br>: 참여중인 채팅방을 조회한다.
-        <br><br>
-         6. 채팅방 조회
-        <br>
-        <img src="./assets/test/chatting/6_채팅내역 조회.png" alt="채팅 내역 조회" style="width: 80%; height: auto;">
-        <br>: 채팅방의 채팅 내역을 조회한다.
-        <br><br>
-        7. 채팅방 제목 변경
-        <br>
-        <img src="./assets/test/chatting/7_채팅방 제목 변경.png" alt="채팅방 제목 변경경" style="width: 80%; height: auto;">
-        <br>: 그룹채팅방의 OWNER가 채팅방의 제목을 수정한다.
-        <br><br>
-        8. 채팅방 참여자 목록 조회
-        <br>
-        <img src="./assets/test/chatting/8_채팅 참여자 목록 조회.png" alt="채팅 참여자 목록 조회회" style="width: 80%; height: auto;">
-        <br>: 특정 채팅방의 참여자 목록을 조회할 수 있다.
-        <br><br>
-    </details>
-    <details>
-        <summary><b>차단 기능</b></summary>
-        1. 회원 차단 기능
-        <br>
-        <img src="./assets/test/chatting/9_회원 차단.png" alt="회원 차단 기능" style="width: 80%; height: auto;">
-        <br>: 특정 사용자를 차단할 수 있다.
-        <br><br>
-        2. 회원 차단 취소 기능
-        <br>
-        <img src="./assets/test/chatting/10_회원 차단 취소.png" alt="회원 차단 취소 기능" style="width: 80%; height: auto;">
-        <br>: 특정 사용자 차단을 취소할 수 있다.
-        <br><br>
-        3. 회원 차단 목록 조회
-        <br>
-        <img src="./assets/test/chatting/11_회원 차단 목록 조회.png" alt="회원 차단 목록 조회" style="width: 80%; height: auto;">
-        <br>: 사용자가 차단한 다른 사용자들을 조회할 수 있다.
-        <br><br>
-    </details>
-    <details>
-    <summary><b>그룹채팅방 기능</b></summary>
-        1. 그룹채팅방 참여 요청
-        <br>
-        <img src="./assets/test/chatting/12_그룹채팅방 참여요청.png" alt="그룹채팅방 참여요청" style="width: 80%; height: auto;">
-        <br>: 일반 사용자는 그룹채팅방 참여 요청을 보낸다.
-        <br><br>
-        2. 그룹채팅방 대기방 조회
-        <br>
-        <img src="./assets/test/chatting/13_그룹채팅방 대기방 조회.png" alt="그룹채팅방 대기방 조회" style="width: 80%; height: auto;">
-        <br>: 그룹채팅방의 OWNER는 대기방을 조회할 수 있다.
-        <br><br>
-        3. 그룹채팅방 요청 수락락
-        <br>
-        <img src="./assets/test/chatting/14_그룹채팅방 요청 수락.png" alt="그룹채팅방 참여요청 수락락" style="width: 80%; height: auto;">
-        <br>: 그룹채팅방의 OWNER는 그룹채팅방 참여 요청을 수락할 수 있다.
-        <br><br>
-        3. 그룹채팅방 요청 수락
-        <br>
-        <img src="./assets/test/chatting/15_그룹채팅방 요청 거절.png" alt="그룹채팅방 참여요청 거절절" style="width: 80%; height: auto;">
-        <br>: 그룹채팅방의 OWNER는 그룹채팅방 참여 요청을 거절할 수도 있다.
-        <br><br>
-    </details>
-    <details>
-    <summary><b>채팅 연결 테스트</b></summary>
-    <img src="./assets/test/chatting/채팅 연결 테스트.gif" alt="채팅 연결 테스트" style="width: 80%; height: auto;">
-        <br>: stomp를 이용하여 connect, subscribe, send시 사용자의 토큰을 확인하여 채팅방에 참여중인 사용자인지 확인한다. 
-    </details>
+
+### 💬 채팅 테스트
+
+<details>
+    <summary><b>채팅방 기능</b></summary>
+    1. 채팅방 생성
+    <br>
+    <img src="./assets/test/chatting/1_채팅방 생성.png" alt="채팅방 생성성" style="width: 80%; height: auto;">
+    <br>: 사용자 토큰을 이용하여 채팅방 생성
+    <br><br>
+    2. 그룹채팅방 생성
+    <br>
+    <img src="./assets/test/chatting/2_그룹채팅방 생성.png" alt="그룹채팅방 생성성" style="width: 80%; height: auto;">
+    <br>: 게시글ID와 사용자 토큰을 이용해 그룹채팅방 생성
+    <br><br>
+    3. 채팅방 나가기
+    <br>
+    <img src="./assets/test/chatting/3_채팅방 나가기.png" alt="채팅방 나가기기" style="width: 80%; height: auto;">
+    <br>: 채팅방Id와 토큰을 이용해 채팅방을 나감
+    <br><br>
+    4. 채팅방 삭제
+    <br>
+    <img src="./assets/test/chatting/4_채팅방 삭제.png" alt="채팅방 나가기" style="width: 80%; height: auto;">
+    <br>: 그룹채팅방의 OWNER인 사용자만이 채팅방 삭제 가능
+    <br><br>
+    5. 채팅방 조회
+    <br>
+    <img src="./assets/test/chatting/5_채팅방 조회.png" alt="채팅방 조회회" style="width: 80%; height: auto;">
+    <br>: 참여중인 채팅방을 조회한다.
+    <br><br>
+     6. 채팅방 조회
+    <br>
+    <img src="./assets/test/chatting/6_채팅내역 조회.png" alt="채팅 내역 조회" style="width: 80%; height: auto;">
+    <br>: 채팅방의 채팅 내역을 조회한다.
+    <br><br>
+    7. 채팅방 제목 변경
+    <br>
+    <img src="./assets/test/chatting/7_채팅방 제목 변경.png" alt="채팅방 제목 변경경" style="width: 80%; height: auto;">
+    <br>: 그룹채팅방의 OWNER가 채팅방의 제목을 수정한다.
+    <br><br>
+    8. 채팅방 참여자 목록 조회
+    <br>
+    <img src="./assets/test/chatting/8_채팅 참여자 목록 조회.png" alt="채팅 참여자 목록 조회회" style="width: 80%; height: auto;">
+    <br>: 특정 채팅방의 참여자 목록을 조회할 수 있다.
+    <br><br>
+</details>
+<details>
+    <summary><b>차단 기능</b></summary>
+    1. 회원 차단 기능
+    <br>
+    <img src="./assets/test/chatting/9_회원 차단.png" alt="회원 차단 기능" style="width: 80%; height: auto;">
+    <br>: 특정 사용자를 차단할 수 있다.
+    <br><br>
+    2. 회원 차단 취소 기능
+    <br>
+    <img src="./assets/test/chatting/10_회원 차단 취소.png" alt="회원 차단 취소 기능" style="width: 80%; height: auto;">
+    <br>: 특정 사용자 차단을 취소할 수 있다.
+    <br><br>
+    3. 회원 차단 목록 조회
+    <br>
+    <img src="./assets/test/chatting/11_회원 차단 목록 조회.png" alt="회원 차단 목록 조회" style="width: 80%; height: auto;">
+    <br>: 사용자가 차단한 다른 사용자들을 조회할 수 있다.
+    <br><br>
+</details>
+<details>
+<summary><b>그룹채팅방 기능</b></summary>
+    1. 그룹채팅방 참여 요청
+    <br>
+    <img src="./assets/test/chatting/12_그룹채팅방 참여요청.png" alt="그룹채팅방 참여요청" style="width: 80%; height: auto;">
+    <br>: 일반 사용자는 그룹채팅방 참여 요청을 보낸다.
+    <br><br>
+    2. 그룹채팅방 대기방 조회
+    <br>
+    <img src="./assets/test/chatting/13_그룹채팅방 대기방 조회.png" alt="그룹채팅방 대기방 조회" style="width: 80%; height: auto;">
+    <br>: 그룹채팅방의 OWNER는 대기방을 조회할 수 있다.
+    <br><br>
+    3. 그룹채팅방 요청 수락락
+    <br>
+    <img src="./assets/test/chatting/14_그룹채팅방 요청 수락.png" alt="그룹채팅방 참여요청 수락락" style="width: 80%; height: auto;">
+    <br>: 그룹채팅방의 OWNER는 그룹채팅방 참여 요청을 수락할 수 있다.
+    <br><br>
+    3. 그룹채팅방 요청 수락
+    <br>
+    <img src="./assets/test/chatting/15_그룹채팅방 요청 거절.png" alt="그룹채팅방 참여요청 거절절" style="width: 80%; height: auto;">
+    <br>: 그룹채팅방의 OWNER는 그룹채팅방 참여 요청을 거절할 수도 있다.
+    <br><br>
+</details>
+<details>
+<summary><b>채팅 연결 테스트</b></summary>
+<img src="./assets/test/chatting/채팅 연결 테스트.gif" alt="채팅 연결 테스트" style="width: 80%; height: auto;">
+    <br>: stomp를 이용하여 connect, subscribe, send시 사용자의 토큰을 확인하여 채팅방에 참여중인 사용자인지 확인한다. 
+</details>
 
 <br>
-<li><span style="font-size: 1.2em">모의 면접 테스트</span></li>
+
+### 🎤 모의면접 테스트
+
 <details>
     <summary><b>관리자 - 조회</b></summary>
     1. 관리자 모의 면접방 전체 목록 조회
@@ -1141,61 +1184,72 @@
     <br>: 사용자는 모의 면접방을 재실행 할 수 있음
     <br><br>
 </details>
+<br>
+
+### 📰 IT 뉴스 테스트 (완)
+
+<details>
+  <summary><b>IT 기사 목록 조회</b></summary>
+  1. IT 기사 목록 전체 조회<br>
+  <img src="./assets/test/itnews/IT기사-목록-조회.gif" alt="itnews1" style="width: 80%; height: auto;">
+  <br>: 관리자는 IT 뉴스 목록을 조회할 수 있다.
+  <br><br>
+</details>
+
+<details>
+  <summary><b>발송된 뉴스 조회</b></summary>
+  1. 발송된 기사 확인<br>
+  <img src="./assets/test/itnews/발송된-뉴스-조회.gif" alt="itnews2" style="width: 80%; height: auto;">
+  <br>: 발송 완료된 뉴스 기사를 확인할 수 있다.
+  <br><br>
+</details>
+
+<details>
+  <summary><b>미발송 뉴스 조회 및 수정</b></summary>
+  1. 미발송 뉴스 확인 및 수정<br>
+  <img src="./assets/test/itnews/미발송된-뉴스-조회-및-수정.gif" alt="itnews3" style="width: 80%; height: auto;">
+  <br>: 미발송 기사를 선택해 내용을 수정할 수 있다.
+  <br><br>
+</details>
+
+<details>
+  <summary><b>뉴스 작성</b></summary>
+  1. 기사 작성<br>
+  <img src="./assets/test/itnews/뉴스-작성.gif" alt="itnews4" style="width: 80%; height: auto;">
+  <br>: 관리자는 새로운 뉴스를 작성할 수 있다.
+  <br><br>
+</details>
+
+<details>
+  <summary><b>뉴스 수동 발송</b></summary>
+  1. 수동으로 뉴스 발송<br>
+  <img src="./assets/test/itnews/뉴스-수동발송.gif" alt="itnews5" style="width: 80%; height: auto;">
+  <br>: 관리자는 원하는 시점에 수동 발송을 진행할 수 있다.
+  <br><br>
+</details>
+
+<details>
+  <summary><b>뉴스 삭제</b></summary>
+  1. 뉴스 삭제<br>
+  <img src="./assets/test/itnews/뉴스-삭제.gif" alt="itnews6" style="width: 80%; height: auto;">
+  <br>: 관리자는 불필요한 뉴스 기사를 삭제할 수 있다.
+  <br><br>
+</details>
+
+<details>
+  <summary><b>뉴스 목록 돌아가기</b></summary>
+  1. 뉴스 상세에서 목록으로 돌아가기<br>
+  <img src="./assets/test/itnews/뉴스-목록-돌아가기.gif" alt="itnews7" style="width: 80%; height: auto;">
+  <br>: 뉴스 상세 페이지에서 목록으로 다시 이동할 수 있다.
+  <br><br>
+</details>
+
+
 
 <br>
-<li><span style="font-size: 1.2em">IT 뉴스 테스트</span></li>
-<details>
-    <summary><b>IT 뉴스 저장</b></summary>
-     1. 저장
-    <br>
-    <img src="./assets/test/itnews/IT 뉴스 저장.png" alt="itnews1" style="width: 80%; height: auto;">
-    <br>: 관리자는 IT 뉴스를 저장할 수 있다.
-    <br><br>
-</details>
-<details>
-    <summary><b>IT 뉴스 수정</b></summary>
-     1. 수정
-    <br>
-    <img src="./assets/test/itnews/IT 뉴스 수정.png" alt="itnews2" style="width: 80%; height: auto;">
-    <br>: 관리자는 IT 뉴스를 수정할 수 있다.
-    <br><br>
-</details>
-<details>
-    <summary><b>IT 뉴스 조회</b></summary>
-     1. 목록 조회
-    <br>
-    <img src="./assets/test/itnews/뉴스 목록 조회.png" alt="itnews3" style="width: 80%; height: auto;">
-    <br>: 관리자는 IT 뉴스 목록을 조회할 수 있다.
-    <br><br>
-    2. 상세 조회
-    <br>
-    <img src="./assets/test/itnews/뉴스 상세조회.png" alt="itnews4" style="width: 80%; height: auto;">
-    <br>: 관리자는 IT 뉴스 상세 조회할 수 있다.
-    <br><br>
-</details>
-<details>
-    <summary><b>IT 뉴스 전송</b></summary>
-    1. 전송(수동)
-    <br>
-    <img src="./assets/test/itnews/IT뉴스 수동 전송.png" alt="itnews5" style="width: 80%; height: auto;">
-    <br>: 관리자는 IT 뉴스를 구독한 사용자들에게 전송할 수 있다.
-    <br>
-    <img src="./assets/test/itnews/사용자에게 IT뉴스기사 전송.png" alt="itnews6" style="width: 80%; height: auto;">
-    <br>: 사용자가 받은 이메일
-    <br><br>    
-</details>
-<details>
-    <summary><b>IT 뉴스 삭제</b></summary>
-    1. 삭제
-    <br>
-    <img src="./assets/test/itnews/뉴스 삭제.png" alt="itnews7" style="width: 80%; height: auto;">
-    <br>: 관리자는 IT 뉴스를 삭제할 수 있다.
-    <br><br>
-</details>
 
+### 🚨 신고 테스트
 
-<br>
-<li><span style="font-size: 1.2em">신고 테스트</span></li>
 <details>
   <summary><b>게시글 신고</b></summary>
   1. 게시글 신고(일반)
@@ -1241,7 +1295,7 @@
   <img src="https://github.com/user-attachments/assets/35e63c95-3389-47e5-969a-a7165e889986" alt="관리자 신고 검토 리스트 조회" style="width: 80%; height: auto;">
   <br> 관리자가 신고 검토 요청 처리 시 중복 예외 처리
 </details>
-
+</details>
 <br>
 
 
