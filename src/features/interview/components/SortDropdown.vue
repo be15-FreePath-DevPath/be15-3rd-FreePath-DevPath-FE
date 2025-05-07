@@ -30,7 +30,7 @@ const selectOption = (value) => {
     <div class="divider"></div>
     <div
         class="dropdown-option reset"
-        @click="selectOption(null)"
+        @click="selectOption('none')"
     >
       정렬 해제
     </div>
