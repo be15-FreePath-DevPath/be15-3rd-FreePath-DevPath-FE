@@ -139,6 +139,18 @@ const handleChatting = async() => {
   }
 }
 
+const handleChattingByComment = async(userId) => {
+  try{
+    const response = await createChattingRoom(userId);
+    const queryRoomId = response.data.data.chattingRoomId;
+    console.log('채팅방 id ',queryRoomId);
+    await router.replace({ path: '/chatting', query: { queryRoomId: queryRoomId } });
+  }catch(e){
+    const msg = e?.response?.data?.message || '채팅방 이동 실패.';
+    alert(msg);
+  }
+}
+
 </script>
 
 <template>
@@ -155,7 +167,7 @@ const handleChatting = async() => {
         @chat="handleChatting"
     />
     <InteractionBar/>
-    <CommentList :comments="comments"/>
+    <CommentList :comments="comments" @routeChat="handleChattingByComment"/>
     <PagingBar v-bind="pagination"/>
   </template>
 </template>
