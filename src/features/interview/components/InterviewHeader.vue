@@ -90,6 +90,12 @@ const onSortSelect = (order) => {
   font-size:12px
 }
 
+.header-title,
+.header-type,
+.header-score {
+  position: relative;
+}
+
 .header-title {
   width: var(--column-title);
   display: flex;
