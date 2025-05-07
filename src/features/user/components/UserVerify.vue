@@ -1,12 +1,13 @@
 <script setup>
 import { ref } from 'vue'
-import axios from 'axios'
+import { emailCheck, signupUser } from '@/features/user/api'  // api.js에서 함수 가져오기
 import { errorMap } from '@/features/user/errorcode.js'
 
 // 컴포넌트 import
 import UserInput from "@/features/user/components/UserInput.vue";
 import UserButtonPurple from "@/features/user/components/UserButtonPurple.vue";
 import Check from "@/assets/images/user/check.png";
+import UserModal from "@/features/user/components/UserModal.vue";
 
 // 부모로부터 email과 purpose 값을 전달 받음
 const props = defineProps({
@@ -26,40 +27,23 @@ const emit = defineEmits(['verify-success'])
 // 인증번호 입력 값
 const authNum = ref('')
 
-// 에러 상태
-const showError = ref(false)
-const errorMessage = ref('')
+// 모달 상태 관리
+const showModal = ref(false)
+const modalTitle = ref('')
+const modalSubtitle = ref('')
 
 // 인증 요청 + 최종 회원가입 완료 처리
 async function verify() {
   try {
-    const token = localStorage.getItem('jwtToken')
-
-    // 1) 이메일 인증 확인
-    const response = await axios.post('http://localhost:8080/email/check', {
-      email: props.email,
-      authNum: authNum.value,
-      purpose: props.purpose
-    }, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-
+    const response = await emailCheck(props.email, authNum.value, props.purpose)  // 인증 확인
     console.log('인증 성공', response.data)
 
-    // 2) 인증 성공 시 회원가입 최종 완료 처리
-    await axios.post('http://localhost:8080/user/signup', {
-      email: props.email
-    }, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
+    // 인증 성공 시 회원가입 최종 완료 처리
+    await signupUser(props.email)
 
     console.log('회원가입 최종 완료')
 
-    emit('verify-success')
+    emit('verify-success')  // 인증 성공 시 이벤트 발생
 
   } catch (error) {
     console.error('에러 발생:', error.response?.data || error)
@@ -67,12 +51,17 @@ async function verify() {
     const code = error.response?.data?.errorCode
     const message = error.response?.data?.message
 
+    // 에러 메시지 처리
     if (code && errorMap[code]) {
-      errorMessage.value = errorMap[code].subtitle
+      modalTitle.value = errorMap[code].title
+      modalSubtitle.value = message || '잠시 후 다시 시도해 주세요.'
     } else {
-      errorMessage.value = message || '인증에 실패했습니다. 다시 시도해 주세요.'
+      modalTitle.value = '알 수 없는 오류'
+      modalSubtitle.value = message || '잠시 후 다시 시도해 주세요.'
     }
-    showError.value = true
+
+    // 모달 띄우기
+    showModal.value = true
   }
 }
 </script>
@@ -89,7 +78,14 @@ async function verify() {
         :icon="Check"
         @click="verify"
     />
-    <p v-if="showError" class="error-text">{{ errorMessage }}</p>
+
+    <!-- 인증 실패 시 모달 -->
+    <UserModal
+        v-if="showModal"
+        :title="modalTitle"
+        :subtitle="modalSubtitle"
+        @close="showModal = false"
+    />
   </div>
 </template>
 
@@ -100,10 +96,5 @@ async function verify() {
   flex-direction: column;
   outline: none;
   gap: 10px;
-}
-
-.error-text {
-  color: red;
-  font-size: 12px;
 }
 </style>
