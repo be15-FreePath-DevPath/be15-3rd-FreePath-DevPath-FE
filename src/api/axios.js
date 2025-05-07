@@ -2,6 +2,8 @@
 import axios from "axios";
 import {useAuthStore} from "@/stores/auth.js";
 import {refreshUserToken} from "@/features/user/api.js";
+import router from "@/router/index.js";
+import {useToast} from "vue-toastification";
 
 const api = axios.create({
     baseURL : import.meta.env.VITE_API_BASE_URL,
@@ -51,6 +53,7 @@ api.interceptors.response.use(
             } catch (refreshErr) {
                 // 재발급 실패하면 로그아웃
                 await authStore.clearAuth();
+                redirectToLogin();
                 return Promise.reject(refreshErr);
             }
         }
@@ -59,5 +62,19 @@ api.interceptors.response.use(
         return Promise.reject(err);
     }
 );
+
+// 로그인 페이지로 리디렉션하며 원래 경로 저장
+function redirectToLogin() {
+    const toast = useToast(); // setup() 컨텍스트 안이면 정상 작동
+
+    const currentPath = window.location.pathname + window.location.search;
+    localStorage.setItem('redirectAfterLogin', currentPath);
+
+    toast.warning('로그인이 필요한 서비스입니다.', {
+        position: 'top-center',
+    });
+
+    router.push('/user/login');
+}
 
 export default api;
