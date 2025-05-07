@@ -48,14 +48,14 @@
 
 <div align="center">
 
-|                            **김운경**                            |                            **김태인**                            |                            **이기연**                            |
-|:-------------------------------------------------------------:|:-------------------------------------------------------------:|:-------------------------------------------------------------:|
-| <img src="./assets/readme/김운경.png" width="180" height="130"> | <img src="./assets/readme/김태인.png" width="180" height="130"> | <img src="./assets/readme/이기연.png" width="180" height="130"> |
-|           [@splguyjr](https://github.com/splguyjr)            |          [@Taein5415](https://github.com/Taein5415)           |        [@Lee-gi-yeun](https://github.com/Lee-gi-yeun)         |
+|                        **김운경**                        |                            **김태인**                            |                            **이기연**                            |
+|:-----------------------------------------------------:|:-------------------------------------------------------------:|:-------------------------------------------------------------:|
+| <img src="./assets/김운경.png" width="180" height="130"> | <img src="./assets/김태인.png" width="180" height="130"> | <img src="./assets/이기연.png" width="180" height="130"> |
+|       [@splguyjr](https://github.com/splguyjr)        |          [@Taein5415](https://github.com/Taein5415)           |        [@Lee-gi-yeun](https://github.com/Lee-gi-yeun)         |
 
 |                            **이주미**                            |                            **이채은**                            |                            **하채린**                            |
 |:-------------------------------------------------------------:|:-------------------------------------------------------------:|:-------------------------------------------------------------:|
-| <img src="./assets/readme/이주미.png" width="180" height="130"> | <img src="./assets/readme/이채은.png" width="180" height="130"> | <img src="./assets/readme/하채린.png" width="180" height="130"> |
+| <img src="./assets/이주미.png" width="180" height="130"> | <img src="./assets/이채은.png" width="180" height="130"> | <img src="./assets/하채린.png" width="180" height="130"> |
 |            [@z00m-1n](https://github.com/z00m-1n)             |            [@nineeko](https://github.com/nineeko)             |             [@didiha](https://github.com/didiha)              | 
 
 </div>
