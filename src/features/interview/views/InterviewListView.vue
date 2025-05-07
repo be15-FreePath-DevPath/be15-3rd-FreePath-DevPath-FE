@@ -16,12 +16,13 @@ const pagination = ref({
   totalItems: 0
 })
 const isLoading = ref(true)
-const sortOrder = ref('desc')
+const sortOrder = ref('none')
 const filters = ref({
   category: null,
   difficulty: null,
   evaluation: null
 })
+console.log("sortOrder: ",sortOrder)
 
 // 면접 목록 불러오기
 const loadInterviews = async (page = 1) => {
@@ -35,6 +36,8 @@ const loadInterviews = async (page = 1) => {
       difficulty: filters.value.difficulty,
       evaluation: filters.value.evaluation,
     })
+
+    console.log("resp.data : ",resp.data)
 
     const { interviewRooms, pagination: rawPagination } = resp.data.data;
 
