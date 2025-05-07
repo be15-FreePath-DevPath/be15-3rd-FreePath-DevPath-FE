@@ -4,10 +4,10 @@
     <SidebarLogo />
 
     <!-- 조건부 섹션 렌더링 -->
-    <SidebarBoardSection v-if="isGuest || isUser" />
+    <SidebarBoardSection v-if="isGuest || isUser || isAdmin" />
     <SidebarChatSection v-if="isUser || isGuest" />
     <SidebarSkillSection v-if="isUser || isGuest" />
-    <SidebarMyPageSection v-if="isUser" />
+    <SidebarMyPageSection v-if="isUser || isAdmin" />
     <SidebarAdminSection v-if="isAdmin" />
   </aside>
 </template>
