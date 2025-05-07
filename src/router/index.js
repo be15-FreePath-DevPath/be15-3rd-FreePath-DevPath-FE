@@ -37,6 +37,21 @@ const router = createRouter({
     ]
 })
 
+// OAuth 로그인 직후 URL에서 accessToken 저장
+router.beforeEach((to, from, next) => {
+    const authStore = useAuthStore()
+
+    // URL에 accessToken이 있다면 저장하고 URL에서 제거
+    if (to.query.accessToken) {
+        authStore.setAuth(to.query.accessToken)
+
+        // 쿼리 파라미터 없이 깔끔하게 리디렉트
+        return next({ path: to.path, query: {} })
+    }
+
+    next()
+})
+
 // 관리자 페이지 접근 시
 router.beforeEach((to, from, next) => {
     const authStore = useAuthStore()
