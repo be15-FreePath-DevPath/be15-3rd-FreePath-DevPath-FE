@@ -171,10 +171,11 @@ src/
 <h1 id="project-result">2️⃣ Project Result</h1>
 
 <br>
-<details open>
-<summary>
-    <span id="figma" style="font-size: 1.7em; font-weight: bold;">🙌 화면 설계서 (Figma)</span>
-  </summary>
+
+<h1 id="figma">🙌 화면 설계서 (Figma)</h1>
+
+<details>
+  <summary><b>클릭해서 열기</b></summary>
 
 ### 👤 회원 관련 (회원가입 / 로그인 / 마이페이지)
 
@@ -493,10 +494,12 @@ src/
 </details>
 
 <br>
-<details open>
- <summary>
-    <span id="test" style="font-size: 1.7em; font-weight: bold;">🎖️ 테스트 결과 보고서</span>
-  </summary>
+<h1 id="test">🎖️ 테스트 결과 보고서</h1>
+
+<details>
+  <summary><b>클릭해서 열기</b></summary>
+
+### 👤 회원 테스트
 <details>
     <summary><b>회원 가입</b></summary>
     1. 일반 회원가입
