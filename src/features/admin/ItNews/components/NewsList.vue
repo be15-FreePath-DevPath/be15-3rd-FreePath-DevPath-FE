@@ -53,7 +53,7 @@ const fetchNews = async (page = 1) => {
     // pagination 정보 수동 계산
     pagination.currentPage = respData.pagination?.currentPage || 1
     pagination.totalItems = respData.pagination?.totalItems || 0
-    pagination.totalPages = Math.ceil(pagination.totalItems / pageSize)
+    pagination.totalPages = respData.pagination?.totalPage || 1
     currentPage.value = page
   } catch (e) {
     console.error('뉴스 목록 로드 실패', e)
