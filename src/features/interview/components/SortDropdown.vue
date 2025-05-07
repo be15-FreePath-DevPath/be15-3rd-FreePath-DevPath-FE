@@ -5,6 +5,7 @@ const emit = defineEmits(['select'])
 const selected = ref(null)
 
 const selectOption = (value) => {
+  console.log('[SortDropdown] emit select:', value)
   selected.value = value
   emit('select', value)
 }
@@ -39,8 +40,9 @@ const selectOption = (value) => {
 <style scoped>
 .dropdown {
   position: absolute;
-  top: 28px;
+  top: 100%;
   left: 0;
+  margin-top: 4px;
   background: #fff;
   border: 1px solid rgba(0,0,0,0.1);
   border-radius: 6px;
@@ -49,6 +51,7 @@ const selectOption = (value) => {
   width: 180px;
   padding: 6px 0;
 }
+
 
 .dropdown-option {
   padding: 10px 16px;

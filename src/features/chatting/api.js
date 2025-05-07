@@ -18,3 +18,16 @@ export const createGroupChattingRoom = (boardId, chattingRoomTitle) => {
         chattingRoomTitle
     })
 }
+
+export const getChattingRoomJoinUsers = (chattingRoomId) => api.get(`/chatting/list/${chattingRoomId}/users`)
+
+export const getWaitingRoom = (chattingRoomId) => api.get(`/chatting/waitingRoom/${chattingRoomId}`);
+
+export const putGroupChattingAccept = (payload) => api.put('/chatting/waitingRoom/respond',payload);
+
+
+export const updateGroupChattingRoom = (payload) => api.put('/chatting/update/group',payload);
+
+export const putChattingRoomJoin = (chattingRoomId) => api.put(`/chatting/list/${chattingRoomId}`);
+
+export const postUserBlock = (userId) => api.post(`/chatting/block/${userId}`);

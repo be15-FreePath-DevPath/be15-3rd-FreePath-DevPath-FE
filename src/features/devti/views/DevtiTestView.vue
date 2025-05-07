@@ -38,7 +38,7 @@ const handleAnswer = async (value) => {
 onMounted(() => {
   if (!auth.isAuthenticated) {
     alert('로그인이 필요한 서비스입니다.')
-    router.push('/user/login') // 혹은 회원가입 페이지
+    router.push('/user/login')
   }
 })
 
