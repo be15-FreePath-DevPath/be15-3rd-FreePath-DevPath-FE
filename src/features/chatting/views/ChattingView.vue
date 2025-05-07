@@ -1,11 +1,11 @@
 <script setup>
-import {onBeforeUnmount, onMounted, reactive, ref} from 'vue'
+import {onBeforeUnmount, onMounted, ref} from 'vue'
 import ChattingInsertFrame from "@/features/chatting/components/chattingView/ChattingInsertFrame.vue";
 import {
   getChatting,
   getChattingRoomJoinUsers,
   getChattingRoomList,
-  getWaitingRoom,
+  getWaitingRoom, putChattingRoomJoin,
   putGroupChattingAccept, updateGroupChattingRoom
 } from "@/features/chatting/api.js";
 import ChattingRoomListFrame from "@/features/chatting/components/chattingView/ChattingRoomListFrame.vue"
@@ -16,44 +16,26 @@ import ChattingOptionModal from "@/features/chatting/components/chattingView/Cha
 import WaitingListModal from "@/features/chatting/components/chattingView/WaitingListModal.vue";
 import UserModal from "@/features/user/components/UserModal.vue";
 import ChangeChattingRoomModal from "@/features/chatting/components/chattingView/ChangeChattingRoomModal.vue";
+import ChattingExitModal from "@/features/chatting/components/chattingView/ChattingExitModal.vue";
+import {errorMap} from "@/features/user/errorcode.js";
 
-const newBreadCrumbItems = ref(['채팅','채팅','참여 중인 채팅방'])
 const emit = defineEmits(['updateBreadCrumb'])
+const newBreadCrumbItems = ref(['채팅','채팅','참여 중인 채팅방'])
+
 const chattingRooms = ref([]);
 const chattings = ref([]);
 const selectedRoom = ref(0);
 const chattingUsers = ref([]);
-const isOptionModal = ref(false)
-const isWaitingListModal = ref(false)
 const waitingUsers = ref([])
-const isUserModal = ref(false)
+
 const modalTitle = ref('');
 const modalSubtitle = ref('');
+
+const isOptionModal = ref(false)
+const isWaitingListModal = ref(false)
+const isUserModal = ref(false)
 const isChangeChattingRoomModal = ref(false);
-
-const showOptionModal = async () => {
-  isOptionModal.value = true
-  try{
-    const { data : wrapper } = await getChattingRoomJoinUsers(selectedRoom.value);
-    const respData = wrapper.data;
-    chattingUsers.value = respData.chattingroomJoinUserList;
-    console.log('채팅 참여자 : '+chattingUsers.value);
-  }catch(e){
-    console.log("채팅방 참여 인원 조회 실패",e);
-  }
-}
-const showWaitingUListModal = async () => {
-  isWaitingListModal.value = true;
-  try{
-    const { data : wrapper } = await getWaitingRoom(selectedRoom.value);
-    const respData = wrapper.data;
-    waitingUsers.value = respData.chattingRoomWatingDTOList;
-    console.log('참여대기자 : '+waitingUsers.value);
-  }catch(e){
-    console.log("참여대기자 조회 실패",e);
-  }
-}
-
+const isExitChattingRoomModal = ref(false);
 
 const fetchChattingRoomList =async() => {
   try {
@@ -147,6 +129,52 @@ const renameRoom = async (newName) => {
   await fetchChattingRoomList();
 }
 
+const exitChattingRoom = async () => {
+  try{
+    await putChattingRoomJoin(selectedRoom.value);
+    console.log('나가기 성공');
+    modalTitle.value = '채팅방 나가기 완료';
+    modalSubtitle.value = '채팅방에서 나갔습니다.'
+
+  }catch(e){
+    const errorCode = e.response?.data?.errorCode || '기타 오류';
+    const errorMessage = errorMap[errorCode] || {
+      title: '채팅방 나가기 실패',
+      subtitle: '알 수 없는 오류가 발생했습니다.'
+    };
+    modalTitle.value = errorMessage.title
+    modalSubtitle.value = errorMessage.subtitle
+  }
+  isUserModal.value = true;
+  isExitChattingRoomModal.value = false;
+  await fetchChattingRoomList();
+  chattings.value = [];
+  selectedRoom.value=null;
+}
+
+const showOptionModal = async () => {
+  isOptionModal.value = true
+  try{
+    const { data : wrapper } = await getChattingRoomJoinUsers(selectedRoom.value);
+    const respData = wrapper.data;
+    chattingUsers.value = respData.chattingroomJoinUserList;
+    console.log('채팅 참여자 : '+chattingUsers.value);
+  }catch(e){
+    console.log("채팅방 참여 인원 조회 실패",e);
+  }
+}
+const showWaitingUListModal = async () => {
+  isWaitingListModal.value = true;
+  try{
+    const { data : wrapper } = await getWaitingRoom(selectedRoom.value);
+    const respData = wrapper.data;
+    waitingUsers.value = respData.chattingRoomWatingDTOList;
+    console.log('참여대기자 : '+waitingUsers.value);
+  }catch(e){
+    console.log("참여대기자 조회 실패",e);
+  }
+}
+
 
 
 onMounted(async () => {
@@ -177,7 +205,8 @@ onBeforeUnmount(() => {
             :users="chattingUsers"
             @close="isOptionModal = false"
             @clickWaitingList = "showWaitingUListModal"
-            @changeChattingRoomTitle = "isChangeChattingRoomModal = true"/>
+            @changeChattingRoomTitle = "isChangeChattingRoomModal = true; isOptionModal=false"
+            @exitChattingRoom = "isExitChattingRoomModal = true; isOptionModal=false"/>
         <WaitingListModal
             v-if="isWaitingListModal"
             :waitingUsers="waitingUsers"
@@ -193,6 +222,14 @@ onBeforeUnmount(() => {
       @submit="renameRoom"
       @close="isChangeChattingRoomModal = false"
   />
+  <ChattingExitModal
+      v-if="isExitChattingRoomModal"
+      title="확인 요청"
+      message="채팅방을 나가시겠습니까?"
+      @close="isExitChattingRoomModal = false"
+      @exitChattingRoom = "exitChattingRoom"
+  />
+
   <UserModal
       v-if="isUserModal"
       :title="modalTitle"
