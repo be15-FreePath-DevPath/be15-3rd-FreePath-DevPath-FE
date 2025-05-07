@@ -9,6 +9,7 @@ const route = useRoute()
 
 const itNews = ref([])
 const currentPage = ref(1)
+const pageSize = 10 //
 const pagination = reactive({
   currentPage: 1,
   totalPages: 1,
@@ -16,7 +17,6 @@ const pagination = reactive({
 })
 const isLoading = ref(true)
 
-// 날짜 포맷 변환
 const formatDate = (dateString, isSent) => {
   const date = new Date(dateString)
   const year = date.getFullYear()
@@ -46,10 +46,14 @@ const isSent = (mailingDate) => {
 const fetchNews = async (page = 1) => {
   isLoading.value = true
   try {
-    const { data: wrapper } = await getNewsList({ page })
+    const { data: wrapper } = await getNewsList({ page, size: pageSize })
     const respData = wrapper?.data || {}
     itNews.value = (respData.newsList || []).sort((a, b) => a.itNewsId - b.itNewsId)
-    Object.assign(pagination, respData.pagination ?? {})
+
+    // pagination 정보 수동 계산
+    pagination.currentPage = respData.pagination?.currentPage || 1
+    pagination.totalItems = respData.pagination?.totalItems || 0
+    pagination.totalPages = Math.ceil(pagination.totalItems / pageSize)
     currentPage.value = page
   } catch (e) {
     console.error('뉴스 목록 로드 실패', e)
@@ -97,14 +101,16 @@ onMounted(() => fetchNews())
           @click="goToDetail(news.itNewsId)"
           class="clickable-row"
       >
-        <td>{{ news.itNewsId }}</td>
+        <td class="text-align">{{ news.itNewsId }}</td>
         <td class="ellipsis-cell">{{ news.title }}</td>
         <td class="ellipsis-cell">{{ news.content }}</td>
         <td class="ellipsis-cell">
           <a :href="news.link" target="_blank">{{ news.link }}</a>
         </td>
-        <td>{{ news.mailingDate ? formatDate(news.mailingDate, isSent(news.mailingDate) === 'Y') : '' }}</td>
-        <td>{{ isSent(news.mailingDate) }}</td>
+        <td>
+          {{ news.mailingDate ? formatDate(news.mailingDate, isSent(news.mailingDate) === 'Y') : '' }}
+        </td>
+        <td class="mailingDate">{{ isSent(news.mailingDate) }}</td>
       </tr>
       </tbody>
     </table>
@@ -138,6 +144,12 @@ onMounted(() => fetchNews())
   padding: 12px 16px;
   border-bottom: 1px solid #ccc;
 }
+.news-table th {
+  text-align: center;
+}
+.text-align {
+  text-align: center;
+}
 
 .news-table thead th {
   font-weight: 600;
@@ -165,5 +177,8 @@ onMounted(() => fetchNews())
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.mailingDate {
+  text-align: center;
 }
 </style>
