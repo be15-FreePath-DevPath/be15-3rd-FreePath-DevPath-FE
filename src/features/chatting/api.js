@@ -31,3 +31,5 @@ export const updateGroupChattingRoom = (payload) => api.put('/chatting/update/gr
 export const putChattingRoomJoin = (chattingRoomId) => api.put(`/chatting/list/${chattingRoomId}`);
 
 export const postUserBlock = (userId) => api.post(`/chatting/block/${userId}`);
+
+export const createChattingRoom = (userId) => api.post(`/chatting/create/${userId}`);
