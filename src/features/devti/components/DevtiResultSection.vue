@@ -17,11 +17,11 @@
       <h3 class="description-title">👯 나의 동료는?</h3>
       <div class="match-group-set">
         <div class="match-group">
-          <h5 class="description-title">🩷 잘 맞는 동료</h5>
+          <h5 class="description-title">🩷 잘 맞는 동료 🩷</h5>
           <p class="partner">{{ result.good_matches.join(" , ") }}</p>
         </div>
         <div class="match-group">
-          <h5 class="description-title">❌ 안 맞는 동료</h5>
+          <h5 class="description-title">❌ 안 맞는 동료 ❌</h5>
           <p class="partner">{{ result.bad_matches.join(" , ") }}</p>
         </div>
       </div>
@@ -49,26 +49,41 @@ const props = defineProps({
   }
 })
 
-const result = computed(() => devtiResults[props.resultType])
+const result = devtiResults[props.resultType] || {
+  name: "알 수 없음",
+  description: "결과 설명이 없습니다.",
+  traits: [],
+  good_matches: [],
+  bad_matches: []
+}
 
 const goToTest = () => {
   router.push("/mypage/devti/test");
 };
 
 const shareResult = () => {
-  const shareText = `내 개발자 성향은 ${result.name}!\n\n${result.description}`;
+  const title = result?.name ?? '알 수 없음';
+  const description = result?.description ?? '결과 설명이 없습니다.';
+
+  const shareText = `내 개발자 성향은 ${title}!\n\n${description}`;
+  const shareUrl = window.location.href;
+
   if (navigator.share) {
     navigator.share({
       title: "DevTI 결과",
       text: shareText,
-      url: window.location.href,
+      url: shareUrl,
+    }).catch(err => {
+      alert('공유에 실패했습니다.');
+      console.error(err);
     });
   } else {
-    navigator.clipboard.writeText(`${shareText}\n${window.location.href}`)
+    navigator.clipboard.writeText(`${shareText}\n${shareUrl}`)
         .then(() => alert('공유 내용이 클립보드에 복사되었습니다!'))
         .catch(() => alert('클립보드 복사에 실패했습니다.'));
   }
 };
+
 </script>
 
 <style scoped>
@@ -144,7 +159,7 @@ const shareResult = () => {
   flex-direction: column;
   justify-content: center;
   width: fit-content;
-  gap:10px
+  gap:15px
 }
 .match-group {
   display: flex;
@@ -152,6 +167,7 @@ const shareResult = () => {
   justify-content: left;
   width: fit-content;
   margin:0;
+  gap:10px;
 }
 .partner{
   margin:0;
