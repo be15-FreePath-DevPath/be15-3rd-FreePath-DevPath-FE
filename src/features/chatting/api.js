@@ -21,3 +21,5 @@ export const putGroupChattingAccept = (payload) => api.put('/chatting/waitingRoo
 export const updateGroupChattingRoom = (payload) => api.put('/chatting/update/group',payload);
 
 export const putChattingRoomJoin = (chattingRoomId) => api.put(`/chatting/list/${chattingRoomId}`);
+
+export const postUserBlock = (userId) => api.post(`/chatting/block/${userId}`);

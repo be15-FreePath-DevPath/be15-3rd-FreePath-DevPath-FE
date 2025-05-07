@@ -5,7 +5,7 @@ import {
   getChatting,
   getChattingRoomJoinUsers,
   getChattingRoomList,
-  getWaitingRoom, putChattingRoomJoin,
+  getWaitingRoom, postUserBlock, putChattingRoomJoin,
   putGroupChattingAccept, updateGroupChattingRoom
 } from "@/features/chatting/api.js";
 import ChattingRoomListFrame from "@/features/chatting/components/chattingView/ChattingRoomListFrame.vue"
@@ -27,9 +27,12 @@ const chattings = ref([]);
 const selectedRoom = ref(0);
 const chattingUsers = ref([]);
 const waitingUsers = ref([])
+const blockUser = ref(null);
 
 const modalTitle = ref('');
 const modalSubtitle = ref('');
+const modalActionName = ref('');
+const modalAction= ref('');
 
 const isOptionModal = ref(false)
 const isWaitingListModal = ref(false)
@@ -129,6 +132,20 @@ const renameRoom = async (newName) => {
   await fetchChattingRoomList();
 }
 
+const userBlock = async () => {
+  try{
+    await postUserBlock(blockUser.value);
+    modalTitle.value = '회원 차단 완료';
+    modalSubtitle.value = '회원 차단을 완료했습니다.'
+  }catch(e){
+    modalTitle.value = '회원 차단에 실패했습니다.';
+    modalSubtitle.value = '알수 없는 오류가 발생했습니다.'
+  }
+  isUserModal.value = true;
+  isExitChattingRoomModal.value = false;
+  await fetchChattingRoomList();
+}
+
 const exitChattingRoom = async () => {
   try{
     await putChattingRoomJoin(selectedRoom.value);
@@ -175,6 +192,25 @@ const showWaitingUListModal = async () => {
   }
 }
 
+const showExitModal = () => {
+  isExitChattingRoomModal.value = true;
+  isOptionModal.value=false;
+  modalTitle.value = "채팅방 나가기";
+  modalSubtitle.value = "채팅방에서 나가시겠습니까?";
+  modalActionName.value = "나가기";
+  modalAction.value = 'exitChattingRoom'
+}
+
+const showUserBlockModal = (userId) => {
+  isExitChattingRoomModal.value = true;
+  isOptionModal.value=false;
+  modalTitle.value = "회원 차단";
+  modalSubtitle.value = "해당 회원을 차단하시겠습니까?";
+  modalActionName.value = "차단";
+  modalAction.value = 'userBlock'
+  blockUser.value = userId;
+}
+
 
 
 onMounted(async () => {
@@ -206,14 +242,14 @@ onBeforeUnmount(() => {
             @close="isOptionModal = false"
             @clickWaitingList = "showWaitingUListModal"
             @changeChattingRoomTitle = "isChangeChattingRoomModal = true; isOptionModal=false"
-            @exitChattingRoom = "isExitChattingRoomModal = true; isOptionModal=false"/>
+            @exitChattingRoom = "showExitModal"/>
         <WaitingListModal
             v-if="isWaitingListModal"
             :waitingUsers="waitingUsers"
             @close = "isWaitingListModal = false"
             @groupChattingAccept = "groupChattingAccept"
         />
-        <ChattingListFrame :chattings="chattings"/>
+        <ChattingListFrame :chattings="chattings" @userBlock="showUserBlockModal"/>
         <ChattingInsertFrame v-if="selectedRoom" class = "chattingInsertFrame" @sendMessage="sendChat"/>
       </div>
     </div>
@@ -224,10 +260,13 @@ onBeforeUnmount(() => {
   />
   <ChattingExitModal
       v-if="isExitChattingRoomModal"
-      title="확인 요청"
-      message="채팅방을 나가시겠습니까?"
+      :title="modalTitle"
+      :message="modalSubtitle"
+      :modalActionName="modalActionName"
+      :modalAction="modalAction"
       @close="isExitChattingRoomModal = false"
       @exitChattingRoom = "exitChattingRoom"
+      @userBlock = "userBlock"
   />
 
   <UserModal

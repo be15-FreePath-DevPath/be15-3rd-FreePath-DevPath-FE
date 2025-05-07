@@ -51,7 +51,7 @@ watch(
   <div class="chattingList" ref="listRef">
     <template v-for="(item, index) in groupedChattings" :key="index">
       <DateDivider v-if="item.type === 'divider'" :date="item.date" :data="item.data"/>
-      <ChattingCard v-else-if="item.type === 'chat'" :chatting="item.data" />
+      <ChattingCard v-else-if="item.type === 'chat'" :chatting="item.data" @userBlock="$emit('userBlock',item.data.userId)"/>
     </template>
   </div>
 </template>

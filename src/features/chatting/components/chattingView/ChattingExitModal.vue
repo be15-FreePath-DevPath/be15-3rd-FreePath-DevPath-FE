@@ -4,8 +4,8 @@
       <p class="modal-title">{{ title }}</p>
       <p class="modal-message">{{ message }}</p>
       <div class="modal-button-wrap">
-        <button class = "confirm-button" @click="$emit('exitChattingRoom')">나가기</button>
-        <button class="confirm-button" @click="close">확인</button>
+        <button class = "confirm-button" @click="$emit(modalAction)">{{ modalActionName }}</button>
+        <button class="confirm-button" @click="close">취소</button>
       </div>
     </div>
   </div>
@@ -15,6 +15,8 @@
 defineProps({
   title: String,
   message: String,
+  modalActionName: String,
+  modalAction: String
 });
 const emit = defineEmits(['close']);
 const close = () => emit('close');

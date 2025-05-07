@@ -25,7 +25,7 @@ const formattedTimestamp = computed(() => {
 
 <template>
   <div :class="['chatting-wrapper', props.chatting.mine ? 'my-chat' : 'other-chat']">
-    <UserFrame :nickname="props.chatting.nickname" />
+    <UserFrame :nickname="props.chatting.nickname" :mine="props.chatting.mine" @userBlock="$emit('userBlock')"/>
     <div class="element">
       <OtherChatting class="other-chatting-instance" :chatting="props.chatting" />
     </div>
