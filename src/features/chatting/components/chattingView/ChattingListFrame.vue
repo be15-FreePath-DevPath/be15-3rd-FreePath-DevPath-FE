@@ -23,6 +23,9 @@ const groupedChattings = computed(() => {
       groups.push({ type: 'divider', date: dateStr })
       lastDate = dateStr
     }
+    if(chat.userId === 1)
+      groups.push({ type: 'divider', data: chat.message })
+    else
     groups.push({ type: 'chat', data: chat })
   })
 
@@ -47,8 +50,8 @@ watch(
 <template>
   <div class="chattingList" ref="listRef">
     <template v-for="(item, index) in groupedChattings" :key="index">
-      <DateDivider v-if="item.type === 'divider'" :date="item.date" />
-      <ChattingCard v-else-if="item.type === 'chat'" :chatting="item.data" />
+      <DateDivider v-if="item.type === 'divider'" :date="item.date" :data="item.data"/>
+      <ChattingCard v-else-if="item.type === 'chat'" :chatting="item.data" @userBlock="$emit('userBlock',item.data.userId)"/>
     </template>
   </div>
 </template>
