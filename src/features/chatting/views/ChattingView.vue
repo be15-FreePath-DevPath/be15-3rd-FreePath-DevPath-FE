@@ -1,13 +1,20 @@
 <script setup>
 import {onBeforeUnmount, onMounted, reactive, ref} from 'vue'
 import ChattingInsertFrame from "@/features/chatting/components/chattingView/ChattingInsertFrame.vue";
-import {getChatting, getChattingRoomJoinUsers, getChattingRoomList, getWaitingRoom} from "@/features/chatting/api.js";
+import {
+  getChatting,
+  getChattingRoomJoinUsers,
+  getChattingRoomList,
+  getWaitingRoom,
+  putGroupChattingAccept
+} from "@/features/chatting/api.js";
 import ChattingRoomListFrame from "@/features/chatting/components/chattingView/ChattingRoomListFrame.vue"
 import ChattingListFrame from "@/features/chatting/components/chattingView/ChattingListFrame.vue";
 import { connectStomp, subscribeStomp, sendMessage, disconnectStomp } from '@/features/chatting/stomp-client.js';
 import ChattingHeaderFrame from "@/features/chatting/components/chattingView/ChattingHeaderFrame.vue";
 import ChattingOptionModal from "@/features/chatting/components/chattingView/ChattingOptionModal.vue";
 import WaitingListModal from "@/features/chatting/components/chattingView/WaitingListModal.vue";
+import UserModal from "@/features/user/components/UserModal.vue";
 
 const newBreadCrumbItems = ref(['채팅','채팅','참여 중인 채팅방'])
 const emit = defineEmits(['updateBreadCrumb'])
@@ -18,6 +25,9 @@ const chattingUsers = ref([]);
 const isOptionModal = ref(false)
 const isWaitingListModal = ref(false)
 const waitingUsers = ref([])
+const isGroupChattingAcceptModal = ref(false)
+const modalTitle = ref('');
+const modalSubtitle = ref('');
 
 const showOptionModal = async () => {
   isOptionModal.value = true
@@ -99,19 +109,35 @@ const getRoomTitle = (roomId) => {
   return room ? room.chattingRoomTitle : '채팅방';
 };
 
+const groupChattingAccept = async (userId,action) => {
+  const payload = {
+    chattingRoomId : selectedRoom.value,
+    inviteeId : userId,
+    action : action
+  }
+  console.log(payload);
+  try{
+    await putGroupChattingAccept(payload);
+    modalTitle.value = '참여 요청 처리 완료';
+    modalSubtitle.value = '참여 요청을 처리했습니다.'
+  }catch(e){
+    modalTitle.value = '참여 요청 처리 완료';
+    modalSubtitle.value = '알수 없는 오류가 발생했습니다.'
+  }
+  isGroupChattingAcceptModal.value = true;
+}
+
 
 
 onMounted(async () => {
   emit('updateBreadCrumb', newBreadCrumbItems.value);
   await connectStomp();
   await fetchChattingRoomList();
-  document.addEventListener('click', onClickOutside)
 });
 
 // 컴포넌트가 제거될 때 연결 해제
 onBeforeUnmount(() => {
   disconnectStomp();
-  document.removeEventListener('click', onClickOutside)
 })
 </script>
 
@@ -135,11 +161,18 @@ onBeforeUnmount(() => {
             v-if="isWaitingListModal"
             :waitingUsers="waitingUsers"
             @close = "isWaitingListModal = false"
+            @groupChattingAccept = "groupChattingAccept"
         />
         <ChattingListFrame :chattings="chattings"/>
         <ChattingInsertFrame v-if="selectedRoom" class = "chattingInsertFrame" @sendMessage="sendChat"/>
       </div>
     </div>
+  <UserModal
+      v-if="isGroupChattingAcceptModal"
+      :title="modalTitle"
+      :subtitle="modalSubtitle"
+      @close="isGroupChattingAcceptModal = false"
+  />
 </template>
 
 <style scoped>

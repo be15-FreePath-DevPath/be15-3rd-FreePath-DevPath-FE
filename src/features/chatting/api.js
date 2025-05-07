@@ -14,3 +14,7 @@ export const deleteBlockUser = (userId) => api.delete(`/chatting/block/${userId}
 export const getChattingRoomJoinUsers = (chattingRoomId) => api.get(`/chatting/list/${chattingRoomId}/users`)
 
 export const getWaitingRoom = (chattingRoomId) => api.get(`/chatting/waitingRoom/${chattingRoomId}`);
+
+export const putGroupChattingAccept = (payload) => {
+    api.put('/chatting/waitingRoom/respond',payload);
+}
