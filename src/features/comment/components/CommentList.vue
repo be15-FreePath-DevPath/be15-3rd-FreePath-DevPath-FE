@@ -14,6 +14,7 @@
         @modify="onModify"
         @report="onReport"
         @toggle-options="onToggleOptions"
+        @routeChat = "(userId) => $emit('routeChat',userId)"
     />
 
     <!-- 기본 댓글 입력창 -->
@@ -160,6 +161,8 @@ const handleGlobalClick = (event) => {
     activeOptionsId.value = null;
   }
 };
+
+
 
 onMounted(() => {
   document.addEventListener('click', handleGlobalClick);

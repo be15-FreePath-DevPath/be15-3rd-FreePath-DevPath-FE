@@ -55,16 +55,17 @@ const closeReexecutedListModal = () => showReexecutedListModal.value = false
 
 const handleReexecute = async ({ strictness }) => {
   try {
-    const { data } = await reexecuteInterviewRoom(roomId.value, strictness)
+    const response = await reexecuteInterviewRoom(roomId.value, strictness)
+    const newRoom = response.data.data
 
-    // 새 면접방으로 라우팅
     await router.push({
-      path: `/interview/progress/${data.interviewRoomId}`,
+      path: `/interview/progress/${newRoom.interviewRoomId}`,
       query: {
-        title: data.interviewRoomTitle,
-        category: data.difficultyLevel,
-        strictness: data.evaluationStrictness,
-        firstQuestion: data.firstQuestion
+        title: newRoom.interviewRoomTitle,
+        category: newRoom.interviewCategory,
+        difficulty: newRoom.difficultyLevel,
+        strictness: newRoom.evaluationStrictness,
+        firstQuestion: newRoom.firstQuestion
       }
     })
   } catch (err) {
@@ -200,10 +201,10 @@ watch(() => route.params.interviewRoomId, (newId) => {
           </h2>
           <div class="view">
             <span class="info-text-2">카테고리 : </span>
-            <span class="info-text-2">{{ interview.difficultyLevel?.toUpperCase() ?? '-' }}</span>
+            <span class="info-text-2">{{ interview.interviewCategory?.toUpperCase() ?? '-' }}</span>
             <span class="info-text-div"> | </span>
             <span class="info-text-2">난이도 : </span>
-            <span class="info-text-2">{{ interview?.difficultyLevel?.toUpperCase() ?? '-' }}</span>
+            <span class="info-text-2">{{ interview.difficultyLevel?.toUpperCase() ?? '-' }}</span>
             <span class="info-text-div"> | </span>
             <span class="info-text-2">평가 : </span>
             <span class="info-text-2">{{ interview.evaluationStrictness?.toUpperCase() ?? '-' }}</span>

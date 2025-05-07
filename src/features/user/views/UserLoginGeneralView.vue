@@ -74,18 +74,19 @@ const login = async () => {
 }
 
 const handleModalClose = () => {
-  showModal.value = false
+  showModal.value = false;
 
   if (isLoginSuccess.value) {
-    const redirectPath = route.query.redirect
-    console.log(redirectPath)
+    const redirectPath = localStorage.getItem('redirectAfterLogin');
+    localStorage.removeItem('redirectAfterLogin'); // 사용 후 제거
+
     if (typeof redirectPath === 'string') {
-      router.replace(redirectPath)
+      router.replace(redirectPath);
     } else {
-      router.replace('/') // 기본 홈
+      router.replace('/'); // 기본 홈
     }
   }
-}
+};
 </script>
 
 <template>
