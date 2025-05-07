@@ -7,7 +7,30 @@
 
     <label>
       링크
-      <input v-model="modelValue.link" :readonly="isReadOnly" />
+      <template v-if="isReadOnly">
+        <a
+            :href="modelValue.link"
+            target="_blank"
+            rel="noopener noreferrer"
+            style="display: block; padding: 10px; background-color: #f5f5f5; border: 1px solid #ccc; border-radius: 5px; color: #1a0dab; word-break: break-all;"
+        >
+          {{ modelValue.link || '링크 없음' }}
+        </a>
+      </template>
+      <template v-else>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <input v-model="modelValue.link" />
+          <a
+              v-if="modelValue.link"
+              :href="modelValue.link"
+              target="_blank"
+              rel="noopener noreferrer"
+              style="color: #1a0dab; font-size: 14px;"
+          >
+            링크 열기
+          </a>
+        </div>
+      </template>
     </label>
 
     <label>
