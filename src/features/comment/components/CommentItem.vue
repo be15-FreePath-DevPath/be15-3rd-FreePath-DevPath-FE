@@ -149,7 +149,7 @@ onMounted(async () => {
     const countRes = await countLikesByCommentId(props.comment.commentId)
     likeCount.value = countRes.data.data
 
-    if (authStore.isLoggedIn) {
+    if (authStore.isAuthenticated) {
       const likedRes = await hasUserLikedComment(props.comment.commentId)
       isLiked.value = likedRes.data.data
     }
@@ -162,7 +162,7 @@ onMounted(async () => {
 
 // 좋아요 토글
 const handleToggleLike = async () => {
-  if (!authStore.isLoggedIn) {
+  if (!authStore.isAuthenticated) {
     toast.warning('로그인이 필요합니다.')
     router.push('/user/login')
     return
