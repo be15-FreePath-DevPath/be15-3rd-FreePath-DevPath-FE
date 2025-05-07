@@ -10,3 +10,7 @@ export const getChattingPendingList = () => api.get('/chatting/waitingChattingRo
 export const getUserBlocked = () => api.get('/chatting/block');
 
 export const deleteBlockUser = (userId) => api.delete(`/chatting/block/${userId}`);
+
+export const getChattingRoomJoinUsers = (chattingRoomId) => api.get(`/chatting/list/${chattingRoomId}/users`)
+
+export const getWaitingRoom = (chattingRoomId) => api.get(`/chatting/waitingRoom/${chattingRoomId}`);
