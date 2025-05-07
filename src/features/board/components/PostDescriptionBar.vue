@@ -26,8 +26,7 @@
       </div>
     </div>
   </div>
-  <div class="post-content">
-    {{ content }}
+  <div class="post-content" v-html="content">
   </div>
 </template>
 

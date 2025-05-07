@@ -8,33 +8,29 @@ export function fetchPostDetail(postId) {
     return api.get(`/board/${postId}`);
 }
 
-export function createPost({ boardCategory, boardTitle, boardContents, vote = null, files = [] }) {
+export function createPost({
+                               boardCategory,
+                               boardTitle,
+                               boardContents,
+                               vote = null,
+                               usedImageUrls = [],
+                           }) {
     const formData = new FormData();
 
-    // JSON 객체를 Blob으로 감싸서 multipart의 text 파트로 보냄
     const postCreateRequest = {
         boardCategory,
         boardTitle,
         boardContents,
-        vote, // null이거나 실제 vote 객체
+        vote,
+        usedImageUrls, // 서버에서 이 URL들로 이미지 처리
     };
 
     formData.append(
         'postCreateRequest',
-        new Blob([JSON.stringify(postCreateRequest)], { type: 'application/json' })
+        new Blob([JSON.stringify(postCreateRequest)], {
+            type: 'application/json',
+        })
     );
-
-    const allowedExtensions = ['gif', 'jpg', 'jpeg', 'png', 'bmp'];
-
-    files.forEach(file => {
-        const extension = file.name.split('.').pop().toLowerCase();
-
-        if (!allowedExtensions.includes(extension)) {
-            throw new Error('gif, jpg, jpeg, png, bmp 확장자만 업로드할 수 있습니다.');
-        }
-
-        formData.append('files', file);
-    });
 
     return api.post('/board', formData, {
         headers: {
@@ -42,6 +38,7 @@ export function createPost({ boardCategory, boardTitle, boardContents, vote = nu
         },
     });
 }
+
 
 export function uploadTempImage(imageFile) {
     const formData = new FormData();

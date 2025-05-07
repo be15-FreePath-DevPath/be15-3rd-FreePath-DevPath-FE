@@ -71,7 +71,7 @@ const categories = [
   { id: 3, label: '프로젝트 매칭 게시판' }
 ]
 const onCategoryChange = (event) => {
-  emit('update:category', Number(event.target.value))
+  emit('update:category', event.target.value)
 }
 
 // 에디터 바인딩 값
@@ -100,9 +100,10 @@ const onEditorReady = (quill) => {
 
       try {
         const res = await uploadTempImage(file)
-        const imageUrl = res.data.url
+        const imageUrl = res.data.data.url
         const range = quill.getSelection()
-        quill.insertEmbed(range.index, 'image', imageUrl)
+        const index = range ? range.index : quill.getLength(); // null이면 문서 끝에 삽입
+        quill.insertEmbed(index, 'image', imageUrl);
         emit('add-used-image', imageUrl)
       } catch (e) {
         console.error('이미지 업로드 실패:', e)
