@@ -48,14 +48,14 @@
 
 <div align="center">
 
-|                            **김운경**                            |                            **김태인**                            |                            **이기연**                            |
-|:-------------------------------------------------------------:|:-------------------------------------------------------------:|:-------------------------------------------------------------:|
-| <img src="./assets/readme/김운경.png" width="180" height="130"> | <img src="./assets/readme/김태인.png" width="180" height="130"> | <img src="./assets/readme/이기연.png" width="180" height="130"> |
-|           [@splguyjr](https://github.com/splguyjr)            |          [@Taein5415](https://github.com/Taein5415)           |        [@Lee-gi-yeun](https://github.com/Lee-gi-yeun)         |
+|                        **김운경**                        |                            **김태인**                            |                            **이기연**                            |
+|:-----------------------------------------------------:|:-------------------------------------------------------------:|:-------------------------------------------------------------:|
+| <img src="./assets/김운경.png" width="180" height="130"> | <img src="./assets/김태인.png" width="180" height="130"> | <img src="./assets/이기연.png" width="180" height="130"> |
+|       [@splguyjr](https://github.com/splguyjr)        |          [@Taein5415](https://github.com/Taein5415)           |        [@Lee-gi-yeun](https://github.com/Lee-gi-yeun)         |
 
 |                            **이주미**                            |                            **이채은**                            |                            **하채린**                            |
 |:-------------------------------------------------------------:|:-------------------------------------------------------------:|:-------------------------------------------------------------:|
-| <img src="./assets/readme/이주미.png" width="180" height="130"> | <img src="./assets/readme/이채은.png" width="180" height="130"> | <img src="./assets/readme/하채린.png" width="180" height="130"> |
+| <img src="./assets/이주미.png" width="180" height="130"> | <img src="./assets/이채은.png" width="180" height="130"> | <img src="./assets/하채린.png" width="180" height="130"> |
 |            [@z00m-1n](https://github.com/z00m-1n)             |            [@nineeko](https://github.com/nineeko)             |             [@didiha](https://github.com/didiha)              | 
 
 </div>
@@ -133,11 +133,334 @@
 
 <br>
 <h3 id="eca">🙌 화면 설계서 (Figma)</h3>
-    <details>
-      <summary><b>메인 페이지</b></summary>
-    <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/33226033/433664228-59aa9e83-1996-41bf-a7f9-53267b8c2416.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20250415%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250415T043842Z&X-Amz-Expires=300&X-Amz-Signature=615990b30f6e26898a70acc46920907672375732c94ef27204d7241eca89f758&X-Amz-SignedHeaders=host" 
-         alt="Eureka 구조" style="width: 100%; height: auto;">
-    </details>
+
+### 👤 회원 관련 (회원가입 / 로그인 / 마이페이지)
+
+<details>
+<summary>회원가입 페이지</summary>
+
+<img src="./assets/figma/회원가입 페이지.png" alt="회원가입 페이지" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>일반회원가입 페이지</summary>
+
+<img src="./assets/figma/일반회원가입 페이지.png" alt="일반회원가입 페이지" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>소셜회원가입 페이지</summary>
+
+<img src="./assets/figma/소셜회원가입 페이지.png" alt="소셜회원가입 페이지" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>로그인 페이지</summary>
+
+<img src="./assets/figma/로그인 페이지.png" alt="로그인 페이지" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>로그인 - 일반 페이지</summary>
+
+<img src="./assets/figma/로그인 - 일반 페이지.png" alt="로그인 - 일반 페이지" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>비밀번호 찾기</summary>
+
+<img src="./assets/figma/비밀번호 찾기.png" alt="비밀번호 찾기" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>아이디 찾기</summary>
+
+<img src="./assets/figma/아이디 찾기.png" alt="아이디 찾기" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>내 프로필 수정</summary>
+
+<img src="./assets/figma/내 프로필 수정.png" alt="내 프로필 수정" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>마이페이지 게시글 모아보기</summary>
+
+<img src="./assets/figma/마이페이지-게시글(메인).png" alt="마이페이지-게시글(메인)" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>마이페이지 댓글 모아보기</summary>
+
+<img src="./assets/figma/마이페이지-댓글.png" alt="마이페이지-댓글" style="width: 80%; height: auto;">
+
+</details>
+
+
+
+### 🏠 메인 
+
+<details>
+<summary>메인 페이지 - 회원</summary>
+
+<img src="./assets/figma/메인 페이지 - 회원.png" alt="메인 페이지 - 회원" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>메인 페이지 - 비회원</summary>
+
+
+
+<img src="./assets/figma/메인 페이지 - 비회원.png" alt="메인 페이지 - 비회원" style="width: 80%; height: auto;">
+
+</details>
+
+### 📝  게시판
+
+<details>
+<summary>게시글 목록</summary>
+
+<img src="./assets/figma/게시글 목록.png" alt="게시글 목록" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>게시글 작성</summary>
+
+<img src="./assets/figma/게시글 작성.png" alt="게시글 작성" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>게시글 상세조회</summary>
+
+<img src="./assets/figma/게시글 상세조회.png" alt="게시글 상세조회" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>프로젝트 게시판 게시글 작성</summary>
+
+<img src="./assets/figma/프로젝트 게시판 게시글 작성.png" alt="프로젝트 게시판 게시글 작성" style="width: 80%; height: auto;">
+
+</details>
+
+
+
+### 🗣️ 채팅 
+
+<details>
+<summary>일대일 채팅룸 목록 페이지</summary>
+
+<img src="./assets/figma/400. 일대일 채팅룸 목록 페이지.png" alt="400. 일대일 채팅룸 목록 페이지" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>그룹채팅방 페이지</summary>
+
+<img src="./assets/figma/410. 그룹채팅방 페이지.png" alt="410. 그룹채팅방 페이지" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>참여 대기중인 채팅방 목록 확인</summary>
+
+<img src="./assets/figma/420. 참여 대기중인 채팅방 목록 확인.png" alt="420. 참여 대기중인 채팅방 목록 확인" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>채팅 차단 목록 조회 페이지</summary>
+
+<img src="./assets/figma/430. 채팅 차단 목록 조회 페이지.png" alt="430. 채팅 차단 목록 조회 페이지" style="width: 80%; height: auto;">
+
+</details>
+
+
+
+### 👔 면접 기능
+
+<details>
+<summary>면접방 목록 조회 (면접 초기 화면)</summary>
+
+<img src="./assets/figma/600. 면접방 목록 조회 (면접 초기 화면).png" alt="600. 면접방 목록 조회 (면접 초기 화면)" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>면접방 목록 조회 (면접이 존재하지 않을 때)</summary>
+
+<img src="./assets/figma/601. 면접방 목록 조회 (면접 초기 화면).png" alt="601. 면접방 목록 조회 (면접 초기 화면)" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>면접 실행 면접방 정보 선택</summary>
+
+<img src="./assets/figma/611. 면접 실행 _ 면접방 정보 선택.png" alt="611. 면접 실행 _ 면접방 정보 선택" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>면접 실행 면접 진행(질답_3)</summary>
+
+<img src="./assets/figma/612. 면접 실행 _ 면접 진행(질답_3).png" alt="612. 면접 실행 _ 면접 진행(질답_3)" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>면접 조회 면접방 상세조회</summary>
+
+<img src="./assets/figma/621. 면접 조회 _ 면접방 상세조회.png" alt="621. 면접 조회 _ 면접방 상세조회" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>면접재실행</summary>
+
+<img src="./assets/figma/630. 면접재실행.png" alt="630. 면접재실행" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>면접재실행</summary>
+
+<img src="./assets/figma/630. 면접재실행 (1).png" alt="630. 면접재실행 (1)" style="width: 80%; height: auto;">
+
+</details>
+
+
+### 📊 성향 테스트
+
+<details>
+<summary>성향테스트 초기 화면</summary>
+
+<img src="./assets/figma/700. 성향테스트 초기 화면.png" alt="700. 성향테스트 초기 화면" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>개발자 성향 테스트 응시 화면</summary>
+
+<img src="./assets/figma/710. 개발자 성향 테스트 응시 화면.png" alt="710. 개발자 성향 테스트 응시 화면" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>개발자 성향 테스트 결과 화면</summary>
+
+<img src="./assets/figma/720. 개발자 성향 테스트 결과 화면.png" alt="720. 개발자 성향 테스트 결과 화면" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>개발자 성향 테스트 결과 종류</summary>
+
+<img src="./assets/figma/개발자 성향 테스트 결과 종류.png" alt="개발자 성향 테스트 결과 종류" style="width: 80%; height: auto;">
+
+</details>
+
+
+
+### 🧠 CS 퀴즈
+
+<details>
+<summary>CS 퀴즈 목록 조회</summary>
+
+<img src="./assets/figma/CS 퀴즈 목록 조회.png" alt="CS 퀴즈 목록 조회" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>CS 퀴즈 응시 화면</summary>
+
+<img src="./assets/figma/CS 퀴즈 응시 화면.png" alt="CS 퀴즈 응시 화면" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>CS 퀴즈 결과</summary>
+
+<img src="./assets/figma/CS 퀴즈 결과.png" alt="CS 퀴즈 결과" style="width: 80%; height: auto;">
+
+</details>
+
+
+
+
+### 🛠️ 관리자 관련 (신고 / CS 퀴즈 / IT 뉴스 기사)
+
+<details>
+<summary>관리자 홈</summary>
+
+<img src="./assets/figma/관리자 홈.png" alt="관리자 홈" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>신고 검토 목록</summary>
+
+<img src="./assets/figma/신고 검토 목록.png" alt="신고 검토 목록" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>신고 처리</summary>
+
+<img src="./assets/figma/신고 처리.png" alt="신고 처리" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>cs 퀴즈 등록</summary>
+
+<img src="./assets/figma/cs 퀴즈 등록.png" alt="cs 퀴즈 등록" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>cs 퀴즈 상세 조회</summary>
+
+<img src="./assets/figma/cs 퀴즈 상세 조회.png" alt="cs 퀴즈 상세 조회" style="width: 80%; height: auto;">
+
+</details>
+
+
+<details>
+<summary>미 발송 된 기사 조회</summary>
+
+<img src="./assets/figma/미 발송 된 기사 조회.png" alt="미 발송 된 기사 조회" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>발송 된 기사 조회</summary>
+
+<img src="./assets/figma/발송 된 기사 조회.png" alt="발송 된 기사 조회" style="width: 80%; height: auto;">
+
+</details>
+
+<details>
+<summary>기사 작성</summary>
+
+<img src="./assets/figma/기사 작성.png" alt="기사 작성" style="width: 80%; height: auto;">
+
+</details>
+
+
+
 
 <br>
 <h3 id="test">🎖️ 테스트 결과 보고서</h3>
