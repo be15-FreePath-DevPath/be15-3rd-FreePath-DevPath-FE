@@ -56,7 +56,7 @@ const handleStartInterview = async () => {
 }
 
 onMounted(() => {
-  emit('updatebreadcrumb', newBreadCrumbItems.value)
+  emit('updateBreadCrumb', newBreadCrumbItems.value)
 })
 </script>
 

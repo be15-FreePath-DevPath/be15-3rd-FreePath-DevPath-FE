@@ -73,7 +73,7 @@ const handleSortChange = (order) => {
 
 // 최초 로딩
 onMounted(() => {
-  emit('updatebreadcrumb', newBreadCrumbItems.value)
+  emit('updateBreadCrumb', newBreadCrumbItems.value)
   loadInterviews()
 })
 

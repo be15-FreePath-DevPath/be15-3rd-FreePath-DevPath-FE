@@ -136,7 +136,7 @@ const loadInterviewDetail = async (roomId) => {
 }
 
 onMounted(() => {
-  emit('updatebreadcrumb', newBreadCrumbItems.value)
+  emit('updateBreadCrumb', newBreadCrumbItems.value)
   loadInterviewDetail(route.params.interviewRoomId)
 })
 
