@@ -18,9 +18,11 @@ import UserModal from "@/features/user/components/UserModal.vue";
 import ChangeChattingRoomModal from "@/features/chatting/components/chattingView/ChangeChattingRoomModal.vue";
 import ChattingExitModal from "@/features/chatting/components/chattingView/ChattingExitModal.vue";
 import {errorMap} from "@/features/user/errorcode.js";
+import {useAuthStore} from "@/stores/auth.js";
 
 const emit = defineEmits(['updateBreadCrumb'])
 const newBreadCrumbItems = ref(['채팅','채팅','참여 중인 채팅방'])
+const authStore = useAuthStore();
 
 const chattingRooms = ref([]);
 const chattings = ref([]);
@@ -81,7 +83,8 @@ const addChat = (subResponse) => {
      userId : subResponse.userId,
      nickname : subResponse.nickname,
      message : subResponse.message,
-     timestamp : subResponse.timestamp
+     timestamp : subResponse.timestamp,
+    mine : authStore.userId === subResponse.userId
   })
 
 }
