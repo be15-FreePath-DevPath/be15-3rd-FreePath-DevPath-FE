@@ -11,7 +11,7 @@
     <div class="divider"></div>
     <div class="section actions">
       <div class="action" @click="$emit('clickWaitingList')">대기인원 조회</div>
-      <div class="action">채팅방 이름 변경</div>
+      <div class="action" @click="$emit('changeChattingRoomTitle')">채팅방 이름 변경</div>
       <div class="action exit">채팅방 나가기</div>
     </div>
   </div>

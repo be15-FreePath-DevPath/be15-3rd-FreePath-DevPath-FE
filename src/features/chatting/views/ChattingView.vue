@@ -6,7 +6,7 @@ import {
   getChattingRoomJoinUsers,
   getChattingRoomList,
   getWaitingRoom,
-  putGroupChattingAccept
+  putGroupChattingAccept, updateGroupChattingRoom
 } from "@/features/chatting/api.js";
 import ChattingRoomListFrame from "@/features/chatting/components/chattingView/ChattingRoomListFrame.vue"
 import ChattingListFrame from "@/features/chatting/components/chattingView/ChattingListFrame.vue";
@@ -15,6 +15,7 @@ import ChattingHeaderFrame from "@/features/chatting/components/chattingView/Cha
 import ChattingOptionModal from "@/features/chatting/components/chattingView/ChattingOptionModal.vue";
 import WaitingListModal from "@/features/chatting/components/chattingView/WaitingListModal.vue";
 import UserModal from "@/features/user/components/UserModal.vue";
+import ChangeChattingRoomModal from "@/features/chatting/components/chattingView/ChangeChattingRoomModal.vue";
 
 const newBreadCrumbItems = ref(['채팅','채팅','참여 중인 채팅방'])
 const emit = defineEmits(['updateBreadCrumb'])
@@ -25,9 +26,10 @@ const chattingUsers = ref([]);
 const isOptionModal = ref(false)
 const isWaitingListModal = ref(false)
 const waitingUsers = ref([])
-const isGroupChattingAcceptModal = ref(false)
+const isUserModal = ref(false)
 const modalTitle = ref('');
 const modalSubtitle = ref('');
+const isChangeChattingRoomModal = ref(false);
 
 const showOptionModal = async () => {
   isOptionModal.value = true
@@ -121,10 +123,28 @@ const groupChattingAccept = async (userId,action) => {
     modalTitle.value = '참여 요청 처리 완료';
     modalSubtitle.value = '참여 요청을 처리했습니다.'
   }catch(e){
-    modalTitle.value = '참여 요청 처리 완료';
+    modalTitle.value = '참여 요청 처리 실패';
     modalSubtitle.value = '알수 없는 오류가 발생했습니다.'
   }
-  isGroupChattingAcceptModal.value = true;
+  isUserModal.value = true;
+}
+
+const renameRoom = async (newName) => {
+  const payload = {
+    chattingRoomId : selectedRoom.value,
+    chattingRoomTitle : newName
+  }
+  try{
+    await updateGroupChattingRoom(payload)
+    modalTitle.value = '채팅방 제목 변경 완료';
+    modalSubtitle.value = '채팅방 제목을 변경했습니다..'
+  }catch(e){
+    modalTitle.value = '채팅방 제목 변경 실패';
+    modalSubtitle.value = '알수 없는 오류가 발생했습니다.'
+  }
+  isUserModal.value = true;
+  isChangeChattingRoomModal.value = false;
+  await fetchChattingRoomList();
 }
 
 
@@ -156,7 +176,8 @@ onBeforeUnmount(() => {
             v-if="isOptionModal"
             :users="chattingUsers"
             @close="isOptionModal = false"
-            @clickWaitingList = "showWaitingUListModal"/>
+            @clickWaitingList = "showWaitingUListModal"
+            @changeChattingRoomTitle = "isChangeChattingRoomModal = true"/>
         <WaitingListModal
             v-if="isWaitingListModal"
             :waitingUsers="waitingUsers"
@@ -167,11 +188,16 @@ onBeforeUnmount(() => {
         <ChattingInsertFrame v-if="selectedRoom" class = "chattingInsertFrame" @sendMessage="sendChat"/>
       </div>
     </div>
+  <ChangeChattingRoomModal
+      v-if="isChangeChattingRoomModal"
+      @submit="renameRoom"
+      @close="isChangeChattingRoomModal = false"
+  />
   <UserModal
-      v-if="isGroupChattingAcceptModal"
+      v-if="isUserModal"
       :title="modalTitle"
       :subtitle="modalSubtitle"
-      @close="isGroupChattingAcceptModal = false"
+      @close="isUserModal = false"
   />
 </template>
 

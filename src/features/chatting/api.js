@@ -18,3 +18,7 @@ export const getWaitingRoom = (chattingRoomId) => api.get(`/chatting/waitingRoom
 export const putGroupChattingAccept = (payload) => {
     api.put('/chatting/waitingRoom/respond',payload);
 }
+
+export const updateGroupChattingRoom = (payload) => {
+    api.put('/chatting/update/group',payload);
+}
