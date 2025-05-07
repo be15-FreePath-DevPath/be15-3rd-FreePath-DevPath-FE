@@ -23,6 +23,7 @@ import { useRouter } from 'vue-router'
 import PostInputBar from '@/features/board/components/PostInputBar.vue'
 import PostRegistBar from '@/features/board/components/PostRegistBar.vue'
 import { createPost } from '@/features/board/api.js'
+import {createGroupChattingRoom} from "@/features/chatting/api.js";
 
 const router = useRouter()
 
@@ -65,18 +66,24 @@ async function onRegister() {
     }
 
     const response = await createPost(payload)
-    alert('게시글이 등록되었습니다.')
-
     const postId = response.data.data.postId
 
-    emit('updateBreadCrumb', ['게시판', categoryMap[category.value]]);
+    // ✅ 채팅방 생성 조건: 프로젝트 매칭 게시판 + 체크박스 ON
+    if (category.value === '3' && createChat.value) {
+      await createGroupChattingRoom(postId, chatTitle.value || title.value)
+    }
+
+    alert('게시글이 등록되었습니다.')
+
+    emit('updateBreadCrumb', ['게시판', categoryMap[category.value]])
 
     router.push({
       path: `/board/${postId}`,
       query: {
         category: categoryMap[category.value] || '알 수 없음'
       }
-    });
+    })
+
   } catch (e) {
     const msg = e?.response?.data?.message || '게시글 등록 중 오류가 발생했습니다.'
     alert(msg)

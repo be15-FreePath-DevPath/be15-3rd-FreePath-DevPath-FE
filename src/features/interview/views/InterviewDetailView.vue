@@ -5,7 +5,7 @@ import {
   deleteInterviewRoom,
   fetchInterviewDetail,
   reexecuteInterviewRoom,
-  updateInterviewMemo
+  updateInterviewInfo
 } from '@/features/interview/api.js'
 import InterviewQuestionCard from '@/features/interview/components/InterviewQuestionCard.vue'
 import InterviewReexecuteModal from '@/features/interview/components/InterviewReexecuteModal.vue'
@@ -26,22 +26,46 @@ const roomId = ref(route.params.interviewRoomId)
 
 const showReexecuteModal = ref(false)
 const showReexecutedListModal = ref(false)
+const isHoveringTitle = ref(false);
+const isEditingTitle = ref(false)
+
+const startEditingTitle = () => {
+  isEditingTitle.value = true
+}
+
+let isSaving = false;
+const saveTitle = async () => {
+  if (isSaving) return; // 중복 방지
+  isSaving = true;
+
+  isEditingTitle.value = false;
+  try {
+    await updateInterviewInfo(interview.interviewRoomId, titleText.value, memoText.value);
+    alert('제목이 저장되었습니다.');
+  } catch (err) {
+    console.error('제목 저장 실패:', err);
+    alert('제목 저장에 실패했습니다.');
+  } finally {
+    isSaving = false;
+  }
+}
 
 const closeReexecuteModal = () => showReexecuteModal.value = false
 const closeReexecutedListModal = () => showReexecutedListModal.value = false
 
 const handleReexecute = async ({ strictness }) => {
   try {
-    const { data } = await reexecuteInterviewRoom(roomId.value, strictness)
+    const response = await reexecuteInterviewRoom(roomId.value, strictness)
+    const newRoom = response.data.data
 
-    // 새 면접방으로 라우팅
     await router.push({
-      path: `/interview/progress/${data.interviewRoomId}`,
+      path: `/interview/progress/${newRoom.interviewRoomId}`,
       query: {
-        title: data.interviewRoomTitle,
-        category: data.difficultyLevel,
-        strictness: data.evaluationStrictness,
-        firstQuestion: data.firstQuestion
+        title: newRoom.interviewRoomTitle,
+        category: newRoom.interviewCategory,
+        difficulty: newRoom.difficultyLevel,
+        strictness: newRoom.evaluationStrictness,
+        firstQuestion: newRoom.firstQuestion
       }
     })
   } catch (err) {
@@ -76,7 +100,7 @@ watch(interview, (newVal) => {
 
 const handleSaveMemo = async () => {
   try {
-    await updateInterviewMemo(interview.interviewRoomId, titleText.value, memoText.value)
+    await updateInterviewInfo(interview.interviewRoomId, titleText.value, memoText.value)
     alert('메모가 저장되었습니다.')
   } catch (err) {
     console.error('메모 저장 실패:', err)
@@ -154,13 +178,33 @@ watch(() => route.params.interviewRoomId, (newId) => {
           <div class="list-mg" />
         </div>
         <div class="room-summary">
-          <h2 class="info-text">{{ interview.interviewRoomTitle ?? '-' }}</h2>
+          <h2
+              class="info-text editable-title"
+              :class="{ editing: isEditingTitle, hover: isHoveringTitle }"
+              @dblclick="startEditingTitle"
+              @mouseover="isHoveringTitle = true"
+              @mouseleave="isHoveringTitle = false"
+          >
+            <template v-if="isEditingTitle">
+              <input
+                  v-model="titleText"
+                  @blur="saveTitle"
+                  @keydown.enter.prevent="saveTitle"
+                  @keydown.tab.prevent="saveTitle"
+                  class="edit-title-input"
+                  autofocus
+              />
+            </template>
+            <template v-else>
+              {{ titleText || '-' }}
+            </template>
+          </h2>
           <div class="view">
             <span class="info-text-2">카테고리 : </span>
-            <span class="info-text-2">{{ interview.difficultyLevel?.toUpperCase() ?? '-' }}</span>
+            <span class="info-text-2">{{ interview.interviewCategory?.toUpperCase() ?? '-' }}</span>
             <span class="info-text-div"> | </span>
             <span class="info-text-2">난이도 : </span>
-            <span class="info-text-2">{{ interview?.difficultyLevel?.toUpperCase() ?? '-' }}</span>
+            <span class="info-text-2">{{ interview.difficultyLevel?.toUpperCase() ?? '-' }}</span>
             <span class="info-text-div"> | </span>
             <span class="info-text-2">평가 : </span>
             <span class="info-text-2">{{ interview.evaluationStrictness?.toUpperCase() ?? '-' }}</span>
@@ -278,6 +322,23 @@ watch(() => route.params.interviewRoomId, (newId) => {
 .room-summary {
   flex-direction: column;
   gap: 10px;
+}
+
+.editable-title.hover {
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
+.editable-title.editing {
+  border-radius: 6px;
+}
+.edit-title-input {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000;
+  border: 2px solid #7094f4;
+  border-radius: 8px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .view,
