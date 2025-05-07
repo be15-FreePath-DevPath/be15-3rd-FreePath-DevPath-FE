@@ -1,10 +1,10 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import {ref, onMounted} from 'vue'
 import SkeletonList from '@/components/common/SkeletonList.vue'
 import PagingBar from '@/components/common/PagingBar.vue'
 import InterviewList from '@/features/interview/components/InterviewList.vue'
 import InterviewHeader from '@/features/interview/components/InterviewHeader.vue'
-import { fetchInterviewRooms } from '@/features/interview/api.js'
+import {fetchInterviewRooms} from '@/features/interview/api.js'
 
 // 상태 변수
 const interviews = ref([])
@@ -23,24 +23,35 @@ const filters = ref({
 
 // 면접 목록 불러오기
 const loadInterviews = async (page = 1) => {
-  isLoading.value = true
+  isLoading.value = true;
   try {
-    const { data } = await fetchInterviewRooms({
+    const resp = await fetchInterviewRooms({
       page,
       sortOrder: sortOrder.value,
-      ...filters.value
-    })
-    interviews.value = data.interviews
-    pagination.value = data.pagination
+      category: filters.value.category,
+      difficulty: filters.value.difficulty,
+      evaluation: filters.value.evaluation,
+    });
+
+    const { interviewRooms, pagination: rawPagination } = resp.data.data;
+
+    interviews.value = interviewRooms;
+
+    pagination.value = {
+      currentPage: rawPagination.currentPage,
+      totalPages: rawPagination.totalPage,
+      totalItems: rawPagination.totalItems ?? resp.data.data.totalInterviewRoomCount
+    };
+
   } catch (e) {
-    console.error('면접방 목록 로딩 실패', e)
+    console.error('면접방 목록 로딩 실패', e);
   } finally {
-    isLoading.value = false
+    isLoading.value = false;
   }
-}
+};
 
 // 필터 변경 처리
-const handleFilterChange = ({ type, value }) => {
+const handleFilterChange = ({type, value}) => {
   if (type === 'title') {
     filters.value.difficulty = value.difficulty
     filters.value.evaluation = value.strictness
@@ -71,8 +82,8 @@ onMounted(() => loadInterviews())
         @sort-change="handleSortChange"
     />
 
-    <SkeletonList v-if="isLoading" />
-    <InterviewList v-else :interviews="interviews" />
+    <SkeletonList v-if="isLoading"/>
+    <InterviewList v-else :interviews="interviews"/>
 
     <PagingBar
         v-bind="pagination"

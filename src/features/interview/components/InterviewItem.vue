@@ -12,11 +12,13 @@ const props = defineProps({
 const router = useRouter()
 
 const handleClick = () => {
-  router.push(`/interview/${props.interview.id}`)
+  router.push(`/interview/${props.interview.interviewRoomId}`)
 }
 
 const formattedDate = computed(() => {
-  const date = new Date(props.interview.createdAt)
+  const raw = props.interview.interviewRoomCreatedAt
+  if (!raw) return '날짜 없음'
+  const date = new Date(raw)
   return date.toLocaleString('ko-KR', {
     year: 'numeric',
     month: '2-digit',
@@ -27,11 +29,19 @@ const formattedDate = computed(() => {
 })
 
 const scoreColor = computed(() => {
-  const score = props.interview.score
+  const score = props.interview.averageScore
+  if (score === null || score === undefined) return 'gray'
   if (score < 40) return 'rgba(0, 0, 0, 0.4)'
   if (score <= 60) return '#8A8CD9'
   if (score <= 80) return '#59A8D4'
   return '#4AA785'
+})
+
+const summaryText = computed(() => {
+  const raw = props.interview.summary
+  if (!raw) return '총평 없음'
+  const clean = raw.replace(/^\[총평\]/, '').trim()
+  return clean.length > 15 ? clean.slice(0, 50) + '...' : clean
 })
 </script>
 
@@ -39,14 +49,14 @@ const scoreColor = computed(() => {
   <div class="interview-item" @click="handleClick">
     <div class="title-column">
       <div class="interview-title">
-        <div class="interview-title-text">{{ interview.title }}</div>
-        <p class="summary">{{ interview.summary }}</p>
+        <div class="interview-title-text">{{ interview.interviewRoomTitle }}</div>
+        <p class="summary">{{ summaryText }}</p>
       </div>
     </div>
 
     <div class="type-column">
       <div class="topic-content">
-        <div class="category"># {{ interview.category }}</div>
+        <div class="category"># {{ interview.interviewCategory }}</div>
       </div>
     </div>
 
@@ -66,7 +76,9 @@ const scoreColor = computed(() => {
     <div class="score-column">
       <div class="score-content">
         <div class="score-badge">
-          <div class="score" :style="{ color: scoreColor }">{{ interview.score }}점</div>
+          <div class="score" :style="{ color: scoreColor }">
+            {{ interview.averageScore ?? '-' }}점
+          </div>
         </div>
       </div>
     </div>

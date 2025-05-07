@@ -10,8 +10,8 @@ export const interviewRoutes = [
         component: InterviewListView
     },
     {
-        path: '/interview/:id',
-        name: 'InterviewDetailView',
+        path: '/interview/:interviewRoomId',
+        name: 'InterviewDetail',
         component: InterviewDetailView,
         props: true
     },

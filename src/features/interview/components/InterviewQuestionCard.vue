@@ -111,11 +111,13 @@ const evaluationDetails = computed(() => {
 .print-out-text {
   background-color: #f7f9fb;
   border-radius: 16px;
+  box-sizing: border-box;
   box-shadow: -4px 0px 4px #e3f5ff;
   padding: 30px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 800px
 }
 
 .evaluation-list {
