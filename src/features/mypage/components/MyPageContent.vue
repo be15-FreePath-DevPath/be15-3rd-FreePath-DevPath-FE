@@ -2,7 +2,6 @@
 import { ref } from 'vue'
 import MyPageContentMenu from "@/features/mypage/components/MyPageContentMenu.vue";
 import MyPageContentList from "@/features/mypage/components/MyPageContentList.vue";
-import PagingBar from "@/components/common/PagingBar.vue";
 
 const selectedMain = ref('게시글') // 기본 값
 const selectedSub = ref('작성한 게시물') // 기본 값
