@@ -90,7 +90,7 @@ const handleDeletePost = async () => {
   try {
     await deletePost(postId);
     alert('삭제되었습니다.');
-    router.push('/board'); // 혹은 다른 목록 경로
+    router.back();
   } catch (e) {
     const msg = e?.response?.data?.message || '게시글 삭제 중 오류가 발생했습니다.';
     alert(msg);
