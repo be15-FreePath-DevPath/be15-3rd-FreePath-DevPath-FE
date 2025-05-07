@@ -1,27 +1,26 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
+import { useRouter } from 'vue-router'
 
-// API 함수 가져오기
-import { signupTemp } from '@/features/user/api'
+// API 함수
+import { signupTemp } from '@/features/user/api'  // loginUser 제거
+import { errorMap } from '@/features/user/errorcode.js'
 
 // 컴포넌트들
-import UserForm from "@/features/user/components/UserForm.vue";
-import UserLogo from "@/features/user/components/UserLogo.vue";
-import UserInput from "@/features/user/components/UserInput.vue";
-import UserItNewsSubWhite from "@/features/user/components/UserItNewsSub.vue";
-import UserButtonPurple from "@/features/user/components/UserButtonPurple.vue";
-import FourLeafClover from "@/assets/images/user/four_leaf_clover.png";
-import UserVerify from "@/features/user/components/UserVerify.vue";
-import UserModal from "@/features/user/components/UserModal.vue";
-
-// 에러 코드 맵핑 가져오기
-import { errorMap } from '@/features/user/errorcode.js'
+import UserForm from "@/features/user/components/UserForm.vue"
+import UserLogo from "@/features/user/components/UserLogo.vue"
+import UserInput from "@/features/user/components/UserInput.vue"
+import UserItNewsSubWhite from "@/features/user/components/UserItNewsSub.vue"
+import UserButtonPurple from "@/features/user/components/UserButtonPurple.vue"
+import FourLeafClover from "@/assets/images/user/four_leaf_clover.png"
+import UserVerify from "@/features/user/components/UserVerify.vue"
+import UserModal from "@/features/user/components/UserModal.vue"
 
 // 입력 값들
 const loginId = ref('')
 const password = ref('')
 const confirmPassword = ref('')
-const name = ref('')
+const userName = ref('')
 const email = ref('')
 const nickname = ref('')
 const itNewsSubscription = ref('N')
@@ -50,7 +49,7 @@ watch(isLoading, (newVal) => {
   if (newVal) {
     let dotCount = 0
     loadingInterval = setInterval(() => {
-      dotCount = (dotCount + 1) % 4 // 0~3 반복
+      dotCount = (dotCount + 1) % 4
       loadingDots.value = '.'.repeat(dotCount)
     }, 500)
   } else {
@@ -58,6 +57,8 @@ watch(isLoading, (newVal) => {
     loadingDots.value = ''
   }
 })
+
+const router = useRouter()
 
 // 회원가입 함수
 async function signup() {
@@ -68,15 +69,16 @@ async function signup() {
     return
   }
 
-  isLoading.value = true  // 로딩 시작
+  isLoading.value = true
   try {
     await signupTemp({
       email: email.value,
       loginId: loginId.value,
       password: password.value,
       nickname: nickname.value,
-      name: name.value,
-      itNewsSubscription: itNewsSubscription.value
+      userName: userName.value,
+      itNewsSubscription: itNewsSubscription.value,
+      loginMethod: "GENERAL"
     })
 
     verifyVisible.value = true
@@ -87,18 +89,18 @@ async function signup() {
 
     if (code && errorMap[code]) {
       modalTitle.value = errorMap[code].title
-      modalSubtitle.value = errorMap[code].subtitle
+      modalSubtitle.value = message || '잠시 후 다시 시도해 주세요.'
     } else {
       modalTitle.value = '알 수 없는 오류'
       modalSubtitle.value = message || '잠시 후 다시 시도해 주세요.'
     }
     showModal.value = true
   } finally {
-    isLoading.value = false  // 로딩 끝
+    isLoading.value = false
   }
 }
 
-// 인증 완료 후 회원가입 완료 처리
+// 인증 성공 시 실행
 function handleVerificationSuccess() {
   modalTitle.value = 'Success!'
   modalSubtitle.value = 'DevPath에 오신 것을 환영합니다!'
@@ -106,44 +108,50 @@ function handleVerificationSuccess() {
 
   verifyVisible.value = false
 }
+
+// 모달 닫을 때 로그인 페이지로 이동
+async function handleModalClose() {
+  showModal.value = false
+
+  try {
+    isLoading.value = true
+    router.push('/user/login/general')
+  } finally {
+    isLoading.value = false
+  }
+}
 </script>
 
 <template>
   <div class="content-frame">
-    <UserLogo />
+    <UserLogo/>
     <UserForm
         title="Sign up"
         subtitle="회원 정보를 입력해주세요"
     >
-      <!-- 기본 슬롯 -->
-      <UserInput v-model="loginId" label="로그인 ID" placeholder="로그인 ID를 입력해주세요" />
-
+      <UserInput v-model="loginId" label="로그인 ID" placeholder="로그인 ID를 입력해주세요"/>
       <UserInput
           v-model="password"
           label="비밀번호"
           placeholder="영문과 특수문자로 된 6~12자리를 입력하세요"
           type="password"
       />
-
       <UserInput
           v-model="confirmPassword"
           label="비밀번호 확인"
           placeholder="비밀번호를 재입력해주세요"
           type="password"
       />
-      <!-- 비밀번호 불일치 시 빨간 글씨 표시 -->
       <p v-if="passwordMismatch" class="error-message">
         비밀번호가 일치하지 않습니다
       </p>
 
-      <UserInput v-model="name" label="이름" placeholder="수정할 수 없으니 확인 후 회원가입 해주세요" />
-      <UserInput v-model="email" label="이메일" placeholder="이메일을 입력해주세요" />
-      <UserInput v-model="nickname" label="닉네임" placeholder="닉네임을 입력해주세요" />
+      <UserInput v-model="userName" label="이름" placeholder="수정할 수 없으니 확인 후 회원가입 해주세요"/>
+      <UserInput v-model="email" label="이메일" placeholder="이메일을 입력해주세요"/>
+      <UserInput v-model="nickname" label="닉네임" placeholder="닉네임을 입력해주세요"/>
 
-      <!-- 구독 여부 -->
-      <UserItNewsSubWhite v-model="itNewsSubscription" />
+      <UserItNewsSubWhite v-model="itNewsSubscription"/>
 
-      <!-- 버튼 -->
       <template #button>
         <div class="button-with-loading">
           <UserButtonPurple
@@ -152,7 +160,6 @@ function handleVerificationSuccess() {
               :disabled="isLoading"
               @click="signup"
           />
-          <!-- 로딩 중일 때 텍스트 표시 -->
           <p v-if="isLoading" class="loading-message">
             입력하신 이메일로 인증 번호 보내는 중{{ loadingDots }}
           </p>
@@ -169,12 +176,11 @@ function handleVerificationSuccess() {
       </template>
     </UserForm>
 
-    <!-- 모달 -->
     <UserModal
         v-if="showModal"
         :title="modalTitle"
         :subtitle="modalSubtitle"
-        @close="showModal = false"
+        @close="handleModalClose"
     />
   </div>
 </template>

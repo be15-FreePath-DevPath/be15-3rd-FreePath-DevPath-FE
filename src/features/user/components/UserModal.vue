@@ -18,15 +18,17 @@ function closeModal() {
 </script>
 
 <template>
-  <div class="overlay" @click="closeModal">
-    <div class="frame" @click.stop>
-      <div class="main-area">
-        <div class="text1">{{ title }}</div>
-        <img src="@/assets/images/user/x.png" @click="closeModal" style="cursor: pointer;" alt="x-icon"/>
+  <teleport to="body">
+    <div class="overlay" @click="closeModal">
+      <div class="frame" @click.stop>
+        <div class="main-area">
+          <div class="text1">{{ title }}</div>
+          <img src="@/assets/images/user/x.png" @click="closeModal" style="cursor: pointer;" alt="x-icon"/>
+        </div>
+        <div>{{ subtitle }}</div>
       </div>
-      <div>{{ subtitle }}</div>
     </div>
-  </div>
+  </teleport>
 </template>
 
 <style scoped>
@@ -74,9 +76,9 @@ function closeModal() {
   background: linear-gradient(
       95deg,
       rgba(0, 0, 0, 1) 0%,
-      rgba(52, 55, 201, 1) 54%,
-      rgba(98, 95, 255, 1) 66%,
-      rgba(190, 107, 255, 1) 79%
+      rgba(52, 55, 201, 1) 15%,
+      rgba(98, 95, 255, 1) 40%,
+      rgba(190, 107, 255, 1) 65%
   );
   background-clip: text;
   -webkit-background-clip: text !important;
