@@ -12,14 +12,15 @@ export function logoutUser() {
     return api.post(`/user/logout`);
 }
 
-export function signupTemp({ email, loginId, password, nickname, name, itNewsSubscription }) {
+export function signupTemp({ email, loginId, password, nickname, userName, itNewsSubscription, loginMethod }) {
     return api.post('/user/signup/temp', {
         email,
         loginId,
         password,
         nickname,
-        name,
-        itNewsSubscription
+        userName,
+        itNewsSubscription,
+        loginMethod
     });
 }
 
@@ -38,6 +39,20 @@ export function signupGoogle(email, nickname, itNewsSubscription){
         email,
         nickname,
         itNewsSubscription
+    });
+}
+
+export function emailCheck(email, authNum, purpose){
+    return api.post('/user/email/check', {
+        email,
+        authNum,
+        purpose
+    });
+}
+
+export function signupUser(email) {
+    return api.post('/user/signup', {
+        email
     });
 }
 
