@@ -21,15 +21,22 @@ const pagination = reactive({
 const formatDateTime = (dateString) => {
   if (!dateString) return '';
   const date = new Date(dateString);
-  return `${date.getFullYear()}년${String(date.getMonth() + 1).padStart(2, '0')}월${String(date.getDate()).padStart(2, '0')}일 ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+  return `${date.getFullYear()}년
+  ${String(date.getMonth() + 1).padStart(2, '0')}월
+  ${String(date.getDate()).padStart(2, '0')}일
+  ${String(date.getHours()).padStart(2, '0')}:
+  ${String(date.getMinutes()).padStart(2, '0')}`;
 };
 
 const fetchReports = async () => {
   isLoading.value = true;
   try {
     const response = await getReportList();
-    allReports.value = response.data.reportCheckList || [];
-
+    allReports.value = (response.data.reportCheckList || []).sort((a, b) => {
+      const idA = a?.reportCheckDto?.reportCheckId || 0;
+      const idB = b?.reportCheckDto?.reportCheckId || 0;
+      return idA - idB;
+    });
     pagination.totalItems = allReports.value.length;
     pagination.totalPages = Math.ceil(pagination.totalItems / pageSize);
 
@@ -97,8 +104,8 @@ onMounted(() => {
             <span v-if="report.commentDetailDto?.commentContents">
               {{ report.commentDetailDto.commentContents }}
             </span>
-            <span v-else-if="report.postDetailDto?.postTitle">
-              {{ report.postDetailDto.postTitle }}
+            <span v-else-if="report.postDetailDto?.boardContents">
+              {{ report.postDetailDto.boardContents }}
             </span>
             <span v-else>내용 없음</span>
           </td>
@@ -111,8 +118,8 @@ onMounted(() => {
             <span v-if="report.commentDetailDto?.commentCreatedAt">
               {{ formatDateTime(report.commentDetailDto.commentCreatedAt) }}
             </span>
-            <span v-else-if="report.postDetailDto?.postCreatedAt">
-              {{ formatDateTime(report.postDetailDto.postCreatedAt) }}
+            <span v-else-if="report.postDetailDto?.boardCreatedAt">
+              {{ formatDateTime(report.postDetailDto.boardCreatedAt) }}
             </span>
             <span v-else>시간 정보 없음</span>
           </td>
