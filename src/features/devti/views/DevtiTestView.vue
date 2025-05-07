@@ -2,6 +2,7 @@
 import {computed, ref} from 'vue'
 import { useRouter } from 'vue-router'
 import { devtiQuestions } from '@/features/devti/data/devtiQuestions.js'
+import {saveDevtiResult} from "@/features/devti/api.js";
 
 const router = useRouter()
 const currentIndex = ref(0)
@@ -9,21 +10,29 @@ const answers = ref({ G: 0, S: 0, A: 0, B: 0, T: 0, M: 0, F: 0, D: 0 })
 
 const currentQuestion = computed(() => devtiQuestions[currentIndex.value])
 
-const handleAnswer = (value) => {
-  answers.value[value]++
+const handleAnswer = async (value) => {
+  answers.value[value]++;
+
   if (currentIndex.value < devtiQuestions.length - 1) {
-    currentIndex.value++
+    currentIndex.value++;
   } else {
-    // 결과 계산: 각 유형당 더 많이 선택된 알파벳 선택
     const result = [
       answers.value.G >= 2 ? 'G' : 'S',
       answers.value.A >= 2 ? 'A' : 'B',
       answers.value.T >= 2 ? 'T' : 'M',
       answers.value.F >= 2 ? 'F' : 'D'
-    ].join('')
-    router.push({ path: '/mypage/devti/result', query: { type: result } });
+    ].join('');
+
+    try {
+      await saveDevtiResult(result);  // ✅ API 호출
+    } catch (err) {
+      console.error('DevTI 저장 실패:', err);
+    }
+
+    await router.push({path: '/mypage/devti/result', query: {type: result}});
   }
 }
+
 </script>
 
 <template>

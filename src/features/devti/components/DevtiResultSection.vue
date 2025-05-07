@@ -35,25 +35,38 @@
 </template>
 
 <script setup>
-import { devtiResults } from "@/features/devti/data/devtiResults";
+import { computed } from 'vue'
+import { devtiResults } from '@/features/devti/data/devtiResults.js'
 import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
 const router = useRouter();
 
-const resultType = route.query.type || "GATF"; // 기본 fallback
-const result = devtiResults[resultType];
+const props = defineProps({
+  resultType: {
+    type: String,
+    required: true
+  }
+})
+
+const result = computed(() => devtiResults[props.resultType])
 
 const goToTest = () => {
-  router.push("/mypage/devti/test"); // 다시 테스트
+  router.push("/mypage/devti/test");
 };
 
 const shareResult = () => {
   const shareText = `내 개발자 성향은 ${result.name}!\n\n${result.description}`;
   if (navigator.share) {
-    navigator.share({ title: "DevTI 결과", text: shareText, url: window.location.href });
+    navigator.share({
+      title: "DevTI 결과",
+      text: shareText,
+      url: window.location.href,
+    });
   } else {
-    alert("공유 기능을 지원하지 않는 브라우저입니다.");
+    navigator.clipboard.writeText(`${shareText}\n${window.location.href}`)
+        .then(() => alert('공유 내용이 클립보드에 복사되었습니다!'))
+        .catch(() => alert('클립보드 복사에 실패했습니다.'));
   }
 };
 </script>
