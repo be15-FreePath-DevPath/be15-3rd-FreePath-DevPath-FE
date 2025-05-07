@@ -9,7 +9,7 @@ const route = useRoute()
 
 const itNews = ref([])
 const currentPage = ref(1)
-const pageSize = 10 //
+const pageSize = 10
 const pagination = reactive({
   currentPage: 1,
   totalPages: 1,
@@ -47,6 +47,7 @@ const fetchNews = async (page = 1) => {
   isLoading.value = true
   try {
     const { data: wrapper } = await getNewsList({ page, size: pageSize })
+    console.log(wrapper.data.newsList.length)
     const respData = wrapper?.data || {}
     itNews.value = (respData.newsList || []).sort((a, b) => a.itNewsId - b.itNewsId)
 

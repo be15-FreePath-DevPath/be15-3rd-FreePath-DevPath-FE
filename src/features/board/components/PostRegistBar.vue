@@ -2,7 +2,7 @@
   <div class="post-regist-bar">
     <!-- 프로젝트 매칭 게시판일 때만 -->
     <div
-        v-if="category === '프로젝트 매칭 게시판'"
+        v-if="category === '3'"
         class="chat-options"
     >
       <label class="checkbox-label">
