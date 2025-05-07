@@ -71,7 +71,7 @@ const categories = [
   { id: 3, label: '프로젝트 매칭 게시판' }
 ]
 const onCategoryChange = (event) => {
-  emit('update:category', Number(event.target.value))
+  emit('update:category', event.target.value)
 }
 
 // 에디터 바인딩 값
