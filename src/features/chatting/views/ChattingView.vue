@@ -1,17 +1,46 @@
 <script setup>
 import {onBeforeUnmount, onMounted, reactive, ref} from 'vue'
 import ChattingInsertFrame from "@/features/chatting/components/chattingView/ChattingInsertFrame.vue";
-import {getChatting, getChattingRoomList} from "@/features/chatting/api.js";
+import {getChatting, getChattingRoomJoinUsers, getChattingRoomList, getWaitingRoom} from "@/features/chatting/api.js";
 import ChattingRoomListFrame from "@/features/chatting/components/chattingView/ChattingRoomListFrame.vue"
 import ChattingListFrame from "@/features/chatting/components/chattingView/ChattingListFrame.vue";
 import { connectStomp, subscribeStomp, sendMessage, disconnectStomp } from '@/features/chatting/stomp-client.js';
-
+import ChattingHeaderFrame from "@/features/chatting/components/chattingView/ChattingHeaderFrame.vue";
+import ChattingOptionModal from "@/features/chatting/components/chattingView/ChattingOptionModal.vue";
+import WaitingListModal from "@/features/chatting/components/chattingView/WaitingListModal.vue";
 
 const newBreadCrumbItems = ref(['채팅','채팅','참여 중인 채팅방'])
 const emit = defineEmits(['updateBreadCrumb'])
 const chattingRooms = ref([]);
 const chattings = ref([]);
 const selectedRoom = ref(0);
+const chattingUsers = ref([]);
+const isOptionModal = ref(false)
+const isWaitingListModal = ref(false)
+const waitingUsers = ref([])
+
+const showOptionModal = async () => {
+  isOptionModal.value = true
+  try{
+    const { data : wrapper } = await getChattingRoomJoinUsers(selectedRoom.value);
+    const respData = wrapper.data;
+    chattingUsers.value = respData.chattingroomJoinUserList;
+    console.log('채팅 참여자 : '+chattingUsers.value);
+  }catch(e){
+    console.log("채팅방 참여 인원 조회 실패",e);
+  }
+}
+const showWaitingUListModal = async () => {
+  isWaitingListModal.value = true;
+  try{
+    const { data : wrapper } = await getWaitingRoom(selectedRoom.value);
+    const respData = wrapper.data;
+    waitingUsers.value = respData.chattingRoomWatingDTOList;
+    console.log('참여대기자 : '+waitingUsers.value);
+  }catch(e){
+    console.log("참여대기자 조회 실패",e);
+  }
+}
 
 
 const fetchChattingRoomList =async() => {
@@ -65,25 +94,48 @@ const sendChat = (message) => {
   sendMessage('/app/chatting/send', { chattingRoomId: selectedRoom.value, chattingMessage:message });
 }
 
+const getRoomTitle = (roomId) => {
+  const room = chattingRooms.value.find(r => r.chattingRoomId === roomId);
+  return room ? room.chattingRoomTitle : '채팅방';
+};
+
 
 
 onMounted(async () => {
   emit('updateBreadCrumb', newBreadCrumbItems.value);
   await connectStomp();
   await fetchChattingRoomList();
+  document.addEventListener('click', onClickOutside)
 });
 
 // 컴포넌트가 제거될 때 연결 해제
 onBeforeUnmount(() => {
   disconnectStomp();
+  document.removeEventListener('click', onClickOutside)
 })
 </script>
 
 <template>
-    <div class = "content-frame">
+    <div class = "content-frame" style="position: relative">
       <ChattingRoomListFrame :rooms="chattingRooms" @selectRoom="onRoomSelected"/>
 
       <div class = "chattingFrame">
+        <ChattingHeaderFrame
+            v-if="selectedRoom"
+            :roomTitle="getRoomTitle(selectedRoom)"
+            @openOptions="showOptionModal"
+
+        />
+        <ChattingOptionModal
+            v-if="isOptionModal"
+            :users="chattingUsers"
+            @close="isOptionModal = false"
+            @clickWaitingList = "showWaitingUListModal"/>
+        <WaitingListModal
+            v-if="isWaitingListModal"
+            :waitingUsers="waitingUsers"
+            @close = "isWaitingListModal = false"
+        />
         <ChattingListFrame :chattings="chattings"/>
         <ChattingInsertFrame v-if="selectedRoom" class = "chattingInsertFrame" @sendMessage="sendChat"/>
       </div>
@@ -97,6 +149,7 @@ onBeforeUnmount(() => {
   width: 100%;
   flex-direction: row;
   overflow: hidden;     /* 스크롤 제거 */
+  border : #666666;
 }
 .chattingFrame{
   flex: 1;
@@ -105,16 +158,14 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column; /* 수직 정렬 */
   overflow: hidden; /* 전체 프레임은 스크롤 안 생기게 */
+  border-left: 1px solid #ddd;
 }
-.chattingList{
-  flex: 1;
-  overflow-y: auto; /* 여기만 스크롤 */
-  min-height: 0;
-}
+
 .chattingInsertFrame {
   height : fit-content; /* 원하는 고정 높이 */
   flex-shrink: 0;
   border-top: 1px solid #ddd;
+
 }
 
 </style>
