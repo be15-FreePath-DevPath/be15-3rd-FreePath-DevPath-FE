@@ -1,42 +1,41 @@
 <script setup>
-import { useRouter } from 'vue-router'
+import {useRoute, useRouter} from 'vue-router'
 
 const props = defineProps({
-  general: {
-    type: String,
-    default: '일반 회원가입'
-  },
-  google: {
-    type: String,
-    default: '구글 회원가입'
-  },
-  generalUrl: {
-    type: String,
-    default: '/user/signup/general'
-  },
-  googleUrl: {
-    type: String,
-    default: '/user/signup/google'
-  }
+  general: { type: String, default: '일반 회원가입' },
+  google: { type: String, default: '구글 회원가입' },
+  generalUrl: { type: String, default: '/user/signup/general' }
 })
 
-const router = useRouter()
+const emit = defineEmits(['click-google'])
 
-function goTo(url) {
-  router.push(url)
+const router = useRouter()
+const route = useRoute()
+
+function goToGeneral() {
+  // 현재 redirect 쿼리 유지해서 일반 로그인 페이지로 이동
+  router.push({
+    path: props.generalUrl,
+    query: route.query.redirect ? { redirect: route.query.redirect } : {}
+  })
+}
+
+function goToGoogle() {
+  emit('click-google')
 }
 </script>
 
 <template>
-  <button class="button" @click="goTo(props.generalUrl)">
+  <button class="button" @click="goToGeneral">
     <img src="@/assets/images/user/general.png" alt="general" class="icon" />
-    <span>{{ props.general }}</span>
+    <span>{{ general }}</span>
   </button>
-  <button class="button" @click="goTo(props.googleUrl)">
+  <button class="button" @click="goToGoogle">
     <img src="@/assets/images/user/google.png" alt="google" class="icon" />
-    <span>{{ props.google }}</span>
+    <span>{{ google }}</span>
   </button>
 </template>
+
 
 <style scoped>
 .button {
@@ -59,5 +58,10 @@ function goTo(url) {
   position: relative;
   cursor: pointer;
   box-sizing: border-box;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
 }
 </style>

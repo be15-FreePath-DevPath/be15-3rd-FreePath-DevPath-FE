@@ -11,8 +11,11 @@ const currentPage = ref(1)
 const totalPages = ref(1)
 const totalItems = ref(0)
 const pageSize = 10  // 퀴즈 기준으로 10개씩 보기
+const isLoading = ref(true)
 
 const fetchQuizList = async (page = 1) => {
+  isLoading.value = true
+  await new Promise(resolve => setTimeout(resolve, 1000)) // isLoading 확인
   const params = {
     page: page,
     size: pageSize,
@@ -31,6 +34,7 @@ const fetchQuizList = async (page = 1) => {
   totalItems.value = data.pagination.totalItems;
   totalPages.value = data.pagination.totalPage;
   currentPage.value = data.pagination.currentPage;
+  isLoading.value = false
 };
 
 
@@ -50,41 +54,56 @@ onMounted(() => {
 
 <template>
   <div class="quiz-list-wrapper">
-    <table class="quiz-table">
-      <thead>
-      <tr>
-        <th>ID</th>
-        <th>문제</th>
-        <th>선택지 1</th>
-        <th>선택지 2</th>
-        <th>선택지 3</th>
-        <th>선택지 4</th>
-        <th>해설</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="quiz in quizzes" :key="quiz.id" @click="goToDetail(quiz.id)" class="clickable-row">
-        <td>{{ quiz.id }}</td>
-        <td>{{ quiz.question }}</td>
-        <td>{{ quiz.options[0] ?? '' }}</td>
-        <td>{{ quiz.options[1] ?? '' }}</td>
-        <td>{{ quiz.options[2] ?? '' }}</td>
-        <td>{{ quiz.options[3] ?? '' }}</td>
-        <td>{{ quiz.explanation }}</td>
-      </tr>
-      </tbody>
-    </table>
+    <div v-if="isLoading" class="loading-wrapper">로딩 중입니다...</div>
+    <template v-else>
+      <div v-if="quizzes.length === 0" class="empty-wrapper">
+        등록된 퀴즈가 없습니다.
+      </div>
 
-    <PagingBar
-        :key="currentPage"
-        v-if="totalPages"
-        :currentPage="currentPage"
-        :totalPages="totalPages"
-        :totalItems="totalItems"
-        @page-changed="handlePageChange"
-    />
+      <div v-else>
+        <table class="quiz-table">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>문제</th>
+            <th>선택지 1</th>
+            <th>선택지 2</th>
+            <th>선택지 3</th>
+            <th>선택지 4</th>
+            <th>해설</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr
+              v-for="quiz in quizzes"
+              :key="quiz.id"
+              @click="goToDetail(quiz.id)"
+              class="clickable-row"
+          >
+            <td>{{ quiz.id }}</td>
+            <td>{{ quiz.question }}</td>
+            <td>{{ quiz.options[0] ?? '' }}</td>
+            <td>{{ quiz.options[1] ?? '' }}</td>
+            <td>{{ quiz.options[2] ?? '' }}</td>
+            <td>{{ quiz.options[3] ?? '' }}</td>
+            <td>{{ quiz.explanation }}</td>
+          </tr>
+          </tbody>
+        </table>
+
+        <PagingBar
+            :key="currentPage"
+            :currentPage="currentPage"
+            :totalPages="totalPages"
+            :totalItems="totalItems"
+            @page-changed="handlePageChange"
+        />
+      </div>
+    </template>
   </div>
 </template>
+
+
 
 <style scoped>
 .quiz-list-wrapper {
@@ -119,4 +138,19 @@ onMounted(() => {
 .clickable-row:hover {
   background-color: #f9f9f9;
 }
+
+.loading-wrapper {
+  text-align: center;
+  padding: 100px 0;
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.empty-wrapper {
+  text-align: center;
+  color: #777;
+  padding: 120px 0;
+  font-size: 1.1rem;
+}
+
 </style>

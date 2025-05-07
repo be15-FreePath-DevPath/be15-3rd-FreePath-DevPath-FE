@@ -11,16 +11,25 @@ const currentPage = ref(1)
 const totalPages = ref(1)
 const totalItems = ref(0)
 const pageSize = 10
+const isLoading = ref(true)
 
 const fetchLikedList = async (page = 1) => {
-  const params = { page, size: pageSize }
-  const response = await getLikedList(params)
-  const data = response.data.data
+  isLoading.value = true
+  await new Promise(resolve => setTimeout(resolve, 1000)) // isLoading 확인
+  try {
+    const params = { page, size: pageSize }
+    const response = await getLikedList(params)
+    const data = response.data.data
 
-  posts.value = data.posts
-  totalItems.value = data.pagination.totalItems
-  totalPages.value = data.pagination.totalPage
-  currentPage.value = data.pagination.currentPage
+    posts.value = data.posts
+    totalItems.value = data.pagination.totalItems
+    totalPages.value = data.pagination.totalPage
+    currentPage.value = data.pagination.currentPage
+  } catch (error) {
+    console.error('좋아요 게시글 조회 실패:', error)
+  } finally {
+    isLoading.value = false
+  }
 }
 
 const handlePageChange = (page) => {
@@ -51,41 +60,45 @@ onMounted(() => {
 
 <template>
   <div class="list-wrapper">
-    <div class="list-header" v-if="posts.length > 0">
-      <div class="col-title">게시글 제목</div>
-      <div class="col-date">작성일자</div>
-      <div class="col-writer">작성자</div>
-    </div>
+    <div v-if="isLoading">로딩 중입니다...</div>
 
-    <div v-if="posts.length === 0" class="empty-wrapper">
-      <div class="empty-icon">💗</div>
-      <div class="empty-text">좋아요한 게시글이 없습니다.</div>
-    </div>
-
-    <div class="post-list">
-      <div
-          class="post-item"
-          v-for="post in posts"
-          :key="post.boardId"
-          @click="goToPost(post.boardId)"
-      >
-        <div class="col-title">{{ post.boardTitle }}</div>
-        <div class="col-date">
-          <img class="date-icon" :src="calendarIcon" alt="calendar" />
-          {{ formatDate(post.boardCreatedAt) }}
-        </div>
-        <div class="col-writer">{{ post.nickname }}</div>
+    <template v-else>
+      <div class="list-header" v-if="posts.length > 0">
+        <div class="col-title">게시글 제목</div>
+        <div class="col-date">작성일자</div>
+        <div class="col-writer">작성자</div>
       </div>
-    </div>
 
-    <PagingBar
-        :key="currentPage"
-        v-if="posts.length > 0"
-        :currentPage="currentPage"
-        :totalPages="totalPages"
-        :totalItems="totalItems"
-        @page-changed="handlePageChange"
-    />
+      <div v-if="posts.length === 0" class="empty-wrapper">
+        <div class="empty-icon">💗</div>
+        <div class="empty-text">좋아요한 게시글이 없습니다.</div>
+      </div>
+
+      <div class="post-list">
+        <div
+            class="post-item"
+            v-for="post in posts"
+            :key="post.boardId"
+            @click="goToPost(post.boardId)"
+        >
+          <div class="col-title">{{ post.boardTitle }}</div>
+          <div class="col-date">
+            <img class="date-icon" :src="calendarIcon" alt="calendar" />
+            {{ formatDate(post.boardCreatedAt) }}
+          </div>
+          <div class="col-writer">{{ post.nickname }}</div>
+        </div>
+      </div>
+
+      <PagingBar
+          :key="currentPage"
+          v-if="posts.length > 0"
+          :currentPage="currentPage"
+          :totalPages="totalPages"
+          :totalItems="totalItems"
+          @page-changed="handlePageChange"
+      />
+    </template>
   </div>
 </template>
 
@@ -96,7 +109,6 @@ onMounted(() => {
   margin: 0 auto;
 }
 
-/* 리스트 헤더 */
 .list-header {
   display: flex;
   align-items: center;
@@ -110,7 +122,7 @@ onMounted(() => {
 .list-header .col-title {
   text-align: center;
 }
-/* 게시글 항목 */
+
 .post-item {
   display: flex;
   align-items: center;
@@ -124,7 +136,6 @@ onMounted(() => {
   background-color: #f9f9f9;
 }
 
-/* 게시글 제목 */
 .col-title {
   width: 450px;
   padding-right: 20px;
@@ -133,7 +144,6 @@ onMounted(() => {
   font-size: 14px;
 }
 
-/* 작성일자 */
 .col-date {
   width: 150px;
   text-align: center;
@@ -145,7 +155,6 @@ onMounted(() => {
   justify-content: center;
 }
 
-/* 캘린더 아이콘 */
 .date-icon {
   width: 16px;
   height: 16px;
@@ -153,7 +162,6 @@ onMounted(() => {
   margin-right: 4px;
 }
 
-/* 작성자 */
 .col-writer {
   width: 150px;
   text-align: center;
@@ -161,7 +169,6 @@ onMounted(() => {
   font-size: 14px;
 }
 
-/* 게시글 없음 안내 */
 .empty-wrapper {
   text-align: center;
   color: #777;
