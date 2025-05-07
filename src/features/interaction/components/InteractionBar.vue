@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import {ref, onMounted, defineProps} from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import { useAuthStore } from '@/stores/auth'
@@ -19,6 +19,7 @@ import {
   unbookmark
 } from '@/features/interaction/api.js'
 
+
 // 스토어 및 라우터
 const authStore = useAuthStore()
 const router = useRouter()
@@ -32,6 +33,12 @@ const postId = route.params.id
 const isLiked = ref(false)
 const likeCount = ref(0)
 const isBookmarked = ref(false)
+
+const props = defineProps({
+  postCategory: {
+    type: String,
+  }
+})
 
 // 초기 상태 조회
 onMounted(async () => {
@@ -112,9 +119,14 @@ const toggleBookmark = async () => {
 
 <template>
   <div class="post-action-bar">
-    <div class="left-actions" @click="toggleLike">
-      <img :src="isLiked ? likedIcon : unlikedIcon" alt="좋아요" class="icon" />
-      <span class="like-count">{{ likeCount }}</span>
+    <div class="left-actions">
+      <div @click="toggleLike">
+        <img :src="isLiked ? likedIcon : unlikedIcon" alt="좋아요" class="icon" />
+        <span class="like-count">{{ likeCount }}</span>
+      </div>
+      <div class="chat-action" v-if="props.postCategory==='프로젝트 매칭 게시판'" @click="$emit('groupChattingJoin')">
+        <span>그룹채팅방 참여</span>
+      </div>
     </div>
     <div class="right-actions" @click="toggleBookmark">
       <img :src="isBookmarked ? bookmarkedIcon : unbookmarkedIcon" alt="북마크" class="icon" />
@@ -136,6 +148,15 @@ const toggleBookmark = async () => {
 .right-actions {
   display: flex;
   align-items: center;
+  gap : 10px;
+}
+
+.chat-action {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* 왼쪽 정렬 */
+  font-size : 12px;
+  cursor : pointer;
 }
 
 .icon {
