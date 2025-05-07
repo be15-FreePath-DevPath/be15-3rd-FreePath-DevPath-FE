@@ -12,7 +12,7 @@
 
     <!-- 상세 메뉴: 펼쳐진 경우만 -->
     <div v-if="isOpen" class="menu-list">
-      <SidebarItem text="참여 중인 채팅방" to="/chatting/active" />
+      <SidebarItem text="참여 중인 채팅방" to="/chatting" />
       <SidebarItem text="참여 대기 중인 채팅방" to="/chatting/pending" />
     </div>
   </div>
