@@ -12,7 +12,7 @@
         v-model:createChat="createChat"
         v-model:chatTitle="chatTitle"
         @register="onRegister"
-        @cancel-click="onCancel"
+        @cancelClick="onCancel"
     />
   </div>
 </template>

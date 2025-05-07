@@ -22,6 +22,7 @@ export const boardRoutes = [
     {
         path: 'board/write',
         name: 'PostWrite',
-        component : () => import('@/features/board/views/PostWriteView.vue')
+        component : () => import('@/features/board/views/PostWriteView.vue'),
+        meta : { requiresAuth : true }
     }
 ]
