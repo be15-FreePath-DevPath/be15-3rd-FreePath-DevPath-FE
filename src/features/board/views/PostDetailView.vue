@@ -11,8 +11,13 @@ import {fetchCommentList} from "@/features/comment/api.js";
 const emit = defineEmits(['updateBreadCrumb'])
 
 onMounted(() => {
-  emit('updateBreadCrumb', ['게시판', postCategory.value])
+  if (!postCategory.value) {
+    emit('updateBreadCrumb', ['마이페이지', '회원 정보 조회'])
+  } else {
+    emit('updateBreadCrumb', ['게시판', postCategory.value])
+  }
 })
+
 
 // 게시글 정보
 const postDescription = reactive({
