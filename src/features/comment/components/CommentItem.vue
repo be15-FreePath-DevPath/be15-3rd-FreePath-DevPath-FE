@@ -100,7 +100,9 @@
 
 <script setup>
 import { computed, ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
+import { useAuthStore } from '@/stores/auth'
 import CommentInput from './CommentInput.vue'
 
 import likedIcon from '@/assets/images/board/BigHeartStraightRed.png'
@@ -113,17 +115,12 @@ import {
   unlikeComment
 } from '@/features/comment/api.js'
 
+// Props
 const props = defineProps({
-  comment: {
-    type: Object,
-    required: true
-  },
+  comment: { type: Object, required: true },
   replyingToId: Number,
   activeOptionsId: Number,
-  depth: {
-    type: Number,
-    default: 0
-  }
+  depth: { type: Number, default: 0 }
 })
 
 const emit = defineEmits([
@@ -135,26 +132,27 @@ const emit = defineEmits([
   'toggle-options'
 ])
 
-// Toast 인스턴스 (이 컴포넌트만 중앙 토스트)
+// Auth, Router, Toast
+const authStore = useAuthStore()
+const router = useRouter()
 const toast = useToast({ position: 'top-center', timeout: 1500 })
 
-// 로컬 에디트 상태
+// 상태
 const isEditing = ref(false)
 const editedContent = ref(props.comment.contents)
-
-// 로컬 좋아요 상태
 const isLiked = ref(false)
 const likeCount = ref(0)
 
-// 마운트 시 좋아요 정보 불러오기
+// 좋아요 정보 로딩
 onMounted(async () => {
   try {
-    const [likedRes, countRes] = await Promise.all([
-      hasUserLikedComment(props.comment.commentId),
-      countLikesByCommentId(props.comment.commentId)
-    ])
-    isLiked.value = likedRes.data.data
+    const countRes = await countLikesByCommentId(props.comment.commentId)
     likeCount.value = countRes.data.data
+
+    if (authStore.isLoggedIn) {
+      const likedRes = await hasUserLikedComment(props.comment.commentId)
+      isLiked.value = likedRes.data.data
+    }
   } catch (err) {
     console.error('댓글 좋아요 정보 로딩 실패:', err)
     isLiked.value = false
@@ -162,8 +160,14 @@ onMounted(async () => {
   }
 })
 
-// 좋아요 토글 핸들러 (토스트 메시지 포함)
+// 좋아요 토글
 const handleToggleLike = async () => {
+  if (!authStore.isLoggedIn) {
+    toast.warning('로그인이 필요합니다.')
+    router.push('/user/login')
+    return
+  }
+
   try {
     if (isLiked.value) {
       await unlikeComment(props.comment.commentId)
@@ -181,7 +185,7 @@ const handleToggleLike = async () => {
   }
 }
 
-// 나머지 이벤트 핸들러
+// 기타 핸들러
 const replyToComment = () => emit('reply', props.comment.commentId)
 const toggleOptions = (event) => {
   emit('toggle-options', props.comment.commentId)
@@ -204,13 +208,12 @@ const handleSubmitReply = (content) => {
   emit('submit-reply', { parentId: props.comment.commentId, content })
 }
 
-const isOptionsOpen = computed(
-    () => props.activeOptionsId === props.comment.commentId
-)
-const formattedDate = computed(
-    () => new Date(props.comment.createdAt).toLocaleDateString()
+const isOptionsOpen = computed(() => props.activeOptionsId === props.comment.commentId)
+const formattedDate = computed(() =>
+    new Date(props.comment.createdAt).toLocaleDateString()
 )
 </script>
+
 
 <style scoped>
 .comment-wrapper {
