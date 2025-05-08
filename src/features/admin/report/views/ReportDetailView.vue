@@ -79,7 +79,11 @@ const handleReportAction = async (result) => {
     <label>
       내용
       <div class="readonly-field">
-        {{ report?.commentDetailDto?.commentContents || report?.postDetailDto?.boardContents || '내용 없음' }}
+        {{
+          (report?.commentDetailDto?.commentContents)
+          || (report?.postDetailDto?.boardContents?.replace(/<[^>]+>/g, ''))
+          || '내용 없음'
+        }}
       </div>
     </label>
 
@@ -93,9 +97,11 @@ const handleReportAction = async (result) => {
       <div class="readonly-field">
         {{
           report?.commentDetailDto?.commentCreatedAt
-              ? new Date(report.commentDetailDto.commentCreatedAt).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })
+              ? new Date(report.commentDetailDto.commentCreatedAt).toLocaleDateString('ko-KR',
+                  { year: 'numeric', month: 'long', day: 'numeric' })
               : report?.postDetailDto?.boardCreatedAt
-                  ? new Date(report.postDetailDto.boardCreatedAt).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })
+                  ? new Date(report.postDetailDto.boardCreatedAt).toLocaleDateString('ko-KR',
+                      { year: 'numeric', month: 'long', day: 'numeric' })
                   : '시간 정보 없음'
         }}
       </div>
