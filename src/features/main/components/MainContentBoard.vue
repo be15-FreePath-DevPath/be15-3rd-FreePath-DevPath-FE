@@ -83,7 +83,7 @@
           </div>
           <div class="board-col user">
             <img src="@/assets/images/main/user.png" alt="user" class="user-img" />
-            {{ item.nickname }}
+            <span class="user-text">{{ item.nickname }}</span>
           </div>
           <div class="board-col title">
             <span class="title-text">{{ item.boardTitle }}</span>
@@ -105,7 +105,7 @@
   padding: 20px;
   border-radius: 16px;
   width: 494px;
-  height: 450px;
+  height: 500px;
 }
 
 .board-header {
@@ -188,6 +188,14 @@
 }
 
 .title-text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: block;
+  width: 100%;
+}
+
+.user-text {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

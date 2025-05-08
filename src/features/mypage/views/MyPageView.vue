@@ -5,7 +5,14 @@ import MyPageProfile from "@/features/mypage/components/MyPageProfile.vue";
 import MyPageButtonBlue from "@/features/mypage/components/MyPageButtonBlue.vue";
 import MyPageButtonWhite from "@/features/mypage/components/MyPageButtonWhite.vue";
 import MyPageContent from "@/features/mypage/components/MyPageContent.vue";
+import {onMounted, ref} from "vue";
 
+const newBreadCrumbItems = ref(['마이페이지', '회원 정보 조회']);
+const emit = defineEmits(['updateBreadCrumb']);
+
+onMounted(() => {
+  emit('updateBreadCrumb', newBreadCrumbItems.value)
+})
 </script>
 
 <template>
