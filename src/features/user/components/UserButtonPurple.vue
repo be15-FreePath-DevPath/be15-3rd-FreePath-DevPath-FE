@@ -13,6 +13,10 @@ const props = defineProps({
   icon: {
     type: String,
     default: ''
+  },
+  bgColor: {
+    type: String,
+    default: '#c6c7f8' // 기본 색상
   }
 })
 
@@ -26,15 +30,18 @@ function handleClick() {
 </script>
 
 <template>
-  <div class="button-frame" @click="handleClick">
-    <img :src="icon" alt="img" class="icon" />
-    <div class="text">{{ text }}</div>
+  <div
+      class="button-frame"
+      :style="{ backgroundColor: bgColor }"
+  @click="handleClick"
+  >
+  <img :src="icon" alt="img" class="icon" />
+  <div class="text">{{ text }}</div>
   </div>
 </template>
 
 <style scoped>
 .button-frame {
-  background-color: #c6c7f8;
   width: fit-content;
   border-radius: 8.74px;
   padding-left: 13.1px;

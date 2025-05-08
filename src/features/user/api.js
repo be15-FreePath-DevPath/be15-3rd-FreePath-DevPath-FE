@@ -26,7 +26,6 @@ export function signupTemp({ email, loginId, password, nickname, userName, itNew
 
 export function signupGoogleTemp() {
     const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
-    console.log("VITE_API_BASE_URL:", apiBaseUrl);
     if (apiBaseUrl) {
         window.location.href = `${apiBaseUrl}/oauth2/authorization/google`;
     } else {
@@ -54,5 +53,14 @@ export function signupUser(email) {
     return api.post('/user/signup', {
         email
     });
+}
+
+export function loginGoogle() {
+    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+    if (apiBaseUrl) {
+        window.location.href = `${apiBaseUrl}/oauth2/authorization/google`;
+    } else {
+        console.error("API Base URL is not defined.");
+    }
 }
 

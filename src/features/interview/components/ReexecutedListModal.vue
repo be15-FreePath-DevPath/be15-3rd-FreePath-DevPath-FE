@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-overlay">
+  <div class="modal-overlay" @click.self="emit('close')">
     <div class="modal-frame">
       <!-- 헤더 -->
       <div class="layer">
@@ -44,7 +44,7 @@
 
       <!-- 닫기 버튼 -->
       <div class="interview-run-button">
-        <button class="button" @click="$emit('close')">
+        <button class="button" @click="emit('close')">
           <div class="text">닫기</div>
         </button>
       </div>
@@ -68,8 +68,10 @@ const router = useRouter()
 
 const goToRoom = (roomId) => {
   emit('close')
-  window.scrollTo(0, 0)
   router.push(`/interview/${roomId}`)
+      .then(() => {
+        window.scrollTo(0, 0)
+      })
 }
 </script>
 

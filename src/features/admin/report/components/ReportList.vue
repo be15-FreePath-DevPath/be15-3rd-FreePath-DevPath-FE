@@ -102,7 +102,9 @@ onMounted(() => {
             <span v-if="report.commentDetailDto?.commentContents">
               {{ report.commentDetailDto.commentContents }}
             </span>
-            <span v-else-if="report.postDetailDto?.boardContents" v-html="report.postDetailDto.boardContents" />
+            <span v-else-if="report.postDetailDto?.boardContents">
+              {{ report.postDetailDto.boardContents.replace(/<[^>]+>/g, '') }}
+            </span>
             <span v-else>내용 없음</span>
           </td>
           <td class="text-align">

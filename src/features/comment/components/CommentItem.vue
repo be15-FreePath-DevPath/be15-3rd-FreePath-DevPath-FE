@@ -66,6 +66,9 @@
               <button @click="reportComment" class="report-button">
                 댓글 신고
               </button>
+              <button @click="$emit('routeChat',comment.userId)" class="report-button">
+                일대일 채팅
+              </button>
             </div>
           </div>
         </div>
@@ -94,6 +97,7 @@
         @modify="$emit('modify', $event)"
         @report="$emit('report', $event)"
         @toggle-options="$emit('toggle-options', $event)"
+        @routeChat="$emit('routeChat', reply.userId)"
     />
   </div>
 </template>
@@ -129,7 +133,8 @@ const emit = defineEmits([
   'delete',
   'modify',
   'report',
-  'toggle-options'
+  'toggle-options',
+    'chat'
 ])
 
 // Auth, Router, Toast

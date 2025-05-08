@@ -1,5 +1,5 @@
 <script setup>
-import {onBeforeUnmount, onMounted, ref} from 'vue'
+import {computed, onBeforeUnmount, onMounted, ref} from 'vue'
 import ChattingInsertFrame from "@/features/chatting/components/chattingView/ChattingInsertFrame.vue";
 import {
   getChatting,
@@ -18,9 +18,14 @@ import UserModal from "@/features/user/components/UserModal.vue";
 import ChangeChattingRoomModal from "@/features/chatting/components/chattingView/ChangeChattingRoomModal.vue";
 import ChattingExitModal from "@/features/chatting/components/chattingView/ChattingExitModal.vue";
 import {errorMap} from "@/features/user/errorcode.js";
+import {useAuthStore} from "@/stores/auth.js";
+import { useRoute } from 'vue-router';
+const route = useRoute();
+
 
 const emit = defineEmits(['updateBreadCrumb'])
 const newBreadCrumbItems = ref(['채팅','채팅','참여 중인 채팅방'])
+const authStore = useAuthStore();
 
 const chattingRooms = ref([]);
 const chattings = ref([]);
@@ -81,7 +86,8 @@ const addChat = (subResponse) => {
      userId : subResponse.userId,
      nickname : subResponse.nickname,
      message : subResponse.message,
-     timestamp : subResponse.timestamp
+     timestamp : subResponse.timestamp,
+    mine : authStore.userId === subResponse.userId
   })
 
 }
@@ -107,11 +113,13 @@ const groupChattingAccept = async (userId,action) => {
     await putGroupChattingAccept(payload);
     modalTitle.value = '참여 요청 처리 완료';
     modalSubtitle.value = '참여 요청을 처리했습니다.'
+
   }catch(e){
     modalTitle.value = '참여 요청 처리 실패';
     modalSubtitle.value = '알수 없는 오류가 발생했습니다.'
   }
   isUserModal.value = true;
+  await fetchChattingRoomList();
 }
 
 const renameRoom = async (newName) => {
@@ -217,6 +225,10 @@ onMounted(async () => {
   emit('updateBreadCrumb', newBreadCrumbItems.value);
   await connectStomp();
   await fetchChattingRoomList();
+  const queryRoomId = route.query.queryRoomId ? Number(route.query.queryRoomId) : null;
+  if (queryRoomId !== null) {
+    await onRoomSelected(queryRoomId);
+  }
 });
 
 // 컴포넌트가 제거될 때 연결 해제

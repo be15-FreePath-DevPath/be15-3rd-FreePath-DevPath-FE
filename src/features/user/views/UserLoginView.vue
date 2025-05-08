@@ -1,8 +1,42 @@
 <script setup>
+import { useAuthStore } from "@/stores/auth.js"
+import { useRouter } from 'vue-router'
+
+// API 함수 (구글 로그인 요청)
+import { loginGoogle } from "@/features/user/api.js"
+import UserLogo from "@/features/user/components/UserLogo.vue";
 import UserForm from "@/features/user/components/UserForm.vue";
 import UserExtraService from "@/features/user/components/UserExtraService.vue";
-import UserLogo from "@/features/user/components/UserLogo.vue";
-import UserWhiteButton from "@/features/user/components/UserButtonWhite.vue";
+import UserButtonWhite from "@/features/user/components/UserButtonWhite.vue";
+
+const authStore = useAuthStore()
+const router = useRouter()
+
+// 구글 로그인 API 요청 처리
+const loginGoogleMethod = async () => {
+  try {
+    // 구글 로그인 요청 (서버에서 구글 로그인 후 accessToken 응답)
+    const response = await loginGoogle()
+
+    // 응답에서 accessToken 받아오기
+    const accessToken = response.data.data.accessToken
+    if (accessToken) {
+      // accessToken 저장
+      authStore.setAuth(accessToken)
+
+      // 로그인 후 리디렉션 (홈 또는 이전 페이지)
+      const redirectPath = localStorage.getItem('redirectAfterLogin')
+      if (typeof redirectPath === 'string') {
+        localStorage.removeItem('redirectAfterLogin')
+        router.replace(redirectPath)
+      } else {
+        router.replace('/')
+      }
+    }
+  } catch (error) {
+    console.error('구글 로그인 실패', error)
+  }
+}
 </script>
 
 <template>
@@ -12,11 +46,11 @@ import UserWhiteButton from "@/features/user/components/UserButtonWhite.vue";
         title="Welcome back to DevPath"
         subtitle="다시 와주셨군요!"
     >
-      <UserWhiteButton
+      <UserButtonWhite
           general="일반 로그인"
           google="구글 로그인"
           generalUrl="/user/login/general"
-          googleUrl=""
+          @click-google="loginGoogleMethod"
       />
     </UserForm>
     <UserExtraService
