@@ -38,29 +38,28 @@ const login = async () => {
     const response = await loginUser({
       loginId: form.loginId,
       password: form.password
-    })
+    });
 
     console.log('로그인 성공', response.data)
+    const accessToken = response.data.data.accessToken;
+    authStore.setAuth(accessToken);
 
-    const accessToken = response.data.data.accessToken
-    authStore.setAuth(accessToken)
-
-    modalTitle.value = '로그인 성공'
-    modalSubtitle.value = 'DevPath에 오신 것을 환영합니다!'
-    isLoginSuccess.value = true
-    showModal.value = true
+    modalTitle.value = '로그인 성공';
+    modalSubtitle.value = 'DevPath에 오신 것을 환영합니다!';
+    isLoginSuccess.value = true;
   } catch (error) {
-      const errorCode = error.response?.data?.errorCode || '기타 오류';
-      const errorMessage = errorMap[errorCode] || {
-        title: '로그인 실패',
-        subtitle: '알 수 없는 오류가 발생했습니다.'
-      };
+    const errorCode = error.response?.data?.errorCode || '기타 오류';
+    const errorMessage = errorMap[errorCode] || {
+      title: '로그인 실패',
+      subtitle: '알 수 없는 오류가 발생했습니다.'
+    };
 
-      modalTitle.value = errorMessage.title
-      modalSubtitle.value = errorMessage.subtitle
-      showModal.value = true
-      isLoginSuccess.value = false
-    }
+    modalTitle.value = errorMessage.title;
+    modalSubtitle.value = errorMessage.subtitle;
+    isLoginSuccess.value = false;
+  } finally {
+    showModal.value = true; // 한 곳에서 처리
+  }
 
 }
 
