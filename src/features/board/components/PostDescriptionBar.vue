@@ -27,8 +27,7 @@
       </div>
     </div>
   </div>
-  <div class="post-content" v-html="content">
-  </div>
+  <div class="post-content" v-html="content.replace(/<\/?p[^>]*>/gi, '')"></div>
 </template>
 
 
