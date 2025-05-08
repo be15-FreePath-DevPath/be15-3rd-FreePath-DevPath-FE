@@ -47,9 +47,8 @@ const login = async () => {
 
     modalTitle.value = '로그인 성공'
     modalSubtitle.value = 'DevPath에 오신 것을 환영합니다!'
-    showModal.value = true
     isLoginSuccess.value = true
-
+    showModal.value = true
   } catch (error) {
       const errorCode = error.response?.data?.errorCode || '기타 오류';
       const errorMessage = errorMap[errorCode] || {
@@ -59,24 +58,24 @@ const login = async () => {
 
       modalTitle.value = errorMessage.title
       modalSubtitle.value = errorMessage.subtitle
+      showModal.value = true
+      isLoginSuccess.value = false
     }
-
-    showModal.value = true
-    isLoginSuccess.value = false
 
 }
 
 const handleModalClose = () => {
   showModal.value = false;
-
   if (isLoginSuccess.value) {
     const redirectPath = localStorage.getItem('redirectAfterLogin');
     localStorage.removeItem('redirectAfterLogin'); // 사용 후 제거
 
-    if (typeof redirectPath === 'string') {
+    // redirectPath가 존재하고, 문자열이며, 빈 문자열이 아닐 경우만 사용
+    if (typeof redirectPath === 'string' && redirectPath.trim() !== '') {
+
       router.replace(redirectPath);
     } else {
-      router.replace('/'); // 기본 홈
+      router.replace('/'); // 기본 홈으로 이동
     }
   }
 };
