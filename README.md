@@ -748,21 +748,7 @@ src/
   <br>검색 결과에 불필요한 게시글이 노출되지 않고, 정확하게 필터링되는지 확인합니다.
 </details>
 
-<details>
-  <summary><b>회원이 작성한 게시글 목록 조회</b></summary>
-  1. 회원이 작성한 게시글 목록 조회
-  <br>
-  <img src="https://github.com/user-attachments/assets/534991c6-a68e-4e39-a75f-ceb6b41e4ee2" alt="회원이 작성한 게시글 목록 조회 예시" style="width: 80%; height: auto;">
-  <br>회원 정보와 연동되어, 로그인 상태에서 자신의 게시글만 확인 가능하게 처리되어 있는지 테스트합니다.
-</details>
 
-<details>
-  <summary><b>자신의 신고된 게시물 목록 확인</b></summary>
-  1. 신고된 게시물 목록 확인
-  <br>
-  <img src="https://github.com/user-attachments/assets/49a8c793-31ae-4931-81ff-b151fd2bf6ba" alt="신고된 게시물 목록 확인 예시" style="width: 80%; height: auto;">
-  <br>신고 처리 현황과 해당 게시글의 상태가 정확하게 표시되는지 확인합니다.
-</details>
 <br>
 
 ### 💬 댓글 테스트
@@ -820,38 +806,7 @@ src/
 
 ### 🗳️ 투표 테스트
 
-<details>
-  <summary><b>투표 참여</b></summary>
-  1. 투표 참여(일반)
-  <br>
-  <img src="https://github.com/user-attachments/assets/f447f1d6-89e4-4fb7-bd72-55f98e1b8642" alt="투표 참여(일반)" style="width: 80%; height: auto;">
-  <br>투표가 있는 게시글에 투표 참여
-  <br><br>
-  2. 투표 참여(중복)
-  <br>
-  <img src="https://github.com/user-attachments/assets/7dbff11a-c536-4822-a8eb-2c8f3cbd0fd5" alt="투표 참여(중복)" style="width: 80%; height: auto;">
-  <br>투표가 있는 게시글에 중복 투표 참여시 예외처리
-</details>
-<details>
-  <summary><b>투표 종료</b></summary>
-  1. 투표 종료(일반)
-  <br>
-  <img src="https://github.com/user-attachments/assets/39d852da-784b-4c99-94a2-3942d5241c09" alt="투표 종료(일반)" style="width: 80%; height: auto;">
-  <br>투표를 종료
-  <br><br>
-  2. 투표 종료(권한 X)
-  <br>
-  <img src="https://github.com/user-attachments/assets/63203bca-d59b-4a50-b07f-8c54ccd702cc" alt="투표 종료(권한 X)" style="width: 80%; height: auto;">
-  <br>투표 종료 시 게시글 작성자인지 검증 후 예외처리
-</details>
 
-<details>
-  <summary><b>투표 조회</b></summary>
-  1. 투표 조회(투표 존재 여부, 투표 여부, 종료 여부)
-  <br>
-  <img src="https://github.com/user-attachments/assets/ade40274-a107-47cb-9705-3453e1f9e45f" alt="투표 조회(투표 존재 여부, 투표 여부, 종료 여부)" style="width: 80%; height: auto;">
-  <br>투표 조회 시 투표 존재 여부, 투표 여부, 종료 여부를 확인
-</details>
 <br>
 
 ### 🔁 게시판 상호작용 테스트 (완)
