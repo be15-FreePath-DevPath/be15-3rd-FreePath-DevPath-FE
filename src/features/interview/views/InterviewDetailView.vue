@@ -58,6 +58,10 @@ const handleSaveMemo = async () => {
   }
 }
 
+const closeReexecutedListModal = () => {
+  showReexecutedListModal.value = false
+}
+
 const closeReexecuteModal = () => (showReexecuteModal.value = false)
 const handleReexecute = async ({ strictness }) => {
   isReexecuting.value = true
