@@ -82,6 +82,7 @@
             {{ formatDate(item.boardCreatedAt) }}
           </div>
           <div class="board-col user">
+            <img src="@/assets/images/main/user.png" alt="user" class="user-img" />
             {{ item.nickname }}
           </div>
           <div class="board-col title">
