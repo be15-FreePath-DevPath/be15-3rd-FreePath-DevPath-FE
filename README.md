@@ -502,180 +502,13 @@ src/
 
 ### 👤 회원 테스트
 
-<details>
-  <summary><b>회원 가입</b></summary>
+<detail>
 
-1. 일반 회원가입  
-  <br>
-  <img src="./assets/test/user/일반회원_회원가입.png" alt="user1" style="width: 80%; height: auto;">
-  <br>: 일반 회원가입 시 인증 이메일 발송  
-  <br><br>
-  <img src="./assets/test/user/일반회원_회원가입인증번호확인.png" alt="user2" style="width: 80%; height: auto;">
-  <br>: 인증번호 확인  
-  <br><br>
-  <img src="./assets/test/user/일반회원_회원가입완료.png" alt="user3" style="width: 80%; height: auto;">
-  <br>: 인증번호 확인  
-  <br><br>
-
-2. 구글 회원가입  
-   <br>
-   <img src="./assets/test/user/소셜회원_회원가입&로그인창.png" alt="user4" style="width: 80%; height: auto;">
-   <br>: 구글 회원가입 or 로그인 화면  
-   <br><br>
-   <img src="./assets/test/user/소셜회원_닉네임,구독여부입력페이지.png" alt="user5" style="width: 80%; height: auto;">
-   <br>: 구글 인증 후 닉네임, it 기사 구독 여부 입력  
-   <br><br>
-   <img src="./assets/test/user/소셜회원_회원가입완료.png" alt="user6" style="width: 80%; height: auto;">
-   <br>: 구글 회원가입 완료  
-   <br><br>
-</details>
-
-<details>
-  <summary><b>로그인</b></summary>
-
-  1. 일반 로그인  
-  <br>
-  <img src="./assets/test/user/일반회원_로그인.png" alt="user7" style="width: 80%; height: auto;">
-  <br>: 일반 로그인 완료  
-  <br><br>
-
-2. 구글 로그인  
-   <br>
-   <img src="./assets/test/user/소셜회원_회원가입&로그인창.png" alt="user8" style="width: 80%; height: auto;">
-   <br>: 구글 로그인 화면  
-   <br><br>
-   <img src="./assets/test/user/소셜회원_로그인시토큰확인가능.png" alt="user9" style="width: 80%; height: auto;">
-   <br>: 구글 로그인 시 토큰 확인 가능  
-   <br><br>
-</details>
-
-<details>
-  <summary><b>로그아웃</b></summary>
-
-  1. 로그아웃  
-  <br>
-  <img src="./assets/test/user/회원_로그아웃.png" alt="user11" style="width: 80%; height: auto;">
-  <br><br>
-</details>
-
-<details>
-  <summary><b>리프레시 토큰 발급</b></summary>
-
-  1. 리프레시 토큰 발급  
-  <br>
-  <img src="./assets/test/user/회원_리프레시토큰.png" alt="user10" style="width: 80%; height: auto;">
-  <br><br>
-</details>
-
-<details>
-  <summary><b>회원 탈퇴</b></summary>
-
-  1. 이메일 발송  
-  <br>
-  <img src="./assets/test/user/회원_회원탈퇴이메일.png" alt="user11" style="width: 80%; height: auto;">
-  <br>: 회원 탈퇴 시 본인 확인을 위한 이메일 발송  
-  <br><br>
-  2. 인증 번호  
-  <br>
-  <img src="./assets/test/user/회원_회원탈퇴인증번호확인.png" alt="user12" style="width: 80%; height: auto;">
-  <br>: 인증 번호 확인  
-  <br><br>
-  3. 회원 탈퇴  
-  <br>
-  <img src="./assets/test/user/회원_회원탈퇴완료.png" alt="user13" style="width: 80%; height: auto;">
-  <br>: 회원 탈퇴 완료  
-  <br><br>
-</details>
-
-<details>
-  <summary><b>로그인 아이디 찾기</b></summary>
-
-  1. 이메일 발송  
-  <br>
-  <img src="./assets/test/user/일반회원_로그인아이디찾기이메일.png" alt="user14" style="width: 80%; height: auto;">
-  <br>: 로그인 아이디 찾기를 위한 인증용 이메일 발송  
-  <br><br>
-  2. 인증 번호  
-  <br>
-  <img src="./assets/test/user/일반회원_로그인아이디찾기인증번호확인.png" alt="user15" style="width: 80%; height: auto;">
-  <br>: 인증 번호 인증 완료  
-  <br><br>
-  3. 로그인 찾기 완료  
-  <br>
-  <img src="./assets/test/user/일반회원_로그인아이디찾기완료.png" alt="user16" style="width: 80%; height: auto;">
-  <br>: 회원의 아이디 반환  
-  <br><br>
-</details>
-
-<details>
-  <summary><b>비밀번호 재설정</b></summary>
-
-  1. 이메일 발송  
-  <br>
-  <img src="./assets/test/user/일반회원_비밀번호재설정이메일.png" alt="user17" style="width: 80%; height: auto;">
-  <br>: 재설정 이메일 발송  
-  <br><br>
-  2. 인증 번호  
-  <br>
-  <img src="./assets/test/user/일반회원_비밀번호재설정인증번호확인.png" alt="user18" style="width: 80%; height: auto;">
-  <br>: 인증 번호 인증 완료  
-  <br><br>
-  3. 비밀번호 재설정 오류  
-  <br>
-  <img src="./assets/test/user/일반회원_비밀번호재설정_오류.png" alt="user19" style="width: 80%; height: auto;">
-  <br>: 특수문자 누락으로 실패  
-  <br><br>
-  4. 비밀번호 재설정 완료  
-  <br>
-  <img src="./assets/test/user/일반회원_비밀번호재설정완료.png" alt="user20" style="width: 80%; height: auto;">
-  <br>: 성공적으로 재설정 완료  
-  <br><br>
-</details>
-
-<details>
-  <summary><b>비밀번호 변경</b></summary>
-
-  1. 이메일 발송  
-  <br>
-  <img src="./assets/test/user/일반회원_비밀번호변경이메일.png" alt="user21" style="width: 80%; height: auto;">
-  <br>: 변경 요청 시 인증 이메일 발송  
-  <br><br>
-  2. 인증 번호  
-  <br>
-  <img src="./assets/test/user/일반회원_비밀번호변경인증번호확인.png" alt="user22" style="width: 80%; height: auto;">
-  <br>: 인증 완료  
-  <br><br>
-  3. 비밀번호 변경 완료  
-  <br>
-  <img src="./assets/test/user/일반회원_비밀번호변경완료.png" alt="user23" style="width: 80%; height: auto;">
-  <br>: 비밀번호 변경 완료  
-  <br><br>
-</details>
-
-<details>
-  <summary><b>회원 정보 수정</b></summary>
-
-  1. 닉네임 / IT 기사 구독 여부 수정  
-  <br>
-  <img src="./assets/test/user/회원_닉네임,it구독여부수정.png" alt="user24" style="width: 80%; height: auto;">
-  <br>: 중복 닉네임 불가, 구독 여부 변경 가능  
-  <br><br>
-</details>
-
-<details>
-  <summary><b>개발자 성향 테스트 저장</b></summary>
-
-  1. 성향 테스트 결과 저장  
-  <br>
-  <img src="./assets/test/user/회원_개발자성향테스트저장.png" alt="user25" style="width: 80%; height: auto;">
-  <br>: 테스트 결과 저장 완료  
-  <br><br>
-</details>
 
 <details>
   <summary><b>마이페이지 내의 회원 정보 조회</b></summary>
 
-1. 기본 정보 조회  
+1. 기본 정보 조회  (해야함)
   <br>
   <img src="./assets/test/user/회원_마이페이지정보조회.png" alt="user26" style="width: 80%; height: auto;">
   <br>: 이메일, 닉네임, 구독 여부 등 조회  
@@ -688,124 +521,15 @@ src/
    <br><br>
 </details>
 
+</detail>
 <br>
 
 ### 📝 게시글 테스트
 
 <details>
-  <summary><b>게시글 업로드</b></summary>
-  1. 게시글 업로드
-  <br>
-  <img src="https://github.com/user-attachments/assets/9979f153-f1aa-49ec-a027-30c6e289ccb9" alt="게시글 업로드 예시" style="width: 80%; height: auto;">
-  <br>각 필드에 대한 입력 유효성 검사와 파일 첨부 기능 등이 포함됩니다.
 </details>
-
-<details>
-  <summary><b>게시글 수정</b></summary>
-  1. 게시글 수정
-  <br>
-  <img src="https://github.com/user-attachments/assets/ecd6bc39-f368-4e42-8372-1f7824c4a5bc" alt="게시글 수정 예시" style="width: 80%; height: auto;">
-  <br>수정 시 변경된 내용이 정상적으로 반영되는지와 편집 전후 데이터 비교 기능 등을 확인합니다.
-</details>
-
-<details>
-  <summary><b>게시글 삭제</b></summary>
-  1. 게시글 삭제
-  <br>
-  <img src="https://github.com/user-attachments/assets/26f60396-b3ff-4867-bef7-8c2a5f2e9b32" alt="게시글 삭제 예시" style="width: 80%; height: auto;">
-  <br>삭제 전 확인 메시지와 실제 데이터베이스에서 삭제 처리가 되는지를 테스트합니다.
-</details>
-
-<details>
-  <summary><b>하위 카테고리 목록 조회</b></summary>
-  1. 하위 카테고리 목록 조회
-  <br>
-  <img src="https://github.com/user-attachments/assets/db528f3c-bbef-450c-b280-078fee3cab65" alt="하위 카테고리 목록 조회 예시" style="width: 80%; height: auto;">
-  <br>계층 구조가 제대로 표시되고, 클릭 시 해당 카테고리로 이동되는지 확인합니다.
-</details>
-
-<details>
-  <summary><b>게시글 상세 조회</b></summary>
-  1. 게시글 상세 조회
-  <br>
-  <img src="https://github.com/user-attachments/assets/bd8cabe1-b318-40b9-8a6e-de6412781b24" alt="게시글 상세 조회 예시" style="width: 80%; height: auto;">
-  <br>게시글 내용, 작성자 정보, 작성일, 댓글 및 추천 수 등의 정보가 올바르게 표시되는지 확인합니다.
-</details>
-
-<details>
-  <summary><b>게시글 검색 (작성일, 작성자, 제목)</b></summary>
-  1. 게시글 검색 (작성일, 작성자, 제목)
-  <br>
-  <img src="https://github.com/user-attachments/assets/787dd012-6f0f-4849-880b-2557afa9ff77" alt="게시글 검색 (필터) 예시" style="width: 80%; height: auto;">
-  <br>조건에 맞는 게시글이 올바르게 필터링되어 나타나는지 확인합니다.
-</details>
-
-<details>
-  <summary><b>게시글 검색 (게시글 내용 필터)</b></summary>
-  1. 게시글 내용 필터
-  <br>
-  <img src="https://github.com/user-attachments/assets/269fe4e7-03b5-480e-86ee-e704c4292d61" alt="게시글 내용 필터 예시" style="width: 80%; height: auto;">
-  <br>검색 결과에 불필요한 게시글이 노출되지 않고, 정확하게 필터링되는지 확인합니다.
-</details>
-
 
 <br>
-
-### 💬 댓글 테스트
-
-<details>
-    <summary><b>게시글 내 댓글 조회 기능</b></summary>
-    1. 게시글 내 댓글 조회 기능
-    <br>
-    <img src="./assets/test/comment/게시글 내 댓글, 대댓글 조회.png" alt="게시글 내 댓글, 대댓글 조회" style="width: 80%; height: auto;">
-    <br>: 게시글 내 댓글 및 대댓글을 조회할 수 있다.
-</details>
-<details>
-        <summary><b>댓글 작성</b></summary>
-        2. 댓글 작성
-        <br>
-        <img src="./assets/test/comment/댓글작성.png" alt="댓글작성" style="width: 80%; height: auto;">
-        <br>사용자는 게시글ID와 댓글을 전송하여여 댓글을 작성할 수 있다.
-</details>
-<details>
-        <summary><b>대댓글 작성</b></summary>
-            3. 대댓글 작성
-             <br>
-              <img src="./assets/test/comment/대댓글 작성.png" alt="대댓글 작성" style="width: 80%; height: auto;">
-            <br>사용자는 게시글ID와 댓글을 전송하여여 대댓글을 작성할 수 있다.
-</details>
-<details>
-        <summary><b>댓글 삭제</b></summary>
-            4. 댓글 삭제
-             <br>
-              <img src="./assets/test/comment/댓글 삭제.png" alt="댓글 삭제" style="width: 80%; height: auto;">
-            <br>사용자는 특정 댓글의 id를 이용하여 댓글을 삭제할 수 있다.
-</details>
-<details>
-        <summary><b>댓글,대댓글 수정</b></summary>
-            5. 댓글,대댓글 수정
-             <br>
-              <img src="./assets/test/comment/댓글, 대댓글 수정.png" alt="댓글, 대댓글 수정" style="width: 80%; height: auto;">
-            <br>사용자는 특정 댓글의 id를 이용하여 댓글을 수정할 수 있다.
-</details>
-<details>
-        <summary><b>내가 쓴 댓글, 대댓글 조회</b></summary>
-            6.내가 쓴 댓글, 대댓글 조회
-             <br>
-              <img src="./assets/test/comment/내가 쓴 댓글, 대댓글 조회.png" alt="내가 쓴 댓글, 대댓글 조회" style="width: 80%; height: auto;">
-            <br>사용자는 자신이 작성한 댓글 및 대댓글을 조회할 수 있다.
-</details>
-<details>
-        <summary><b>신고 된 내 댓글 조회</b></summary>
-            7. 신고 된 내 댓글 조회
-             <br>
-              <img src="./assets/test/comment/신고된 내 댓글 조회.png" alt="신고 된 내 댓글 조회" style="width: 80%; height: auto;">
-            <br>사용자는 신고된 자신의 댓글을 조회할 수 있다.
-</details>
-<br>
-
-### 🗳️ 투표 테스트
-
 
 <br>
 
@@ -834,6 +558,13 @@ src/
 </details>
 
 <br>
+
+### 🎤 모의면접 테스트
+
+<details>
+</details>
+<br>
+
 
 ### 🧠 CS 퀴즈 테스트 (완)
 
@@ -940,7 +671,7 @@ src/
 </details>
 
 
-### 💬 채팅 테스트
+### 💬 채팅 테스트(완)
 
 <details>
     <summary><b>채팅방 기능</b></summary>
@@ -1029,132 +760,33 @@ src/
 
 <br>
 
-### 🎤 모의면접 테스트
-
-<details>
-    <summary><b>관리자 - 조회</b></summary>
-    1. 관리자 모의 면접방 전체 목록 조회
-    <br>
-    <img src="./assets/test/interview/관리자 면접방 전체 목록 조회.png" alt="interview1" style="width: 80%; height: auto;">
-    <br>: 관리자는 사용자가 만든 모의 면접방 전체 목록을 조회할 수 있음
-    <br><br>
-    2. 관리자 모의 면접방 필터링 조회
-    <br>
-    <img src="./assets/test/interview/관리자 면접방 필터링 조회.png" alt="interview2" style="width: 80%; height: auto;">
-    <br>: 관리자는 사용자가 만든 모의 면접방을 필터링 해서 조회할 수 있음
-    <br><br>
-</details>
-<details>
-    <summary><b>사용자 - 조회</b></summary>
-    1. 사용자 모의 면접방 목록 조회
-    <br>
-    <img src="./assets/test/interview/사용자 면접방 목록 조회.png" alt="interview3" style="width: 80%; height: auto;">
-    <br>: 사용자는 본인이 만든 모의 면접방 목록을 조회할 수 있음
-    <br><br>
-    2. 사용자 모의 면접방 상세 조회
-    <br>
-    <img src="./assets/test/interview/면접방 상세 조회.png" alt="interview4" style="width: 80%; height: auto;">
-    <img src="./assets/test/interview/면접방 상세 조회2.png" alt="interview5" style="width: 80%; height: auto;">
-    <img src="./assets/test/interview/면접방 상세 조회3.png" alt="interview6" style="width: 80%; height: auto;">
-    <br>: 사용자는 본인의 모의 면접방 상세 조회를 할 수 있음
-    <br><br>
-    4. 사용자 모의 면접방 총평 조회
-    <br>
-    <img src="./assets/test/interview/면접방 총평 조회.png" alt="interview7" style="width: 80%; height: auto;">
-    <br>: 사용자는 본인이 만든 모의 면접방의 총평을 조회할 수 있음
-    <br><br>
-</details>
-<details>
-    <summary><b>모의 면접방 생성</b></summary>
-    1. 생성
-    <br>
-    <img src="./assets/test/interview/면접방 생성.png" alt="interview8" style="width: 80%; height: auto;">
-    <br>: 사용자는 모의 면접방을 생성할 수 있음
-    <br><br>
-</details>
-<details>
-    <summary><b>모의 면접방 제목, 메모 수정</b></summary>
-    1. 수정
-    <br>
-    <img src="./assets/test/interview/면접방 제목 및 메모 수정.png" alt="interview9" style="width: 80%; height: auto;">
-    <br>: 사용자는 모의 면접방의 제목 및 메모를 수정할 수 있음
-    <br><br>
-</details>
-<details>
-    <summary><b>모의 면접방 사용</b></summary>
-    1. 대화
-    <br>
-    <img src="./assets/test/interview/면접방 대화.png" alt="interview10" style="width: 80%; height: auto;">
-    <img src="./assets/test/interview/면접방 대화.png" alt="interview11" style="width: 80%; height: auto;">
-    <img src="./assets/test/interview/면접방 대화.png" alt="interview12" style="width: 80%; height: auto;">
-    <br>: 사용자는 모의 면접방의 제목 및 메모를 수정할 수 있음
-    <br><br>
-</details>
-<details>
-    <summary><b>모의 면접방 재실행</b></summary>
-    1. 대화
-    <br>
-    <img src="./assets/test/interview/면접방 질문 재실행.png" alt="interview13" style="width: 80%; height: auto;">
-    <br>: 사용자는 모의 면접방을 재실행 할 수 있음
-    <br><br>
-</details>
-<br>
-
 
 
 
 
 <br>
 
-### 🚨 신고 테스트
+### 🚨 신고 테스트(완)
 
-<details>
-  <summary><b>게시글 신고</b></summary>
-  1. 게시글 신고(일반)
-  <br>
-  <img src="https://github.com/user-attachments/assets/c52c6a38-5652-405a-9af0-0e5e66c68a46" alt="게시글 신고(일반)" style="width: 80%; height: auto;">
-  <br>
-  2. 게시글 신고(중복)
-  <br>
-  <img src="https://github.com/user-attachments/assets/03567cdc-c364-44ff-9fea-6324523d7c42" alt="게시글 신고(중복)" style="width: 80%; height: auto;">
-  <br> 게시글 신고 시 중복 예외 처리
-</details>
-
-<details>
-  <summary><b>댓글 신고</b></summary>
-  1. 댓글 신고(일반)
-  <br>
-  <img src="https://github.com/user-attachments/assets/ac6fc59e-7288-4a57-ad54-a93bb7391f8e" alt="댓글 신고(일반)" style="width: 80%; height: auto;">
-   <br><br>
-  2. 댓글 신고(중복)
-  <br>
-  <img src="https://github.com/user-attachments/assets/b1fc9e0a-5350-4dec-9081-f64cbd40729b" alt="댓글 신고(중복)" style="width: 80%; height: auto;">
-  <br> 댓글 신고 시 중복 예외 처리
-  <br>
-</details>
-
-<details>
-  <summary><b>관리자 신고 검토 리스트 조회</b></summary>
-  1. 관리자 신고 검토 리스트 조회
-  <br>
-  <img src="https://github.com/user-attachments/assets/050f3d15-9df8-4f50-a437-913d41b1a13f" alt="관리자 신고 검토 리스트 조회" style="width: 80%; height: auto;">
-  <br> 관리자가 신고 검토 요청 리스트를 조회
-</details>
-
-<details>
-  <summary><b>관리자 신고 검토 처리</b></summary>
-  1. 관리자 신고 검토 처리
-  <br>
-  <img src="https://github.com/user-attachments/assets/283cef1c-1ebe-4882-b9f7-9785408bbf2b" alt="관리자 신고 검토 처리" style="width: 80%; height: auto;">
-  <br> 관리자가 신고 검토 요청을 처리
-  <br>
-  2. 관리자 신고 검토 처리(중복)
-  <br>
-  <img src="https://github.com/user-attachments/assets/35e63c95-3389-47e5-969a-a7165e889986" alt="관리자 신고 검토 리스트 조회" style="width: 80%; height: auto;">
-  <br> 관리자가 신고 검토 요청 처리 시 중복 예외 처리
-</details>
-</details>
+<details> <summary><b>신고 기능</b></summary>
+1. 게시글 신고
 <br>
+<img src="./assets/test/report/게시글 신고.gif" alt="report1" style="width: 80%; height: auto;"> <br>: 사용자는 게시글을 신고할 수 있다. <br><br>
+2. 댓글 신고
+<br>
+<img src="./assets/test/report/댓글 신고.gif" alt="report2" style="width: 80%; height: auto;"> <br>: 사용자는 댓글을 신고할 수 있다. <br><br>
+3. 신고 조회 및 반려 처리
+<br>
+<img src="./assets/test/report/신고-조회-및-반려-처리.gif" alt="report3" style="width: 80%; height: auto;"> <br>: 관리자는 신고된 내용을 조회하고 반려할 수 있다. <br><br>
+4. 신고 조회 및 삭제 처리
+<br>
+<img src="./assets/test/report/신고-조회-및-삭제-처리.gif" alt="report4" style="width: 80%; height: auto;"> <br>: 관리자는 신고된 내용을 조회하고 해당 게시글이나 댓글을 삭제 처리할 수 있다. 
+<br><br> 
+</details>
+
+
+<br>
+</details>
 
 <h1 id="featuresheet">📋 기능 명세서</h1>
 
@@ -1169,3 +801,4 @@ src/
 <h1 id="ournotionpage">3️⃣ Our Notion Page</h1>
 <a href="https://www.notion.so/be15_2nd_FreePath-DevPath-1b62fdb1414880c1903ad52d9dd08ac8?pvs=4"><text><strong>| 📓 Notion Page Link |</strong></text></a>
 <br><br>
+
