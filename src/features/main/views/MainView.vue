@@ -21,10 +21,10 @@ onMounted(() => {
       </div>
 
       <!-- 자유게시판 (카테고리 ID: 1) -->
-      <MainContentBoard title="자유게시판" :categoryId="1" />
+      <MainContentBoard title="자유 게시판" :categoryId="1" />
 
       <!-- 직무게시판 (카테고리 ID: 2) -->
-      <MainContentBoard title="직무게시판" :categoryId="2" />
+      <MainContentBoard title="직무 정보 게시판" :categoryId="2" />
     </div>
   </div>
 </template>
