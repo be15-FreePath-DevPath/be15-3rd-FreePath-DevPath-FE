@@ -86,6 +86,7 @@ defineProps({
   border-bottom: 1px solid #e0e0e0;
   font-size: 12px;
   width: 450px;
+  gap:10px;
 }
 
 .board-header-row {
@@ -108,13 +109,13 @@ defineProps({
 }
 
 .board-col.user {
-  width: 150px;
-  flex: 0 0 150px;
+  width: 110px;
+  flex: 0 0 100px;
 }
 
 .board-col.title {
-  width: 160px;
-  flex: 0 0 160px;
+  flex: 1;
+  min-width: 180px;
 }
 
 .user-img {
