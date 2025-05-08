@@ -15,11 +15,8 @@ export function verifyEmail(data) {
     return api.post('/user/verify-email', data)
 }
 
-export function changeEmail(currentEmail, newEmail) {
-    return api.post('user/change-email', {
-        currentEmail,
-        newEmail
-    });
+export function changeEmail(data) {
+    return api.post('/user/change-email', data);
 }
 
 export function changePassword(data) {

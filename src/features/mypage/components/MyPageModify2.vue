@@ -1,11 +1,9 @@
 <script setup>
-import {ref, computed, watch, onMounted} from 'vue'
-import {useRouter} from 'vue-router'
+import { ref, computed, watch, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
 // API 함수
-import {verifyEmail, userInfo, changeEmail} from '@/features/mypage/api'  // 기존 userInfo 추가
-import {emailCheck} from "@/features/user/api.js";
-import {errorMap} from '@/features/user/errorcode'
+import { verifyEmail, userInfo } from '@/features/mypage/api'
 
 // 컴포넌트들
 import MyPageBoardLarge from "@/features/mypage/components/MyPageBoardLarge.vue"
@@ -72,7 +70,6 @@ onMounted(async () => {
     email.value = data.email || ''
     originalEmail.value = email.value
 
-    // 입력창은 비워두기
     displayEmail.value = ''
   } catch (error) {
     alert('유저 정보를 가져오는 중 오류가 발생했습니다.')
@@ -87,15 +84,19 @@ async function handleEmailChange() {
 
   isLoading.value = true
   try {
-    // 입력값을 서버용 이메일에 복사
     email.value = displayEmail.value
+
+    // ✅ 콘솔 로그 추가
+    console.log('verifyEmail 호출:', {
+      email: email.value,
+      purpose: purpose.value
+    })
 
     await verifyEmail({
       email: email.value,
       purpose: purpose.value
     })
 
-    // 인증 이메일을 성공적으로 발송한 후 인증 화면 표시
     verifyVisible.value = true
   } catch (error) {
     const code = error.response?.data?.errorCode
@@ -111,72 +112,31 @@ async function handleEmailChange() {
   }
 }
 
-// 이메일 인증 번호 확인
-async function handleVerifyCode() {
-  if (!verificationCode.value) {
-    return
-  }
-
-  isLoading.value = true
-  try {
-    const response = await emailCheck({
-      email: email.value,
-      verificationCode: verificationCode.value
-    })
-
-    if (response.data.isVerified) {
-      await changeEmail({email: email.value})
-
-      showModal('이메일 변경 완료', '이메일 변경이 완료되었습니다.')
-
-      // 원본 이메일 갱신
-      originalEmail.value = email.value
-      displayEmail.value = ''
-      verifyVisible.value = false
-    } else {
-      showModal('인증 실패', '인증번호가 잘못되었습니다. 다시 시도해 주세요.')
-    }
-  } catch (error) {
-    const code = error.response?.data?.errorCode
-    const message = error.response?.data?.message
-
-    if (code && errorMap[code]) {
-      showModal(errorMap[code].title, message || errorMap[code].subtitle)
-    } else {
-      showModal('알 수 없는 오류', message || '잠시 후 다시 시도해 주세요.')
-    }
-  } finally {
-    isLoading.value = false
-  }
-}
 </script>
 
 <template>
   <MyPageBoardLarge title="이메일 수정">
-    <!-- 이메일 입력 -->
-      <MyPageInput
-          v-model="displayEmail"
-          label="새 이메일"
-          placeholder="새 이메일을 입력해주세요"
+    <MyPageInput
+        v-model="displayEmail"
+        label="새 이메일"
+        placeholder="새 이메일을 입력해주세요"
+    />
+    <template #withButton>
+      <p class="helper-text">기존 이메일: {{ originalEmail }}</p>
+
+      <MyPageButtonUpdate
+          text="수정하기"
+          @click="isModified ? handleEmailChange() : null"
+          :disabled="!isModified"
       />
-      <template #withButton>
-        <p class="helper-text">기존 이메일: {{ originalEmail }}</p>
+    </template>
 
-        <!-- 이메일 수정 버튼 -->
-        <MyPageButtonUpdate
-            text="수정하기"
-            @click="isModified ? handleEmailChange() : null"
-            :disabled="!isModified"
-        />
-      </template>
+    <p v-if="isLoading" class="loading-message">
+      입력하신 이메일로 인증 번호 보내는 중{{ loadingDots }}
+    </p>
 
-      <!-- 로딩 중 메시지 -->
-      <p v-if="isLoading" class="loading-message">
-        입력하신 이메일로 인증 번호 보내는 중{{ loadingDots }}
-      </p>
-
-    <!-- 인증 화면 -->
     <template v-if="verifyVisible">
+      <!-- MyPageVerify로 이메일과 목적을 전달 -->
       <MyPageVerify
           :email="email"
           :current-email="originalEmail"
@@ -186,7 +146,6 @@ async function handleVerifyCode() {
     </template>
   </MyPageBoardLarge>
 
-  <!-- 모달 -->
   <UserModal
       v-if="isModalOpen"
       :title="modalTitle"
@@ -194,7 +153,6 @@ async function handleVerifyCode() {
       @close="isModalOpen = false"
   />
 </template>
-
 
 <style scoped>
 .loading-message {
