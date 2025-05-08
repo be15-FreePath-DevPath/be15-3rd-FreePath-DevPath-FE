@@ -1,8 +1,55 @@
 <script setup>
-defineProps({
+  import { ref, onMounted, defineProps } from 'vue';
+  import { fetchPostList } from '@/features/board/api.js';
+
+  const props = defineProps({
   title: String,
-  boardItems: Array
-})
+  categoryId: Number
+});
+
+  console.log("categoryId:", props.categoryId);
+
+  const params = ref({
+  page: 1,
+  size: 10,
+  categoryId: props.categoryId,
+  keyWord: undefined,
+  nickname: undefined,
+  startDate: undefined,
+  endDate: undefined,
+});
+
+  const boardItems = ref([]);
+
+  // 게시글 목록 조회
+  const loadPostList = async () => {
+  try {
+  const response = await fetchPostList(params.value);
+  console.log('게시글 목록:', response.data);
+  boardItems.value = response.data.data.posts; // posts 배열만 추출
+} catch (error) {
+  console.error('게시글 목록 조회 실패:', error);
+  boardItems.value = [];
+}
+};
+
+  // 날짜 포맷 함수
+  const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
+  onMounted(() => {
+  loadPostList();
+});
+
+  // template에서 formatDate를 사용하려면 expose 필요
+  defineExpose({
+  formatDate
+});
 </script>
 
 <template>
@@ -24,22 +71,28 @@ defineProps({
       </div>
 
       <!-- 게시글 목록 -->
-      <div
-          v-for="(item, index) in boardItems"
-          :key="index"
-          class="board-row"
-      >
-        <div class="board-col date">
-          <img src="@/assets/images/board/CalendarIcon.png" alt="calendar" class="calendar-icon" />
-          {{ item.date }}
+      <div v-if="boardItems.length > 0">
+        <div
+            v-for="(item, index) in boardItems"
+            :key="index"
+            class="board-row"
+        >
+          <div class="board-col date">
+            <img src="@/assets/images/board/CalendarIcon.png" alt="calendar" class="calendar-icon" />
+            {{ formatDate(item.boardCreatedAt) }}
+          </div>
+          <div class="board-col user">
+            {{ item.nickname }}
+          </div>
+          <div class="board-col title">
+            <span class="title-text">{{ item.boardTitle }}</span>
+          </div>
         </div>
-        <div class="board-col user">
-          <img :src="item.userImage" alt="user" class="user-img" />
-          {{ item.user }}
-        </div>
-        <div class="board-col title">
-          <span class="title-text">{{ item.title }}</span>
-        </div>
+      </div>
+
+      <!-- 게시물이 없을 때 -->
+      <div v-else class="board-row no-posts">
+        작성된 게시물이 없습니다
       </div>
     </div>
   </div>
@@ -51,6 +104,7 @@ defineProps({
   padding: 20px;
   border-radius: 16px;
   width: 494px;
+  height: 450px;
 }
 
 .board-header {
