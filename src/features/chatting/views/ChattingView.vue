@@ -113,11 +113,13 @@ const groupChattingAccept = async (userId,action) => {
     await putGroupChattingAccept(payload);
     modalTitle.value = '참여 요청 처리 완료';
     modalSubtitle.value = '참여 요청을 처리했습니다.'
+
   }catch(e){
     modalTitle.value = '참여 요청 처리 실패';
     modalSubtitle.value = '알수 없는 오류가 발생했습니다.'
   }
   isUserModal.value = true;
+  await fetchChattingRoomList();
 }
 
 const renameRoom = async (newName) => {
