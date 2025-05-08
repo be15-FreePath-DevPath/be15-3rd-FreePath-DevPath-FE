@@ -39,21 +39,22 @@ async function verify() {
 
   try {
     const res = await emailCheck(props.email, authNum.value, props.purpose)
-
-    if (res.data.isVerified) {
-      // 인증 성공 시 이메일 변경 API 호출
+    console.log("API 응답:", res);
+    if (res.data.success) {
       await changeEmail({
         currentEmail: props.currentEmail,
         newEmail: props.email
-      })
+      });
 
-      // 모달로 성공 알림
+      console.log("확인2");
+
       modalTitle.value = 'Success!'
       modalSubtitle.value = '이메일이 성공적으로 변경되었습니다.'
       showModal.value = true
 
-      // 부모에게 성공 이벤트 emit
       emit('verify-success')
+      console.log("확인3");
+
     } else {
       showModal.value = true
       modalTitle.value = '인증 실패'
@@ -75,7 +76,6 @@ async function verify() {
 }
 </script>
 
-
 <template>
   <div class="content">
     <MyPageInput
@@ -87,7 +87,7 @@ async function verify() {
         text="인증 하기"
         :icon="Check"
         :bgColor="'#E5ECF6'"
-    @click="verify"
+        @click="verify"
     />
 
     <!-- 인증 실패 시 모달 -->

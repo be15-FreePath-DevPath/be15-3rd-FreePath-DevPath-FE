@@ -11,162 +11,159 @@ import InterviewQuestionCard from '@/features/interview/components/InterviewQues
 import InterviewReexecuteModal from '@/features/interview/components/InterviewReexecuteModal.vue'
 import ReexecutedListModal from '@/features/interview/components/ReexecutedListModal.vue'
 
-const newBreadCrumbItems = ref(['모의 면접', '모의 면접 목록']);
-const emit = defineEmits(['updateBreadCrumb']);
 const route = useRoute()
 const router = useRouter()
+const emit = defineEmits(['updateBreadCrumb'])
+const newBreadCrumbItems = ref(['모의 면접', '모의 면접 목록'])
 
 const interview = reactive({})
 const questions = ref([])
 const totalComment = ref('')
 const reexecutedRooms = ref([])
 const titleText = ref('')
-const memoText = ref('');
+const memoText = ref('')
 const roomId = ref(route.params.interviewRoomId)
+const isReexecuting = ref(false)
 
 const showReexecuteModal = ref(false)
 const showReexecutedListModal = ref(false)
-const isHoveringTitle = ref(false);
+const isHoveringTitle = ref(false)
 const isEditingTitle = ref(false)
 
 const startEditingTitle = () => {
   isEditingTitle.value = true
 }
 
-let isSaving = false;
+let isSaving = false
 const saveTitle = async () => {
-  if (isSaving) return; // 중복 방지
-  isSaving = true;
-
-  isEditingTitle.value = false;
+  if (isSaving) return
+  isSaving = true
+  isEditingTitle.value = false
   try {
-    await updateInterviewInfo(interview.interviewRoomId, titleText.value, memoText.value);
-    alert('제목이 저장되었습니다.');
-  } catch (err) {
-    console.error('제목 저장 실패:', err);
-    alert('제목 저장에 실패했습니다.');
+    await updateInterviewInfo(interview.interviewRoomId, titleText.value, memoText.value)
+    alert('제목이 저장되었습니다.')
+  } catch {
+    alert('제목 저장에 실패했습니다.')
   } finally {
-    isSaving = false;
+    isSaving = false
   }
 }
-
-const closeReexecuteModal = () => showReexecuteModal.value = false
-const closeReexecutedListModal = () => showReexecutedListModal.value = false
-
-const handleReexecute = async ({ strictness }) => {
-  try {
-    const response = await reexecuteInterviewRoom(roomId.value, strictness)
-    const newRoom = response.data.data
-
-    await router.push({
-      path: `/interview/progress/${newRoom.interviewRoomId}`,
-      query: {
-        title: newRoom.interviewRoomTitle,
-        category: newRoom.interviewCategory,
-        difficulty: newRoom.difficultyLevel,
-        strictness: newRoom.evaluationStrictness,
-        firstQuestion: newRoom.firstQuestion
-      }
-    })
-  } catch (err) {
-    console.error('면접 재실행 실패:', err)
-    alert('면접을 재실행하는 데 실패했습니다.')
-  } finally {
-    showReexecuteModal.value = false
-  }
-}
-
-
-const goBack = () => {
-  router.push('/interview/list')
-}
-
-const handleDelete = async () => {
-  if (!confirm('정말 이 면접방을 삭제하시겠습니까?')) return;
-  try {
-    await deleteInterviewRoom(roomId.value)
-    alert('면접방이 삭제되었습니다.')
-    await router.push('/interview/list') // 목록 페이지로 이동
-  } catch (err) {
-    console.error('면접방 삭제 실패:', err)
-    alert('삭제 중 문제가 발생했습니다.')
-  }
-}
-
-watch(interview, (newVal) => {
-  memoText.value = newVal?.interviewRoomMemo || ''
-  titleText.value = newVal?.interviewRoomTitle || ''
-}, { immediate: true })
 
 const handleSaveMemo = async () => {
   try {
     await updateInterviewInfo(interview.interviewRoomId, titleText.value, memoText.value)
     alert('메모가 저장되었습니다.')
-  } catch (err) {
-    console.error('메모 저장 실패:', err)
+  } catch {
     alert('메모 저장에 실패했습니다.')
   }
 }
 
-const loadInterviewDetail = async (roomId) => {
+const closeReexecuteModal = () => (showReexecuteModal.value = false)
+const handleReexecute = async ({ strictness }) => {
+  isReexecuting.value = true
   try {
-    const response = await fetchInterviewDetail(roomId)
-    const data = response.data.data
-    console.log('받은 데이터:', data)
+    const resp = await reexecuteInterviewRoom(roomId.value, strictness)
+    const { interviewRoomId, interviewRoomTitle, questions: newQs } = resp.data.data
+    await router.push({
+      path: `/interview/progress/${interviewRoomId}`,
+      query: {
+        title:      interviewRoomTitle,
+        category:   interview.interviewCategory,
+        difficulty: interview.difficultyLevel,
+        strictness: interview.evaluationStrictness,
+        questions:  JSON.stringify(newQs)
 
-    Object.assign(interview, data)
-
-    // 질문/답변/평가 파싱
-    const tempQuestions = []
-    let buffer = []
-
-    if (data.interviewList) {
-      data.interviewList.forEach((item) => {
-        const message = item.interviewMessage
-        if (message.startsWith('[총평]')) {
-          totalComment.value = message.replace('[총평]', '').trim()
-          return
-        }
-
-        if (message.startsWith('[면접 질문]')) {
-          if (buffer.length) tempQuestions.push([...buffer])
-          buffer = [message]
-        } else {
-          buffer.push(message)
-        }
-      })
-      if (buffer.length) tempQuestions.push([...buffer])
-    }
-
-    questions.value = tempQuestions
-
-    reexecutedRooms.value = data.reexecutedRooms?.map((room) => {
-      const dateObj = new Date(room.interviewRoomCreatedAt)
-      const formattedDate = dateObj.toLocaleDateString('ko-KR', {
-        year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'short'
-      }).replace(/\. /g, '.').replace('.', '')
-
-      return {
-        id: room.interviewRoomId,
-        title: room.interviewRoomTitle,
-        date: formattedDate,
-        score: room.averageScore ?? null
       }
-    }) || []
-
-  } catch (err) {
-    console.error('상세 조회 실패:', err)
+    })
+  } catch {
+    alert('면접 재실행 중 오류')
+  } finally {
+    isReexecuting.value = false
+    closeReexecuteModal()
   }
 }
 
+const handleDelete = async () => {
+  if (!confirm('정말 삭제하시겠습니까?')) return
+  try {
+    await deleteInterviewRoom(roomId.value)
+    alert('삭제되었습니다')
+    router.push('/interview/list')
+  } catch {
+    alert('삭제가 실패되었습니다')
+  }
+}
+
+const loadInterviewDetail = async (id) => {
+  try {
+    const { data } = await fetchInterviewDetail(id)
+    Object.assign(interview, data.data)
+    titleText.value = data.data.interviewRoomTitle
+    memoText.value = data.data.interviewRoomMemo || ''
+
+    // --- 질문/답변/평가 파싱 ---
+    const parsed = []
+    const list   = data.data.interviewList
+
+    list.forEach((item, idx) => {
+      // 1) 총평 분리
+      if (item.interviewMessage.startsWith('[총평]')) {
+        totalComment.value = item.interviewMessage.replace('[총평]', '').trim()
+        return
+      }
+
+      // 2) AI 질문만 골라서
+      if (item.interviewRole === 'AI' &&
+          item.interviewMessage.startsWith('[면접 질문]')) {
+
+        // 3) 이 질문 이후에 나오는 첫 USER 답변 찾기
+        const userItem = list.slice(idx + 1)
+            .find(x => x.interviewRole === 'USER')
+        const answerMsg = userItem?.interviewMessage || ''
+
+        // 4) 그 다음 나오는 AI 평가 찾기
+        const evalItem = list.slice(idx + 1)
+            .find(x =>
+                x.interviewRole === 'AI' &&
+                x.interviewMessage.startsWith('[답변 평가]')
+            )
+        const evalMsg = evalItem?.interviewMessage || ''
+
+        // 5) 하나의 세트로 push
+        parsed.push([
+          item.interviewMessage,  // 질문
+          answerMsg,              // 답변
+          evalMsg                 // 평가
+        ])
+      }
+    })
+
+    questions.value = parsed
+
+    reexecutedRooms.value = data.data.reexecutedRooms.map(room => ({
+      id: room.interviewRoomId,
+      title: room.interviewRoomTitle,
+      date: new Date(room.interviewRoomCreatedAt).toLocaleDateString('ko-KR', {
+        year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'short'
+      }).replace(/\. /g, '.').replace('.', ''),
+      score: room.averageScore || null
+    }))
+  } catch {
+    console.error('상세조회 실패')
+  }
+}
+
+const goBack = () => router.push('/interview/list')
+
 onMounted(() => {
   emit('updateBreadCrumb', newBreadCrumbItems.value)
-  loadInterviewDetail(route.params.interviewRoomId)
+  loadInterviewDetail(roomId.value)
 })
 
-watch(() => route.params.interviewRoomId, (newId) => {
-  loadInterviewDetail(newId)
-  window.scrollTo(0, 0)
+watch(() => route.params.interviewRoomId, id => {
+  roomId.value = id
+  loadInterviewDetail(id)
+  window.scrollTo(0,0)
 })
 </script>
 
@@ -201,13 +198,13 @@ watch(() => route.params.interviewRoomId, (newId) => {
           </h2>
           <div class="view">
             <span class="info-text-2">카테고리 : </span>
-            <span class="info-text-2">{{ interview.interviewCategory?.toUpperCase() ?? '-' }}</span>
+            <span class="info-text-2">{{ interview.interviewCategory?.toUpperCase() || '-' }}</span>
             <span class="info-text-div"> | </span>
             <span class="info-text-2">난이도 : </span>
-            <span class="info-text-2">{{ interview.difficultyLevel?.toUpperCase() ?? '-' }}</span>
+            <span class="info-text-2">{{ interview.difficultyLevel?.toUpperCase() || '-' }}</span>
             <span class="info-text-div"> | </span>
             <span class="info-text-2">평가 : </span>
-            <span class="info-text-2">{{ interview.evaluationStrictness?.toUpperCase() ?? '-' }}</span>
+            <span class="info-text-2">{{ interview.evaluationStrictness?.toUpperCase() || '-' }}</span>
           </div>
         </div>
       </div>
@@ -217,7 +214,7 @@ watch(() => route.params.interviewRoomId, (newId) => {
     </div>
 
     <div class="full-score-wrapper">
-      <span class="full-score">면접 총점: {{ interview?.averageScore ?? '-' }}점</span>
+      <span class="full-score">면접 총점: {{ interview.averageScore ?? '-' }}점</span>
     </div>
 
     <section class="total-comment" v-if="totalComment">
@@ -245,10 +242,10 @@ watch(() => route.params.interviewRoomId, (newId) => {
     <InterviewReexecuteModal
         v-if="showReexecuteModal"
         :evaluationStrictness="interview.evaluationStrictness"
+        :loading="isReexecuting"
         @close="closeReexecuteModal"
         @reexecute="handleReexecute"
     />
-
 
     <ReexecutedListModal
         v-if="showReexecutedListModal"
