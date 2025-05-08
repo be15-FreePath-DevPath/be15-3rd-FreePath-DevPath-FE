@@ -38,45 +38,43 @@ const login = async () => {
     const response = await loginUser({
       loginId: form.loginId,
       password: form.password
-    })
+    });
 
     console.log('로그인 성공', response.data)
+    const accessToken = response.data.data.accessToken;
+    authStore.setAuth(accessToken);
 
-    const accessToken = response.data.data.accessToken
-    authStore.setAuth(accessToken)
-
-    modalTitle.value = '로그인 성공'
-    modalSubtitle.value = 'DevPath에 오신 것을 환영합니다!'
-    showModal.value = true
-    isLoginSuccess.value = true
-
+    modalTitle.value = '로그인 성공';
+    modalSubtitle.value = 'DevPath에 오신 것을 환영합니다!';
+    isLoginSuccess.value = true;
   } catch (error) {
-      const errorCode = error.response?.data?.errorCode || '기타 오류';
-      const errorMessage = errorMap[errorCode] || {
-        title: '로그인 실패',
-        subtitle: '알 수 없는 오류가 발생했습니다.'
-      };
+    const errorCode = error.response?.data?.errorCode || '기타 오류';
+    const errorMessage = errorMap[errorCode] || {
+      title: '로그인 실패',
+      subtitle: '알 수 없는 오류가 발생했습니다.'
+    };
 
-      modalTitle.value = errorMessage.title
-      modalSubtitle.value = errorMessage.subtitle
-    }
-
-    showModal.value = true
-    isLoginSuccess.value = false
+    modalTitle.value = errorMessage.title;
+    modalSubtitle.value = errorMessage.subtitle;
+    isLoginSuccess.value = false;
+  } finally {
+    showModal.value = true; // 한 곳에서 처리
+  }
 
 }
 
 const handleModalClose = () => {
   showModal.value = false;
-
   if (isLoginSuccess.value) {
     const redirectPath = localStorage.getItem('redirectAfterLogin');
     localStorage.removeItem('redirectAfterLogin'); // 사용 후 제거
 
-    if (typeof redirectPath === 'string') {
+    // redirectPath가 존재하고, 문자열이며, 빈 문자열이 아닐 경우만 사용
+    if (typeof redirectPath === 'string' && redirectPath.trim() !== '') {
+
       router.replace(redirectPath);
     } else {
-      router.replace('/'); // 기본 홈
+      router.replace('/'); // 기본 홈으로 이동
     }
   }
 };

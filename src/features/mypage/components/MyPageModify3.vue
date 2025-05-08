@@ -1,12 +1,10 @@
 <script setup>
-import {ref, computed, watch, onMounted} from 'vue'
-import {useRouter} from 'vue-router'
+import { ref, computed, watch, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
 // API 함수
-import {userInfo, changePassword} from '@/features/mypage/api'
-import {verifyEmail} from '@/features/mypage/api'
-import {emailCheck} from "@/features/user/api.js"
-import {errorMap} from '@/features/user/errorcode'
+import { userInfo, verifyEmail } from '@/features/mypage/api'
+import { errorMap } from '@/features/user/errorcode'
 
 // 컴포넌트들
 import MyPageBoardLarge from "@/features/mypage/components/MyPageBoardLarge.vue"
@@ -16,11 +14,11 @@ import MyPageVerify from "@/features/mypage/components/MyPageVerify.vue"
 import UserModal from "@/features/user/components/UserModal.vue"
 
 // 입력 값들
-const email = ref('')  // 현재 로그인된 사용자 이메일
+const email = ref('')
 const purpose = ref('CHANGE_PASSWORD')
-const verificationCode = ref('')
 const currentPassword = ref('')
 const newPassword = ref('')
+const apiType = ref('changePassword')
 
 // 인증창 보이기 여부
 const verifyVisible = ref(false)
@@ -73,52 +71,22 @@ onMounted(async () => {
   }
 })
 
-// 이메일 인증 요청
+// 이메일 인증 요청 (비밀번호 변경은 MyPageVerify에서 진행)
 async function handleSendVerifyEmail() {
   if (!isModified.value) {
     return
   }
 
-  // 현재 비밀번호와 입력된 비밀번호가 같은지 체크
   try {
-    await changePassword({
-      email: email.value,
-      currentPassword: currentPassword.value,
-      newPassword: newPassword.value  // 이 부분은 일단 필요하지만 지금은 검증 용도
-    })
-
-    // changePassword가 성공하면 현재 비밀번호는 맞는 거니까 이메일 인증 진행
-    await sendVerificationEmail()
-
-  } catch (error) {
-    const code = error.response?.data?.errorCode
-    if (code === 'PASSWORD_MISMATCH') {
-      showModal("Wait! It's wrong input", "현재 비밀번호가 일치하지 않습니다")
-    } else {
-      const message = error.response?.data?.message
-      if (code && errorMap[code]) {
-        showModal(errorMap[code].title, message || errorMap[code].subtitle)
-      } else {
-        showModal('알 수 없는 오류', message || '잠시 후 다시 시도해 주세요.')
-      }
-    }
-  }
-}
-
-// 실제 이메일 인증 요청 함수
-async function sendVerificationEmail() {
-  isLoading.value = true
-  try {
+    isLoading.value = true
     await verifyEmail({
       email: email.value,
       purpose: purpose.value
     })
-
     verifyVisible.value = true
   } catch (error) {
     const code = error.response?.data?.errorCode
     const message = error.response?.data?.message
-
     if (code && errorMap[code]) {
       showModal(errorMap[code].title, message || errorMap[code].subtitle)
     } else {
@@ -129,57 +97,11 @@ async function sendVerificationEmail() {
   }
 }
 
-// 이메일 인증 → 최종 비밀번호 변경
-async function handleVerifyCode() {
-  if (!verificationCode.value) {
-    return
-  }
-
-  isLoading.value = true
-  try {
-    const response = await emailCheck({
-      email: email.value,
-      verificationCode: verificationCode.value
-    })
-
-    if (response.data.isVerified) {
-      // 최종 비밀번호 변경 API 호출
-      await changePassword({
-        email: email.value,
-        currentPassword: currentPassword.value,
-        newPassword: newPassword.value
-      })
-
-      showModal('Success!', '비밀번호가 성공적으로 변경되었습니다.')
-
-      // 값 초기화
-      currentPassword.value = ''
-      newPassword.value = ''
-      verificationCode.value = ''
-      verifyVisible.value = false
-    } else {
-      showModal('인증 실패', '인증번호가 잘못되었습니다. 다시 시도해 주세요.')
-    }
-  } catch (error) {
-    const code = error.response?.data?.errorCode
-    const message = error.response?.data?.message
-
-    if (code && errorMap[code]) {
-      showModal(errorMap[code].title, message || errorMap[code].subtitle)
-    } else {
-      showModal('알 수 없는 오류', message || '잠시 후 다시 시도해 주세요.')
-    }
-  } finally {
-    isLoading.value = false
-  }
-}
 </script>
 
 <template>
   <MyPageBoardLarge title="비밀번호 수정">
-    <!-- 전체 프레임 -->
     <div class="frame-container">
-
       <!-- 좌측 : Input + Verify -->
       <div class="left-frame">
         <MyPageInput
@@ -204,8 +126,10 @@ async function handleVerifyCode() {
           <MyPageVerify
               :email="email"
               :current-email="email"
-              purpose="CHANGE_PASSWORD"
-              @verify-success="handleVerifyCode"
+              :purpose="purpose"
+              :api-type="apiType"
+              :current-password="currentPassword"
+              :new-password="newPassword"
           />
         </template>
       </div>
@@ -218,7 +142,6 @@ async function handleVerifyCode() {
             :disabled="!isModified"
         />
       </div>
-
     </div>
 
     <!-- 모달 -->

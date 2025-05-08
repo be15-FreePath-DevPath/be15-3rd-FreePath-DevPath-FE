@@ -23,14 +23,13 @@ export const processReportCheck = async (reportCheckId, formData) => {
         // Axios 인스턴스의 post 메소드를 사용하여 요청을 보냅니다.
         // 세 번째 인자로 설정 객체를 전달하여 기본 헤더를 오버라이드합니다.
         const response = await api.post(
-            `/report/check/${reportCheckId}`, // 첫 번째 인자: 요청 URL
-            formData,                         // 두 번째 인자: 요청 본문 (FormData 객체)
-            {                                 // 세 번째 인자: 요청 설정 객체
+            `/report/check/${reportCheckId}`,
+            formData,
+            {
                 headers: {
                     // 'Content-Type' 헤더를 undefined로 설정하면,
-                    // Axios가 data (FormData 객체)의 타입을 보고 자동으로 Content-Type을 결정합니다.
+                    // Axios가 data (FormData 객체)의 타입을 보고 자동으로 Content-Type을 결정.
                     'Content-Type': undefined
-                    // 다른 기본 헤더 (예: Authorization)는 그대로 유지됩니다.
                 }
             }
         );
