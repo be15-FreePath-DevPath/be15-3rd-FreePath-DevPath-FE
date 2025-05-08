@@ -20,6 +20,9 @@ import notiWhite from '@/assets/images/user/noti_white.png'
 
 // 구독 상태 (로컬용 ref)
 const isSubscribed = ref(props.modelValue === 'Y')
+watch(() => props.modelValue, (newVal) => {
+  isSubscribed.value = newVal === 'Y'
+}, { immediate: true })
 
 // 상태 변경
 function toggleSubscribe() {
