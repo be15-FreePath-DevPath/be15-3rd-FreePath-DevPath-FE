@@ -13,7 +13,7 @@ import fourLeafClover from '@/assets/images/user/four_leaf_clover.png'
 
 // 입력값 상태 관리
 const nickname = ref('')
-const itNewsSubscription = ref('')
+const itNewsSubscription = ref('N')
 
 // 이메일 상태도 ref로 관리
 const email = ref('')
@@ -82,7 +82,7 @@ function closeModal() {
   showModal.value = false
 
   if (onModalCloseAfterSuccess.value) {
-    window.location.href = '/'
+    window.location.href = '/user/login'
   }
 }
 </script>
