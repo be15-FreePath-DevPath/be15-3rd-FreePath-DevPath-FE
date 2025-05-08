@@ -991,42 +991,37 @@ src/
     <summary><b>채팅방 기능</b></summary>
     1. 채팅방 생성
     <br>
-    <img src="./assets/test/chatting/1_채팅방 생성.png" alt="채팅방 생성성" style="width: 80%; height: auto;">
+    <img src="./assets/test/chatting/1_채팅방-생성.gif" alt="채팅방 생성성" style="width: 80%; height: auto;">
     <br>: 사용자 토큰을 이용하여 채팅방 생성
     <br><br>
     2. 그룹채팅방 생성
     <br>
-    <img src="./assets/test/chatting/2_그룹채팅방 생성.png" alt="그룹채팅방 생성성" style="width: 80%; height: auto;">
+    <img src="./assets/test/chatting/2_그룹채팅방-생성.gif" alt="그룹채팅방 생성성" style="width: 80%; height: auto;">
     <br>: 게시글ID와 사용자 토큰을 이용해 그룹채팅방 생성
     <br><br>
     3. 채팅방 나가기
     <br>
-    <img src="./assets/test/chatting/3_채팅방 나가기.png" alt="채팅방 나가기기" style="width: 80%; height: auto;">
+    <img src="./assets/test/chatting/3_채팅방-나가기.gif" alt="채팅방 나가기기" style="width: 80%; height: auto;">
     <br>: 채팅방Id와 토큰을 이용해 채팅방을 나감
     <br><br>
-    4. 채팅방 삭제
+    4. 채팅방 목록 조회
     <br>
-    <img src="./assets/test/chatting/4_채팅방 삭제.png" alt="채팅방 나가기" style="width: 80%; height: auto;">
-    <br>: 그룹채팅방의 OWNER인 사용자만이 채팅방 삭제 가능
+    <img src="./assets/test/chatting/4_채팅방 목록 조회.gif" alt="채팅방 조회회" style="width: 80%; height: auto;">
+    <br>: 참여중인 채팅방 목록을 조회한다.
     <br><br>
-    5. 채팅방 조회
+     5. 채팅 내역 조회
     <br>
-    <img src="./assets/test/chatting/5_채팅방 조회.png" alt="채팅방 조회회" style="width: 80%; height: auto;">
-    <br>: 참여중인 채팅방을 조회한다.
-    <br><br>
-     6. 채팅방 조회
-    <br>
-    <img src="./assets/test/chatting/6_채팅내역 조회.png" alt="채팅 내역 조회" style="width: 80%; height: auto;">
+    <img src="./assets/test/chatting/5_채팅-내역-조회.gif" alt="채팅 내역 조회" style="width: 80%; height: auto;">
     <br>: 채팅방의 채팅 내역을 조회한다.
     <br><br>
-    7. 채팅방 제목 변경
+    6. 채팅방 제목 변경
     <br>
-    <img src="./assets/test/chatting/7_채팅방 제목 변경.png" alt="채팅방 제목 변경경" style="width: 80%; height: auto;">
+    <img src="./assets/test/chatting/6_채팅방-제목-변경.gif" alt="채팅방 제목 변경경" style="width: 80%; height: auto;">
     <br>: 그룹채팅방의 OWNER가 채팅방의 제목을 수정한다.
     <br><br>
-    8. 채팅방 참여자 목록 조회
+    7. 채팅방 참여자 목록 조회
     <br>
-    <img src="./assets/test/chatting/8_채팅 참여자 목록 조회.png" alt="채팅 참여자 목록 조회회" style="width: 80%; height: auto;">
+    <img src="./assets/test/chatting/7_채팅-참여자-목록-조회.gif" alt="채팅 참여자 목록 조회회" style="width: 80%; height: auto;">
     <br>: 특정 채팅방의 참여자 목록을 조회할 수 있다.
     <br><br>
 </details>
@@ -1034,17 +1029,17 @@ src/
     <summary><b>차단 기능</b></summary>
     1. 회원 차단 기능
     <br>
-    <img src="./assets/test/chatting/9_회원 차단.png" alt="회원 차단 기능" style="width: 80%; height: auto;">
+    <img src="./assets/test/chatting/8_회원-차단.gif" alt="회원 차단 기능" style="width: 80%; height: auto;">
     <br>: 특정 사용자를 차단할 수 있다.
     <br><br>
     2. 회원 차단 취소 기능
     <br>
-    <img src="./assets/test/chatting/10_회원 차단 취소.png" alt="회원 차단 취소 기능" style="width: 80%; height: auto;">
+    <img src="./assets/test/chatting/9_회원-차단-해제.gif" alt="회원 차단 취소 기능" style="width: 80%; height: auto;">
     <br>: 특정 사용자 차단을 취소할 수 있다.
     <br><br>
     3. 회원 차단 목록 조회
     <br>
-    <img src="./assets/test/chatting/11_회원 차단 목록 조회.png" alt="회원 차단 목록 조회" style="width: 80%; height: auto;">
+    <img src="./assets/test/chatting/10_회원-차단-목록-조회.gif" alt="회원 차단 목록 조회" style="width: 80%; height: auto;">
     <br>: 사용자가 차단한 다른 사용자들을 조회할 수 있다.
     <br><br>
 </details>
@@ -1052,28 +1047,28 @@ src/
 <summary><b>그룹채팅방 기능</b></summary>
     1. 그룹채팅방 참여 요청
     <br>
-    <img src="./assets/test/chatting/12_그룹채팅방 참여요청.png" alt="그룹채팅방 참여요청" style="width: 80%; height: auto;">
+    <img src="./assets/test/chatting/11_그룹채팅방-참여-요청.gif" alt="그룹채팅방 참여요청" style="width: 80%; height: auto;">
     <br>: 일반 사용자는 그룹채팅방 참여 요청을 보낸다.
     <br><br>
     2. 그룹채팅방 대기방 조회
     <br>
-    <img src="./assets/test/chatting/13_그룹채팅방 대기방 조회.png" alt="그룹채팅방 대기방 조회" style="width: 80%; height: auto;">
+    <img src="./assets/test/chatting/12_그룹채팅방-대기방-조회.gif" alt="그룹채팅방 대기방 조회" style="width: 80%; height: auto;">
     <br>: 그룹채팅방의 OWNER는 대기방을 조회할 수 있다.
     <br><br>
     3. 그룹채팅방 요청 수락락
     <br>
-    <img src="./assets/test/chatting/14_그룹채팅방 요청 수락.png" alt="그룹채팅방 참여요청 수락락" style="width: 80%; height: auto;">
+    <img src="./assets/test/chatting/13_그룹채팅방-요청-수락.gif" alt="그룹채팅방 참여요청 수락락" style="width: 80%; height: auto;">
     <br>: 그룹채팅방의 OWNER는 그룹채팅방 참여 요청을 수락할 수 있다.
     <br><br>
     3. 그룹채팅방 요청 수락
     <br>
-    <img src="./assets/test/chatting/15_그룹채팅방 요청 거절.png" alt="그룹채팅방 참여요청 거절절" style="width: 80%; height: auto;">
+    <img src="./assets/test/chatting/14_그룹채팅방-요청-거절.gif" alt="그룹채팅방 참여요청 거절절" style="width: 80%; height: auto;">
     <br>: 그룹채팅방의 OWNER는 그룹채팅방 참여 요청을 거절할 수도 있다.
     <br><br>
 </details>
 <details>
 <summary><b>채팅 연결 테스트</b></summary>
-<img src="./assets/test/chatting/채팅 연결 테스트.gif" alt="채팅 연결 테스트" style="width: 80%; height: auto;">
+<img src="./assets/test/chatting/15_채팅-테스트.gif" alt="채팅 연결 테스트" style="width: 80%; height: auto;">
     <br>: stomp를 이용하여 connect, subscribe, send시 사용자의 토큰을 확인하여 채팅방에 참여중인 사용자인지 확인한다. 
 </details>
 
