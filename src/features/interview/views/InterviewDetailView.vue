@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onMounted, watch } from 'vue'
+import {ref, reactive, onMounted, watch, nextTick} from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {
   deleteInterviewRoom,
@@ -56,6 +56,10 @@ const handleSaveMemo = async () => {
   } catch {
     alert('메모 저장에 실패했습니다.')
   }
+}
+
+const closeReexecutedListModal = () => {
+  showReexecutedListModal.value = false
 }
 
 const closeReexecuteModal = () => (showReexecuteModal.value = false)
@@ -155,15 +159,24 @@ const loadInterviewDetail = async (id) => {
 
 const goBack = () => router.push('/interview/list')
 
+async function scrollMainToTop() {
+  await nextTick()
+  requestAnimationFrame(() => {
+    const container = document.querySelector('.main-content')
+    if (container) container.scrollTop = 0
+  })
+}
+
 onMounted(() => {
   emit('updateBreadCrumb', newBreadCrumbItems.value)
   loadInterviewDetail(roomId.value)
+  scrollMainToTop()
 })
 
-watch(() => route.params.interviewRoomId, id => {
+watch(() => route.params.interviewRoomId, (id) => {
   roomId.value = id
-  loadInterviewDetail(id)
-  window.scrollTo(0,0)
+  loadInterviewDetail(roomId.value)
+  scrollMainToTop()
 })
 </script>
 
