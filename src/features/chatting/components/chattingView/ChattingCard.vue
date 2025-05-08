@@ -24,26 +24,39 @@ const formattedTimestamp = computed(() => {
 </script>
 
 <template>
-<div class="other-chatting-wrapper">
-  <UserFrame :nickname="props.chatting.nickname"/>
-  <div class = "element">
-    <OtherChatting class="other-chatting-instnace" :chatting="props.chatting"/>
-    <p class = "timestamp">{{formattedTimestamp}}</p>
+  <div :class="['chatting-wrapper', props.chatting.mine ? 'my-chat' : 'other-chat']">
+    <UserFrame :nickname="props.chatting.nickname" :mine="props.chatting.mine" @userBlock="$emit('userBlock')"/>
+    <div class="element">
+      <OtherChatting class="other-chatting-instance" :chatting="props.chatting" />
+    </div>
+    <p class="timestamp">{{ formattedTimestamp }}</p>
   </div>
-</div>
 </template>
 
+
 <style scoped>
-.other-chatting-wrapper{
-  align-items : flex-end;
-  display : flex;
+.chatting-wrapper {
+  display: flex;
   gap: 10px;
   padding: 10px 15px;
-  position : relative;
+  position: relative;
+  align-items: flex-end;
 }
+
+/* 기본 왼쪽 정렬 */
+.other-chat {
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+/* 내 채팅일 때 오른쪽 정렬 */
+.my-chat {
+  flex-direction: row-reverse;
+}
+
 .element {
   display: flex;
-  align-items: flex-end; /* 하단 정렬 */
+  align-items: flex-end;
   gap: 10px;
   padding: 20px;
   position: relative;

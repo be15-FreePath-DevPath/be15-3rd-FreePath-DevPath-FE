@@ -1,7 +1,8 @@
 <!-- components/DateDivider.vue -->
 <template>
   <div class="divider">
-    <span class="label">{{ formattedDate }}</span>
+    <span v-if = "date" class="label">{{ formattedDate }}</span>
+    <span v-else class = "label">{{data}}</span>
   </div>
 </template>
 
@@ -10,6 +11,7 @@ import { defineProps } from 'vue'
 
 const props = defineProps({
   date: String, // '2025-05-06' 등
+  data: String
 })
 
 // 한국식 날짜 형식으로 변환

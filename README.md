@@ -501,160 +501,191 @@ src/
   <summary><b>클릭해서 열기</b></summary>
 
 ### 👤 회원 테스트
+
 <details>
-    <summary><b>회원 가입</b></summary>
-    1. 일반 회원가입
-    <br>
-    <img src="./assets/test/user/일반회원_회원가입.png" alt="user1" style="width: 80%; height: auto;">
-    <br>: 일반 회원가입 시 인증 이메일 발송
-    <br><br>
-    <img src="./assets/test/user/일반회원_회원가입인증번호확인.png" alt="user2" style="width: 80%; height: auto;">
-    <br>: 인증번호 확인
-    <br><br>
-    <img src="./assets/test/user/일반회원_회원가입완료.png" alt="user3" style="width: 80%; height: auto;">
-    <br>: 인증번호 확인
-    <br><br>
-    2. 구글 회원가입
-    <br>
-    <img src="./assets/test/user/소셜회원_회원가입&로그인창.png" alt="user4" style="width: 80%; height: auto;">
-    <br>: 구글 회원가입 or 로그인 화면
-    <br><br>
-    <img src="./assets/test/user/소셜회원_닉네임,구독여부입력페이지.png" alt="user5" style="width: 80%; height: auto;">
-    <br>: 구글 인증 후 닉네임, it 기사 구독 여부 입력
-    <br><br>
-    <img src="./assets/test/user/소셜회원_회원가입완료.png" alt="user6" style="width: 80%; height: auto;">
-    <br>: 구글 회원가입 완료
+  <summary><b>회원 가입</b></summary>
+
+1. 일반 회원가입  
+  <br>
+  <img src="./assets/test/user/일반회원_회원가입.png" alt="user1" style="width: 80%; height: auto;">
+  <br>: 일반 회원가입 시 인증 이메일 발송  
+  <br><br>
+  <img src="./assets/test/user/일반회원_회원가입인증번호확인.png" alt="user2" style="width: 80%; height: auto;">
+  <br>: 인증번호 확인  
+  <br><br>
+  <img src="./assets/test/user/일반회원_회원가입완료.png" alt="user3" style="width: 80%; height: auto;">
+  <br>: 인증번호 확인  
+  <br><br>
+
+2. 구글 회원가입  
+   <br>
+   <img src="./assets/test/user/소셜회원_회원가입&로그인창.png" alt="user4" style="width: 80%; height: auto;">
+   <br>: 구글 회원가입 or 로그인 화면  
+   <br><br>
+   <img src="./assets/test/user/소셜회원_닉네임,구독여부입력페이지.png" alt="user5" style="width: 80%; height: auto;">
+   <br>: 구글 인증 후 닉네임, it 기사 구독 여부 입력  
+   <br><br>
+   <img src="./assets/test/user/소셜회원_회원가입완료.png" alt="user6" style="width: 80%; height: auto;">
+   <br>: 구글 회원가입 완료  
+   <br><br>
 </details>
+
 <details>
-    <summary><b>로그인</b></summary>
-    1. 일반 로그인
-    <br>
-    <img src="./assets/test/user/일반회원_로그인.png" alt="user7" style="width: 80%; height: auto;">
-    <br>: 일반 로그인 완료
-    <br><br>
-    2. 구글 로그인
-    <br>
-    <img src="./assets/test/user/소셜회원_회원가입&로그인창.png" alt="user8" style="width: 80%; height: auto;">
-    <br>: 구글 로그인 화면
-    <br><br>
-    <img src="./assets/test/user/소셜회원_로그인시토큰확인가능.png" alt="user9" style="width: 80%; height: auto;">
-    <br>: 구글 로그인 시 토큰 확인 가능
-    <br><br>
+  <summary><b>로그인</b></summary>
+
+  1. 일반 로그인  
+  <br>
+  <img src="./assets/test/user/일반회원_로그인.png" alt="user7" style="width: 80%; height: auto;">
+  <br>: 일반 로그인 완료  
+  <br><br>
+
+2. 구글 로그인  
+   <br>
+   <img src="./assets/test/user/소셜회원_회원가입&로그인창.png" alt="user8" style="width: 80%; height: auto;">
+   <br>: 구글 로그인 화면  
+   <br><br>
+   <img src="./assets/test/user/소셜회원_로그인시토큰확인가능.png" alt="user9" style="width: 80%; height: auto;">
+   <br>: 구글 로그인 시 토큰 확인 가능  
+   <br><br>
 </details>
+
 <details>
-    <summary><b>로그아웃</b></summary>
-    1. 로그아웃
-    <br>
-    <img src="./assets/test/user/회원_로그아웃.png" alt="user11" style="width: 80%; height: auto;">
-    <br><br>
+  <summary><b>로그아웃</b></summary>
+
+  1. 로그아웃  
+  <br>
+  <img src="./assets/test/user/회원_로그아웃.png" alt="user11" style="width: 80%; height: auto;">
+  <br><br>
 </details>
+
 <details>
-    <summary><b>리프레시 토큰 발급</b></summary>
-    1. 리프레시 토큰 발급
-    <br>
-    <img src="./assets/test/user/회원_리프레시토큰.png" alt="user10" style="width: 80%; height: auto;">
-    <br><br>
+  <summary><b>리프레시 토큰 발급</b></summary>
+
+  1. 리프레시 토큰 발급  
+  <br>
+  <img src="./assets/test/user/회원_리프레시토큰.png" alt="user10" style="width: 80%; height: auto;">
+  <br><br>
 </details>
+
 <details>
-    <summary><b>회원 탈퇴</b></summary>
-    1. 이메일 발송
-    <br>
-    <img src="./assets/test/user/회원_회원탈퇴이메일.png" alt="user11" style="width: 80%; height: auto;">
-    <br>: 회원 탈퇴 시 본인 확인을 위한 이메일 발송
-    <br><br>
-    2. 인증 번호
-    <br>
-    <img src="./assets/test/user/회원_회원탈퇴인증번호확인.png" alt="user12" style="width: 80%; height: auto;">
-    <br>: 인증 번호 확인
-    <br><br>
-    3. 회원 탈퇴
-    <br>
-    <img src="./assets/test/user/회원_회원탈퇴완료.png" alt="user13" style="width: 80%; height: auto;">
-    <br>: 회원 탈퇴 완료
-    <br><br>
+  <summary><b>회원 탈퇴</b></summary>
+
+  1. 이메일 발송  
+  <br>
+  <img src="./assets/test/user/회원_회원탈퇴이메일.png" alt="user11" style="width: 80%; height: auto;">
+  <br>: 회원 탈퇴 시 본인 확인을 위한 이메일 발송  
+  <br><br>
+  2. 인증 번호  
+  <br>
+  <img src="./assets/test/user/회원_회원탈퇴인증번호확인.png" alt="user12" style="width: 80%; height: auto;">
+  <br>: 인증 번호 확인  
+  <br><br>
+  3. 회원 탈퇴  
+  <br>
+  <img src="./assets/test/user/회원_회원탈퇴완료.png" alt="user13" style="width: 80%; height: auto;">
+  <br>: 회원 탈퇴 완료  
+  <br><br>
 </details>
+
 <details>
-    <summary><b>로그인 아이디 찾기</b></summary>
-    1. 이메일 발송
-    <br>
-    <img src="./assets/test/user/일반회원_로그인아이디찾기이메일.png" alt="user14" style="width: 80%; height: auto;">
-    <br>: 로그인 아이디 찾기를 위한 인증용 이메일 발송
-    <br><br>
-    2. 인증 번호
-    <br>
-    <img src="./assets/test/user/일반회원_로그인아이디찾기인증번호확인.png" alt="user15" style="width: 80%; height: auto;">
-    <br>: 인증 번호 인증 완료
-    <br><br>
-    3. 로그인 찾기 완료
-    <br>
-    <img src="./assets/test/user/일반회원_로그인아이디찾기완료.png" alt="user16" style="width: 80%; height: auto;">
-    <br>: 회원의 아이디 반환
-    <br><br>
+  <summary><b>로그인 아이디 찾기</b></summary>
+
+  1. 이메일 발송  
+  <br>
+  <img src="./assets/test/user/일반회원_로그인아이디찾기이메일.png" alt="user14" style="width: 80%; height: auto;">
+  <br>: 로그인 아이디 찾기를 위한 인증용 이메일 발송  
+  <br><br>
+  2. 인증 번호  
+  <br>
+  <img src="./assets/test/user/일반회원_로그인아이디찾기인증번호확인.png" alt="user15" style="width: 80%; height: auto;">
+  <br>: 인증 번호 인증 완료  
+  <br><br>
+  3. 로그인 찾기 완료  
+  <br>
+  <img src="./assets/test/user/일반회원_로그인아이디찾기완료.png" alt="user16" style="width: 80%; height: auto;">
+  <br>: 회원의 아이디 반환  
+  <br><br>
 </details>
+
 <details>
-    <summary><b>비밀번호 재설정</b></summary>
-    1. 이메일 발송
-    <br>
-    <img src="./assets/test/user/일반회원_비밀번호재설정이메일.png" alt="user17" style="width: 80%; height: auto;">
-    <br>: 비밀번호를 잃어버렸을 때 재설정하는 기능을 사용하기 위해 인증용 이메일 발송
-    <br><br>
-    2. 인증 번호
-    <br>
-    <img src="./assets/test/user/일반회원_비밀번호재설정인증번호확인.png" alt="user18" style="width: 80%; height: auto;">
-    <br>: 인증 번호 인증 완료
-    <br><br>
-    3. 비밀번호 재설정 오류
-    <br>
-    <img src="./assets/test/user/일반회원_비밀번호재설정_오류.png" alt="user19" style="width: 80%; height: auto;">
-    <br>: 비밀번호에 특수문자를 넣지 않으면 안 됨
-    <br><br>
-    4. 비밀번호 재설정 완료
-    <br>
-    <img src="./assets/test/user/일반회원_비밀번호재설정완료.png" alt="user20" style="width: 80%; height: auto;">
-    <br>: 특수문자 넣고 다시 시도하면 성공함
-    <br><br>
+  <summary><b>비밀번호 재설정</b></summary>
+
+  1. 이메일 발송  
+  <br>
+  <img src="./assets/test/user/일반회원_비밀번호재설정이메일.png" alt="user17" style="width: 80%; height: auto;">
+  <br>: 재설정 이메일 발송  
+  <br><br>
+  2. 인증 번호  
+  <br>
+  <img src="./assets/test/user/일반회원_비밀번호재설정인증번호확인.png" alt="user18" style="width: 80%; height: auto;">
+  <br>: 인증 번호 인증 완료  
+  <br><br>
+  3. 비밀번호 재설정 오류  
+  <br>
+  <img src="./assets/test/user/일반회원_비밀번호재설정_오류.png" alt="user19" style="width: 80%; height: auto;">
+  <br>: 특수문자 누락으로 실패  
+  <br><br>
+  4. 비밀번호 재설정 완료  
+  <br>
+  <img src="./assets/test/user/일반회원_비밀번호재설정완료.png" alt="user20" style="width: 80%; height: auto;">
+  <br>: 성공적으로 재설정 완료  
+  <br><br>
 </details>
+
 <details>
-    <summary><b>비밀번호 변경</b></summary>
-    1. 이메일 발송
-    <br>
-    <img src="./assets/test/user/일반회원_비밀번호변경이메일.png" alt="user21" style="width: 80%; height: auto;">
-    <br>: 비밀번호를 변경 시 인증용 이메일 발송
-    <br><br>
-    2. 인증 번호
-    <br>
-    <img src="./assets/test/user/일반회원_비밀번호변경인증번호확인.png" alt="user22" style="width: 80%; height: auto;">
-    <br>: 인증 번호 인증 완료
-    <br><br>
-    3. 비밀번호 변경 완료
-    <br>
-    <img src="./assets/test/user/일반회원_비밀번호변경완료.png" alt="user23" style="width: 80%; height: auto;">
-    <br>: 비밀번호가 성공적으로 변경됨
-    <br><br>
+  <summary><b>비밀번호 변경</b></summary>
+
+  1. 이메일 발송  
+  <br>
+  <img src="./assets/test/user/일반회원_비밀번호변경이메일.png" alt="user21" style="width: 80%; height: auto;">
+  <br>: 변경 요청 시 인증 이메일 발송  
+  <br><br>
+  2. 인증 번호  
+  <br>
+  <img src="./assets/test/user/일반회원_비밀번호변경인증번호확인.png" alt="user22" style="width: 80%; height: auto;">
+  <br>: 인증 완료  
+  <br><br>
+  3. 비밀번호 변경 완료  
+  <br>
+  <img src="./assets/test/user/일반회원_비밀번호변경완료.png" alt="user23" style="width: 80%; height: auto;">
+  <br>: 비밀번호 변경 완료  
+  <br><br>
 </details>
+
 <details>
-    <summary><b>회원 정보 수정</b></summary>
-    1. 닉네임, it 기사 구독 여부 수정
-    <br>
-    <img src="./assets/test/user/회원_닉네임,it구독여부수정.png" alt="user24" style="width: 80%; height: auto;">
-    <br>: 중복되는 닉네임은 변경이 불가능
-    <br><br>
+  <summary><b>회원 정보 수정</b></summary>
+
+  1. 닉네임 / IT 기사 구독 여부 수정  
+  <br>
+  <img src="./assets/test/user/회원_닉네임,it구독여부수정.png" alt="user24" style="width: 80%; height: auto;">
+  <br>: 중복 닉네임 불가, 구독 여부 변경 가능  
+  <br><br>
 </details>
- <details>
-    <summary><b>개발자 성향 테스트 저장</b></summary>
-    1. 개발자 성향 테스트 저장
-    <br>
-    <img src="./assets/test/user/회원_개발자성향테스트저장.png" alt="user25" style="width: 80%; height: auto;">
-    <br>: 프론트에서 주는 값을 회원의 개발자 성향 테스트 결과로 저장함
-    <br><br>
-</details>
+
 <details>
-    <summary><b>마이페이지 내의 회원 정보 조회</b></summary>
-    1. 회원 정보 조회
-    <br>
-    <img src="./assets/test/user/회원_마이페이지정보조회.png" alt="user26" style="width: 80%; height: auto;">
-    <br>: 이메일, 닉네임, it 뉴스 구독 여부, 개발자 성향 테스트 등을 조회할 수 있다.
-    <br><br>
+  <summary><b>개발자 성향 테스트 저장</b></summary>
+
+  1. 성향 테스트 결과 저장  
+  <br>
+  <img src="./assets/test/user/회원_개발자성향테스트저장.png" alt="user25" style="width: 80%; height: auto;">
+  <br>: 테스트 결과 저장 완료  
+  <br><br>
+</details>
+
+<details>
+  <summary><b>마이페이지 내의 회원 정보 조회</b></summary>
+
+1. 기본 정보 조회  
+  <br>
+  <img src="./assets/test/user/회원_마이페이지정보조회.png" alt="user26" style="width: 80%; height: auto;">
+  <br>: 이메일, 닉네임, 구독 여부 등 조회  
+  <br><br>
+
+2. 게시글, 댓글 모아보기  
+   <br>
+   <img src="./assets/test/user/마이페이지_게시글_댓글_모아보기.gif" alt="mypage_summary" style="width: 80%; height: auto;">
+   <br>: 사용자의 게시글 및 댓글 목록 확인 가능  
+   <br><br>
 </details>
 
 <br>
@@ -823,207 +854,136 @@ src/
 </details>
 <br>
 
-### 🔁 게시판 상호작용 테스트
+### 🔁 게시판 상호작용 테스트 (완)
+<details>
+  <summary><b>게시글 / 댓글 좋아요 및 북마크</b></summary>
 
-<details>
-    <summary><b>게시글 북마크</b></summary>
-    1. 게시글 북마크
-    <br>
-    <img src="./assets/test/board/interaction/게시글 북마크.png" alt="intr1" style="width: 80%; height: auto;">
-    <br>: 사용자는 게시글 북마크를 할 수 있다.
-    <br><br>
-    2. 게시글 북마크 모아보기
-    <br>
-    <img src="./assets/test/board/interaction/게시글 북마크 모아보기.png" alt="intr2" style="width: 80%; height: auto;">
-    <br>: 사용자는 마이페이지에서 북마크 목록을 조회할 수 있다.
-    <br><br>
-    3. 게시글 북마크 삭제
-    <br>
-    <img src="./assets/test/board/interaction/게시글 북마크 삭제.png" alt="intr3" style="width: 80%; height: auto;">
-    <br>: 사용자는 북마크를 취소할 수 있다.
-    <br><br>
-    4. 게시글 북마크 실패
-    <br>
-    <img src="./assets/test/board/interaction/게시글 북마크 실패.png" alt="intr4" style="width: 80%; height: auto;">
-    <br>: 게시글 북마크 실패 예외 처리
-    <br><br>
-    5. 게시글 북마크 삭제 실패
-    <br>
-    <img src="./assets/test/board/interaction/게시글 북마크 삭제 실패.png" alt="intr5" style="width: 80%; height: auto;">
-    <br>: 북마크 삭제 실패 예외 처리
-    <br><br>
-</details>
-<details>
-    <summary><b>게시글 좋아요</b></summary>
-    1. 게시글 좋아요
-    <br>
-    <img src="./assets/test/board/interaction/게시글 좋아요.png" alt="intr6" style="width: 80%; height: auto;">
-    <br>: 사용자는 게시글에 좋아요를 누를 수 있다.
-    <br><br>
-    2. 게시글 좋아요 모아보기
-    <br>
-    <img src="./assets/test/board/interaction/게시글 좋아요 모아보기.png" alt="intr7" style="width: 80%; height: auto;">
-    <br>: 사용자는 마이페이지에서 좋아요 한 게시글을 조회할 수 있다.
-    <br><br>
-    3. 게시글 좋아요 총 개수
-    <br>
-    <img src="./assets/test/board/interaction/게시글 총 좋아요 개수.png" alt="intr8" style="width: 80%; height: auto;">
-    <br>: 사용자는 게시글의 좋아요 총 개수를 조회할 수 있다.
-    <br><br>
-    4. 게시글 좋아요 삭제
-    <br>
-    <img src="./assets/test/board/interaction/게시글 좋아요 삭제.png" alt="intr9" style="width: 80%; height: auto;">
-    <br>: 사용자는 게시글의 좋아요를 취소할 수 있다.
-    <br><br>
-    5. 게시글 좋아요 실패
-    <br>
-    <img src="./assets/test/board/interaction/게시글 좋아요 실패.png" alt="intr10" style="width: 80%; height: auto;">
-    <br>: 게시글의 좋아요 실패 예외 처리
-    <br><br>
-    6. 게시글 좋아요 삭제 실패
-    <br>
-    <img src="./assets/test/board/interaction/게시글 좋아요 삭제실패.png" alt="intr11" style="width: 80%; height: auto;">
-    <br>: 게시글의 좋아요 삭제 실패 예외 처리
-    <br><br>
-</details>
-<details>
-    <summary><b>게시글 조회 시 북마크 여부</b></summary>
-    1. 북마크 되어있을 때
-    <br>
-    <img src="./assets/test/board/interaction/게시글 조회 시 북마크 여부(북마크 되어있을때).png" alt="intr12" style="width: 80%; height: auto;">
-    <br>: 사용자가 특정 게시글 조회 시 북마크가 되어있을 때
-    <br><br>
-    2. 북마크 안 되어있을 때
-    <br>
-    <img src="./assets/test/board/interaction/게시글 조회 시 북마크 여부(북마크 안되어있을때).png" alt="intr13" style="width: 80%; height: auto;">
-    <br>: 사용자가 특정 게시글 조회 시 북마크가 안 되어있을 때
-    <br><br>
-</details>
-<details>
-    <summary><b>게시글 조회 시 좋아요 여부</b></summary>
-    1. 좋아요 되어있을 때
-    <br>
-    <img src="./assets/test/board/interaction/게시글 조회 시 좋아요 여부(좋아요 되어있을 때).png" alt="intr14" style="width: 80%; height: auto;">
-    <br>: 사용자가 특정 게시글 조회 시 좋아요가 되어있을 때
-    <br><br>
-    2. 좋아요 안 되어있을 때
-    <br>
-    <img src="./assets/test/board/interaction/게시글 조회 시 좋아요 여부(좋아요 안되어있을 때).png" alt="intr15" style="width: 80%; height: auto;">
-    <br>: 사용자가 특정 게시글 조회 시 좋아요가 안 되어있을 때
-    <br><br>
-</details>
-<details>
-    <summary><b>댓글 좋아요</b></summary>
-    1. 댓글 좋아요
-    <br>
-    <img src="./assets/test/board/interaction/댓글 좋아요.png" alt="intr16" style="width: 80%; height: auto;">
-    <br>: 사용자는 댓글에 좋아요를 할 수 있다.
-    <br><br>
-    2. 댓글 좋아요 총 개수
-    <br>
-    <img src="./assets/test/board/interaction/댓글 총 좋아요 개수.png" alt="intr17" style="width: 80%; height: auto;">
-    <br>: 사용자는 댓글의 좋아요 총 개수를 조회할 수 있다.
-    <br><br>
-    3. 댓글 좋아요 삭제
-    <br>
-    <img src="./assets/test/board/interaction/댓글 좋아요 삭제.png" alt="intr18" style="width: 80%; height: auto;">
-    <br>: 사용자는 댓글의 좋아요를 취소할 수 있다.
-    <br><br>
-    4. 댓글 좋아요 실패
-    <br>
-    <img src="./assets/test/board/interaction/댓글 좋아요 실패.png" alt="intr19" style="width: 80%; height: auto;">
-    <br>: 댓글의 좋아요 실패 예외 처리
-    <br><br>
-    5. 댓글 좋아요 삭제 실패
-    <br>
-    <img src="./assets/test/board/interaction/댓글 좋아요 삭제 실패.png" alt="intr20" style="width: 80%; height: auto;">
-    <br>: 댓글의 좋아요 삭제 실패 예외 처리
-</details>
-<details>
-    <summary><b>댓글 조회 시 좋아요 여부</b></summary>
-    1. 좋아요 되어있을 때
-    <br>
-    <img src="./assets/test/board/interaction/댓글 조회 시 좋아요 여부(좋아요 되어있을때).png" alt="intr21" style="width: 80%; height: auto;">
-    <br>: 사용자가 특정 댓글에 좋아요를 했을 때
-    <br><br>
-    2. 좋아요 안 되어있을 때
-    <br>
-    <img src="./assets/test/board/interaction/댓글 조회 시 좋아요 여부(좋아요 안되어있을 때).png" alt="intr22" style="width: 80%; height: auto;">
-    <br>: 사용자가 특정 댓글에 좋아요를 안 했을 때
-    <br><br>
+1. 게시글 좋아요 / 북마크  
+   <br>
+   <img src="./assets/test/board/interaction/게시판_좋아요_좋아요취소.gif" alt="board1" style="width: 80%; height: auto;">
+   <br><img src="./assets/test/board/interaction/게시글_북마크_북마크취소.gif" alt="board2" style="width: 80%; height: auto;">
+   <br>: 게시글에 대해 좋아요 및 북마크 기능을 사용할 수 있다.
+   <br><br>
+
+2. 댓글 좋아요 / 좋아요 취소
+   <br>
+   <img src="./assets/test/board/interaction/댓글_좋아요_좋아요취소.gif" alt="board3" style="width: 80%; height: auto;">
+   <br>: 댓글에 대해서도 좋아요를 할 수 있다.
+   <br><br>
+
+3. 비회원 접근 제한  
+   <br>
+   <img src="./assets/test/board/interaction/비회원_북마크_좋아요_금지.gif" alt="board4" style="width: 80%; height: auto;">
+   <br>: 로그인하지 않은 사용자는 상호작용이 제한된다. 로그인 화면으로 이동된다.
+   <br><br>
 </details>
 
 <br>
 
-### 🧠 CS 퀴즈 테스트
+### 🧠 CS 퀴즈 테스트 (완)
 
 <details>
-    <summary><b>CS 퀴즈 등록</b></summary>
-    1. 등록
-    <br>
-    <img src="./assets/test/csquiz/CS퀴즈 등록.png" alt="csquiz1" style="width: 80%; height: auto;">
-    <br>: 관리자가 CS 퀴즈를 등록함
-    <br><br>
+  <summary><b>CS 퀴즈 응시 및 결과</b></summary>
+
+1. 퀴즈 응시  
+   <br>
+   <img src="./assets/test/csquiz/CS_퀴즈_응시.gif" alt="quiz1" style="width: 80%; height: auto;">
+   <br>: 사용자는 주간 CS 퀴즈에 응시할 수 있다.
+   <br><br>
+
+2. 결과 확인  
+   <br>
+   <img src="./assets/test/csquiz/CS_퀴즈_결과.gif" alt="quiz2" style="width: 80%; height: auto;">
+   <br>: 응시 완료 후 정오답 및 해설을 확인할 수 있다. 응시 후에 또 다시 응시하려 할 때 결과창으로 다시 이동하며 이미 답변이 완료되었다는 안내가 나온다. 
+   <br><br>
 </details>
-<details>
-    <summary><b>CS 퀴즈 버전 갱신</b></summary>
-    1. 버전 갱신(수동)
-    <br>
-    <img src="./assets/test/csquiz/CS퀴즈 버전 갱신(수동).gif" alt="csquiz2" style="width: 80%; height: auto;">
-    <br>: 관리자가 CS 퀴즈 버전 갱신을 수동으로 진행함
-    <br><br>
-</details>
-<details>
-    <summary><b>CS 퀴즈 조회</b></summary>
-    1. 상세 조회
-    <br>
-    <img src="./assets/test/csquiz/CS퀴즈 상세조회.png" alt="csquiz3" style="width: 80%; height: auto;">
-    <br>: CS 퀴즈를 상세 조회함
-    <br><br>
-    2. 목록 조회
-    <br>
-    <img src="./assets/test/csquiz/CS 퀴즈 전체 목록 조회.png" alt="csquiz4" style="width: 80%; height: auto;">
-    <br>: CS 퀴즈의 전체 목록 조회함
-    <br><br>
-    3. 주간 조회
-    <br>
-    <img src="./assets/test/csquiz/주간 CS퀴즈 조회.png" alt="csquiz5" style="width: 80%; height: auto;">
-    <br>: 주간 CS 퀴즈 조회함
-    <br><br>
-</details>
-<details>
-    <summary><b>CS 퀴즈 수정</b></summary>
-    1. 수정
-    <br>
-    <img src="./assets/test/csquiz/CS퀴즈 수정.png" alt="csquiz6" style="width: 80%; height: auto;">
-    <br>: 관리자가 CS 퀴즈 내용을 수정함
-    <br><br>
-</details>
-<details>
-    <summary><b>사용자 답변 등록</b></summary>
-    1. 답변 등록
-    <br>
-    <img src="./assets/test/csquiz/사용자 답변 등록.png" alt="csquiz7" style="width: 80%; height: auto;">
-    <br>: 사용자가 퀴즈에 대해 답변을 등록함
-    <br><br>
-</details>
-<details>
-    <summary><b>사용자 CS 퀴즈 결과 조회</b></summary>
-    1. 결과 조회
-    <br>
-    <img src="./assets/test/csquiz/사용자 CS퀴즈 결과 조회.png" alt="csquiz8" style="width: 80%; height: auto;">
-    <br>: 사용자는 퀴즈 결과를 조회할 수 있음
-    <br><br>
-</details>
-<details>
-    <summary><b>사용자 주간 CS 퀴즈 정답 개수 조회</b></summary>
-    1. 정답 개수 조회
-    <br>
-    <img src="./assets/test/csquiz/사용자 주간 CS퀴즈 정답 개수.png" alt="csquiz9" style="width: 80%; height: auto;">
-    <br>: 사용자는 주간 CS 퀴즈의 정답 개수를 조회할 수 있음
-    <br><br>
-</details>
+
 <br>
+
+### 🛠️ 관리자 테스트 (완)
+
+<details>
+  <summary><b>관리자 기능</b></summary>
+
+1. 접근 제한 (비회원 / 일반 사용자)  
+   <br>
+   <img src="./assets/test/admin/사용자의_관리자_페이지_접근_금지.gif" alt="admin5" style="width: 80%; height: auto;">
+   <br>: 관리자 외에 다른 사람이 접근 시 접근이 차단된다.
+   <br><br>
+</details>
+
+<details>
+  <summary><b>관리자 CS 퀴즈 기능</b></summary>
+
+1. 목록 조회  
+   <br>
+   <img src="./assets/test/admin/관리자_CS_퀴즈_목록_조회.gif" alt="admin1" style="width: 80%; height: auto;">
+   <br>: 관리자는 CS퀴즈 목록을 조회할 수 있다. 누르면 상세 조회가 된다.
+   <br><br>
+
+2. 등록  
+   <br>
+   <img src="./assets/test/admin/관리자_CS_퀴즈_등록.gif" alt="admin2" style="width: 80%; height: auto;">
+   <br>: 관리자는 CS퀴즈를 등록할 수 있다. 등록 시 모든 정보를 입력해야 하고, 정답은 1-4 사이만 입력할 수 있다. 그 외 입력 시 경고창이 뜬다.
+   <br><br>
+
+3. 상세 조회  
+   <br>
+   <img src="./assets/test/admin/관리자_CS_퀴즈_상세조회.gif" alt="admin3" style="width: 80%; height: auto;">
+   <br>: 관리자는 CS퀴즈 상세 조회할 수 있다. 
+   <br><br>
+
+4. 수정  
+   <br>
+   <img src="./assets/test/admin/관리자_CS_퀴즈_수정.gif" alt="admin4" style="width: 80%; height: auto;">
+   <br>: 관리자는 CS퀴즈 상세 조회 시 수정할 수 있다. 원래 데이터에 변화가 생기는 순간 수정 버튼이 활성화된다.
+   <br><br>
+</details>
+<details> <summary><b>관리자 IT 뉴스 기능</b></summary>
+1. IT 기사 목록 전체 조회
+<br>
+<img src="./assets/test/itnews/IT기사-목록-조회.gif" alt="itnews1" style="width: 80%; height: auto;">
+<br>: 관리자는 IT 뉴스 목록을 조회할 수 있다.
+<br><br>
+
+2. 발송된 뉴스 조회
+<br>
+<img src="./assets/test/itnews/발송된-뉴스-조회.gif" alt="itnews2" style="width: 80%; height: auto;">
+<br>: 발송 완료된 뉴스 기사를 확인할 수 있다.
+<br><br>
+
+3. 미발송 뉴스 조회 및 수정
+<br>
+<img src="./assets/test/itnews/미발송된-뉴스-조회-및-수정.gif" alt="itnews3" style="width: 80%; height: auto;">
+<br>: 미발송 기사를 선택해 내용을 수정할 수 있다.
+<br><br>
+
+4. 뉴스 작성
+<br>
+<img src="./assets/test/itnews/뉴스-작성.gif" alt="itnews4" style="width: 80%; height: auto;">
+<br>: 관리자는 새로운 뉴스를 작성할 수 있다.
+<br><br>
+
+5. 뉴스 수동 발송
+<br>
+<img src="./assets/test/itnews/뉴스-수동발송.gif" alt="itnews5" style="width: 80%; height: auto;">
+<br>: 관리자는 원하는 시점에 수동 발송을 진행할 수 있다.
+<br><br>
+
+6. 뉴스 삭제
+<br>
+<img src="./assets/test/itnews/뉴스-삭제.gif" alt="itnews6" style="width: 80%; height: auto;">
+<br>: 관리자는 불필요한 뉴스 기사를 삭제할 수 있다.
+<br><br>
+
+7. 뉴스 목록 돌아가기
+<br>
+<img src="./assets/test/itnews/뉴스-목록-돌아가기.gif" alt="itnews7" style="width: 80%; height: auto;">
+<br>: 뉴스 상세 페이지에서 목록으로 다시 이동할 수 있다.
+<br><br>
+
+</details>
+
 
 ### 💬 채팅 테스트
 
@@ -1190,63 +1150,7 @@ src/
 </details>
 <br>
 
-### 📰 IT 뉴스 테스트 (완)
 
-<details>
-  <summary><b>IT 기사 목록 조회</b></summary>
-  1. IT 기사 목록 전체 조회<br>
-  <img src="./assets/test/itnews/IT기사-목록-조회.gif" alt="itnews1" style="width: 80%; height: auto;">
-  <br>: 관리자는 IT 뉴스 목록을 조회할 수 있다.
-  <br><br>
-</details>
-
-<details>
-  <summary><b>발송된 뉴스 조회</b></summary>
-  1. 발송된 기사 확인<br>
-  <img src="./assets/test/itnews/발송된-뉴스-조회.gif" alt="itnews2" style="width: 80%; height: auto;">
-  <br>: 발송 완료된 뉴스 기사를 확인할 수 있다.
-  <br><br>
-</details>
-
-<details>
-  <summary><b>미발송 뉴스 조회 및 수정</b></summary>
-  1. 미발송 뉴스 확인 및 수정<br>
-  <img src="./assets/test/itnews/미발송된-뉴스-조회-및-수정.gif" alt="itnews3" style="width: 80%; height: auto;">
-  <br>: 미발송 기사를 선택해 내용을 수정할 수 있다.
-  <br><br>
-</details>
-
-<details>
-  <summary><b>뉴스 작성</b></summary>
-  1. 기사 작성<br>
-  <img src="./assets/test/itnews/뉴스-작성.gif" alt="itnews4" style="width: 80%; height: auto;">
-  <br>: 관리자는 새로운 뉴스를 작성할 수 있다.
-  <br><br>
-</details>
-
-<details>
-  <summary><b>뉴스 수동 발송</b></summary>
-  1. 수동으로 뉴스 발송<br>
-  <img src="./assets/test/itnews/뉴스-수동발송.gif" alt="itnews5" style="width: 80%; height: auto;">
-  <br>: 관리자는 원하는 시점에 수동 발송을 진행할 수 있다.
-  <br><br>
-</details>
-
-<details>
-  <summary><b>뉴스 삭제</b></summary>
-  1. 뉴스 삭제<br>
-  <img src="./assets/test/itnews/뉴스-삭제.gif" alt="itnews6" style="width: 80%; height: auto;">
-  <br>: 관리자는 불필요한 뉴스 기사를 삭제할 수 있다.
-  <br><br>
-</details>
-
-<details>
-  <summary><b>뉴스 목록 돌아가기</b></summary>
-  1. 뉴스 상세에서 목록으로 돌아가기<br>
-  <img src="./assets/test/itnews/뉴스-목록-돌아가기.gif" alt="itnews7" style="width: 80%; height: auto;">
-  <br>: 뉴스 상세 페이지에서 목록으로 다시 이동할 수 있다.
-  <br><br>
-</details>
 
 
 

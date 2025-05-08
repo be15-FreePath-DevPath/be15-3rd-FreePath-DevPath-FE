@@ -51,13 +51,6 @@ const login = async () => {
     isLoginSuccess.value = true
 
   } catch (error) {
-    console.error('로그인 실패', error)
-
-    // ✅ HTTP 상태 코드가 500일 때는 고정 메시지
-    if (error.response?.status === 500) {
-      modalTitle.value = '로그인 실패'
-      modalSubtitle.value = '아이디와 비밀번호를 정확히 입력해주세요'
-    } else {
       const errorCode = error.response?.data?.errorCode || '기타 오류';
       const errorMessage = errorMap[errorCode] || {
         title: '로그인 실패',
@@ -70,22 +63,23 @@ const login = async () => {
 
     showModal.value = true
     isLoginSuccess.value = false
-  }
+
 }
 
 const handleModalClose = () => {
-  showModal.value = false
+  showModal.value = false;
 
   if (isLoginSuccess.value) {
-    const redirectPath = route.query.redirect
-    console.log(redirectPath)
+    const redirectPath = localStorage.getItem('redirectAfterLogin');
+    localStorage.removeItem('redirectAfterLogin'); // 사용 후 제거
+
     if (typeof redirectPath === 'string') {
-      router.replace(redirectPath)
+      router.replace(redirectPath);
     } else {
-      router.replace('/') // 기본 홈
+      router.replace('/'); // 기본 홈
     }
   }
-}
+};
 </script>
 
 <template>

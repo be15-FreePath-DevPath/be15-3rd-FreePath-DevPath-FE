@@ -47,9 +47,9 @@ const handleStartInterview = async () => {
     path: `/interview/progress/${result.interviewRoomId}`,
     query: {
       title: result.interviewRoomTitle,
-      category: result.interviewCategory,
-      strictness: result.evaluationStrictness,
-      difficulty: result.difficultyLevel,
+      category:   selectedCategory.value,
+      difficulty: selectedDifficulty.value,
+      strictness: selectedStrictness.value,
       firstQuestion: result.firstQuestion
     }
   })

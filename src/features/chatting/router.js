@@ -7,12 +7,14 @@ export const chattingRoutes = [
     {
         path: "/chatting",
         name: "chatting",
-        component: ChattingView
+        component: ChattingView,
+        meta : { requiresAuth : true }
     },
     {
         path: "/chatting/pending",
         name: "chattingPending",
-        component: ChattingPendingView
+        component: ChattingPendingView,
+        meta : { requiresAuth : true }
     },
     {
         path: "/mypage/block",

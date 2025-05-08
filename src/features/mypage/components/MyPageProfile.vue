@@ -2,7 +2,6 @@
 import { ref, onMounted } from 'vue'
 import { userInfo } from '@/features/mypage/api.js'
 import MyPageButtonUpdate from '@/features/mypage/components/MyPageButtonUpdate.vue'
-import { useAuthStore } from '@/stores/auth.js'
 
 // 초기 값 세팅 (에러 방지용)
 const user = ref({
@@ -15,13 +14,8 @@ const user = ref({
 })
 
 onMounted(async () => {
-  const authStore = useAuthStore()
-  console.log('현재 저장된 액세스 토큰:', authStore.accessToken)
-
   try {
     const res = await userInfo()
-    console.log('유저 조회 API 응답:', res.data)
-    // 만약 데이터가 없으면 기본 값 유지
     user.value = {
       loginId: res.data.data.loginId || '',
       email: res.data.data.email || '',

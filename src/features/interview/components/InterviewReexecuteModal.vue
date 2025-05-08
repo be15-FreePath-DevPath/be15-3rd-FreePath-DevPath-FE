@@ -111,11 +111,11 @@ select {
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 14px;
-  background-image: url('@/assets/images/common/sidebar/ArrowDown.png '); /* 너가 사용하는 화살표 이미지 경로 */
+  background-image: url('@/assets/images/common/sidebar/ArrowDown.png ');
   background-repeat: no-repeat;
-  background-position: right 15px center; /* ← 이 값을 조정해서 더 안쪽으로 */
+  background-position: right 15px center;
   background-size: 12px;
-  appearance: none; /* 기본 OS 스타일 제거 */
+  appearance: none;
 }
 
 .modal-buttons {

@@ -41,5 +41,10 @@ export const userRoutes = [
         path: "/user/resetPw",
         name: "UserResetPw",
         component: UserResetPwView
+    },
+    {
+        path: '/oauth2/success',
+        name: 'Oauth2Success',
+        component: () => import('@/features/user/views/Oauth2SuccessView.vue')
     }
 ]
