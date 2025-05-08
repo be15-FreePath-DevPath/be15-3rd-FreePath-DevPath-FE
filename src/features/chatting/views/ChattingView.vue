@@ -152,6 +152,8 @@ const userBlock = async () => {
   isUserModal.value = true;
   isExitChattingRoomModal.value = false;
   await fetchChattingRoomList();
+  selectedRoom.value = null;
+  chattings.value = [];
 }
 
 const exitChattingRoom = async () => {
