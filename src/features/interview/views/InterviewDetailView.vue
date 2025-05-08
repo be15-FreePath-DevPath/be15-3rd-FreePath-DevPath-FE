@@ -101,24 +101,43 @@ const loadInterviewDetail = async (id) => {
     titleText.value = data.data.interviewRoomTitle
     memoText.value = data.data.interviewRoomMemo || ''
 
-    // --- 3개씩 (질문/답변/평가) 고정 묶음으로 파싱 ---
+    // --- 질문/답변/평가 파싱 ---
     const parsed = []
     const list   = data.data.interviewList
-    for (let i = 0; i < list.length; i++) {
-      const msg = list[i].interviewMessage
-      // 총평은 별도 저장
-      if (msg.startsWith('[총평]')) {
-        totalComment.value = msg.replace('[총평]', '').trim()
-        continue
+
+    list.forEach((item, idx) => {
+      // 1) 총평 분리
+      if (item.interviewMessage.startsWith('[총평]')) {
+        totalComment.value = item.interviewMessage.replace('[총평]', '').trim()
+        return
       }
-      // 질문 메시지를 만나면, 다음 2개(답변, 평가)까지 한번에 묶음 처리
-      if (msg.startsWith('[면접 질문]')) {
-        const answerMsg   = list[i + 1]?.interviewMessage || ''
-        const evalMsg     = list[i + 2]?.interviewMessage || ''
-        parsed.push([msg, answerMsg, evalMsg])
-        i += 2  // 이미 세 개를 소비했으니 인덱스 스킵
+
+      // 2) AI 질문만 골라서
+      if (item.interviewRole === 'AI' &&
+          item.interviewMessage.startsWith('[면접 질문]')) {
+
+        // 3) 이 질문 이후에 나오는 첫 USER 답변 찾기
+        const userItem = list.slice(idx + 1)
+            .find(x => x.interviewRole === 'USER')
+        const answerMsg = userItem?.interviewMessage || ''
+
+        // 4) 그 다음 나오는 AI 평가 찾기
+        const evalItem = list.slice(idx + 1)
+            .find(x =>
+                x.interviewRole === 'AI' &&
+                x.interviewMessage.startsWith('[답변 평가]')
+            )
+        const evalMsg = evalItem?.interviewMessage || ''
+
+        // 5) 하나의 세트로 push
+        parsed.push([
+          item.interviewMessage,  // 질문
+          answerMsg,              // 답변
+          evalMsg                 // 평가
+        ])
       }
-    }
+    })
+
     questions.value = parsed
 
     reexecutedRooms.value = data.data.reexecutedRooms.map(room => ({
