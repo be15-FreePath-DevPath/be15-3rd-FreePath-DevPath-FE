@@ -1,11 +1,14 @@
 <script setup>
-import { ref } from 'vue'
+import {onMounted, ref} from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { fetchNextQuestion } from '@/features/interview/api.js'
 
 const route = useRoute()
 const router = useRouter()
 const interviewId = Number(route.params.id)
+
+const newBreadCrumbItems = ref(['모의 면접', '모의 면접 실행']);
+const emit = defineEmits(['updateBreadCrumb']);
 
 // query로 받은 값
 const interviewTitle = ref(route.query.title || '')
@@ -33,32 +36,59 @@ const isFinalQuestion = ref(false)
 const handleNext = async () => {
   const interviewIndex = currentIndex.value;
 
-  // 질문 3이면 → 미리 마지막 질문으로 판단
-  if (interviewIndex === 3) {
+  try {
+    const response = await fetchNextQuestion(interviewId, interviewIndex, userAnswer.value);
+    const nextData = response.data.data;
+
+    gptEvaluation.value = nextData.gptEvaluation;
+    userAnswer.value = '';
+
+    // 먼저 질문 바꾸고
+    if (nextData.nextQuestion) {
+      currentIndex.value++;
+      currentQuestion.value = nextData.nextQuestion;
+    }
+
+    // 그 후 종료 조건 판단
+    if (!nextData.nextQuestion || currentIndex.value >= 3) {
+      isFinalQuestion.value = true;
+    }
+
+  } catch (err) {
+    console.error('다음 질문 불러오기 실패:', err);
+    alert('다음 질문을 불러오는 데 실패했습니다.');
     isFinalQuestion.value = true;
-  }
-
-  const { data: nextData } = await fetchNextQuestion(
-      interviewId,
-      interviewIndex,
-      userAnswer.value
-  );
-
-  gptEvaluation.value = nextData.gptEvaluation;
-  userAnswer.value = '';
-
-  if (nextData.isLast) {
-    isFinalQuestion.value = true
-  } else {
-    currentIndex.value++
-    currentQuestion.value = nextData.nextQuestion
   }
 };
 
+
 // 마지막 제출
-const handleSubmit = () => {
-  router.push(`/interview/${interviewId}`)
-}
+const handleSubmit = async () => {
+  try {
+    console.log('마지막 요청 전송:', {
+      interviewRoomId: interviewId,
+      interviewIndex: currentIndex.value,
+      userAnswer: userAnswer.value
+    });
+
+    // 마지막 답변 저장
+    await fetchNextQuestion(
+        interviewId,
+        currentIndex.value,
+        userAnswer.value
+    );
+
+    router.push(`/interview/${interviewId}`);
+  } catch (err) {
+    console.error('면접 종료 실패:', err);
+    alert('마지막 답변을 저장하는 데 실패했습니다.');
+  }
+};
+
+onMounted(() => {
+  emit('updateBreadCrumb', newBreadCrumbItems.value)
+})
+
 </script>
 
 <template>
@@ -83,7 +113,7 @@ const handleSubmit = () => {
 
     <div class="button-section">
       <button v-if="!isFinalQuestion" class="next-button" @click="handleNext">다음 질문</button>
-      <button v-else class="submit-button" @click="handleSubmit">제출하기</button>
+      <button v-else class="submit-button" @click="handleSubmit">면접 종료</button>
     </div>
 
   </div>

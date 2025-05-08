@@ -4,7 +4,11 @@
       :style="{ marginLeft: `${depth * 50}px` }"
   >
     <div class="comment-item">
-      <img src="@/assets/images/board/ProfileImage.png" alt="프로필 이미지" class="profile-image" />
+      <img
+          src="@/assets/images/board/ProfileImage.png"
+          alt="프로필 이미지"
+          class="profile-image"
+      />
       <div class="comment-content">
         <div class="user-info">
           <span class="username">{{ comment.nickname }}</span>
@@ -25,13 +29,26 @@
         </template>
 
         <div class="actions">
-          <button @click="likeComment" class="like-button">
-            <img src="@/assets/images/board/HeartStraight.png" alt="좋아요" class="action-icon" />
-            <span>{{ comment.likeCount || 0 }}</span>
+          <!-- 좋아요 버튼 -->
+          <button @click="handleToggleLike" class="like-button">
+            <img
+                :src="isLiked ? likedIcon : unlikedIcon"
+                alt="좋아요"
+                class="action-icon"
+            />
+            <span>{{ likeCount }}</span>
           </button>
-          <button v-if="depth === 0 && !isEditing" @click="replyToComment" class="reply-button">
+
+          <!-- 답글쓰기 -->
+          <button
+              v-if="depth === 0 && !isEditing"
+              @click="replyToComment"
+              class="reply-button"
+          >
             답글쓰기
           </button>
+
+          <!-- 더보기 옵션 -->
           <div class="more-options">
             <img
                 src="@/assets/images/board/Button.png"
@@ -40,9 +57,18 @@
                 @click="toggleOptions"
             />
             <div v-if="isOptionsOpen" class="options-menu">
-              <button @click="deleteComment" class="report-button">댓글 삭제</button>
-              <button @click="enableEditMode" class="report-button">댓글 수정</button>
-              <button @click="reportComment" class="report-button">댓글 신고</button>
+              <button @click="deleteComment" class="report-button">
+                댓글 삭제
+              </button>
+              <button @click="enableEditMode" class="report-button">
+                댓글 수정
+              </button>
+              <button @click="reportComment" class="report-button">
+                댓글 신고
+              </button>
+              <button @click="$emit('routeChat',comment.userId)" class="report-button">
+                일대일 채팅
+              </button>
             </div>
           </div>
         </div>
@@ -50,7 +76,10 @@
     </div>
 
     <!-- 답글 입력창 -->
-    <div v-if="replyingToId === comment.commentId && !isEditing" class="reply-input-wrapper">
+    <div
+        v-if="replyingToId === comment.commentId && !isEditing"
+        class="reply-input-wrapper"
+    >
       <CommentInput @submit="handleSubmitReply" />
     </div>
 
@@ -62,74 +91,134 @@
         :depth="depth + 1"
         :replying-to-id="replyingToId"
         :active-options-id="activeOptionsId"
-        @like="$emit('like', $event)"
         @reply="$emit('reply', $event)"
         @submit-reply="$emit('submit-reply', $event)"
         @delete="$emit('delete', $event)"
         @modify="$emit('modify', $event)"
         @report="$emit('report', $event)"
         @toggle-options="$emit('toggle-options', $event)"
+        @routeChat="$emit('routeChat', reply.userId)"
     />
   </div>
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
-import CommentInput from './CommentInput.vue';
+import { computed, ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
+import { useAuthStore } from '@/stores/auth'
+import CommentInput from './CommentInput.vue'
 
+import likedIcon from '@/assets/images/board/BigHeartStraightRed.png'
+import unlikedIcon from '@/assets/images/board/BigHeartStraight.png'
+
+import {
+  hasUserLikedComment,
+  countLikesByCommentId,
+  likeComment,
+  unlikeComment
+} from '@/features/comment/api.js'
+
+// Props
 const props = defineProps({
-  comment: Object,
+  comment: { type: Object, required: true },
   replyingToId: Number,
   activeOptionsId: Number,
-  depth: {
-    type: Number,
-    default: 0,
-  },
-});
+  depth: { type: Number, default: 0 }
+})
 
 const emit = defineEmits([
-  'like',
   'reply',
   'submit-reply',
   'delete',
   'modify',
   'report',
   'toggle-options',
-]);
+    'chat'
+])
 
-const isEditing = ref(false);
-const editedContent = ref(props.comment.contents);
+// Auth, Router, Toast
+const authStore = useAuthStore()
+const router = useRouter()
+const toast = useToast({ position: 'top-center', timeout: 1500 })
 
-const likeComment = () => emit('like', props.comment.commentId);
-const replyToComment = () => emit('reply', props.comment.commentId);
+// 상태
+const isEditing = ref(false)
+const editedContent = ref(props.comment.contents)
+const isLiked = ref(false)
+const likeCount = ref(0)
+
+// 좋아요 정보 로딩
+onMounted(async () => {
+  try {
+    const countRes = await countLikesByCommentId(props.comment.commentId)
+    likeCount.value = countRes.data.data
+
+    if (authStore.isAuthenticated) {
+      const likedRes = await hasUserLikedComment(props.comment.commentId)
+      isLiked.value = likedRes.data.data
+    }
+  } catch (err) {
+    console.error('댓글 좋아요 정보 로딩 실패:', err)
+    isLiked.value = false
+    likeCount.value = 0
+  }
+})
+
+// 좋아요 토글
+const handleToggleLike = async () => {
+  if (!authStore.isAuthenticated) {
+    toast.warning('로그인이 필요합니다.')
+    router.push('/user/login')
+    return
+  }
+
+  try {
+    if (isLiked.value) {
+      await unlikeComment(props.comment.commentId)
+      likeCount.value = Math.max(likeCount.value - 1, 0)
+      toast.info('좋아요를 취소했습니다.')
+    } else {
+      await likeComment(props.comment.commentId)
+      likeCount.value += 1
+      toast.success('댓글을 좋아했어요!')
+    }
+    isLiked.value = !isLiked.value
+  } catch (err) {
+    console.error('댓글 좋아요 처리 실패:', err)
+    toast.error('좋아요 처리 중 오류가 발생했습니다.')
+  }
+}
+
+// 기타 핸들러
+const replyToComment = () => emit('reply', props.comment.commentId)
 const toggleOptions = (event) => {
-  emit('toggle-options', props.comment.commentId);
-  event.stopPropagation();
-};
-
-const deleteComment = () => emit('delete', props.comment.commentId);
-const reportComment = () => emit('report', props.comment.commentId);
+  emit('toggle-options', props.comment.commentId)
+  event.stopPropagation()
+}
+const deleteComment = () => emit('delete', props.comment.commentId)
+const reportComment = () => emit('report', props.comment.commentId)
 const enableEditMode = () => {
-  editedContent.value = props.comment.contents;
-  isEditing.value = true;
-};
-
+  editedContent.value = props.comment.contents
+  isEditing.value = true
+}
 const cancelEdit = () => {
-  isEditing.value = false;
-};
-
+  isEditing.value = false
+}
 const submitEdit = (newContent) => {
-  emit('modify', { commentId: props.comment.commentId, content: newContent });
-  isEditing.value = false;
-};
-
+  emit('modify', { commentId: props.comment.commentId, content: newContent })
+  isEditing.value = false
+}
 const handleSubmitReply = (content) => {
-  emit('submit-reply', { parentId: props.comment.commentId, content });
-};
+  emit('submit-reply', { parentId: props.comment.commentId, content })
+}
 
-const isOptionsOpen = computed(() => props.activeOptionsId === props.comment.commentId);
-const formattedDate = computed(() => new Date(props.comment.createdAt).toLocaleDateString());
+const isOptionsOpen = computed(() => props.activeOptionsId === props.comment.commentId)
+const formattedDate = computed(() =>
+    new Date(props.comment.createdAt).toLocaleDateString()
+)
 </script>
+
 
 <style scoped>
 .comment-wrapper {
@@ -200,7 +289,6 @@ const formattedDate = computed(() => new Date(props.comment.createdAt).toLocaleD
 .action-icon {
   width: 16px;
   height: 16px;
-  vertical-align: middle;
 }
 
 .more-options {

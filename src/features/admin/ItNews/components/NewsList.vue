@@ -9,6 +9,7 @@ const route = useRoute()
 
 const itNews = ref([])
 const currentPage = ref(1)
+const pageSize = 10
 const pagination = reactive({
   currentPage: 1,
   totalPages: 1,
@@ -16,12 +17,11 @@ const pagination = reactive({
 })
 const isLoading = ref(true)
 
-// 날짜 포맷 변환 함수
 const formatDate = (dateString, isSent) => {
   const date = new Date(dateString)
   const year = date.getFullYear()
-  const month = String(date.getMonth() + 1).padStart(2, '0') // 0을 채워서 두 자리로 만듦
-  const day = String(date.getDate()).padStart(2, '0') // 0을 채워서 두 자리로 만듦
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
   const hours = String(date.getHours()).padStart(2, '0')
   const minutes = String(date.getMinutes()).padStart(2, '0')
 
@@ -34,9 +34,8 @@ const formatDate = (dateString, isSent) => {
 
 const isSent = (mailingDate) => {
   if (!mailingDate) return 'N'
-
   const mailing = new Date(mailingDate)
-  mailing.setHours(0, 0, 0, 0) // ← 추가: 시간 정보 제거
+  mailing.setHours(0, 0, 0, 0)
 
   const today = new Date()
   today.setHours(0, 0, 0, 0)
@@ -47,10 +46,15 @@ const isSent = (mailingDate) => {
 const fetchNews = async (page = 1) => {
   isLoading.value = true
   try {
-    const { data: wrapper } = await getNewsList({ page })
+    const { data: wrapper } = await getNewsList({ page, size: pageSize })
+    console.log(wrapper.data.newsList.length)
     const respData = wrapper?.data || {}
     itNews.value = (respData.newsList || []).sort((a, b) => a.itNewsId - b.itNewsId)
-    Object.assign(pagination, respData.pagination ?? {})
+
+    // pagination 정보 수동 계산
+    pagination.currentPage = respData.pagination?.currentPage || 1
+    pagination.totalItems = respData.pagination?.totalItems || 0
+    pagination.totalPages = respData.pagination?.totalPage || 1
     currentPage.value = page
   } catch (e) {
     console.error('뉴스 목록 로드 실패', e)
@@ -59,7 +63,7 @@ const fetchNews = async (page = 1) => {
   }
 }
 
-function handlePageChange(page) {
+const handlePageChange = (page) => {
   fetchNews(page)
 }
 
@@ -92,13 +96,22 @@ onMounted(() => fetchNews())
       </tr>
       </thead>
       <tbody>
-      <tr v-for="news in itNews" :key="news.itNewsId" @click="goToDetail(news.itNewsId)" class="clickable-row">
-        <td>{{ news.itNewsId }}</td>
-        <td>{{ news.title }}</td>
-        <td>{{ news.content }}</td>
-        <td><a :href="news.link" target="_blank">{{ news.link }}</a></td>
-        <td>{{ news.mailingDate ? formatDate(news.mailingDate, isSent(news.mailingDate) === 'Y') : '' }}</td>
-        <td>{{ isSent(news.mailingDate) }}</td>
+      <tr
+          v-for="news in itNews"
+          :key="news.itNewsId"
+          @click="goToDetail(news.itNewsId)"
+          class="clickable-row"
+      >
+        <td class="text-align">{{ news.itNewsId }}</td>
+        <td class="ellipsis-cell">{{ news.title }}</td>
+        <td class="ellipsis-cell">{{ news.content }}</td>
+        <td class="ellipsis-cell">
+          <a :href="news.link" target="_blank">{{ news.link }}</a>
+        </td>
+        <td>
+          {{ news.mailingDate ? formatDate(news.mailingDate, isSent(news.mailingDate) === 'Y') : '' }}
+        </td>
+        <td class="mailingDate">{{ isSent(news.mailingDate) }}</td>
       </tr>
       </tbody>
     </table>
@@ -118,13 +131,7 @@ onMounted(() => fetchNews())
   max-width: 1200px;
   margin: 0 auto;
 }
-.header-title span {
-  color: rgba(28, 28, 28, 0.4);
-  font-size: 12px;
-  font-family: 'Inter', sans-serif;
-  font-weight: 400;
-  line-height: 18px;
-}
+
 .news-table {
   width: 100%;
   border-collapse: collapse;
@@ -132,18 +139,47 @@ onMounted(() => fetchNews())
   font-family: 'Pretendard', sans-serif;
   margin-top: 20px;
 }
+
 .news-table th,
 .news-table td {
   padding: 12px 16px;
   border-bottom: 1px solid #ccc;
 }
+.news-table th {
+  text-align: center;
+}
+.text-align {
+  text-align: center;
+}
+
 .news-table thead th {
   font-weight: 600;
+  color: #aaaaaa;
 }
+
 .clickable-row:hover {
   background-color: #f9f9f9;
+  cursor: pointer;
 }
-th{
-  color: #aaaaaa;
+
+.ellipsis-cell {
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ellipsis-cell a {
+  display: inline-block;
+  max-width: 200px;
+  color: blue;
+  text-decoration: underline;
+  vertical-align: middle;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mailingDate {
+  text-align: center;
 }
 </style>

@@ -1,56 +1,52 @@
 <template>
   <div class="modal-backdrop" @click.self="close">
     <div class="modal-frame">
-
       <div class="modal-header">
         <h2 class="modal-title">면접방 재실행 설정</h2>
-        <p class="modal-subtitle">새로운 조건으로 면접방을 재실행합니다.</p>
-      </div>
-
-      <div class="modal-section">
-        <label for="difficulty">면접 난이도</label>
-        <select id="difficulty" v-model="selectedDifficulty">
-          <option value="EASY">EASY</option>
-          <option value="MEDIUM">MEDIUM</option>
-          <option value="HARD">HARD</option>
-        </select>
+        <p class="modal-subtitle">평가 엄격도만 변경하여 면접을 재실행합니다.</p>
       </div>
 
       <div class="modal-section">
         <label for="strictness">평가 엄격도</label>
         <select id="strictness" v-model="selectedStrictness">
           <option value="GENEROUS">관대함</option>
-          <option value="MODERATE">보통</option>
+          <option value="NORMAL">보통</option>
           <option value="STRICT">엄격함</option>
         </select>
       </div>
 
       <div class="modal-buttons">
-        <button class="btn" @click="close">닫기</button>
-        <button class="btn primary" @click="reexecute">면접 재실행하기</button>
+        <button class="btn" @click="emit('close')">닫기</button>
+        <button class="btn primary" @click="emitReexecute">면접 재실행하기</button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 const props = defineProps({
-  onClose: Function,
-  onSubmit: Function
+  evaluationStrictness: {
+    type: String,
+    default: 'NORMAL'
+  }
 })
 
-const selectedDifficulty = ref('MEDIUM')
-const selectedStrictness = ref('STRICT')
+const emit = defineEmits(['close', 'reexecute'])
 
-const close = () => {
-  props.onClose()
-}
+const selectedStrictness = ref(props.evaluationStrictness)
 
-const reexecute = () => {
-  props.onSubmit({
-    difficulty: selectedDifficulty.value,
+watch(
+    () => props.evaluationStrictness,
+    (newVal) => {
+      selectedStrictness.value = newVal
+    },
+    { immediate: true }
+)
+
+const emitReexecute = () => {
+  emit('reexecute', {
     strictness: selectedStrictness.value
   })
 }
@@ -115,11 +111,11 @@ select {
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 14px;
-  background-image: url('@/assets/images/common/sidebar/ArrowDown.png '); /* 너가 사용하는 화살표 이미지 경로 */
+  background-image: url('@/assets/images/common/sidebar/ArrowDown.png ');
   background-repeat: no-repeat;
-  background-position: right 15px center; /* ← 이 값을 조정해서 더 안쪽으로 */
+  background-position: right 15px center;
   background-size: 12px;
-  appearance: none; /* 기본 OS 스타일 제거 */
+  appearance: none;
 }
 
 .modal-buttons {

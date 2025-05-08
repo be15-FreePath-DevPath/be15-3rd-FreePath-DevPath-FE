@@ -21,13 +21,13 @@
             <button @click="emit('delete')">게시글 삭제</button>
             <button @click="emit('modify')">게시글 수정</button>
             <button @click="emit('report')">게시글 신고</button>
+            <button @click="emit('chat')">일대일 채팅</button>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="post-content">
-    {{ content }}
+  <div class="post-content" v-html="content">
   </div>
 </template>
 
@@ -45,7 +45,7 @@ const props = defineProps({
 // toRefs로 구조분해 (반응성 유지)
 const { category, title, author, createdAt, content } = toRefs(props.postDescription);
 
-const emit = defineEmits(['delete', 'modify', 'report']);
+const emit = defineEmits(['delete', 'modify', 'report','chat']);
 
 const showOptions = ref(false);
 

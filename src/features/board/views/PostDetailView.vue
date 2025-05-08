@@ -2,12 +2,23 @@
 import {reactive, onMounted, computed, ref} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import {deletePost, fetchPostDetail, reportPost, updatePost} from '@/features/board/api.js';
-
 import CommentList from "@/features/comment/components/CommentList.vue";
 import PagingBar from "@/components/common/PagingBar.vue";
 import InteractionBar from "@/features/interaction/components/InteractionBar.vue";
 import PostDescriptionBar from "@/features/board/components/PostDescriptionBar.vue";
 import {fetchCommentList} from "@/features/comment/api.js";
+import {createChattingRoom, postChattingJoin} from "@/features/chatting/api.js";
+
+const emit = defineEmits(['updateBreadCrumb'])
+
+onMounted(() => {
+  if (!postCategory.value) {
+    emit('updateBreadCrumb', ['마이페이지', '회원 정보 조회'])
+  } else {
+    emit('updateBreadCrumb', ['게시판', postCategory.value])
+  }
+})
+
 
 // 게시글 정보
 const postDescription = reactive({
@@ -25,6 +36,7 @@ const postCategory = computed(() => route.query.category || '');
 
 // 댓글 정보
 const comments = ref([]);
+const writer = ref(0);
 
 const errorMessage = ref('');
 
@@ -48,6 +60,7 @@ onMounted(async () => {
       postDescription.author = dto.nickname;
       postDescription.createdAt = dto.boardCreatedAt;
       postDescription.content = dto.boardContents;
+      writer.value = dto.userId;
     } else {
       errorMessage.value = data.message || '게시글 정보를 불러올 수 없습니다.';
       console.error('유효하지 않은 게시글 응답:', data);
@@ -80,7 +93,7 @@ const handleDeletePost = async () => {
   try {
     await deletePost(postId);
     alert('삭제되었습니다.');
-    router.push('/board'); // 혹은 다른 목록 경로
+    router.back();
   } catch (e) {
     const msg = e?.response?.data?.message || '게시글 삭제 중 오류가 발생했습니다.';
     alert(msg);
@@ -114,6 +127,40 @@ const handleReportPost = async () => {
   }
 };
 
+const handleChatting = async() => {
+  try{
+    const response = await createChattingRoom(writer.value);
+    const queryRoomId = response.data.data.chattingRoomId;
+    console.log('채팅방 id ',queryRoomId);
+    await router.replace({ path: '/chatting', query: { queryRoomId: queryRoomId } });
+  }catch(e){
+    const msg = e?.response?.data?.message || '채팅방 이동 실패.';
+    alert(msg);
+  }
+}
+
+const handleChattingByComment = async(userId) => {
+  try{
+    const response = await createChattingRoom(userId);
+    const queryRoomId = response.data.data.chattingRoomId;
+    console.log('채팅방 id ',queryRoomId);
+    await router.replace({ path: '/chatting', query: { queryRoomId: queryRoomId } });
+  }catch(e){
+    const msg = e?.response?.data?.message || '채팅방 이동 실패.';
+    alert(msg);
+  }
+}
+
+const handleGroupChattingJoin = async () => {
+  try{
+    await postChattingJoin(postId);
+    alert('그룹채팅방 참여 요청을 보냈습니다!');
+  }catch(e){
+    const msg = e?.response?.data?.message || '그룹채팅방 참여 요청 실패';
+    alert(msg);
+  }
+}
+
 </script>
 
 <template>
@@ -127,9 +174,10 @@ const handleReportPost = async () => {
         @delete="handleDeletePost"
         @modify="handleModifyPost"
         @report="handleReportPost"
+        @chat="handleChatting"
     />
-    <InteractionBar/>
-    <CommentList :comments="comments"/>
+    <InteractionBar @groupChattingJoin = "handleGroupChattingJoin" :postCategory="postCategory"/>
+    <CommentList :comments="comments" @routeChat="handleChattingByComment"/>
     <PagingBar v-bind="pagination"/>
   </template>
 </template>

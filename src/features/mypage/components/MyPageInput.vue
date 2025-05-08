@@ -1,5 +1,5 @@
 <script setup>
-defineProps({
+const props = defineProps({
   label: {
     type: String,
     required: true
@@ -7,8 +7,18 @@ defineProps({
   placeholder: {
     type: String,
     required: true
+  },
+  modelValue: {
+    type: String,
+    required: true
+  },
+  type: {
+    type: String,
+    default: 'text'  // 기본값은 text
   }
-})
+});
+
+const emit = defineEmits(['update:modelValue']);
 </script>
 
 <template>
@@ -16,7 +26,13 @@ defineProps({
     <div class="text-area">
       <div class="text">{{ label }}</div>
     </div>
-    <input class="input-area" :placeholder="placeholder" />
+    <input
+        class="input-area"
+        :placeholder="placeholder"
+        :value="modelValue"
+        @input="event => emit('update:modelValue', event.target.value)"
+        :type="type"
+    />
   </div>
 </template>
 

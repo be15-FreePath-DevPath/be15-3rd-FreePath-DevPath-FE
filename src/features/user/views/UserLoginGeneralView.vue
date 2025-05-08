@@ -1,6 +1,7 @@
 <script setup>
 import { reactive, ref } from 'vue'
-
+import { useRoute, useRouter } from 'vue-router'
+import {useAuthStore} from "@/stores/auth.js";
 // 컴포넌트들
 import UserForm from "@/features/user/components/UserForm.vue";
 import UserLogo from "@/features/user/components/UserLogo.vue";
@@ -21,6 +22,10 @@ const form = reactive({
   password: ''
 })
 
+const route = useRoute()
+const router = useRouter()
+const authStore = useAuthStore()
+
 const showModal = ref(false)
 const modalTitle = ref('')
 const modalSubtitle = ref('')
@@ -38,10 +43,7 @@ const login = async () => {
     console.log('로그인 성공', response.data)
 
     const accessToken = response.data.data.accessToken
-    const refreshToken = response.data.data.refreshToken
-
-    localStorage.setItem('accessToken', accessToken)
-    localStorage.setItem('refreshToken', refreshToken)
+    authStore.setAuth(accessToken)
 
     modalTitle.value = '로그인 성공'
     modalSubtitle.value = 'DevPath에 오신 것을 환영합니다!'
@@ -72,13 +74,19 @@ const login = async () => {
 }
 
 const handleModalClose = () => {
-  showModal.value = false
+  showModal.value = false;
 
-  // ✅ 로그인 성공 시에만 메인으로 이동
   if (isLoginSuccess.value) {
-    window.location.href = '/'
+    const redirectPath = localStorage.getItem('redirectAfterLogin');
+    localStorage.removeItem('redirectAfterLogin'); // 사용 후 제거
+
+    if (typeof redirectPath === 'string') {
+      router.replace(redirectPath);
+    } else {
+      router.replace('/'); // 기본 홈
+    }
   }
-}
+};
 </script>
 
 <template>

@@ -34,6 +34,12 @@ const applyTypeFilter = (filter) => {
   emit('filter-change', { type: 'type', value: filter })
   isTypeFilterOpen.value = false
 }
+
+const onSortSelect = (order) => {
+  console.log('[InterviewHeader] onSortSelect:', order)
+  emit('sort-change', order)
+  isScoreDropdownOpen.value = false
+}
 </script>
 
 <template>
@@ -64,10 +70,7 @@ const applyTypeFilter = (filter) => {
       <span>점수</span>
       <SortDropdown
           v-if="isScoreDropdownOpen"
-          @select="(order) => {
-          emit('sort-change', order)
-          isScoreDropdownOpen.value = false
-        }"
+          @select="onSortSelect"
       />
     </div>
   </div>
@@ -85,6 +88,12 @@ const applyTypeFilter = (filter) => {
   border-bottom: 1px solid rgba(28, 28, 28, 0.05);
   background-color: #ffffff;
   font-size:12px
+}
+
+.header-title,
+.header-type,
+.header-score {
+  position: relative;
 }
 
 .header-title {

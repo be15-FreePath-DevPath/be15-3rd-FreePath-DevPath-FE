@@ -25,7 +25,6 @@ const props = defineProps({
   category: { type: String, required: true }
 });
 
-console.log(props.category);
 </script>
 
 <style scoped>

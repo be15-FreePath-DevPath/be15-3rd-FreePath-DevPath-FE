@@ -7,6 +7,9 @@ import {fetchInterviewProgressStart} from '@/features/interview/api.js'
 
 const router = useRouter()
 
+const newBreadCrumbItems = ref(['모의 면접', '모의 면접 실행']);
+const emit = defineEmits(['updateBreadCrumb']);
+
 // 선택 상태
 const selectedCategory = ref('')
 const selectedDifficulty = ref('')
@@ -18,7 +21,8 @@ const categories = [
   '객체 지향 프로그래밍', '보안', 'CI/CD', '시스템 설계', '클라우드 & 인프라'
 ]
 const difficulties = ['EASY', 'MEDIUM', 'HARD']
-const strictnessLevels = ['관대함', '표준', '엄격함']
+const strictnessLevels = ['GENEROUS', 'NORMAL', 'STRICT']
+
 
 const handleStartInterview = async () => {
   if (!selectedCategory.value || !selectedDifficulty.value || !selectedStrictness.value) {
@@ -27,23 +31,33 @@ const handleStartInterview = async () => {
   }
 
   // 면접 시작 API 호출 → 첫 질문 포함 데이터
-  const { data } = await fetchInterviewProgressStart(
+  const response = await fetchInterviewProgressStart(
       selectedCategory.value,
       selectedDifficulty.value,
       selectedStrictness.value
   )
 
+  const result = response.data.data;
+
+  console.log('면접 실행 결과:', response);
+  console.log('실제 데이터:', result);
+
   // 면접 진행 화면으로 이동 (면접방 ID 전달)
   await router.push({
-    path: `/interview/progress/${data.interviewRoomId}`,
+    path: `/interview/progress/${result.interviewRoomId}`,
     query: {
-      title: data.interviewRoomTitle,
-      category: data.difficultyLevel,
-      strictness: data.evaluationStrictness,
-      firstQuestion: data.firstQuestion
+      title: result.interviewRoomTitle,
+      category:   selectedCategory.value,
+      difficulty: selectedDifficulty.value,
+      strictness: selectedStrictness.value,
+      firstQuestion: result.firstQuestion
     }
   })
 }
+
+onMounted(() => {
+  emit('updateBreadCrumb', newBreadCrumbItems.value)
+})
 </script>
 
 <template>
