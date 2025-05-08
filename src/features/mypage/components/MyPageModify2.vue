@@ -17,6 +17,7 @@ const email = ref('') // 서버로 보낼 이메일
 const displayEmail = ref('') // 입력창용 이메일
 const purpose = ref('CHANGE_EMAIL')
 const verificationCode = ref('')
+const apiType = ref('changeEmail')
 
 // 원본 이메일 (placeholder용)
 const originalEmail = ref('')
@@ -86,12 +87,6 @@ async function handleEmailChange() {
   try {
     email.value = displayEmail.value
 
-    // ✅ 콘솔 로그 추가
-    console.log('verifyEmail 호출:', {
-      email: email.value,
-      purpose: purpose.value
-    })
-
     await verifyEmail({
       email: email.value,
       purpose: purpose.value
@@ -140,6 +135,7 @@ async function handleEmailChange() {
       <MyPageVerify
           :email="email"
           :current-email="originalEmail"
+          :apiType="apiType"
           purpose="CHANGE_EMAIL"
           @verify-success="handleVerifyCode"
       />

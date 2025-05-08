@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { emailCheck } from '@/features/user/api'
-import { changeEmail } from '@/features/mypage/api'  // 이메일 변경 API 임포트
+import { changePassword } from '@/features/mypage/api'
 import { errorMap } from '@/features/user/errorcode.js'
 
 // 컴포넌트 import
@@ -12,9 +12,12 @@ import UserButtonPurple from "@/features/user/components/UserButtonPurple.vue";
 
 // 부모로부터 값 전달 받음
 const props = defineProps({
-  email: { type: String, required: true },          // 새 이메일
-  currentEmail: { type: String, required: true },   // 기존 이메일
-  purpose: { type: String, required: true }
+  email: {type: String, required: true},
+  currentEmail: {type: String, required: true},
+  purpose: {type: String, required: true},
+  apiType: {type: String, required: true},
+  currentPassword: {type: String, default: ''},  // 추가됨
+  newPassword: {type: String, default: ''}       // 추가됨
 })
 
 // emit 이벤트 정의
@@ -39,22 +42,18 @@ async function verify() {
 
   try {
     const res = await emailCheck(props.email, authNum.value, props.purpose)
-    console.log("API 응답:", res);
     if (res.data.success) {
-      await changeEmail({
-        currentEmail: props.currentEmail,
-        newEmail: props.email
-      });
-
-      console.log("확인2");
-
-      modalTitle.value = 'Success!'
-      modalSubtitle.value = '이메일이 성공적으로 변경되었습니다.'
+      if (props.apiType === 'changePassword') {
+        await changePassword({
+          email: props.email,
+          currentPassword: props.currentPassword,
+          newPassword: props.newPassword
+        })
+        modalTitle.value = 'Success!'
+        modalSubtitle.value = '비밀번호가 성공적으로 변경되었습니다.'
+      }
       showModal.value = true
-
       emit('verify-success')
-      console.log("확인3");
-
     } else {
       showModal.value = true
       modalTitle.value = '인증 실패'
@@ -63,7 +62,6 @@ async function verify() {
   } catch (error) {
     const code = error.response?.data?.errorCode
     const message = error.response?.data?.message
-
     if (code && errorMap[code]) {
       modalTitle.value = errorMap[code].title
       modalSubtitle.value = message || errorMap[code].subtitle
@@ -90,7 +88,6 @@ async function verify() {
         @click="verify"
     />
 
-    <!-- 인증 실패 시 모달 -->
     <UserModal
         v-if="showModal"
         :title="modalTitle"
