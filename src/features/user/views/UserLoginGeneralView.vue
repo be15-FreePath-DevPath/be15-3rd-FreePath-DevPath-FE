@@ -32,7 +32,6 @@ const modalSubtitle = ref('')
 const isLoginSuccess = ref(false)
 
 const login = async () => {
-  console.log('로그인 요청 값:', { loginId: form.loginId, password: form.password })
 
   try {
     const response = await loginUser({
@@ -47,16 +46,18 @@ const login = async () => {
     modalTitle.value = '로그인 성공';
     modalSubtitle.value = 'DevPath에 오신 것을 환영합니다!';
     isLoginSuccess.value = true;
-  } catch (error) {
-    const errorCode = error.response?.data?.errorCode || '기타 오류';
-    const errorMessage = errorMap[errorCode] || {
-      title: '로그인 실패',
-      subtitle: '알 수 없는 오류가 발생했습니다.'
-    };
+  }  catch (error) {
+    const code = error.response?.data?.errorCode
+    const message = error.response?.data?.message
 
-    modalTitle.value = errorMessage.title;
-    modalSubtitle.value = errorMessage.subtitle;
-    isLoginSuccess.value = false;
+    if (code && errorMap[code]) {
+      modalTitle.value = errorMap[code].title
+      modalSubtitle.value = message || '잠시 후 다시 시도해 주세요.'
+    } else {
+      modalTitle.value = '알 수 없는 오류'
+      modalSubtitle.value = message || '잠시 후 다시 시도해 주세요.'
+    }
+    showModal.value = true
   } finally {
     showModal.value = true; // 한 곳에서 처리
   }

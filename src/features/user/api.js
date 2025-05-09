@@ -64,3 +64,8 @@ export function loginGoogle() {
     }
 }
 
+export async function deleteUser(email) {
+    return await api.delete('/user', {
+        data: { email }
+    });
+}

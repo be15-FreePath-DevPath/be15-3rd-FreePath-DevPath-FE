@@ -16,8 +16,8 @@ const props = defineProps({
   currentEmail: {type: String, required: true},
   purpose: {type: String, required: true},
   apiType: {type: String, required: true},
-  currentPassword: {type: String, default: ''},  // 추가됨
-  newPassword: {type: String, default: ''}       // 추가됨
+  currentPassword: {type: String, default: ''},
+  newPassword: {type: String, default: ''}
 })
 
 // emit 이벤트 정의
