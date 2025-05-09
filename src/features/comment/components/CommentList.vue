@@ -122,7 +122,6 @@ function findCommentById(comments, commentId) {
 const onModify = async ({ commentId, content }) => {
   try {
     await updateComment(commentId, content);
-    alert('댓글이 수정되었습니다.');
 
     const recursiveUpdate = (comments) =>
         comments.map(comment => {
