@@ -1,15 +1,19 @@
 <script setup>
-  import { ref, onMounted, defineProps } from 'vue';
-  import { fetchPostList } from '@/features/board/api.js';
+import {ref, onMounted, defineProps} from 'vue';
+import {fetchPostList} from '@/features/board/api.js';
 
-  const props = defineProps({
+const props = defineProps({
   title: String,
   categoryId: Number
 });
+const categoryMap = {
+  1: '자유게시판',
+  2: '직무 정보 게시판',
+  3: '프로젝트 매칭 게시판'
+};
+console.log("categoryId:", props.categoryId);
 
-  console.log("categoryId:", props.categoryId);
-
-  const params = ref({
+const params = ref({
   page: 1,
   size: 10,
   categoryId: props.categoryId,
@@ -19,22 +23,22 @@
   endDate: undefined,
 });
 
-  const boardItems = ref([]);
+const boardItems = ref([]);
 
-  // 게시글 목록 조회
-  const loadPostList = async () => {
+// 게시글 목록 조회
+const loadPostList = async () => {
   try {
-  const response = await fetchPostList(params.value);
-  console.log('게시글 목록:', response.data);
-  boardItems.value = response.data.data.posts; // posts 배열만 추출
-} catch (error) {
-  console.error('게시글 목록 조회 실패:', error);
-  boardItems.value = [];
-}
+    const response = await fetchPostList(params.value);
+    console.log('게시글 목록:', response.data);
+    boardItems.value = response.data.data.posts; // posts 배열만 추출
+  } catch (error) {
+    console.error('게시글 목록 조회 실패:', error);
+    boardItems.value = [];
+  }
 };
 
-  // 날짜 포맷 함수
-  const formatDate = (dateString) => {
+// 날짜 포맷 함수
+const formatDate = (dateString) => {
   const date = new Date(dateString);
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -42,12 +46,12 @@
   return `${year}-${month}-${day}`;
 };
 
-  onMounted(() => {
+onMounted(() => {
   loadPostList();
 });
 
-  // template에서 formatDate를 사용하려면 expose 필요
-  defineExpose({
+// template에서 formatDate를 사용하려면 expose 필요
+defineExpose({
   formatDate
 });
 </script>
@@ -72,23 +76,27 @@
 
       <!-- 게시글 목록 -->
       <div v-if="boardItems.length > 0">
-        <div
+        <router-link
             v-for="(item, index) in boardItems"
             :key="index"
             class="board-row"
+            :to="{
+              path: `/board/${item.boardId}`,
+              query: { category: categoryMap[props.categoryId] || '알 수 없음' }
+            }"
         >
           <div class="board-col date">
-            <img src="@/assets/images/board/CalendarIcon.png" alt="calendar" class="calendar-icon" />
+            <img src="@/assets/images/board/CalendarIcon.png" alt="calendar" class="calendar-icon"/>
             {{ formatDate(item.boardCreatedAt) }}
           </div>
           <div class="board-col user">
-            <img src="@/assets/images/main/user.png" alt="user" class="user-img" />
+            <img src="@/assets/images/main/user.png" alt="user" class="user-img"/>
             <span class="user-text">{{ item.nickname }}</span>
           </div>
           <div class="board-col title">
             <span class="title-text">{{ item.boardTitle }}</span>
           </div>
-        </div>
+        </router-link>
       </div>
 
       <!-- 게시물이 없을 때 -->
@@ -135,12 +143,15 @@
 }
 
 .board-row {
+  color: inherit;
+  text-decoration: none;
   display: flex;
   align-items: center;
   padding: 10px 0;
   border-bottom: 1px solid #e0e0e0;
   font-size: 12px;
   width: 450px;
+  gap: 10px;
 }
 
 .board-header-row {
@@ -163,13 +174,13 @@
 }
 
 .board-col.user {
-  width: 150px;
-  flex: 0 0 150px;
+  width: 110px;
+  flex: 0 0 100px;
 }
 
 .board-col.title {
-  width: 160px;
-  flex: 0 0 160px;
+  flex: 1;
+  min-width: 180px;
 }
 
 .user-img {
