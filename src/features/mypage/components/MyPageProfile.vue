@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import {ref, onMounted, onUnmounted} from 'vue'
 import { userInfo } from '@/features/mypage/api.js'
 import MyPageButtonUpdate from '@/features/mypage/components/MyPageButtonUpdate.vue'
 
@@ -27,6 +27,10 @@ onMounted(async () => {
   } catch (error) {
     console.error('유저 정보 조회 실패:', error)
   }
+})
+
+onUnmounted(() => {
+  user.value = { ...initialUserState }
 })
 </script>
 
