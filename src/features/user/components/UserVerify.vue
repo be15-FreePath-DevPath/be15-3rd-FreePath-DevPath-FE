@@ -37,6 +37,7 @@ async function verify() {
   try {
     const response = await emailCheck(props.email, authNum.value, props.purpose)  // 인증 확인
     console.log('인증 성공', response.data)
+    console.log(`${props.email}, ${authNum.value}, ${props.purpose}`)
 
     // 용도에 따라 처리 분기
     if (props.purpose === 'SIGN_UP') {
