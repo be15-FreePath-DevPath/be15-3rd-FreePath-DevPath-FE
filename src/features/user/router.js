@@ -3,8 +3,9 @@ import UserSignUpGeneralView from "@/features/user/views/UserSignUpGeneralView.v
 import UserSignUpGoogleView from "@/features/user/views/UserSignUpGoogleView.vue";
 import UserLoginView from "@/features/user/views/UserLoginView.vue";
 import UserLoginGeneralView from "@/features/user/views/UserLoginGeneralView.vue";
-import UserFindIdView from "@/features/user/views/UserFindIdView.vue";
 import UserResetPwView from "@/features/user/views/UserResetPwView.vue";
+import UserDeleteView from "@/features/user/views/UserDeleteView.vue";
+import UserFindLoginIdView from "@/features/user/views/UserFindLoginIdView.vue";
 
 export const userRoutes = [
     {
@@ -33,9 +34,9 @@ export const userRoutes = [
         component: UserLoginGeneralView
     },
     {
-        path: "/user/findId",
-        name: "UserFindId",
-        component: UserFindIdView
+        path: "/user/findLoginId",
+        name: "UserFindLoginId",
+        component: UserFindLoginIdView
     },
     {
         path: "/user/resetPw",
@@ -46,5 +47,10 @@ export const userRoutes = [
         path: '/oauth2/success',
         name: 'Oauth2Success',
         component: () => import('@/features/user/views/Oauth2SuccessView.vue')
+    },
+    {
+        path: '/user/delete',
+        name: "UserDelete",
+        component: UserDeleteView
     }
 ]

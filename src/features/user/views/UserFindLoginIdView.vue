@@ -1,7 +1,7 @@
 <script setup>
-import {computed, ref, watch} from 'vue'
+import {ref, watch} from 'vue'
 import { useRouter } from 'vue-router'
-import { resetPw } from '@/features/user/api.js'
+import { findLoginId } from '@/features/user/api.js'
 import { verifyEmail } from '@/features/mypage/api.js'
 
 // 컴포넌트 import
@@ -11,15 +11,12 @@ import UserInput from '@/features/user/components/UserInput.vue'
 import UserButtonPurple from '@/features/user/components/UserButtonPurple.vue'
 import UserVerify from '@/features/user/components/UserVerify.vue'
 import UserModal from '@/features/user/components/UserModal.vue'
+import MagnifyingGlass from "@/assets/images/user/magnifying_glass.png";
 import UserExtraService from "@/features/user/components/UserExtraService.vue";
 import {errorMap} from "@/features/user/errorcode.js";
-import Vector from "@/assets/images/user/vector.png"
 
 // 상태 변수
 const email = ref('')
-const loginId = ref('')
-const newPassword = ref('')
-const newPasswordCheck = ref('')
 const verifyVisible = ref(false)
 const showModal = ref(false)
 const modalTitle = ref('')
@@ -46,31 +43,12 @@ watch(isLoading, (newVal) => {
 const router = useRouter()
 const isSuccessModal = ref(false) // 성공 여부 상태 변수
 
-const passwordMismatch = computed(() => {
-  return newPasswordCheck.value !== '' && newPasswordCheck.value !== newPassword.value
-})
-
-async function handleResetPwClick() {
+async function handleFindLoginIdClick() {
   if (!email.value) {
     modalTitle.value = '이메일 입력 필요'
-    modalSubtitle.value = '비밀번호 재설정을 위해 이메일을 입력해주세요.'
+    modalSubtitle.value = '로그인 ID를 위해 이메일을 입력해주세요.'
     showModal.value = true
     isSuccessModal.value = false
-    return
-  }
-
-  if (!loginId.value) {
-    modalTitle.value = '로그인 ID 입력 필요'
-    modalSubtitle.value = '비밀번호 재설정을 위해 이메일을 입력해주세요.'
-    showModal.value = true
-    isSuccessModal.value = false
-    return
-  }
-
-  if (passwordMismatch.value) {
-    modalTitle.value = '비밀번호 오류'
-    modalSubtitle.value = '비밀번호가 일치하지 않습니다.'
-    showModal.value = true
     return
   }
 
@@ -80,7 +58,7 @@ async function handleResetPwClick() {
     // 이메일 인증 번호 요청 API 호출
     await verifyEmail({
       email: email.value,
-      purpose: 'RESET_PASSWORD'
+      purpose: 'FIND_LOGINID'
     })
 
     handleEmailSent()
@@ -113,10 +91,11 @@ function handleEmailSent() {
 // 인증 성공 시 실행
 async function handleVerificationSuccess() {
   try {
-    await resetPw(email.value, loginId.value, newPassword.value)
+    const res = await findLoginId(email.value)
+    const loginId = res.data.data
 
-    modalTitle.value = 'Reset'
-    modalSubtitle.value = '비밀번호가 성공적으로 재설정 되었습니다'
+    modalTitle.value = 'Find it!'
+    modalSubtitle.value = `회원님의 로그인 ID는 ${loginId} 입니다.`
     showModal.value = true
     isSuccessModal.value = true
 
@@ -151,52 +130,35 @@ async function handleModalClose() {
     }
   }
 }
+
 </script>
 
 <template>
   <div class="content-frame">
     <UserLogo />
     <UserForm
-        title="New password"
-        subtitle="비밀번호를 재설정 합니다"
+        title="Let's find your ID"
+        subtitle="로그인 ID를 찾아드릴게요"
     >
       <!-- 기본 슬롯 (입력 폼들) -->
       <UserInput
+          v-model="email"
           label="이메일"
-          placeholder="DevPath에서 사용하는 이메일"
-          v-model="email"/>
-      <UserInput
-          label="로그인 ID"
-          placeholder="로그인 ID를 입력해주세요"
-          v-model="loginId"/>
-      <UserInput
-          label="새 비밀번호"
-          placeholder="영문과 특수문자로 된 6~12자리를 입력하세요"
-          v-model="newPassword"
-          type="password"
+          placeholder="DevPath에서 사용중인 이메일"
       />
-      <UserInput
-          label="새 비밀번호 확인"
-          placeholder="비밀번호를 재입력해주세요"
-          v-model="newPasswordCheck"
-          type="password"
-      />
-      <p v-if="passwordMismatch" class="error-message">
-        비밀번호가 일치하지 않습니다
-      </p>
 
       <!-- 버튼 슬롯 -->
       <template #button>
         <div class="button-with-loading">
-        <UserButtonPurple
-            text="비밀번호 재설정"
-            :icon="Vector"
-            :disabled="isLoading"
-            @click="handleResetPwClick"
-        />
-        <p v-if="isLoading" class="loading-message">
-          입력하신 이메일로 인증 번호 보내는 중{{ loadingDots }}
-        </p>
+         <UserButtonPurple
+             text="로그인 ID 찾기"
+             :icon="MagnifyingGlass"
+             :disabled="isLoading"
+             @click="handleFindLoginIdClick"
+         />
+         <p v-if="isLoading" class="loading-message">
+           입력하신 이메일로 인증 번호 보내는 중{{ loadingDots }}
+         </p>
         </div>
       </template>
 
@@ -204,16 +166,16 @@ async function handleModalClose() {
         <UserVerify
             v-if="verifyVisible"
             :email="email"
-            purpose="RESET_PASSWORD"
+            purpose="FIND_LOGINID"
             @email-sent="handleEmailSent"
             @verify-success="handleVerificationSuccess"
         />
       </template>
     </UserForm>
     <UserExtraService
-        topText="로그인 ID도 잊으셨나요?"
-        :links="['로그인 ID 찾기']"
-        :urls="['/user/findLoginId']"
+        topText="비밀번호도 잊으셨나요?"
+        :links="['비밀번호 재설정']"
+        :urls="['/user/resetPw']"
     />
 
     <UserModal
@@ -246,10 +208,5 @@ async function handleModalClose() {
 .loading-message {
   color: #ffffff;
   font-size: 13px;
-}
-
-.error-message {
-  color: #ff6b6b;
-  font-size: 12px;
 }
 </style>

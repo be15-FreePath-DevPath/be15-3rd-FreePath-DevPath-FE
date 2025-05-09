@@ -1,8 +1,8 @@
 <script setup>
-import {computed, ref, watch} from 'vue'
+import {onMounted, ref, watch} from 'vue'
 import { useRouter } from 'vue-router'
-import { resetPw } from '@/features/user/api.js'
-import { verifyEmail } from '@/features/mypage/api.js'
+import {deleteUser, logoutUser} from '@/features/user/api.js'
+import { verifyEmail, userInfo } from '@/features/mypage/api.js'
 
 // 컴포넌트 import
 import UserForm from '@/features/user/components/UserForm.vue'
@@ -11,21 +11,19 @@ import UserInput from '@/features/user/components/UserInput.vue'
 import UserButtonPurple from '@/features/user/components/UserButtonPurple.vue'
 import UserVerify from '@/features/user/components/UserVerify.vue'
 import UserModal from '@/features/user/components/UserModal.vue'
-import UserExtraService from "@/features/user/components/UserExtraService.vue";
+import SmileySad from '@/assets/images/user/smiley_sad.png'
 import {errorMap} from "@/features/user/errorcode.js";
-import Vector from "@/assets/images/user/vector.png"
 
 // 상태 변수
 const email = ref('')
-const loginId = ref('')
-const newPassword = ref('')
-const newPasswordCheck = ref('')
 const verifyVisible = ref(false)
 const showModal = ref(false)
 const modalTitle = ref('')
 const modalSubtitle = ref('')
 const isLoading = ref(false)
 const loadingDots = ref('')
+const originalEmail = ref('')
+const displayEmail = ref('')
 
 // 로딩 dots 애니메이션
 let loadingInterval = null
@@ -46,31 +44,36 @@ watch(isLoading, (newVal) => {
 const router = useRouter()
 const isSuccessModal = ref(false) // 성공 여부 상태 변수
 
-const passwordMismatch = computed(() => {
-  return newPasswordCheck.value !== '' && newPasswordCheck.value !== newPassword.value
+onMounted(async () => {
+  try {
+    const res = await userInfo()
+    const data = res.data.data
+
+    email.value = data.email || ''
+    originalEmail.value = email.value
+
+    displayEmail.value = ''
+  } catch (error) {
+    alert('유저 정보를 가져오는 중 오류가 발생했습니다.')
+  }
 })
 
-async function handleResetPwClick() {
-  if (!email.value) {
+// 탈퇴 버튼 클릭 시
+async function handleDeleteClick() {
+  if (!displayEmail.value) {
     modalTitle.value = '이메일 입력 필요'
-    modalSubtitle.value = '비밀번호 재설정을 위해 이메일을 입력해주세요.'
+    modalSubtitle.value = '탈퇴를 위해 이메일을 입력해주세요.'
     showModal.value = true
     isSuccessModal.value = false
     return
   }
 
-  if (!loginId.value) {
-    modalTitle.value = '로그인 ID 입력 필요'
-    modalSubtitle.value = '비밀번호 재설정을 위해 이메일을 입력해주세요.'
+  // 입력한 이메일과 userInfo로 가져온 이메일이 다른 경우
+  if (displayEmail.value !== originalEmail.value) {
+    modalTitle.value = '이메일 불일치'
+    modalSubtitle.value = '입력한 이메일이 가입한 이메일과 일치하지 않습니다.'
     showModal.value = true
     isSuccessModal.value = false
-    return
-  }
-
-  if (passwordMismatch.value) {
-    modalTitle.value = '비밀번호 오류'
-    modalSubtitle.value = '비밀번호가 일치하지 않습니다.'
-    showModal.value = true
     return
   }
 
@@ -79,8 +82,8 @@ async function handleResetPwClick() {
   try {
     // 이메일 인증 번호 요청 API 호출
     await verifyEmail({
-      email: email.value,
-      purpose: 'RESET_PASSWORD'
+      email: displayEmail.value,
+      purpose: 'DELETE_USER'
     })
 
     handleEmailSent()
@@ -113,14 +116,17 @@ function handleEmailSent() {
 // 인증 성공 시 실행
 async function handleVerificationSuccess() {
   try {
-    await resetPw(email.value, loginId.value, newPassword.value)
-
-    modalTitle.value = 'Reset'
-    modalSubtitle.value = '비밀번호가 성공적으로 재설정 되었습니다'
+    await deleteUser(email.value)
+    await logoutUser()
+    modalTitle.value = '탈퇴 완료'
+    modalSubtitle.value = '그동안 DevPath를 이용해주셔서 감사합니다.'
     showModal.value = true
     isSuccessModal.value = true
 
     verifyVisible.value = false
+
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('refreshToken')
   } catch (error) {
     const code = error.response?.data?.errorCode
     const message = error.response?.data?.message
@@ -145,7 +151,8 @@ async function handleModalClose() {
   if (isSuccessModal.value) {
     try {
       isLoading.value = true
-      await router.push('/user/login/general')
+      await router.push('/')
+      window.location.reload()
     } finally {
       isLoading.value = false
     }
@@ -157,64 +164,39 @@ async function handleModalClose() {
   <div class="content-frame">
     <UserLogo />
     <UserForm
-        title="New password"
-        subtitle="비밀번호를 재설정 합니다"
+        title="Leaving DevPath?"
+        subtitle="탈퇴하시나요...?"
     >
-      <!-- 기본 슬롯 (입력 폼들) -->
       <UserInput
+          v-model="displayEmail"
           label="이메일"
-          placeholder="DevPath에서 사용하는 이메일"
-          v-model="email"/>
-      <UserInput
-          label="로그인 ID"
-          placeholder="로그인 ID를 입력해주세요"
-          v-model="loginId"/>
-      <UserInput
-          label="새 비밀번호"
-          placeholder="영문과 특수문자로 된 6~12자리를 입력하세요"
-          v-model="newPassword"
-          type="password"
+          placeholder="DevPath에서 사용중인 이메일"
       />
-      <UserInput
-          label="새 비밀번호 확인"
-          placeholder="비밀번호를 재입력해주세요"
-          v-model="newPasswordCheck"
-          type="password"
-      />
-      <p v-if="passwordMismatch" class="error-message">
-        비밀번호가 일치하지 않습니다
-      </p>
 
-      <!-- 버튼 슬롯 -->
       <template #button>
         <div class="button-with-loading">
-        <UserButtonPurple
-            text="비밀번호 재설정"
-            :icon="Vector"
-            :disabled="isLoading"
-            @click="handleResetPwClick"
-        />
-        <p v-if="isLoading" class="loading-message">
-          입력하신 이메일로 인증 번호 보내는 중{{ loadingDots }}
-        </p>
+          <UserButtonPurple
+              text="탈퇴 하기"
+              :icon="SmileySad"
+              :disabled="isLoading"
+              @click="handleDeleteClick"
+          />
+          <p v-if="isLoading" class="loading-message">
+            입력하신 이메일로 인증 번호 보내는 중{{ loadingDots }}
+          </p>
         </div>
       </template>
 
       <template #verify-button>
         <UserVerify
             v-if="verifyVisible"
-            :email="email"
-            purpose="RESET_PASSWORD"
+            :email="displayEmail"
+            purpose="DELETE_USER"
             @email-sent="handleEmailSent"
             @verify-success="handleVerificationSuccess"
         />
       </template>
     </UserForm>
-    <UserExtraService
-        topText="로그인 ID도 잊으셨나요?"
-        :links="['로그인 ID 찾기']"
-        :urls="['/user/findLoginId']"
-    />
 
     <UserModal
         v-if="showModal"
@@ -246,10 +228,5 @@ async function handleModalClose() {
 .loading-message {
   color: #ffffff;
   font-size: 13px;
-}
-
-.error-message {
-  color: #ff6b6b;
-  font-size: 12px;
 }
 </style>
