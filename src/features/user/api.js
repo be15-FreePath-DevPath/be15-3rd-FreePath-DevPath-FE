@@ -64,3 +64,22 @@ export function loginGoogle() {
     }
 }
 
+export async function deleteUser(email) {
+    return await api.delete('/user', {
+        data: { email }
+    });
+}
+
+export async function findLoginId(email) {
+    return await api.post('/user/find-id', {
+        email
+    });
+}
+
+export async function resetPw(email, loginId, newPassword){
+    return await api.post('/user/reset-password', {
+        email,
+        loginId,
+        newPassword
+    });
+}
