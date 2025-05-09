@@ -71,8 +71,15 @@ export async function deleteUser(email) {
 }
 
 export async function findLoginId(email) {
-    console.log('findLoginId 요청 보냄:', email);
     return await api.post('/user/find-id', {
         email
+    });
+}
+
+export async function resetPw(email, loginId, newPassword){
+    return await api.post('/user/reset-password', {
+        email,
+        loginId,
+        newPassword
     });
 }
