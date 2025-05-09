@@ -48,7 +48,6 @@ onMounted(async () => {
     title.value = routeState.title
     content.value = routeState.content
     category.value = routeState.category.toString()
-    console.log(category.value)
   } else {
     // ✅ 새로고침 등 직접 접근 시
     try {
