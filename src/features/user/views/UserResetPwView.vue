@@ -33,7 +33,7 @@ import Vector from "@/assets/images/user/vector.png";
     <UserExtraService
         topText="로그인 ID도 잊으셨나요?"
         :links="['로그인 ID 찾기']"
-        :urls="['/user/findId']"
+        :urls="['/user/findLoginId']"
     />
   </div>
 </template>
