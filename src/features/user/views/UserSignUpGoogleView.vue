@@ -11,6 +11,13 @@ import UserButtonPurple from "@/features/user/components/UserButtonPurple.vue"
 import UserModal from "@/features/user/components/UserModal.vue"
 import fourLeafClover from '@/assets/images/user/four_leaf_clover.png'
 
+const newBreadCrumbItems = ref(['회원가입', '구글 회원가입']);
+const emit = defineEmits(['updateBreadCrumb']);
+
+onMounted(() => {
+  emit('updateBreadCrumb', newBreadCrumbItems.value)
+})
+
 // 입력값 상태 관리
 const nickname = ref('')
 const itNewsSubscription = ref('N')

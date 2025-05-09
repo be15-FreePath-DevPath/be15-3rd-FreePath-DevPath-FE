@@ -5,6 +5,13 @@ import { devtiQuestions } from '@/features/devti/data/devtiQuestions.js'
 import {saveDevtiResult} from "@/features/devti/api.js";
 import {useAuthStore} from "@/stores/auth.js";
 
+const newBreadCrumbItems = ref(['개발자 성향 테스트', '개발자 성향 테스트 응시']);
+const emit = defineEmits(['updateBreadCrumb']);
+
+onMounted(() => {
+  emit('updateBreadCrumb', newBreadCrumbItems.value)
+})
+
 const auth = useAuthStore()
 const router = useRouter()
 const currentIndex = ref(0)

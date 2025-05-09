@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, ref } from 'vue'
+import {onMounted, reactive, ref} from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {useAuthStore} from "@/stores/auth.js";
 // 컴포넌트들
@@ -16,6 +16,13 @@ import { errorMap } from "@/features/user/errorcode";
 
 // ✅ API 함수 import
 import { loginUser } from "@/features/user/api";
+
+const newBreadCrumbItems = ref(['로그인', '일반 로그인']);
+const emit = defineEmits(['updateBreadCrumb']);
+
+onMounted(() => {
+  emit('updateBreadCrumb', newBreadCrumbItems.value)
+})
 
 const form = reactive({
   loginId: '',

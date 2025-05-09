@@ -1,5 +1,5 @@
 <script setup>
-import {ref, watch} from 'vue'
+import {onMounted, ref, watch} from 'vue'
 import { useRouter } from 'vue-router'
 import { findLoginId } from '@/features/user/api.js'
 import { verifyEmail } from '@/features/mypage/api.js'
@@ -14,6 +14,13 @@ import UserModal from '@/features/user/components/UserModal.vue'
 import MagnifyingGlass from "@/assets/images/user/magnifying_glass.png";
 import UserExtraService from "@/features/user/components/UserExtraService.vue";
 import {errorMap} from "@/features/user/errorcode.js";
+
+const newBreadCrumbItems = ref(['로그인 ID 찾기', '']);
+const emit = defineEmits(['updateBreadCrumb']);
+
+onMounted(() => {
+  emit('updateBreadCrumb', newBreadCrumbItems.value)
+})
 
 // 상태 변수
 const email = ref('')

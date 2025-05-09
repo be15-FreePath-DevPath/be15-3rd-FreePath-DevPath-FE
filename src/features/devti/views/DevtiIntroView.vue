@@ -1,5 +1,13 @@
 <script setup>
 import { useRouter } from 'vue-router'
+import {onMounted, ref} from "vue";
+
+const newBreadCrumbItems = ref(['개발자 성향 테스트', '개발자 성향 테스트 응시']);
+const emit = defineEmits(['updateBreadCrumb']);
+
+onMounted(() => {
+  emit('updateBreadCrumb', newBreadCrumbItems.value)
+})
 
 const router = useRouter()
 
