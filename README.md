@@ -162,7 +162,7 @@ src/
 ├── router/
 │   └── index.js
 └── stores/
-    └── auth.js
+└── auth.js
 
 ```
 
@@ -509,16 +509,17 @@ src/
   <summary><b>마이페이지 내의 회원 정보 조회</b></summary>
 
 1. 기본 정보 조회  (해야함)
-  <br>
-  <img src="./assets/test/user/회원_마이페이지정보조회.png" alt="user26" style="width: 80%; height: auto;">
-  <br>: 이메일, 닉네임, 구독 여부 등 조회  
-  <br><br>
+   <br>
+   <img src="./assets/test/user/회원_마이페이지정보조회.png" alt="user26" style="width: 80%; height: auto;">
+   <br>: 이메일, 닉네임, 구독 여부 등 조회  
+   <br><br>
 
 2. 게시글, 댓글 모아보기  
    <br>
    <img src="./assets/test/user/마이페이지_게시글_댓글_모아보기.gif" alt="mypage_summary" style="width: 80%; height: auto;">
    <br>: 사용자의 게시글 및 댓글 목록 확인 가능  
    <br><br>
+
 </details>
 
 </detail>
@@ -527,13 +528,58 @@ src/
 ### 📝 게시글 테스트
 
 <details>
+<summary><b>게시판 기능 테스트</b></summary>
+
+<br>
+
+1. 게시판 목록 조회  
+   <br>
+   <img src="./assets/test/board/post/게시판-목록조회.gif" alt="post1" style="width: 80%; height: auto;">  
+   <br>: 게시판에 등록된 게시글 목록을 조회할 수 있다.<br><br>
+
+2. 게시글 검색  
+   <br>
+   <img src="./assets/test/board/post/게시글-검색.gif" alt="post2" style="width: 80%; height: auto;">  
+   <br>: 키워드를 통해 게시글을 검색할 수 있다.<br><br>
+
+3. 게시글 상세 조회  
+   <br>
+   <img src="./assets/test/board/post/게시글-상세조회.gif" alt="post3" style="width: 80%; height: auto;">  
+   <br>: 게시글의 상세 내용을 확인할 수 있다.<br><br>
+
+4. 게시글 작성  
+   <br>
+   <img src="./assets/test/board/post/게시글-작성.gif" alt="post4" style="width: 80%; height: auto;">  
+   <br>: 새 게시글을 작성하여 게시판에 등록할 수 있다.<br><br>
+
+5. 게시글 수정  
+   <br>
+   <img src="./assets/test/board/post/게시글-수정.gif" alt="post5" style="width: 80%; height: auto;">  
+   <br>: 작성한 게시글을 수정할 수 있다.<br><br>
+
+6. 게시글 삭제  
+   <br>
+   <img src="./assets/test/board/post/게시글-삭제.gif" alt="post6" style="width: 80%; height: auto;">  
+   <br>: 작성한 게시글을 삭제할 수 있다.<br><br>
+
+7. 댓글 및 대댓글 작성  
+   <br>
+   <img src="./assets/test/board/post/댓글-및-대댓글-작성.gif" alt="post7" style="width: 80%; height: auto;">  
+   <br>: 게시글에 댓글과 대댓글을 작성할 수 있다.<br><br>
+
+8. 댓글 삭제  
+   <br>
+   <img src="./assets/test/board/post/댓글-삭제.gif" alt="post8" style="width: 80%; height: auto;">  
+   <br>: 작성한 댓글을 삭제할 수 있다.<br><br>
 </details>
+
 
 <br>
 
 <br>
 
 ### 🔁 게시판 상호작용 테스트 (완)
+
 <details>
   <summary><b>게시글 / 댓글 좋아요 및 북마크</b></summary>
 
@@ -555,6 +601,7 @@ src/
    <img src="./assets/test/board/interaction/비회원_북마크_좋아요_금지.gif" alt="board4" style="width: 80%; height: auto;">
    <br>: 로그인하지 않은 사용자는 상호작용이 제한된다. 로그인 화면으로 이동된다.
    <br><br>
+
 </details>
 
 <br>
@@ -599,6 +646,7 @@ src/
    <img src="./assets/test/interview/interview_07_view-reexecute.gif" alt="재실행된 모의 면접 조회" style="width: 80%; height: auto;">
    <br>: 사용자는 해당 면접방에 대해 재실행됐던 면접방을 조회할 수 있다.
    <br><br>
+
 </details>
 <br>
 <details>
@@ -618,7 +666,6 @@ src/
 </details>
 <br>
 
-
 ### 😎 DevTI : 개발자 성향 테스트
 
 <details>
@@ -630,30 +677,29 @@ src/
    <br>: 사용자는 DevTI 테스트를 실행할 수 있다.
    <br><br>
 2. DevTI 결과 조회
-   1) 실행하지 않은 상태로 결과를 조회할 때
-      <br>
-      <img src="./assets/test/devti/devti_01_wrongtry.gif" alt="DevTI 결과 조회" style="width: 80%; height: auto;">
-      <br>: 사용자는 DevTI를 실행하지 않은 상태로 결과를 조회할 수 없다.
-      <br><br>
-   2) 실행한 결과가 있는 상태로 결과를 조회할 때
-      <br>
-      <img src="./assets/test/devti/devti_03_viewresult.gif" alt="DevTI 결과 조회" style="width: 80%; height: auto;">
-      <br>: 사용자는 본인의 DevTI의 결과를 상세 조회할 수 있다.
-      <br><br>
+    1) 실행하지 않은 상태로 결과를 조회할 때
+       <br>
+       <img src="./assets/test/devti/devti_01_wrongtry.gif" alt="DevTI 결과 조회" style="width: 80%; height: auto;">
+       <br>: 사용자는 DevTI를 실행하지 않은 상태로 결과를 조회할 수 없다.
+       <br><br>
+    2) 실행한 결과가 있는 상태로 결과를 조회할 때
+       <br>
+       <img src="./assets/test/devti/devti_03_viewresult.gif" alt="DevTI 결과 조회" style="width: 80%; height: auto;">
+       <br>: 사용자는 본인의 DevTI의 결과를 상세 조회할 수 있다.
+       <br><br>
 3. DevTI 결과 공유
    <br>
    <img src="./assets/test/devti/devti_04_share.gif" alt="DevTI 결과 공유" style="width: 80%; height: auto;">
    <br>: 사용자는 본인의 DevTI 결과를 공유할 수 있다.
    <br><br>
-4. 비회원의 공유된 DevTI 조회 
+4. 비회원의 공유된 DevTI 조회
    <br>
    <img src="./assets/test/devti/devti_05_unauthorized.gif" alt="공유된 DevTI 결과 조회" style="width: 80%; height: auto;">
-   <br>: 사용자는 공유된 DevTI 결과 링크로 회원의 결과를 조회할 수 있다. 
+   <br>: 사용자는 공유된 DevTI 결과 링크로 회원의 결과를 조회할 수 있다.
    <br><br>
 
 </details>
 <br>
-
 
 ### 🧠 CS 퀴즈 테스트 (완)
 
@@ -669,8 +715,9 @@ src/
 2. 결과 확인  
    <br>
    <img src="./assets/test/csquiz/CS_퀴즈_결과.gif" alt="quiz2" style="width: 80%; height: auto;">
-   <br>: 응시 완료 후 정오답 및 해설을 확인할 수 있다. 응시 후에 또 다시 응시하려 할 때 결과창으로 다시 이동하며 이미 답변이 완료되었다는 안내가 나온다. 
+   <br>: 응시 완료 후 정오답 및 해설을 확인할 수 있다. 응시 후에 또 다시 응시하려 할 때 결과창으로 다시 이동하며 이미 답변이 완료되었다는 안내가 나온다.
    <br><br>
+
 </details>
 
 <br>
@@ -685,6 +732,7 @@ src/
    <img src="./assets/test/admin/사용자의_관리자_페이지_접근_금지.gif" alt="admin5" style="width: 80%; height: auto;">
    <br>: 관리자 외에 다른 사람이 접근 시 접근이 차단된다.
    <br><br>
+
 </details>
 
 <details>
@@ -705,7 +753,7 @@ src/
 3. 상세 조회  
    <br>
    <img src="./assets/test/admin/관리자_CS_퀴즈_상세조회.gif" alt="admin3" style="width: 80%; height: auto;">
-   <br>: 관리자는 CS퀴즈 상세 조회할 수 있다. 
+   <br>: 관리자는 CS퀴즈 상세 조회할 수 있다.
    <br><br>
 
 4. 수정  
@@ -713,6 +761,7 @@ src/
    <img src="./assets/test/admin/관리자_CS_퀴즈_수정.gif" alt="admin4" style="width: 80%; height: auto;">
    <br>: 관리자는 CS퀴즈 상세 조회 시 수정할 수 있다. 원래 데이터에 변화가 생기는 순간 수정 버튼이 활성화된다.
    <br><br>
+
 </details>
 <details> <summary><b>관리자 IT 뉴스 기능</b></summary>
 1. IT 기사 목록 전체 조회
@@ -722,44 +771,45 @@ src/
 <br><br>
 
 2. 발송된 뉴스 조회
-<br>
-<img src="./assets/test/itnews/발송된-뉴스-조회.gif" alt="itnews2" style="width: 80%; height: auto;">
-<br>: 발송 완료된 뉴스 기사를 확인할 수 있다.
-<br><br>
+   <br>
+   <img src="./assets/test/itnews/발송된-뉴스-조회.gif" alt="itnews2" style="width: 80%; height: auto;">
+   <br>: 발송 완료된 뉴스 기사를 확인할 수 있다.
+   <br><br>
 
 3. 미발송 뉴스 조회 및 수정
-<br>
-<img src="./assets/test/itnews/미발송된-뉴스-조회-및-수정.gif" alt="itnews3" style="width: 80%; height: auto;">
-<br>: 미발송 기사를 선택해 내용을 수정할 수 있다.
-<br><br>
+   <br>
+   <img src="./assets/test/itnews/미발송된-뉴스-조회-및-수정.gif" alt="itnews3" style="width: 80%; height: auto;">
+   <br>: 미발송 기사를 선택해 내용을 수정할 수 있다.
+   <br><br>
 
 4. 뉴스 작성
-<br>
-<img src="./assets/test/itnews/뉴스-작성.gif" alt="itnews4" style="width: 80%; height: auto;">
-<br>: 관리자는 새로운 뉴스를 작성할 수 있다.
-<br><br>
+   <br>
+   <img src="./assets/test/itnews/뉴스-작성.gif" alt="itnews4" style="width: 80%; height: auto;">
+   <br>: 관리자는 새로운 뉴스를 작성할 수 있다.
+   <br><br>
 
 5. 뉴스 수동 발송
-<br>
-<img src="./assets/test/itnews/뉴스-수동발송.gif" alt="itnews5" style="width: 80%; height: auto;">
-<br>: 관리자는 원하는 시점에 수동 발송을 진행할 수 있다.
-<br><br>
+   <br>
+   <img src="./assets/test/itnews/뉴스-수동발송.gif" alt="itnews5" style="width: 80%; height: auto;">
+   <br>: 관리자는 원하는 시점에 수동 발송을 진행할 수 있다.
+   <br><br>
 
 6. 뉴스 삭제
-<br>
-<img src="./assets/test/itnews/뉴스-삭제.gif" alt="itnews6" style="width: 80%; height: auto;">
-<br>: 관리자는 불필요한 뉴스 기사를 삭제할 수 있다.
-<br><br>
+   <br>
+   <img src="./assets/test/itnews/뉴스-삭제.gif" alt="itnews6" style="width: 80%; height: auto;">
+   <br>: 관리자는 불필요한 뉴스 기사를 삭제할 수 있다.
+   <br><br>
 
 7. 뉴스 목록 돌아가기
-<br>
-<img src="./assets/test/itnews/뉴스-목록-돌아가기.gif" alt="itnews7" style="width: 80%; height: auto;">
-<br>: 뉴스 상세 페이지에서 목록으로 다시 이동할 수 있다.
-<br><br>
+   <br>
+   <img src="./assets/test/itnews/뉴스-목록-돌아가기.gif" alt="itnews7" style="width: 80%; height: auto;">
+   <br>: 뉴스 상세 페이지에서 목록으로 다시 이동할 수 있다.
+   <br><br>
 
 </details>
 
 <br><br>
+
 ### 💬 채팅 테스트(완)
 
 <details>
