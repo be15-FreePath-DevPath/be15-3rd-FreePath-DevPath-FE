@@ -11,12 +11,12 @@ import MyPageInput from "@/features/mypage/components/MyPageInput.vue"
 import MyPageButtonUpdate from "@/features/mypage/components/MyPageButtonUpdate.vue"
 import MyPageVerify from "@/features/mypage/components/MyPageVerify.vue"
 import UserModal from "@/features/user/components/UserModal.vue"
+import {errorMap} from "@/features/user/errorcode.js";
 
 // 입력 값들
 const email = ref('') // 서버로 보낼 이메일
 const displayEmail = ref('') // 입력창용 이메일
 const purpose = ref('CHANGE_EMAIL')
-const verificationCode = ref('')
 const apiType = ref('changeEmail')
 
 // 원본 이메일 (placeholder용)

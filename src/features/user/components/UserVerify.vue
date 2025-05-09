@@ -38,12 +38,14 @@ async function verify() {
     const response = await emailCheck(props.email, authNum.value, props.purpose)  // 인증 확인
     console.log('인증 성공', response.data)
 
-    // 인증 성공 시 회원가입 최종 완료 처리
-    await signupUser(props.email)
-
-    console.log('회원가입 최종 완료')
-
-    emit('verify-success')  // 인증 성공 시 이벤트 발생
+    // 용도에 따라 처리 분기
+    if (props.purpose === 'SIGN_UP') {
+      // 회원가입 완료 처리
+      await signupUser(props.email)
+      emit('verify-success')
+    } else {
+      emit('verify-success')
+    }
 
   } catch (error) {
     console.error('에러 발생:', error.response?.data || error)

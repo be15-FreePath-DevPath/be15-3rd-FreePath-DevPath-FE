@@ -25,7 +25,7 @@ function closeModal() {
           <div class="text1">{{ title }}</div>
           <img src="@/assets/images/user/x.png" @click="closeModal" style="cursor: pointer;" alt="x-icon"/>
         </div>
-        <div>{{ subtitle }}</div>
+        <div class="text2">{{ subtitle }}</div>
       </div>
     </div>
   </teleport>
@@ -88,5 +88,12 @@ function closeModal() {
   font-weight: 700;
   line-height: normal;
   width: 215px;
+}
+
+.text2{
+  font-size: 14px;
+  width: auto;
+  white-space: normal;
+  word-break: break-word;
 }
 </style>

@@ -12,6 +12,7 @@
       <SidebarItem text="회원 정보 조회" to="/mypage/info" />
       <SidebarItem text="회원 정보 수정" to="/mypage/edit" />
       <SidebarItem text="채팅 차단 목록 조회" to="/mypage/block" />
+      <SidebarItem text="회원 탈퇴" to="/user/delete" />
     </div>
   </div>
 </template>
