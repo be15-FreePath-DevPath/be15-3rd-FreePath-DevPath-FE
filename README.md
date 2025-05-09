@@ -559,9 +559,98 @@ src/
 
 <br>
 
-### 🎤 모의면접 테스트
+### 🎤 모의면접 테스트 (완)
 
 <details>
+   <summary><b>모의 면접 실행 기능</b></summary>
+
+1. 면접방 정보 선택으로 새로운 면접방 생성
+   <br>
+   <img src="./assets/test/interview/interview_01_run.gif" alt="모의 면접 실행" style="width: 80%; height: auto;">
+   <br>: 사용자는 면접방의 주제, 질문 난이도, 평가 엄격도를 선택해 새로운 면접방을 생성할 수 있다.
+   <br><br>
+2. 면접방 실행
+   <br>
+   <img src="./assets/test/interview/interview_02_answer.gif" alt="모의 면접 진행" style="width: 80%; height: auto;">
+   <br>: 하나의 면접방에는 총 세 개의 질문이 주어지고, 사용자는 순서대로 도출되는 질문에 대해 답변을 할 수 있다. 첫 번째와 두 번째 질문에 대해 답변할 때는 다음 질문을 요청한다.
+   <br><br>
+3. 면접방 종료
+   <br>
+   <img src="./assets/test/interview/interview_03_finish.gif" alt="모의 면접 종료" style="width: 80%; height: auto;">
+   <br>: 사용자는 마지막 질문에 대해 답변할 때 "다음 질문"이 아닌 "면접 종료" 버튼을 눌러 면접방을 종료한다. 면접방이 종료되면 해당 면접방의 결과를 상세조회 할 수 있다.
+   <br><br>
+4. 면접방 삭제
+   <br>
+   <img src="./assets/test/interview/interview_04_delete.gif" alt="모의 면접 삭제" style="width: 80%; height: auto;">
+   <br>: 사용자는 본인이 진행한 면접방을 삭제할 수 있다.
+   <br><br>
+5. 면접방 정보 수정
+   <br>
+   <img src="./assets/test/interview/interview_02_answer.gif" alt="모의 면접 진행" style="width: 80%; height: auto;">
+   <br>: 하나의 면접방에는 총 세 개의 질문이 주어지고, 사용자는 순서대로 도출되는 질문에 대해 답변을 할 수 있다. 첫 번째와 두 번째 질문에 대해 답변할 때는 다음 질문을 요청한다.
+   <br><br>
+6. 면접방 재실행
+   <br>
+   <img src="./assets/test/interview/interview_06_reexecute.gif" alt="모의 면접 재실행" style="width: 80%; height: auto;">
+   <br>: 기존의 면접방과 동일한 질문에 대해 새로운 답변을 하고 새로운 평가를 받고 싶을 때, 사용자는 본인이 진행했던 면접방을 재실행할 수 있다.
+   <br><br>
+7. 재실행된 면접방 조회
+   <br>
+   <img src="./assets/test/interview/interview_07_view-reexecute.gif" alt="재실행된 모의 면접 조회" style="width: 80%; height: auto;">
+   <br>: 사용자는 해당 면접방에 대해 재실행됐던 면접방을 조회할 수 있다.
+   <br><br>
+</details>
+<br>
+<details>
+   <summary><b>모의 면접 조회 기능</b></summary>
+
+1. 실행한 모의 면접 목록 조회
+   <br>
+   <img src="./assets/test/interview/interview_09_listview.gif" alt="모의 면접 목록 조회" style="width: 80%; height: auto;">
+   <br>: 사용자는 본인이 실행한 모의 면접의 목록을 조회할 수 있다.
+   <br><br>
+2. 실행한 모의 면접 목록 조회
+   <br>
+   <img src="./assets/test/interview/interview_10_detailview.gif" alt="모의 면접 상세 조회" style="width: 80%; height: auto;">
+   <br>: 사용자는 본인이 실행한 모의 면접방을 상세조회할 수 있다.
+   <br><br>
+
+</details>
+<br>
+
+
+### 😎 DevTI : 개발자 성향 테스트
+
+<details>
+   <summary><b>DevTI : 개발자 성향 테스트</b></summary>
+
+1. DevTI 테스트 실행
+   <br>
+   <img src="./assets/test/devti/devti_02_run.gif" alt="DevTI 실행" style="width: 80%; height: auto;">
+   <br>: 사용자는 DevTI 테스트를 실행할 수 있다.
+   <br><br>
+2. DevTI 결과 조회
+   1) 실행하지 않은 상태로 결과를 조회할 때
+      <br>
+      <img src="./assets/test/devti/devti_01_wrongtry.gif" alt="DevTI 결과 조회" style="width: 80%; height: auto;">
+      <br>: 사용자는 DevTI를 실행하지 않은 상태로 결과를 조회할 수 없다.
+      <br><br>
+   2) 실행한 결과가 있는 상태로 결과를 조회할 때
+      <br>
+      <img src="./assets/test/devti/devti_03_viewresult.gif" alt="DevTI 결과 조회" style="width: 80%; height: auto;">
+      <br>: 사용자는 본인의 DevTI의 결과를 상세 조회할 수 있다.
+      <br><br>
+3. DevTI 결과 공유
+   <br>
+   <img src="./assets/test/devti/devti_04_share.gif" alt="DevTI 결과 공유" style="width: 80%; height: auto;">
+   <br>: 사용자는 본인의 DevTI 결과를 공유할 수 있다.
+   <br><br>
+4. 비회원의 공유된 DevTI 조회 
+   <br>
+   <img src="./assets/test/devti/devti_05_unauthorized.gif" alt="공유된 DevTI 결과 조회" style="width: 80%; height: auto;">
+   <br>: 사용자는 공유된 DevTI 결과 링크로 회원의 결과를 조회할 수 있다. 
+   <br><br>
+
 </details>
 <br>
 

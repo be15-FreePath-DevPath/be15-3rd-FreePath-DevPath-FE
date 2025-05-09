@@ -5,6 +5,13 @@ import { fetchDevtiResult } from '@/features/devti/api.js'
 import DevtiResultSection from '@/features/devti/components/DevtiResultSection.vue'
 import { useAuthStore } from '@/stores/auth.js'
 
+const newBreadCrumbItems = ref(['개발자 성향 테스트', '개발자 성향 테스트 결과']);
+const emit = defineEmits(['updateBreadCrumb']);
+
+onMounted(() => {
+  emit('updateBreadCrumb', newBreadCrumbItems.value)
+})
+
 const router = useRouter()
 const route = useRoute()
 const resultType = ref('')

@@ -4,7 +4,14 @@ import UserExtraService from "@/features/user/components/UserExtraService.vue";
 import UserLogo from "@/features/user/components/UserLogo.vue";
 import UserButtonWhite from "@/features/user/components/UserButtonWhite.vue";
 import {signupGoogleTemp} from "@/features/user/api.js";
+import {onMounted, ref} from "vue";
 
+const newBreadCrumbItems = ref(['회원가입', '']);
+const emit = defineEmits(['updateBreadCrumb']);
+
+onMounted(() => {
+  emit('updateBreadCrumb', newBreadCrumbItems.value)
+})
 </script>
 
 <template>

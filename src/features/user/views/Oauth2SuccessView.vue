@@ -1,7 +1,14 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth'
 import { useRoute, useRouter } from 'vue-router'
-import { onMounted } from 'vue'
+import {onMounted, ref} from 'vue'
+
+const newBreadCrumbItems = ref(['로그인', '구글 로그인']);
+const emit = defineEmits(['updateBreadCrumb']);
+
+onMounted(() => {
+  emit('updateBreadCrumb', newBreadCrumbItems.value)
+})
 
 const authStore = useAuthStore()
 const route = useRoute()
