@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { emailCheck } from '@/features/user/api'
-import { changePassword } from '@/features/mypage/api'
+import {changeEmail, changePassword} from '@/features/mypage/api'
 import { errorMap } from '@/features/user/errorcode.js'
 
 // 컴포넌트 import
@@ -51,6 +51,15 @@ async function verify() {
         })
         modalTitle.value = 'Success!'
         modalSubtitle.value = '비밀번호가 성공적으로 변경되었습니다.'
+      }
+    else
+      if (props.apiType === 'changeEmail') {
+        await changeEmail({
+          currentEmail: props.currentEmail,
+          newEmail: props.email
+        })
+        modalTitle.value = 'Success!'
+        modalSubtitle.value = '이메일이 성공적으로 변경되었습니다.'
       }
       showModal.value = true
       emit('verify-success')

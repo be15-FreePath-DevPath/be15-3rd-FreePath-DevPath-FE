@@ -504,22 +504,96 @@ src/
 
 <detail>
 
+<details>
+  <summary><b>회원</b></summary>
+
+1. 일반 회원가입
+   <br>
+   <img src="./assets/test/user/일반회원가입.gif" alt="signup_general" style="width: 80%; height: auto;">
+   <br>: 사용자는 일반 회원가입을 통해 계정을 생성할 수 있다.
+   <br><br>
+
+2. 구글 회원가입
+   <br>
+   <img src="./assets/test/user/구글회원가입.gif" alt="signup_google" style="width: 80%; height: auto;">
+   <br>: 사용자는 구글 회원가입을 통해 계정을 생성할 수 있다.
+   <br><br>
+
+3. 일반 로그인
+   <br>
+   <img src="./assets/test/user/일반로그인.gif" alt="signin_general" style="width: 80%; height: auto;">
+   <br>: 사용자는 일반 로그인을 통해 로그인을 할 수 있다.
+   <br><br>
+
+4. 구글 로그인
+   <br>
+   <img src="./assets/test/user/구글로그인.gif" alt="signin_google" style="width: 80%; height: auto;">
+   <br>: 사용자는 구글 로그인을 통해 로그인을 할 수 있다.
+   <br><br>
+
+5. 로그아웃
+   <br>
+   <img src="./assets/test/user/로그아웃.gif" alt="logout" style="width: 80%; height: auto;">
+   <br>: 사용자는 헤더의 로그아웃 버튼을 통해 로그아웃을 할 수 있다.
+   <br><br>
+
+6. 로그인 ID 찾기
+   <br>
+   <img src="./assets/test/user/아이디찾기.gif" alt="findLoginId" style="width: 80%; height: auto;">
+   <br>: 사용자는 로그인을 하지 않아도 이메일 인증을 통해 로그인 ID를 찾을 수 있다.
+   <br><br>
+
+7. 비밀번호 재설정
+   <br>
+   <img src="./assets/test/user/비밀번호리셋.gif" alt="findLoginId" style="width: 80%; height: auto;">
+   <br>: 사용자는 로그인을 하지 않아도 이메일 인증을 통해 비밀번호를 재설정 할 수 있다.
+   <br><br>
+
+</details>
 
 <details>
-  <summary><b>마이페이지 내의 회원 정보 조회</b></summary>
+  <summary><b>마이페이지</b></summary>
 
-1. 기본 정보 조회  (해야함)
+1. 기본 정보 조회
    <br>
-   <img src="./assets/test/user/회원_마이페이지정보조회.png" alt="user26" style="width: 80%; height: auto;">
-   <br>: 이메일, 닉네임, 구독 여부 등 조회  
+   <img src="./assets/test/mypage/내정보조회.gif" alt="mypage_info" style="width: 80%; height: auto;">
+   <br>: 사용자는 마이페이지에서 본인의 이메일, 닉네임, 구독 여부 등을 조회할 수 있다.
    <br><br>
 
 2. 게시글, 댓글 모아보기  
    <br>
-   <img src="./assets/test/user/마이페이지_게시글_댓글_모아보기.gif" alt="mypage_summary" style="width: 80%; height: auto;">
-   <br>: 사용자의 게시글 및 댓글 목록 확인 가능  
+   <img src="./assets/test/mypage/마이페이지_게시글_댓글_모아보기.gif" alt="mypage_summary" style="width: 80%; height: auto;">
+   <br>: 사용자의 게시글 및 댓글 목록을 확인할 수 있다.
    <br><br>
 
+3. 일반 정보 수정
+   <br>
+   <img src="./assets/test/mypage/일반정보수정.gif" alt="mypage_modify1" style="width: 80%; height: auto;">
+   <br>: 사용자는 닉네임, it 기사 구독 여부를 수정할 수 있다.
+   <br><br>
+
+4. 이메일 수정
+   <br>
+   <img src="./assets/test/mypage/이메일수정.gif" alt="mypage_modify2" style="width: 80%; height: auto;">
+   <br>: 사용자는 이메일을 수정할 수 있다.
+   <br><br>
+
+5. 비밀번호 수정
+   <br>
+   <img src="./assets/test/mypage/비밀번호수정.gif" alt="mypage_modify3" style="width: 80%; height: auto;">
+   <br>: 사용자는 비밀번호를 수정할 수 있다.
+   <br><br>
+
+</details>
+
+<details>
+  <summary><b>메인 페이지</b></summary>
+
+   1. 메인 페이지
+   <br>
+   <img src="./assets/test/main/메인페이지.gif" alt="mainpage" style="width: 80%; height: auto;">
+   <br>: 사이트 소개 네비게이션 상호작용과 아래의 게시글 리스트 클릭 시 해당 게시물로 이동할 수 있다.
+   <br><br>
 </details>
 
 </detail>

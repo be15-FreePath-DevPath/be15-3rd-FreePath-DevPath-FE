@@ -10,7 +10,7 @@
     <!-- 하위 메뉴 리스트 컨테이너 -->
     <div v-if="isOpen" class="menu-list">
       <SidebarItem text="회원 정보 조회" to="/mypage/info" />
-      <SidebarItem text="회원 정보 수정" to="/mypage/edit" />
+      <SidebarItem text="회원 정보 수정" to="/mypage/edit" @click="goToEdit" />
       <SidebarItem text="채팅 차단 목록 조회" to="/mypage/block" />
       <SidebarItem text="회원 탈퇴" to="/user/delete" />
     </div>
@@ -28,6 +28,11 @@ import mypageIcon from '@/assets/images/common/sidebar/sidebar-mypage-icon.png'
 const isOpen = ref(true)
 const toggleOpen = () => (isOpen.value = !isOpen.value)
 const arrowIcon = computed(() => (isOpen.value ? arrowDown : arrowRight))
+
+function goToEdit(event) {
+  event.preventDefault() // 원래 라우터 이동 막기
+  window.location.href = '/mypage/edit' // 강제 새로고침 이동
+}
 </script>
 
 <style scoped>
