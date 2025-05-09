@@ -10,6 +10,13 @@ const emit = defineEmits(['updateBreadCrumb']);
 
 onMounted(() => {
   emit('updateBreadCrumb', newBreadCrumbItems.value)
+  if (!sessionStorage.getItem('mypage-refreshed')) {
+    sessionStorage.setItem('mypage-refreshed', 'true');
+    window.location.reload();
+  } else {
+    // 새로고침 플래그 제거 (원한다면)
+    sessionStorage.removeItem('mypage-refreshed');
+  }
 })
 </script>
 
