@@ -14,6 +14,13 @@ import UserModal from '@/features/user/components/UserModal.vue'
 import SmileySad from '@/assets/images/user/smiley_sad.png'
 import {errorMap} from "@/features/user/errorcode.js";
 
+const newBreadCrumbItems = ref(['회원 탈퇴 하기', '']);
+const emit = defineEmits(['updateBreadCrumb']);
+
+onMounted(() => {
+  emit('updateBreadCrumb', newBreadCrumbItems.value)
+})
+
 // 상태 변수
 const email = ref('')
 const verifyVisible = ref(false)

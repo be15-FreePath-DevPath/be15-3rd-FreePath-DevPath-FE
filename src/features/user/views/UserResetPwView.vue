@@ -1,5 +1,5 @@
 <script setup>
-import {computed, ref, watch} from 'vue'
+import {computed, onMounted, ref, watch} from 'vue'
 import { useRouter } from 'vue-router'
 import { resetPw } from '@/features/user/api.js'
 import { verifyEmail } from '@/features/mypage/api.js'
@@ -14,6 +14,13 @@ import UserModal from '@/features/user/components/UserModal.vue'
 import UserExtraService from "@/features/user/components/UserExtraService.vue";
 import {errorMap} from "@/features/user/errorcode.js";
 import Vector from "@/assets/images/user/vector.png"
+
+const newBreadCrumbItems = ref(['비밀번호 재설정', '']);
+const emit = defineEmits(['updateBreadCrumb']);
+
+onMounted(() => {
+  emit('updateBreadCrumb', newBreadCrumbItems.value)
+})
 
 // 상태 변수
 const email = ref('')

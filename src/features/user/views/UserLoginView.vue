@@ -8,6 +8,14 @@ import UserLogo from "@/features/user/components/UserLogo.vue";
 import UserForm from "@/features/user/components/UserForm.vue";
 import UserExtraService from "@/features/user/components/UserExtraService.vue";
 import UserButtonWhite from "@/features/user/components/UserButtonWhite.vue";
+import {onMounted, ref} from "vue";
+
+const newBreadCrumbItems = ref(['로그인', '']);
+const emit = defineEmits(['updateBreadCrumb']);
+
+onMounted(() => {
+  emit('updateBreadCrumb', newBreadCrumbItems.value)
+})
 
 const authStore = useAuthStore()
 const router = useRouter()

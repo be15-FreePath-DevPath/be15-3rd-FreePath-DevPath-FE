@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch } from 'vue'
+import {ref, computed, watch, onMounted} from 'vue'
 import { useRouter } from 'vue-router'
 
 // API 함수
@@ -15,6 +15,13 @@ import UserButtonPurple from "@/features/user/components/UserButtonPurple.vue"
 import FourLeafClover from "@/assets/images/user/four_leaf_clover.png"
 import UserVerify from "@/features/user/components/UserVerify.vue"
 import UserModal from "@/features/user/components/UserModal.vue"
+
+const newBreadCrumbItems = ref(['회원가입', '일반 회원가입']);
+const emit = defineEmits(['updateBreadCrumb']);
+
+onMounted(() => {
+  emit('updateBreadCrumb', newBreadCrumbItems.value)
+})
 
 // 입력 값들
 const loginId = ref('')
