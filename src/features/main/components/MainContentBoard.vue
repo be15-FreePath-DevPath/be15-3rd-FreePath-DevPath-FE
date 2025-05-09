@@ -72,10 +72,11 @@
 
       <!-- 게시글 목록 -->
       <div v-if="boardItems.length > 0">
-        <div
+        <router-link
             v-for="(item, index) in boardItems"
             :key="index"
             class="board-row"
+            :to="`/board/${item.boardId}`"
         >
           <div class="board-col date">
             <img src="@/assets/images/board/CalendarIcon.png" alt="calendar" class="calendar-icon" />
@@ -88,7 +89,7 @@
           <div class="board-col title">
             <span class="title-text">{{ item.boardTitle }}</span>
           </div>
-        </div>
+        </router-link>
       </div>
 
       <!-- 게시물이 없을 때 -->
@@ -135,6 +136,8 @@
 }
 
 .board-row {
+  color: inherit;
+  text-decoration: none;
   display: flex;
   align-items: center;
   padding: 10px 0;
