@@ -116,7 +116,7 @@ const handleModalClose = () => {
     <UserExtraService
         topText="혹시 기억이 나지 않으신가요?"
         :links="['아이디 찾기', '비밀번호 재설정']"
-        :urls="['/user/findId', '/user/resetPw']"
+        :urls="['/user/findLoginId', '/user/resetPw']"
     />
 
     <!-- 로그인 성공/실패 모달 -->

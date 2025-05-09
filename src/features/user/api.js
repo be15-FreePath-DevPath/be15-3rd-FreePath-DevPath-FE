@@ -69,3 +69,10 @@ export async function deleteUser(email) {
         data: { email }
     });
 }
+
+export async function findLoginId(email) {
+    console.log('findLoginId 요청 보냄:', email);
+    return await api.post('/user/find-id', {
+        email
+    });
+}
