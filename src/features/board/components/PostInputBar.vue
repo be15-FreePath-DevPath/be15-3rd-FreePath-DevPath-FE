@@ -3,7 +3,15 @@
     <!-- 카테고리 -->
     <div class="form-group">
       <label for="category">카테고리</label>
+
+      <!-- 읽기 전용일 때는 라벨만 표시 -->
+      <div v-if="readonlyCategory" class="readonly-category">
+        {{ props.category }}
+      </div>
+
+      <!-- 수정 가능할 때는 select -->
       <select
+          v-else
           id="category"
           :value="category"
           @change="onCategoryChange"
@@ -46,7 +54,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits } from 'vue'
+import { ref, defineProps, defineEmits, toRef, watch } from 'vue'
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import { uploadTempImage } from '@/features/board/api.js'
@@ -55,14 +63,27 @@ import { uploadTempImage } from '@/features/board/api.js'
 const props = defineProps({
   category: String,
   title: String,
-  content: String
+  content: String,
+  readonlyCategory: Boolean
 })
+
 const emit = defineEmits([
   'update:category',
   'update:title',
   'update:content',
   'add-used-image'
 ])
+
+// ✅ toRef로 content 감싸기
+const contentRef = toRef(props, 'content')
+
+// ✅ editorContent는 수정 가능한 ref
+const editorContent = ref(contentRef.value)
+
+// ✅ props.content 변경 시 editorContent 동기화
+watch(contentRef, (newVal) => {
+  editorContent.value = newVal
+})
 
 // 카테고리 목록 및 선택 처리
 const categories = [
@@ -73,9 +94,6 @@ const categories = [
 const onCategoryChange = (event) => {
   emit('update:category', event.target.value)
 }
-
-// 에디터 바인딩 값
-const editorContent = ref(props.content)
 
 // 툴바 설정
 const toolbar = [

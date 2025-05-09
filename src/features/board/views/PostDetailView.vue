@@ -100,21 +100,17 @@ const handleDeletePost = async () => {
   }
 };
 
-const handleModifyPost = async () => {
-  const title = prompt('새 제목을 입력하세요', postDescription.title);
-  const content = prompt('새 내용을 입력하세요', postDescription.content);
-  if (!title?.trim() || !content?.trim()) return alert('제목과 내용은 비워둘 수 없습니다.');
-
-  try {
-    await updatePost(postId, { title, content });
-    alert('수정되었습니다.');
-    postDescription.title = title;
-    postDescription.content = content;
-  } catch (e) {
-    const msg = e?.response?.data?.message || '게시글 수정 중 오류가 발생했습니다.';
-    alert(msg);
-  }
-};
+const handleModifyPost = () => {
+  router.push({
+    path: `/board/edit/${postId}`,
+    query: { category: postCategory.value },
+    state: {
+      title: postDescription.title,
+      content: postDescription.content,
+      category: postCategory.value
+    }
+  })
+}
 
 const handleReportPost = async () => {
   if (!confirm('이 게시글을 신고하시겠습니까?')) return;

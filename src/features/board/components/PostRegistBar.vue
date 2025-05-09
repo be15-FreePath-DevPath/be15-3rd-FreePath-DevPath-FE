@@ -26,7 +26,7 @@
 
     <div class="button-group">
       <button class="btn primary" @click="$emit('register')">
-        등록
+        {{ editMode ? '수정하기' : '등록하기' }}
       </button>
       <button class="btn secondary" @click="$emit('cancelClick')">
         취소
@@ -42,7 +42,8 @@ defineProps({
   category:   { type: String, default: '' },
   title:      { type: String, default: '' },
   createChat: { type: Boolean, default: false },
-  chatTitle:  { type: String, default: '' }
+  chatTitle:  { type: String, default: '' },
+  editMode:   { type: Boolean, default: false }
 })
 
 defineEmits([
