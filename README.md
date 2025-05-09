@@ -592,7 +592,7 @@ src/
    1. 메인 페이지
    <br>
    <img src="./assets/test/main/메인페이지.gif" alt="mainpage" style="width: 80%; height: auto;">
-   <br>: 사이트 소개 네비게이션 상호작용과 아래의 게시글 리스트 클릭 시 해당 게시물로 이동할 수 있다.
+   <br>: 사이트 소개 이미지 전환이 5초마다 일어난다. 아래의 게시글 리스트 클릭 시 해당 게시물로 이동할 수 있다.
    <br><br>
 </details>
 
