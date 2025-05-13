@@ -30,14 +30,6 @@
         </ul>
     </td>
   </tr>
-  <tr>
-    <td>
-      <b>3️⃣ Our Notion Page</b>
-        <ul>
-          <li><a href="#ournotionpage">📓 Notion Page Link</a></li>
-        </ul>
-    </td>
-  </tr>
 </table>
 
 <br>
@@ -1009,9 +1001,5 @@ src/
   </a>
 </p>
 
-
-<br>
-<h1 id="ournotionpage">3️⃣ Our Notion Page</h1>
-<a href="https://www.notion.so/be15_2nd_FreePath-DevPath-1b62fdb1414880c1903ad52d9dd08ac8?pvs=4"><text><strong>| 📓 Notion Page Link |</strong></text></a>
 <br><br>
 
